@@ -28,7 +28,7 @@ This webpage can be used to display personal information, portfolio details, or 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/about-me-page.git
+    git clone https://github.com/ronaldonater/WIPAboutMe.git
     ```
 
 2. Open `index.html` in a web browser to view the About Me Page.
