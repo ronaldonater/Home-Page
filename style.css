@@ -1,5 +1,127 @@
+/* Mobile-first media query */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-size: contain;
+    background-position: center center;
+  }
+
+  .navbar {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home, .about {
+    margin: 10px;
+    padding: 5px 10px;
+  }
+
+  .wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 10px;
+  }
+
+  .card {
+    margin: 0;
+    padding: 15px;
+    max-width: 95%;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .profile-pic {
+    width: 100px;
+    height: 100px;
+    margin: -65px auto 20px;
+  }
+
+  .name {
+    font-size: 24px;
+    margin-top: 70px;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .name:hover {
+    font-size: 26px;
+    padding: 5px 20px;
+  }
+
+  .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    padding: 30px 20px;
+  }
+  
+
+  .buttonmutton {
+    width: 100%; /* Make buttons take up full width on mobile */
+    margin-bottom: 10px; /* Add space between stacked buttons */
+  }
+
+  .buttonmutton:hover {
+    padding: 15px 20px;
+  }
+
+  .crop {
+    height: 150px;
+  }
+
+  .crop img {
+    width: 100%;
+    margin: 0;
+  }
+
+  .copyright {
+    position: static;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .symbols {
+    font-size: 0.8rem;
+    padding: 5px;
+    margin-top: 5px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+  }
+}
+
+@media screen and (min-width: 769px) {
+  .card {
+    min-width: 500px;
+  }
+  
+  .symbols {
+    font-size: 1rem;
+  }
+}
+
 body {
-  background-color: #fcf59a;
+  background-image: url('2.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-color: #e7d4cb;
   width: 100%;
   height: 100%;
   font-size: 1.5rem;
@@ -16,7 +138,6 @@ body {
   justify-content: flex-end;
   align-items: center;
   background-color: rgb(49, 49, 49);
-  /* padding: 20px 0px; */
   transition: 0.5s;
 }
 
@@ -26,7 +147,6 @@ body {
   margin: 20px;
   margin-left: 40px;
   transition: 0.5s;
-
   border-radius: 20px;
 }
 
@@ -34,9 +154,7 @@ body {
   margin-left: auto;
   padding: 10px 20px;
   transition: 0.5s;
-
   margin-right: 40px;
-  transition: 0.5s;
   border-radius: 20px;
 }
 
@@ -47,15 +165,16 @@ body {
   height: 40px;
   width: 100%;
   display: flex;
-  /* pointer-events: none; */
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding-top: 1px;
   color: white;
-  padding: 20px;
+  padding: 5px 20px;
   transition: 0.5s;
+  font-size: 0.9rem;
+  box-sizing: border-box;
 }
+
 .copyright:hover {
   transition: 0.5s;
   background-color: rgb(255, 255, 255);
@@ -81,11 +200,13 @@ a:hover {
   background-color: rgb(212, 212, 212);
   box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
 }
+
 .home:hover {
   color: #141414;
   background-color: rgb(212, 212, 212);
   box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.2);
 }
+
 a:active {
   text-decoration: none;
   color: #ffffff;
@@ -110,6 +231,8 @@ a:active {
   align-items: center;
   text-align: center;
   max-width: 500px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .profile-pic {
@@ -120,7 +243,6 @@ a:active {
   overflow: hidden;
   margin-bottom: 20px;
   z-index: 12;
-  /* transform: translate(50px, -160px); */
   margin: -175px;
   border-color: white;
   border-style: solid;
@@ -135,8 +257,6 @@ a:active {
 }
 
 .profile-pic:hover {
-  /* opacity: 50%; */
-  /* transition: 0.5s; */
   cursor: pointer;
 }
 
@@ -146,20 +266,24 @@ a:active {
   object-fit: cover;
   z-index: 2;
 }
+
 .pfp:hover {
   opacity: 60%;
   transition: 0.5s;
 }
+
 .darkener {
   transform: translate(0px, -155px);
   margin-bottom: -120px;
   opacity: 0%;
   transition: 0.5s;
 }
+
 .darkener:hover {
   opacity: 50%;
   transition: 0.5s;
 }
+
 .crop {
   width: 100%;
   height: 200px;
@@ -167,15 +291,23 @@ a:active {
   border-radius: 20px;
   transition: 0.5s;
 }
+
 .crop img {
-  width: 1200px;
-  height: auto;
-  margin: -15px 0 0 -100px;
+  width: 100%;
+  height: 100%;
+  object-fit: fill; /* Stretch the image to fill both width and height */
 }
+
 .name {
   font-size: 28px;
   margin-bottom: 10px;
   margin-top: 210px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  box-sizing: border-box;
+  transition: 0.5s;
 }
 
 .name:hover {
@@ -184,19 +316,20 @@ a:active {
   background-color: rgb(49, 49, 49);
   color: white;
   border-radius: 10px;
-  padding: 10px 130px;
+  padding: 10px 30px;
+  overflow: visible;
+  white-space: normal;
 }
 
 .buttons {
-  /* background-color: #181818; */
   color: #ffffff;
   padding: 30px 20px;
   border: none;
   border-radius: 5px;
-
   cursor: pointer;
   font-size: 16px;
 }
+
 .buttonmutton {
   background-color: rgb(49, 49, 49);
   padding: 15px 25px;
@@ -204,39 +337,13 @@ a:active {
   margin: 30px;
   transition: 0.5s;
 }
+
 .buttonmutton:hover {
   background-color: rgb(233, 233, 233);
   color: rgb(49, 49, 49);
   transition: 0.5s;
   padding: 25px 40px;
-  /* box-shadow: 0px 0px 0px rgba(0, 0, 0, 0); */
 }
-/* .email-btn {
-  background-color: #454545;
-  color: #ffffff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  margin-right: 10px;
-  cursor: pointer;
-  font-size: 16px;
-} */
-/* .email-btn:hover {
-  background-color: white;
-  color: #141414;
-  transition: 0.5s;
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
-} */
-
-/* .social-btn {
-  background-color: #454545;
-  color: #ffffff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-} */
 
 h1 {
   position: relative;
@@ -249,10 +356,17 @@ h1 {
   padding: 10px;
   border-radius: 20px;
   transition: 0.5s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .symbols:hover {
   background-color: rgb(49, 49, 49);
   color: White;
   transition: 0.5s;
+  overflow: visible;
+  white-space: normal;
 }
