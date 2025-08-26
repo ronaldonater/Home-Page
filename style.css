@@ -27,6 +27,7 @@
     margin-top: 60px;
     margin-bottom: 20px;
   }
+}
 
   .profile-pic {
     width: 100px;
@@ -63,11 +64,8 @@
     margin: 5px 0;
   }
 
-  /* Disable hover animations on mobile */
   .buttonmutton:hover {
-    background-color: rgb(49, 49, 49);
-    color: #ffffff;
-    padding: 15px 25px;
+    padding: 20px 30px;
   }
 
   .crop {
@@ -104,7 +102,6 @@
     word-wrap: break-word;
     word-break: break-all;
   }
-}
 
 @media screen and (min-width: 769px) {
   .card {
