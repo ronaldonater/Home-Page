@@ -63,6 +63,13 @@
     margin: 5px 0;
   }
 
+  /* Disable hover animations on mobile */
+  .buttonmutton:hover {
+    background-color: rgb(49, 49, 49);
+    color: #ffffff;
+    padding: 15px 25px;
+  }
+
   .crop {
     height: 150px;
     overflow: hidden;
