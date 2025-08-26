@@ -65,12 +65,7 @@
   }
 
   .buttonmutton:hover {
-    background-color: rgb(233, 233, 233);
-    color: rgb(49, 49, 49);
-    transition: 0.5s;
-    padding: 15px 25px !important;
-    width: 80% !important;
-    max-width: 200px !important;
+    padding: 20px 30px;
   }
 
   .crop {
@@ -85,7 +80,8 @@
     height: 100%;
     object-fit: cover;
     object-position: center;
-    transform: none;
+    transform: scale(1.1);
+    transition: transform 0.3s ease; 
   }
 
   .copyright {
@@ -300,8 +296,7 @@ a:active {
 .crop img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
+  object-fit: fill;
 }
 
 .name {
