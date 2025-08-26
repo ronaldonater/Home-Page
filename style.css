@@ -68,8 +68,9 @@
     background-color: rgb(233, 233, 233);
     color: rgb(49, 49, 49);
     transition: 0.5s;
-    /* Remove expanding animation on mobile */
-    padding: 15px 25px;
+    padding: 15px 25px !important;
+    width: 80% !important;
+    max-width: 200px !important;
   }
 
   .crop {
