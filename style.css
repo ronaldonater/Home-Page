@@ -322,6 +322,59 @@ body {
   }
 }
 
+/* Large tablets and small desktops */
+@media (min-width: 1201px) and (max-width: 1439px) {
+  .welcome-line-1 {
+    font-size: 3.2rem;
+    letter-spacing: 0.18em;
+  }
+  
+  .welcome-line-2 {
+    font-size: 3.8rem;
+    letter-spacing: 0.12em;
+  }
+  
+  .nav-button {
+    font-size: 1.4rem;
+    padding: 1.3rem 3.5rem;
+  }
+  
+  .button-container {
+    gap: 3rem;
+  }
+}
+
+/* Large displays (1440 x 3168 and similar) */
+@media (min-width: 1440px) {
+  .welcome-line-1 {
+    font-size: 4.5rem;
+    letter-spacing: 0.2em;
+  }
+  
+  .welcome-line-2 {
+    font-size: 5.5rem;
+    letter-spacing: 0.15em;
+  }
+  
+  .welcome-text {
+    margin-bottom: 4rem;
+  }
+  
+  .nav-button {
+    font-size: 1.6rem;
+    padding: 1.5rem 4rem;
+    letter-spacing: 0.12em;
+  }
+  
+  .button-container {
+    gap: 4rem;
+  }
+  
+  .welcome-section {
+    padding: 3rem;
+  }
+}
+
 /* Ensure text never overflows horizontally */
 .welcome-line-1,
 .welcome-line-2 {
