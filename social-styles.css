@@ -308,8 +308,8 @@ body {
 .social-link.instagram:hover { border-color: #e4405f; }
 .social-link.instagram svg { color: #e4405f; }
 
-.social-link.spotify:hover { border-color: #1db954; }
-.social-link.spotify svg { color: #1db954; }
+.social-link.twitter:hover { border-color: #ffffff; }
+.social-link.twitter svg { color: #ffffff; }
 
 .social-link.email:hover { border-color: #ea4335; }
 .social-link.email svg { color: #ea4335; }
