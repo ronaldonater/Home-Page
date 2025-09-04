@@ -146,11 +146,14 @@ document.addEventListener('DOMContentLoaded', () => {
         button.style.transform = 'translateY(10px)';
         
         setTimeout(() => {
+            let addedConcerts = [];
+            
             // Add new concert items with staggered animation
             additionalConcerts.forEach((concert, index) => {
                 setTimeout(() => {
                     const concertItem = document.createElement('div');
                     concertItem.className = 'concert-item';
+                    concertItem.classList.add('additional-concert');
                     concertItem.style.opacity = '0';
                     concertItem.style.transform = 'translateY(20px)';
                     
@@ -178,6 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     
                     concertList.appendChild(concertItem);
+                    addedConcerts.push(concertItem);
                     
                     // Animate in the new item
                     setTimeout(() => {
@@ -189,12 +193,94 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, index * 150); // Stagger the animations
             });
             
-            // Remove the button after all items are added
+            // Add "View Less Concerts" button after all items are added
             setTimeout(() => {
+                const viewLessBtn = document.createElement('button');
+                viewLessBtn.className = 'view-more-btn';
+                viewLessBtn.textContent = 'View Less Concerts ←';
+                viewLessBtn.style.opacity = '0';
+                viewLessBtn.style.transform = 'translateY(10px)';
+                
+                // Add click handler for view less functionality
+                viewLessBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    collapseConcertList(viewLessBtn, addedConcerts);
+                });
+                
+                // Insert the button after the concert list
+                concertList.parentNode.appendChild(viewLessBtn);
+                
+                // Animate in the view less button
+                setTimeout(() => {
+                    viewLessBtn.style.transition = 'all 0.3s ease';
+                    viewLessBtn.style.opacity = '1';
+                    viewLessBtn.style.transform = 'translateY(0)';
+                }, 100);
+                
+                // Remove the original button
                 button.remove();
             }, additionalConcerts.length * 150 + 500);
             
         }, 300); // Wait for button fade-out
+    }
+    
+    // Function to collapse concert list
+    function collapseConcertList(button, addedConcerts) {
+        // Add click animation to button
+        button.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+            button.style.transform = 'translateY(-2px)';
+        }, 100);
+        
+        // Fade out and remove additional concerts with staggered animation
+        addedConcerts.reverse().forEach((concert, index) => {
+            setTimeout(() => {
+                concert.style.transition = 'all 0.4s ease';
+                concert.style.opacity = '0';
+                concert.style.transform = 'translateY(-20px)';
+                
+                setTimeout(() => {
+                    concert.remove();
+                }, 400);
+            }, index * 100);
+        });
+        
+        // After all concerts are removed, replace with "View More Concerts" button
+        setTimeout(() => {
+            const viewMoreBtn = document.createElement('button');
+            viewMoreBtn.className = 'view-more-btn';
+            viewMoreBtn.textContent = 'View More Concerts →';
+            viewMoreBtn.style.opacity = '0';
+            viewMoreBtn.style.transform = 'translateY(10px)';
+            
+            // Add click handler for view more functionality
+            viewMoreBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                // Add click animation
+                viewMoreBtn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    viewMoreBtn.style.transform = 'translateY(-2px)';
+                }, 100);
+                
+                // Check if this is the concerts section
+                const boxTitle = viewMoreBtn.closest('.content-box').querySelector('.box-title').textContent;
+                if (boxTitle.includes('Concert List')) {
+                    expandConcertList(viewMoreBtn);
+                }
+            });
+            
+            // Replace the view less button with view more button
+            button.parentNode.replaceChild(viewMoreBtn, button);
+            
+            // Animate in the view more button
+            setTimeout(() => {
+                viewMoreBtn.style.transition = 'all 0.3s ease';
+                viewMoreBtn.style.opacity = '1';
+                viewMoreBtn.style.transform = 'translateY(0)';
+            }, 100);
+            
+        }, addedConcerts.length * 100 + 500);
     }
     
     // Add parallax effect to sakura petals based on mouse movement
