@@ -118,6 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Additional concert data
         const additionalConcerts = [
             {
+                title: "BABYMETAL - BABYMETAL World Tour 2024",
+                venue: "Terminal 5, New York",
+                date: "November 18, 2024",
+                stars: "★★★★☆",
+                score: "4/5"
+            },
+            {
                 title: "Big Time Rush",
                 venue: "Hammerstein Ballroom, New York",
                 date: "December 18, 2021",
