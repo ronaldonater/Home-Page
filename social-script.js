@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 score: "4/5"
             },
             {
-                title: "ITZY - 2nd World Tour 'Born To Be",
+                title: "ITZY - 2nd World Tour 'Born To Be'",
                 venue: "Prudential Center, New Jersey",
                 date: "June 23, 2024",
                 stars: "★★★☆☆",
