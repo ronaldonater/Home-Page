@@ -118,27 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         // Additional concert data
         const additionalConcerts = [
             {
-                title: "BABYMETAL & Dethklok - BABYKLOK Tour",
-                venue: "Hammerstein Ballroom, New York",
-                date: "September 15, 2023",
-                stars: "★★★★☆",
-                score: "4/5"
-            },
-            {
-                title: "BABYMETAL - BABYMETAL World Tour 2024",
-                venue: "Terminal 5, New York",
-                date: "November 18, 2024",
-                stars: "★★★★☆",
-                score: "4/5"
-            },
-            {
-                title: "Big Time Rush",
-                venue: "Hammerstein Ballroom, New York",
-                date: "December 18, 2021",
-                stars: "★★★★☆",
-                score: "4/5"
-            },
-            {
                 title: "ITZY - 2nd World Tour 'Born To Be'",
                 venue: "Prudential Center, New Jersey",
                 date: "June 23, 2024",
