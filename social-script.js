@@ -118,6 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
         // Additional concert data
         const additionalConcerts = [
             {
+                title: "Big Time Rush",
+                venue: "Hammerstein Ballroom, New York",
+                date: "December 18, 2021",
+                stars: "★★★★☆",
+                score: "4/5"
+            },
+            {
                 title: "ITZY - 2nd World Tour 'Born To Be'",
                 venue: "Prudential Center, New Jersey",
                 date: "June 23, 2024",
