@@ -1,3 +1,111 @@
+const songCoversData =[
+    {
+        url: "https://www.youtube.com/embed/KfpwzmEuAL4",
+        title: "\"This December\" - Ricky Montgomery",
+        date: "Dec 22, 2025",
+        views: "Recently Uploaded!"
+    },
+    {
+        url: "https://www.youtube.com/embed/1CQ3mMtB6Ec",
+        title: "\"Honey\" - Big Time Rush",
+        date: "Aug 9, 2022",
+        views: "2.2K views"
+    },
+    {
+        url: "https://www.youtube.com/embed/8FE7TDufSoc",
+        title: "\"Nobody Can Save Me\" - Linkin Park",
+        date: "Jan 22, 2021",
+        views: "2.1K views"
+    }
+];
+
+const COVERS_PER_PAGE = 2;
+let currentCoverPage = 1;
+
+// Concert data
+const concertData = [
+    {
+        title: "Ricky Montgomery - \"Montgomery Ricky\" 10 Year Anniversary Tour",
+        venue: "Brooklyn Steel, New York",
+        date: "March 28th, 2026",
+        stars: "★★★★★",
+        score: "5/5"
+    },
+    {
+        title: "Big Time Rush - Forever Tour",
+        venue: "Madison Square Garden, New York",
+        date: "June 30, 2022",
+        stars: "★★★★★",
+        score: "5/5"
+    },
+    {
+        title: "PURPLE KISS - A Violet to Remember",
+        venue: "Queens Theatre, New York",
+        date: "October 10, 2025",
+        stars: "★★★★★",
+        score: "5/5"
+    },
+    {
+        title: "LE SSERAFIM - Flame Rises",
+        venue: "Prudential Center, New Jersey",
+        date: "September 3, 2025",
+        stars: "★★★★★",
+        score: "5/5"
+    },
+    {
+        title: "Linkin Park - From Zero",
+        venue: "Barclays Center, New York",
+        date: "September 16, 2024",
+        stars: "★★★★☆",
+        score: "4/5"
+    },
+    {
+        title: "KISS OF LIFE - Kiss Road",
+        venue: "Hammerstein Ballroom, New York",
+        date: "November 22, 2024",
+        stars: "★★★★☆",
+        score: "4/5"
+    },
+    {
+        title: "BABYMETAL & Dethklok - BABYKLOK Tour",
+        venue: "Hammerstein Ballroom, New York",
+        date: "September 15, 2023",
+        stars: "★★★★☆",
+        score: "4/5"
+    },
+    {
+        title: "TWICE - This Is For World Tour",
+        venue: "UBS Arena, New York",
+        date: "February 20, 2026",
+        stars: "★★★★☆",
+        score: "4/5"
+    },
+    {
+        title: "BABYMETAL - BABYMETAL World Tour 2024",
+        venue: "Terminal 5, New York",
+        date: "November 18, 2024",
+        stars: "★★★★☆",
+        score: "4/5"
+    },
+    {
+        title: "Big Time Rush",
+        venue: "Hammerstein Ballroom, New York",
+        date: "December 18, 2021",
+        stars: "★★★★☆",
+        score: "4/5"
+    },
+    {
+        title: "ITZY - 2nd World Tour 'Born To Be'",
+        venue: "Prudential Center, New Jersey",
+        date: "June 23, 2024",
+        stars: "★★★☆☆",
+        score: "3/5"
+    }
+];
+
+const CONCERTS_PER_PAGE = 6;
+let currentPage = 1;
+
 // Social page animations and interactions
 document.addEventListener('DOMContentLoaded', () => {
     // Add staggered fade-in animation to elements
@@ -41,12 +149,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const contentBoxes = document.querySelectorAll('.content-box');
     contentBoxes.forEach(box => {
         box.addEventListener('click', (e) => {
-            // Don't trigger if clicking on a button
-            if (e.target.classList.contains('view-more-btn')) return;
+            // Don't trigger if clicking on a button or any element inside a pagination control
+            if (e.target.closest('.pagination-btn') || e.target.classList.contains('view-more-btn')) return;
             
             box.style.transform = 'scale(0.98)';
             setTimeout(() => {
-                box.style.transform = 'translateY(-5px)';
+                box.style.transform = '';
             }, 100);
         });
     });
@@ -89,193 +197,155 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     }
     
-    // Add smooth scrolling for view more buttons
-    const viewMoreBtns = document.querySelectorAll('.view-more-btn');
-    viewMoreBtns.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            
-            // Add click animation
-            btn.style.transform = 'scale(0.95)';
-            setTimeout(() => {
-                btn.style.transform = 'translateY(-2px)';
-            }, 100);
-            
-            // Check if this is the concerts section
-            const boxTitle = btn.closest('.content-box').querySelector('.box-title').textContent;
-            if (boxTitle.includes('Concert List')) {
-                expandConcertList(btn);
-            } else {
-                console.log('View more clicked for:', boxTitle);
+    // Initialize paginations
+    initializeConcertPagination();
+    initializeCoversPagination();
+
+    function initializeCoversPagination() {
+        const coversList = document.getElementById('coversList');
+        const prevCoverBtn = document.getElementById('prevCoverBtn');
+        const nextCoverBtn = document.getElementById('nextCoverBtn');
+        const coverPageNumber = document.getElementById('coverPageNumber');
+        const coverItemCount = document.getElementById('coverItemCount');
+
+        function renderCovers() {
+            coversList.innerHTML = '';
+            const totalPages = Math.ceil(songCoversData.length / COVERS_PER_PAGE);
+            const startIdx = (currentCoverPage - 1) * COVERS_PER_PAGE;
+            const endIdx = startIdx + COVERS_PER_PAGE;
+            const covers = songCoversData.slice(startIdx, endIdx);
+
+            covers.forEach((cover, idx) => {
+                const coverItem = document.createElement('div');
+                coverItem.className = 'cover-item';
+                coverItem.style.opacity = '0';
+                coverItem.style.transform = 'translateY(10px)';
+
+                coverItem.innerHTML = `
+                    <div class="youtube-embed">
+                        <iframe src="${cover.url}" 
+                                title="${cover.title.replace(/"/g, '&quot;')}" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                    <div class="cover-info">
+                        <h4>${cover.title}</h4>
+                        <p>${cover.date}</p>
+                    </div>
+                    <div class="cover-stats">
+                        <span class="views">${cover.views}</span>
+                    </div>
+                `;
+
+                coversList.appendChild(coverItem);
+
+                // Re-use staggered fade-in animation
+                setTimeout(() => {
+                    coverItem.style.transition = 'all 0.4s ease';
+                    coverItem.style.opacity = '1';
+                    coverItem.style.transform = 'translateY(0)';
+                }, idx * 50);
+            });
+
+            // Update pagination info
+            coverPageNumber.textContent = `Page ${currentCoverPage} of ${totalPages}`;
+            coverItemCount.textContent = `Showing ${startIdx + 1}-${Math.min(endIdx, songCoversData.length)} of ${songCoversData.length}`;
+
+            // Update button states
+            prevCoverBtn.disabled = currentCoverPage === 1;
+            nextCoverBtn.disabled = currentCoverPage === totalPages;
+        }
+
+        prevCoverBtn.addEventListener('click', () => {
+            if (currentCoverPage > 1) {
+                currentCoverPage--;
+                renderCovers();
+                coversList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         });
-    });
-    
-    // Function to expand concert list
-    function expandConcertList(button) {
-        const concertList = button.closest('.content-box').querySelector('.concert-list');
-        
-        // Additional concert data
-        const additionalConcerts = [
-            {
-                title: "Big Time Rush",
-                venue: "Hammerstein Ballroom, New York",
-                date: "December 18, 2021",
-                stars: "★★★★☆",
-                score: "4/5"
-            },
-            {
-                title: "ITZY - 2nd World Tour 'Born To Be'",
-                venue: "Prudential Center, New Jersey",
-                date: "June 23, 2024",
-                stars: "★★★☆☆",
-                score: "3/5"
+
+        nextCoverBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(songCoversData.length / COVERS_PER_PAGE);
+            if (currentCoverPage < totalPages) {
+                currentCoverPage++;
+                renderCovers();
+                coversList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
-        ];
-        
-        // Add fade-out animation to button
-        button.style.transition = 'all 0.3s ease';
-        button.style.opacity = '0';
-        button.style.transform = 'translateY(10px)';
-        
-        setTimeout(() => {
-            let addedConcerts = [];
-            
-            // Add new concert items with staggered animation
-            additionalConcerts.forEach((concert, index) => {
-                setTimeout(() => {
-                    const concertItem = document.createElement('div');
-                    concertItem.className = 'concert-item';
-                    concertItem.classList.add('additional-concert');
-                    concertItem.style.opacity = '0';
-                    concertItem.style.transform = 'translateY(20px)';
-                    
-                    concertItem.innerHTML = `
-                        <div class="concert-info">
-                            <h4>${concert.title}</h4>
-                            <p class="venue">${concert.venue}</p>
-                            <p class="date">${concert.date}</p>
-                        </div>
-                        <div class="rating">
-                            <span class="stars">${concert.stars}</span>
-                            <span class="score">${concert.score}</span>
-                        </div>
-                    `;
-                    
-                    // Add hover effects to new items
-                    concertItem.addEventListener('mouseenter', () => {
-                        concertItem.style.background = 'rgba(168, 85, 247, 0.2)';
-                        concertItem.style.transform = 'translateX(5px)';
-                    });
-                    
-                    concertItem.addEventListener('mouseleave', () => {
-                        concertItem.style.background = 'rgba(168, 85, 247, 0.1)';
-                        concertItem.style.transform = 'translateX(0)';
-                    });
-                    
-                    concertList.appendChild(concertItem);
-                    addedConcerts.push(concertItem);
-                    
-                    // Animate in the new item
-                    setTimeout(() => {
-                        concertItem.style.transition = 'all 0.5s ease';
-                        concertItem.style.opacity = '1';
-                        concertItem.style.transform = 'translateY(0)';
-                    }, 50);
-                    
-                }, index * 150); // Stagger the animations
-            });
-            
-            // Add "View Less Concerts" button after all items are added
-            setTimeout(() => {
-                const viewLessBtn = document.createElement('button');
-                viewLessBtn.className = 'view-more-btn';
-                viewLessBtn.textContent = 'View Less Concerts ←';
-                viewLessBtn.style.opacity = '0';
-                viewLessBtn.style.transform = 'translateY(10px)';
-                
-                // Add click handler for view less functionality
-                viewLessBtn.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    collapseConcertList(viewLessBtn, addedConcerts);
-                });
-                
-                // Insert the button after the concert list
-                concertList.parentNode.appendChild(viewLessBtn);
-                
-                // Animate in the view less button
-                setTimeout(() => {
-                    viewLessBtn.style.transition = 'all 0.3s ease';
-                    viewLessBtn.style.opacity = '1';
-                    viewLessBtn.style.transform = 'translateY(0)';
-                }, 100);
-                
-                // Remove the original button
-                button.remove();
-            }, additionalConcerts.length * 150 + 500);
-            
-        }, 300); // Wait for button fade-out
-    }
-    
-    // Function to collapse concert list
-    function collapseConcertList(button, addedConcerts) {
-        // Add click animation to button
-        button.style.transform = 'scale(0.95)';
-        setTimeout(() => {
-            button.style.transform = 'translateY(-2px)';
-        }, 100);
-        
-        // Fade out and remove additional concerts with staggered animation
-        addedConcerts.reverse().forEach((concert, index) => {
-            setTimeout(() => {
-                concert.style.transition = 'all 0.4s ease';
-                concert.style.opacity = '0';
-                concert.style.transform = 'translateY(-20px)';
-                
-                setTimeout(() => {
-                    concert.remove();
-                }, 400);
-            }, index * 100);
         });
-        
-        // After all concerts are removed, replace with "View More Concerts" button
-        setTimeout(() => {
-            const viewMoreBtn = document.createElement('button');
-            viewMoreBtn.className = 'view-more-btn';
-            viewMoreBtn.textContent = 'View More Concerts →';
-            viewMoreBtn.style.opacity = '0';
-            viewMoreBtn.style.transform = 'translateY(10px)';
-            
-            // Add click handler for view more functionality
-            viewMoreBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                
-                // Add click animation
-                viewMoreBtn.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    viewMoreBtn.style.transform = 'translateY(-2px)';
-                }, 100);
-                
-                // Check if this is the concerts section
-                const boxTitle = viewMoreBtn.closest('.content-box').querySelector('.box-title').textContent;
-                if (boxTitle.includes('Concert List')) {
-                    expandConcertList(viewMoreBtn);
-                }
-            });
-            
-            // Replace the view less button with view more button
-            button.parentNode.replaceChild(viewMoreBtn, button);
-            
-            // Animate in the view more button
-            setTimeout(() => {
-                viewMoreBtn.style.transition = 'all 0.3s ease';
-                viewMoreBtn.style.opacity = '1';
-                viewMoreBtn.style.transform = 'translateY(0)';
-            }, 100);
-            
-        }, addedConcerts.length * 100 + 500);
+
+        renderCovers();
     }
-    
+
+    function initializeConcertPagination() {
+        const concertList = document.getElementById('concertList');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pageNumber = document.getElementById('pageNumber');
+        const itemCount = document.getElementById('itemCount');
+
+        function renderConcerts() {
+            concertList.innerHTML = '';
+            const totalPages = Math.ceil(concertData.length / CONCERTS_PER_PAGE);
+            const startIdx = (currentPage - 1) * CONCERTS_PER_PAGE;
+            const endIdx = startIdx + CONCERTS_PER_PAGE;
+            const concerts = concertData.slice(startIdx, endIdx);
+
+            concerts.forEach((concert, idx) => {
+                const concertItem = document.createElement('div');
+                concertItem.className = 'concert-item';
+                concertItem.style.opacity = '0';
+                concertItem.style.transform = 'translateY(10px)';
+
+                concertItem.innerHTML = `
+                    <div class="concert-info">
+                        <h4>${concert.title}</h4>
+                        <div class="venue">${concert.venue}</div>
+                        <div class="date">${concert.date}</div>
+                    </div>
+                    <div class="rating">
+                        <span class="stars">${concert.stars}</span>
+                        <span class="score">${concert.score}</span>
+                    </div>
+                `;
+
+                concertList.appendChild(concertItem);
+
+                setTimeout(() => {
+                    concertItem.style.transition = 'all 0.4s ease';
+                    concertItem.style.opacity = '1';
+                    concertItem.style.transform = 'translateY(0)';
+                }, idx * 50);
+            });
+
+            pageNumber.textContent = `Page ${currentPage} of ${totalPages}`;
+            itemCount.textContent = `Showing ${startIdx + 1}-${Math.min(endIdx, concertData.length)} of ${concertData.length}`;
+
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderConcerts();
+                concertList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(concertData.length / CONCERTS_PER_PAGE);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderConcerts();
+                concertList.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        });
+
+        renderConcerts();
+    }
+
     // Add parallax effect to sakura petals based on mouse movement
     let mouseX = 0;
     let mouseY = 0;

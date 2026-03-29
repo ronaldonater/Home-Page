@@ -145,155 +145,45 @@
             <!-- Song Covers Box -->
             <div class="content-box">
                 <h3 class="box-title">🎤 Song Covers</h3>
-                <div class="covers-list">
-                    <div class="cover-item">
-                        <div class="youtube-embed">
-                            <iframe src="https://www.youtube.com/embed/KfpwzmEuAL4" 
-                                    title="This December - ronaldonater Original" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                    allowfullscreen>
-                            </iframe>
-                        </div>
-                        <div class="cover-info">
-                            <h4>"This December" - Ricky Montgomery</h4>
-                            <p> Dec 22, 2025</p>
-                        </div>
-                        <div class="cover-stats">
-                            <span class="views">Recently Uploaded!</span>
-                        </div>
+                <div class="covers-list" id="coversList"></div>
+                <div class="concert-pagination">
+                    <button class="pagination-btn prev-btn" id="prevCoverBtn" aria-label="Previous page">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="pagination-info">
+                        <span class="page-number" id="coverPageNumber">Page 1 of 2</span>
+                        <span class="item-count" id="coverItemCount">Showing 1-2 of 3</span>
                     </div>
-                    <div class="cover-item">
-                        <div class="youtube-embed">
-                            <iframe src="https://www.youtube.com/embed/1CQ3mMtB6Ec" 
-                                    title="Honey - ronaldonater Original" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                    allowfullscreen>
-                            </iframe>
-                        </div>
-                        <div class="cover-info">
-                            <h4>"Honey" - Big Time Rush</h4>
-                            <p> Aug 9, 2022</p>
-                        </div>
-                        <div class="cover-stats">
-                            <span class="views">2.2K views</span>
-                        </div>
-                    </div>
-                    <div class="cover-item">
-                        <div class="youtube-embed">
-                            <iframe src="https://www.youtube.com/embed/8FE7TDufSoc" 
-                                    title="Nobody Can Save Me - Linkin Park Cover" 
-                                    frameborder="0" 
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                                    allowfullscreen>
-                            </iframe>
-                        </div>
-                        <div class="cover-info">
-                            <h4>"Nobody Can Save Me" - Linkin Park</h4>
-                            <p>Jan 22, 2021</p>
-                        </div>
-                        <div class="cover-stats">
-                            <span class="views">2.1K views</span>
-                        </div>
-                    </div>
+                    <button class="pagination-btn next-btn" id="nextCoverBtn" aria-label="Next page">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
                 </div>
             </div>
 
             <!-- Concert Reviews Box -->
             <div class="content-box">
                 <h3 class="box-title">🎪 Concert List</h3>
-                <div class="concert-list">
-                    <div class="cover-item">
-                        <div class="concert-info">
-                            <h4>Big Time Rush - Forever Tour</h4>
-                            <p class="venue">Madison Square Garden, New York</p>
-                            <p class="date">June 30, 2022</p>
-                        </div>
-                        <div class="rating">
-                            <span class="stars">★★★★★</span>
-                            <span class="score">5/5</span>
-                        </div>
+                <div class="concert-list" id="concertList"></div>
+                <div class="concert-pagination">
+                    <button class="pagination-btn prev-btn" id="prevBtn" aria-label="Previous page">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="15 18 9 12 15 6"></polyline>
+                        </svg>
+                    </button>
+                    <div class="pagination-info">
+                        <span class="page-number" id="pageNumber">Page 1 of 2</span>
+                        <span class="item-count" id="itemCount">Showing 1-6 of 11</span>
                     </div>
-                    <div class="concert-item">
-                        <div class="concert-info">
-                            <h4>PURPLE KISS - A Violet to Remember</h4>
-                            <p class="venue">Queens Theatre, New York</p>
-                            <p class="date">October 10, 2025</p>
-                        </div>
-                        <div class="rating">
-                            <span class="stars">★★★★★</span>
-                            <span class="score">5/5</span>
-                        </div>
-                    </div>
-                    <div class="concert-item">
-                        <div class="concert-info">
-                            <h4>LE SSERAFIM - Flame Rises</h4>
-                            <p class="venue">Prudential Center, New Jersey</p>
-                            <p class="date">September 3, 2025</p>
-                        </div>
-                        <div class="rating">
-                            <span class="stars">★★★★★</span>
-                            <span class="score">5/5</span>
-                        </div>
-                    </div>
-                    <div class="concert-item">
-                        <div class="concert-info">
-                            <h4>Linkin Park - From Zero</h4>
-                            <p class="venue">Barclays Center, New York</p>
-                            <p class="date">September 16, 2024</p>
-                        </div>
-                        <div class="rating">
-                            <span class="stars">★★★★☆</span>
-                            <span class="score">4/5</span>
-                        </div>
-                    </div>
-                    <div class="concert-item">
-                        <div class="concert-info">
-                            <h4>KISS OF LIFE - Kiss Road</h4>
-                            <p class="venue">Hammerstein Ballroom, New York</p>
-                            <p class="date">November 22, 2024</p>
-                        </div>
-                        <div class="rating">
-                            <span class="stars">★★★★☆</span>
-                            <span class="score">4/5</span>
-                        </div>
-                    </div>
-                     <div class="concert-item">
-                        <div class="concert-info">
-                            <h4>BABYMETAL & Dethklok - BABYKLOK Tour</h4>
-                            <p class="venue">Hammerstein Ballroom, New York</p>
-                            <p class="date">September 15, 2023</p>
-                        </div>
-                        <div class="rating">
-                            <span class="stars">★★★★☆</span>
-                            <span class="score">4/5</span>
-                        </div>
-                    </div>
-                    <div class="concert-item">
-                        <div class="concert-info">
-                            <h4>TWICE - This Is For World Tour</h4>
-                            <p class="venue">UBS Arena, New York</p>
-                            <p class="date">February 20, 2026</p>
-                        </div>
-                        <div class="rating">
-                            <span class="stars">★★★★☆</span>
-                            <span class="score">4/5</span>
-                        </div>
-                    </div>
-                     <div class="concert-item">
-                        <div class="concert-info">
-                            <h4>BABYMETAL - BABYMETAL World Tour 2024</h4>
-                            <p class="venue">Terminal 5, New York</p>
-                            <p class="date">November 18, 2024</p>
-                        </div>
-                        <div class="rating">
-                            <span class="stars">★★★★☆</span>
-                            <span class="score">4/5</span>
-                        </div>
-                    </div>
+                    <button class="pagination-btn next-btn" id="nextBtn" aria-label="Next page">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </button>
                 </div>
-                <button class="view-more-btn">View More Concerts →</button>
             </div>
 
             <!-- Interests & Games Box -->
