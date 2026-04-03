@@ -25,6 +25,13 @@ let currentCoverPage = 1;
 // Concert data
 const concertData = [
     {
+        title: "NMIXX - EPISODE 1: ZERO FRONTIER",
+        venue: "Brooklyn Paramount, New York",
+        date: "March 31st, 2026",
+        stars: "★★★★★",
+        score: "5/5"
+    },
+    {
         title: "Ricky Montgomery - \"Montgomery Ricky\" 10 Year Anniversary Tour",
         venue: "Brooklyn Steel, New York",
         date: "March 28th, 2026",
