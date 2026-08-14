@@ -107,6 +107,13 @@ const concertData = [
         date: "June 23, 2024",
         stars: "★★★☆☆",
         score: "3/5"
+    },
+    {
+        title: "Guns N' Roses' World Tour 2026",
+        venue: "MetLife Stadium, New Jersey",
+        date: "August 12, 2026",
+        stars: "★★★☆☆",
+        score: "3/5"
     }
 ];
 
