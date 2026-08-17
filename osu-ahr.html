@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>osu!AHR - ronaldonater</title>
+    
+    <!-- Fonts from Social Page -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link to your existing stylesheets -->
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="social-styles.css"> 
+    
+    <style>
+        /* Override navbar to center the buttons */
+        .navbar {
+            justify-content: center !important;
+            gap: 1rem;
+        }
+
+        /* Specific styles for the bot commands page to match the social aesthetic */
+        .overview-box {
+            background: rgba(80, 63, 64, 0.95);
+            border-radius: 20px;
+            margin-bottom: 2.5rem;
+            padding: 3rem 2rem;
+            box-shadow: 0 10px 40px rgba(168, 85, 247, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            text-align: center;
+        }
+
+        .overview-box h1 {
+            color: #ffffff;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 10px rgba(78, 78, 78, 0.3);
+        }
+
+        .overview-box p {
+            color: #e2e8f0;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .command-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .command-list li {
+            background: rgba(168, 85, 247, 0.1);
+            padding: 1rem 1.2rem;
+            border-radius: 10px;
+            color: #e2e8f0;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .command-list li:hover {
+            background: rgba(168, 85, 247, 0.2);
+            transform: translateX(5px);
+        }
+
+        code {
+            display: inline-block; /* Forces the padding to respect line heights to fix overlap */
+            vertical-align: middle; 
+            margin: 2px 0; /* Adds a tiny bit of vertical buffer */
+            background: rgba(0, 0, 0, 0.4);
+            color: #f6bd95; 
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.9em;
+            font-weight: 500;
+            border: 1px solid rgba(246, 189, 149, 0.3);
+            letter-spacing: 0.05em;
+        }
+
+        .command-desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.8; /* Gives the text more breathing room when it wraps */
+        }
+
+        /* Overrides for this specific page to allow masonry-style column stacking */
+        .bottom-section {
+            align-items: start !important;
+        }
+
+        .column-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Sakura Petals Animation from Social Page -->
+    <div class="sakura-container">
+        <div class="sakura-petal"></div>
+        <div class="sakura-petal"></div>
+        <div class="sakura-petal"></div>
+        <div class="sakura-petal"></div>
+        <div class="sakura-petal"></div>
+        <div class="sakura-petal"></div>
+        <div class="sakura-petal"></div>
+        <div class="sakura-petal"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <button class="nav-btn" onclick="window.location.href='index.html'">Home</button>
+        <button class="nav-btn" onclick="window.location.href='dev.html'">Dev</button>
+        <button class="nav-btn" onclick="window.location.href='social.html'">Social</button>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        
+        <!-- Overview Section -->
+        <div class="overview-box fade-in">
+            <h1>osu! Auto Host Rotate Bot</h1>
+            <p>The osu! Auto Host Rotate bot is a fully automated multiplayer lobby manager built to keep games moving, fair, and competitive. It rotates hosts after each match, enforces configurable map regulations, manages map-pick and start timers, supports player voting, and automatically starts games when everyone is ready. Players can track their local ELO, ranks, win rates, streaks, playtime, and global map scores, while administrators have powerful tools to manage queues, lobby settings, map rules, deny lists, and random event probability. To keep matches fresh, the bot can trigger special rounds with Team VS, Combo, or Accuracy conditions, and balancing teams using each player’s local ELO before returning the lobby to its standard rotation.</p>
+        </div>
+
+        <!-- Commands Grid -->
+        <div class="bottom-section fade-in">
+            
+            <!-- Column 1: Player Commands -->
+            <div class="content-box">
+                <h3 class="box-title">Player Commands</h3>
+                <ul class="command-list">
+                    <li><code>!queue</code> <span class="command-desc">Show host queue.</span></li>
+                    <li><code>!skip</code> <span class="command-desc">Vote to skip current host.</span></li>
+                    <li><code>!start</code> <span class="command-desc">Vote to start.</span></li>
+                    <li><code>!abort</code> <span class="command-desc">Vote to abort a stuck match.</span></li>
+                    <li><code>!update</code> <span class="command-desc">Refresh the selected beatmap.</span></li>
+                    <li><code>!regulations</code> <span class="command-desc">Show active map regulations.</span></li>
+                    <li><code>!rank</code> <span class="command-desc">Show local AHR ELO leaderboard rank.</span></li>
+                    <li><code>!playtime / !pt</code> <span class="command-desc">Show lobby session and total playtime.</span></li>
+                    <li><code>!timeleft / !tl</code> <span class="command-desc">Show remaining time in the active match.</span></li>
+                    <li><code>!lastscore / !ls</code> <span class="command-desc">Show the last lobby result.</span></li>
+                    <li><code>!bestscore / !bs</code> <span class="command-desc">Show global best score, accuracy, PP, mods, and placement on selected map.</span></li>
+                    <li><code>!ostats / !os</code> <span class="command-desc">Show ELO, LWS, matches, and win rate.</span></li>
+                    <li><code>!top / !t</code> <span class="command-desc">Show local ELO leaderboard.</span></li>
+                    <li><code>!how / !h</code> <span class="command-desc">Explain ELO.</span></li>
+                    <li><code>!cmds</code> <span class="command-desc">Show the bot's command list.</span></li>
+                </ul>
+            </div>
+
+            <!-- Column 2: Host/Admin + Lobby Locks -->
+            <div class="column-wrapper">
+                
+                <!-- Host & Admin Commands Box -->
+                <div class="content-box">
+                    <h3 class="box-title">Host Commands</h3>
+                    <ul class="command-list" style="margin-bottom: 2rem;">
+                        <li><code>!skip</code> <span class="command-desc">Immediately rotate host.</span></li>
+                        <li><code>!start [seconds]</code> <span class="command-desc">Start after 0–120 seconds.</span></li>
+                        <li><code>!stop</code> <span class="command-desc">Cancel the host’s start timer.</span></li>
+                        <li><code>!version / !v</code> <span class="command-desc">Show bot version.</span></li>
+                    </ul>
+
+                    <h3 class="box-title">Administrator Commands</h3>
+                    <ul class="command-list">
+                        <li><code>*start</code> <span class="command-desc">Start immediately.</span></li>
+                        <li><code>*skip</code> <span class="command-desc">Force host rotation.</span></li>
+                        <li><code>*close</code> <span class="command-desc">Close the lobby.</span></li>
+                        <li><code>*order player1, player2, player3</code> <span class="command-desc">Set queue order.</span></li>
+                        <li><code>*resetelo confirm</code> <span class="command-desc">Reset all local competitive ELO/stats.</span></li>
+                        <li><code>*eventchance 0-100</code> <span class="command-desc">Set random-event percentage.</span></li>
+                    </ul>
+                </div>
+
+                <!-- Lobby Locks, Denylist & Modes Box -->
+                <div class="content-box">
+                    <h3 class="box-title">Lobby Locks</h3>
+                    <ul class="command-list" style="margin-bottom: 2rem;">
+                        <li><code>*keep size 1-16</code></li>
+                        <li><code>*keep password [password]</code></li>
+                        <li><code>*keep mode [teamMode] [winCondition]</code></li>
+                        <li><code>*keep mods [mods...]</code></li>
+                        <li><code>*keep title [title]</code></li>
+                        <li><code>*no keep size|password|mode|mod|title</code></li>
+                    </ul>
+
+                    <h3 class="box-title">Denylist</h3>
+                    <ul class="command-list" style="margin-bottom: 2rem;">
+                        <li><code>*denylist add [username]</code></li>
+                        <li><code>*denylist remove [username]</code></li>
+                    </ul>
+
+                    <h3 class="box-title">Mode Values (*keep mode)</h3>
+                    <ul class="command-list">
+                        <li><span class="command-desc"><strong>Team mode:</strong> <code>0</code> Head-to-Head, <code>1</code> Tag Co-op, <code>2</code> Team VS, <code>3</code> Tag Team VS</span></li>
+                        <li><span class="command-desc"><strong>Win condition:</strong> <code>0</code> Score, <code>1</code> Accuracy, <code>2</code> Combo, <code>3</code> ScoreV2</span></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Column 3: Map Regulations -->
+            <div class="content-box">
+                <h3 class="box-title">Map Regulations</h3>
+                <ul class="command-list">
+                    <li><code>*regulation enable</code></li>
+                    <li><code>*regulation disable</code></li>
+                    <li><code>*no regulation</code></li>
+                    <li><code>*regulation min_star [number]</code></li>
+                    <li><code>*regulation max_star [number]</code></li>
+                    <li><code>*regulation min_length [seconds]</code></li>
+                    <li><code>*regulation max_length [seconds]</code></li>
+                    <li><code>*regulation gamemode osu|taiko|fruits|mania</code></li>
+                    <li><code>*regulation allow_convert</code></li>
+                    <li><code>*regulation disallow_convert</code></li>
+                    <li><code>*regulation freemod</code></li>
+                    <li><code>*regulation no_freemod</code></li>
+                    <li><code>*regulation status all</code></li>
+                    <li><code>*regulation status ranked loved qualified pending graveyard wip</code></li>
+                    <li><code>*regulation min_star=5 max_star=6.5</code> <span class="command-desc">Multiple settings at once.</span></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Copyright Footer -->
+    <div class="copyright fade-in">
+        &copy; Damian Metovic 2026
+    </div>
+
+    <script src="social-script.js"></script>
+</body>
+</html>
