@@ -1,0 +1,4 @@
+# Keep extensionless URLs without adding a trailing slash, so relative assets
+# continue to resolve from the site root.
+[build.processing.html]
+  pretty_urls = false

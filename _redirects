@@ -1,0 +1,10 @@
+# Redirect old bookmarks, even though the original HTML files still exist.
+/index.html    /          301!
+/dev.html      /dev       301!
+/social.html   /social    301!
+/osu-ahr.html  /osu-ahr   301!
+
+# Serve the existing pages at extensionless URLs.
+/dev          /dev.html      200
+/social       /social.html   200
+/osu-ahr      /osu-ahr.html  200

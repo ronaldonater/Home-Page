@@ -87,23 +87,97 @@
             font-weight: 500;
             border: 1px solid rgba(246, 189, 149, 0.3);
             letter-spacing: 0.05em;
+            max-width: 100%;
+            min-width: 0;
+            white-space: normal;
+            overflow-wrap: anywhere;
         }
 
         .command-desc {
             color: #94a3b8;
             font-size: 0.95rem;
             line-height: 1.8; /* Gives the text more breathing room when it wraps */
+            min-width: 0;
+            overflow-wrap: anywhere;
         }
 
         /* Overrides for this specific page to allow masonry-style column stacking */
         .bottom-section {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             align-items: start !important;
+        }
+
+        .bottom-section > *,
+        .content-box {
+            min-width: 0;
         }
 
         .column-wrapper {
             display: flex;
             flex-direction: column;
             gap: 2rem;
+        }
+
+        @media (min-width: 900px) and (max-width: 1199px) {
+            .bottom-section {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            /* Give the final card the full row instead of leaving half empty. */
+            .bottom-section > .content-box:last-child {
+                grid-column: 1 / -1;
+            }
+
+            .bottom-section > .content-box:last-child .command-list {
+                display: grid;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 899px) {
+            .bottom-section {
+                grid-template-columns: minmax(0, 1fr);
+                gap: 1.5rem;
+            }
+
+            .column-wrapper {
+                gap: 1.5rem;
+            }
+
+            .overview-box {
+                padding: 2rem 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .overview-box h1 {
+                font-size: clamp(1.75rem, 4vw, 2.5rem);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                gap: 0.5rem;
+            }
+
+            .content-box,
+            .overview-box {
+                padding: 1.25rem 1rem;
+            }
+
+            .overview-box p {
+                text-align: left;
+                font-size: 1rem;
+                line-height: 1.7;
+            }
+
+            .command-list li {
+                padding: 0.85rem;
+                gap: 0.5rem;
+            }
+
+            .command-list li > .command-desc {
+                flex-basis: 100%;
+            }
         }
     </style>
 </head>
@@ -123,9 +197,9 @@
 
     <!-- Navigation Bar -->
     <nav class="navbar">
-        <button class="nav-btn" onclick="window.location.href='index.html'">Home</button>
-        <button class="nav-btn" onclick="window.location.href='dev.html'">Dev</button>
-        <button class="nav-btn" onclick="window.location.href='social.html'">Social</button>
+        <button class="nav-btn" onclick="window.location.href='/'">Home</button>
+        <button class="nav-btn" onclick="window.location.href='/dev'">Dev</button>
+        <button class="nav-btn" onclick="window.location.href='/social'">Social</button>
     </nav>
 
     <!-- Main Content -->
@@ -195,7 +269,7 @@
                     <ul class="command-list" style="margin-bottom: 2rem;">
                         <li><code>*keep size 1-16</code></li>
                         <li><code>*keep password [password]</code></li>
-                        <li><code>*keep mode [teamMode] [winCondition]</code></li>
+                        <li><code>*ranked on/off</code></li>
                         <li><code>*keep mods [mods...]</code></li>
                         <li><code>*keep title [title]</code></li>
                         <li><code>*no keep size|password|mode|mod|title</code></li>

@@ -3,19 +3,19 @@ const songCoversData =[
         url: "https://www.youtube.com/embed/KfpwzmEuAL4",
         title: "\"This December\" - Ricky Montgomery",
         date: "Dec 22, 2025",
-        views: "Recently Uploaded!"
+        views: "641 views"
     },
     {
         url: "https://www.youtube.com/embed/1CQ3mMtB6Ec",
         title: "\"Honey\" - Big Time Rush",
         date: "Aug 9, 2022",
-        views: "2.2K views"
+        views: "2.5K views"
     },
     {
         url: "https://www.youtube.com/embed/8FE7TDufSoc",
         title: "\"Nobody Can Save Me\" - Linkin Park",
         date: "Jan 22, 2021",
-        views: "2.1K views"
+        views: "2.2K views"
     }
 ];
 
