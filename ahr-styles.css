@@ -40,6 +40,8 @@ a:hover { color: #e52892; }
 .banner-pink { background: linear-gradient(#ff3bae, #c60979); }
 .banner-green { background: linear-gradient(#91d600, #579000); }
 .banner-blue { background: linear-gradient(#00c3f5, #397fec); }
+.banner-kofi { background: linear-gradient(#ff9863, #e35b46); }
+.banner-kofi .banner-icon { color: #fff4df; }
 .section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid #ff8fca; margin-bottom: 12px; padding: 0 4px 5px; }
 .section-heading h2 { color: #d52d91; font-size: 17px; font-weight: normal; margin: 0; }
 .section-heading span { font-size: 12px; color: #716588; }
