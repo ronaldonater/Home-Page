@@ -101,6 +101,50 @@
             overflow-wrap: anywhere;
         }
 
+        .command-copy {
+            background: none;
+            border: 0;
+            padding: 0;
+            min-width: 0;
+            max-width: 100%;
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .command-copy:hover code,
+        .command-copy:focus-visible code {
+            background: rgba(246, 189, 149, 0.15);
+            border-color: #f6bd95;
+        }
+
+        .command-copy:focus-visible {
+            outline: 2px solid #f6bd95;
+            outline-offset: 3px;
+        }
+
+        .copy-status {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: max-content;
+            max-width: calc(100% - 2rem);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            background: #1e293b;
+            color: #ffffff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            z-index: 1001;
+            pointer-events: none;
+        }
+
+        .copy-status:empty {
+            display: none;
+        }
+
         /* Overrides for this specific page to allow masonry-style column stacking */
         .bottom-section {
             grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -333,5 +377,6 @@
     </div>
 
     <script src="social-script.js"></script>
+    <script src="ahr-script.js"></script>
 </body>
 </html>
