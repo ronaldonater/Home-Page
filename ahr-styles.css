@@ -1,0 +1,126 @@
+/* Layout and palette adapted from osuTitanic/titanic services/stern.
+   See THIRD-PARTY-NOTICES.md for source and license. AHR-specific responsive styles. */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    color: #323232;
+    font: 13px/1.3 Tahoma, Helvetica, Arial, sans-serif;
+    background: #a9a9ff url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAOkCAIAAADoTskeAAAAnklEQVRIie2SSRaAIAxDG0/rykN6McShdELXLrL4TxoLDVFZt30RkSnoNJxPJL3XiH3iNK3R66Y1UHqH3iTU0Fl+fe4FPtb3vPredPN9a8XLNXN5fPh7OO/qSTVM5o39sHu4epwXzjBtllHMEHa+z9zllTOJvUj+k2fk3CTla/O9r3qXnG/8tqW//CcpxxdNfTV5/3cIIYQQQgghv+MAGlANmPLI1V0AAAAASUVORK5CYII=") repeat-x;
+    min-height: 100vh;
+}
+a { color: #3843a6; }
+a:hover { color: #e52892; }
+.site-header { width: 865px; max-width: calc(100% - 32px); margin: 0 auto; height: 122px; position: relative; }
+.osu-logo {
+    position: absolute; left: -88px; top: 18px; z-index: 2;
+    width: 140px; height: 140px; display: block; border-radius: 50%;
+    filter: drop-shadow(0 3px 3px #48416b66);
+}
+.osu-logo:hover { filter: brightness(1.05) drop-shadow(0 3px 3px #48416b66); }
+.osu-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.header-tagline { position: absolute; right: 8px; top: 45px; color: #34305b; font-size: 17px; letter-spacing: -0.5px; }
+.header-tagline strong { color: #ffd5ef; }
+.header-tagline > span { display: block; text-align: right; font-size: 11px; letter-spacing: 0; color: white; }
+.navbar { position: absolute; bottom: 0; left: 0; right: 235px; height: 22px; display: flex; padding-left: 65px; background: #ffd6f3; border-radius: 5px 0 0 0; }
+.navbar a { padding: 1px 22px; font: bold 11px/20px Tahoma, sans-serif; text-decoration: none; color: #4e2151; }
+.navbar a:hover, .navbar a[aria-current] { background: #f375c5; color: white; }
+.site-shell { width: 865px; max-width: calc(100% - 32px); margin: 0 auto 32px; background: #f0ecfa; border: 2px solid #5c559c; border-radius: 0 0 5px 5px; }
+.utility-bar { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: white; border-bottom: 1px solid #d2cce8; padding: 3px 8px 3px 65px; color: #61567d; font-size: 12px; }
+.main-content { padding: 14px 8px 10px; }
+.intro-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 10px; margin-bottom: 14px; align-items: start; }
+.overview-box { background: white; border: 1px solid #d2d4fa; border-radius: 10px; padding: 10px; }
+.overview-box h1 { font: normal 19px/1.2 Tahoma, sans-serif; margin: 0 0 5px; text-align: center; color: #2d2240; }
+.overview-box p { font-size: 13px; line-height: 1.35; margin: 0; }
+.quick-links { display: grid; gap: 6px; }
+.banner { border-radius: 5px; padding: 4px 5px 4px 45px; min-height: 50px; position: relative; text-align: center; color: white; text-decoration: none; box-shadow: inset 0 1px 0 #ffffff88; }
+.banner:hover { color: white; filter: brightness(1.1); }
+.banner strong { display: block; font-family: Impact, 'Arial Narrow', Arial, sans-serif; font-size: 28px; font-weight: normal; line-height: 1.15; }
+.banner span { display: block; font-size: 10px; margin-top: 0; }
+.banner-pink { background: linear-gradient(#ff3bae, #c60979); }
+.banner-green { background: linear-gradient(#91d600, #579000); }
+.banner-blue { background: linear-gradient(#00c3f5, #397fec); }
+.section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid #ff8fca; margin-bottom: 12px; padding: 0 4px 5px; }
+.section-heading h2 { color: #d52d91; font-size: 17px; font-weight: normal; margin: 0; }
+.section-heading span { font-size: 12px; color: #716588; }
+.bottom-section { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 14px 10px; align-items: start; }
+.bottom-section > *, .content-box { min-width: 0; }
+.column-wrapper { display: grid; gap: 12px; }
+.content-box { background: transparent; border: 0; padding: 0; }
+.bottom-section > .content-box:first-child { grid-column: 1; grid-row: 1; }
+.column-wrapper { grid-column: 1 / -1; grid-row: 2; }
+.bottom-section > .content-box:last-child { grid-column: 2; grid-row: 1; }
+.box-title { color: #d52d91; font-size: 16px; font-weight: normal; margin: 0 0 5px; padding: 0 3px; scroll-margin-top: 16px; }
+.command-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+.command-list li { min-width: 0; padding: 6px; background: white; border: 1px solid #d2d4fa; border-top-color: #e869a2; border-radius: 0 0 5px 5px; }
+.bottom-section > .content-box:last-child .command-list { gap: 3px; padding: 3px; border: 2px solid #9799cc; border-radius: 4px; }
+.bottom-section > .content-box:last-child li { background: #eeecfa; border: 0; border-radius: 0; }
+.bottom-section > .content-box:last-child li:nth-child(even) { background: #e4e0f7; }
+code { display: inline-block; max-width: 100%; min-width: 0; white-space: normal; overflow-wrap: anywhere; background: #fff; border: 1px solid #d2c7e6; border-radius: 3px; padding: 3px 6px; color: #3843a6; font: 12px/1.5 Consolas, 'Courier New', monospace; }
+.command-desc { display: block; font-size: 12px; line-height: 1.6; color: #615674; overflow-wrap: anywhere; }
+.command-copy + .command-desc { margin-top: 5px; }
+.command-copy { background: none; border: 0; padding: 0; min-width: 0; max-width: 100%; font: inherit; text-align: left; cursor: pointer; border-radius: 3px; }
+.command-copy:hover code, .command-copy:focus-visible code { background: #ffe3f3; border-color: #ed68b3; color: #982564; }
+:focus-visible { outline: 2px solid #b31b7c; outline-offset: 3px; }
+.copy-status { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); width: max-content; max-width: calc(100% - 32px); padding: 10px 18px; border: 1px solid #e7a0ce; border-radius: 5px; background: #fff1fa; color: #822458; box-shadow: 0 3px 15px #44336744; text-align: center; z-index: 10; pointer-events: none; }
+.copy-status:empty { display: none; }
+.copyright { text-align: center; padding: 16px; color: #756991; font-size: 12px; border-top: 1px solid #d8d1eb; }
+/* Keep the overhanging logo inside narrower viewports. */
+@media (max-width: 1060px) {
+    .osu-logo { left: 0; top: 6px; width: 110px; height: 110px; }
+    .navbar { padding-left: 120px; }
+    .utility-bar { padding-left: 8px; }
+}
+@media (max-width: 760px) {
+    .bottom-section, .intro-grid { grid-template-columns: minmax(0, 1fr); }
+    .bottom-section > .content-box:first-child,
+    .bottom-section > .content-box:last-child,
+    .column-wrapper { grid-column: 1; grid-row: auto; }
+    .quick-links { grid-template-columns: minmax(0, 1fr); }
+    .navbar { right: 0; border-top-right-radius: 5px; }
+    .header-status { display: none; }
+}
+@media (max-width: 600px) {
+    .site-header { height: 155px; }
+    .osu-logo { width: 105px; height: 105px; left: 6px; top: 9px; }
+    .header-tagline { position: absolute; right: 8px; top: 45px; color: #34305b; font-size: 17px; letter-spacing: -0.5px; }
+    .header-tagline > span { font-size: 10px; text-align: left; margin-top: 4px; }
+    .navbar { left: 0; padding-left: 0; justify-content: center; height: 36px; }
+    .navbar a { padding: 8px 15px; font-size: 12px; }
+    .utility-bar { padding: 7px 10px; gap: 3px; font-size: 11px; }
+    .main-content { padding: 10px; }
+    .overview-box { padding: 16px 12px; }
+    .overview-box h1 { font-size: 24px; }
+    .overview-box p { text-align: center; font-size: 14px; }
+    .quick-links { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+    .banner { padding: 6px 8px 6px 45px; }
+    .banner strong { font-size: 24px; }
+    .command-desc { font-size: 14px; }
+    code { font-size: 13px; }
+    .command-copy { padding: 5px 0; }
+    .command-list li { padding: 10px; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+.header-status { position: absolute; right: 0; bottom: 0; width: 235px; padding: 4px 7px; background: #5b5399; color: white; font-size: 11px; line-height: 1.2; border-radius: 3px 3px 0 0; }
+.banner .banner-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.banner-icon svg {
+    display: block;
+    width: 28px;
+    height: 28px;
+    overflow: visible;
+    filter: drop-shadow(1px 2px 1px #0005);
+}
+.banner-pink .banner-icon { color: #92f451; }
+.banner-green .banner-icon { color: #352657; }
+.banner-blue .banner-icon { color: #ff9acf; }
+@media (max-width: 760px) { .header-status { display: none; } }
