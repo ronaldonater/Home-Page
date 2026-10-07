@@ -263,6 +263,19 @@ body {
     border-right: 1px solid rgba(0, 255, 0, 0.3);
 }
 
+.project-image-nextup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    border-right: 1px solid rgba(0, 255, 0, 0.3);
+}
+
+.project-image-nextup img {
+    object-fit: contain;
+    border: 0;
+}
+
 .project-content {
     flex: 1;
     padding: 2rem;
@@ -390,6 +403,15 @@ body {
         height: 200px;
         border-right: none;
         border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+    }
+
+    .project-image-nextup {
+        border-right: none;
+        border-bottom: 1px solid rgba(0, 255, 0, 0.3);
+    }
+
+    .project-image-nextup img {
+        border: 0;
     }
     
     .project-content {
