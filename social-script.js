@@ -22,6 +22,31 @@ const songCoversData =[
 const COVERS_PER_PAGE = 2;
 let currentCoverPage = 1;
 
+async function refreshCoverViews(coversList) {
+    try {
+        const response = await fetch('/.netlify/functions/youtube-views', {
+            signal: AbortSignal.timeout(10000)
+        });
+        if (!response.ok) return;
+        const data = await response.json();
+        if (!data.views || typeof data.views !== 'object') return;
+        for (const cover of songCoversData) {
+            const videoId = new URL(cover.url).pathname.split('/').pop();
+            const count = data.views[videoId];
+            if (typeof count !== 'string' || !/^\d+$/.test(count)) continue;
+            const number = BigInt(count);
+            cover.views = `${number.toLocaleString('en-US')} ${number === 1n ? 'view' : 'views'}`;
+        }
+        // Update only the labels, so playing videos are not reloaded.
+        coversList.querySelectorAll('[data-video-id]').forEach(label => {
+            const cover = songCoversData.find(item => item.url.endsWith('/' + label.dataset.videoId));
+            if (cover) label.textContent = cover.views;
+        });
+    } catch {
+        // Keep the existing counts when offline, unconfigured, or rate-limited.
+    }
+}
+
 // Concert data
 const concertData = [
     {
@@ -222,6 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const coverPageNumber = document.getElementById('coverPageNumber');
         const coverItemCount = document.getElementById('coverItemCount');
 
+        if (!coversList) return;
+
         function renderCovers() {
             coversList.innerHTML = '';
             const totalPages = Math.ceil(songCoversData.length / COVERS_PER_PAGE);
@@ -249,7 +276,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p>${cover.date}</p>
                     </div>
                     <div class="cover-stats">
-                        <span class="views">${cover.views}</span>
+                        <span class="views" data-video-id="${new URL(cover.url).pathname.split('/').pop()}">${cover.views}</span>
                     </div>
                 `;
 
@@ -290,6 +317,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         renderCovers();
+        refreshCoverViews(coversList);
+        setInterval(() => {
+            if (!document.hidden) refreshCoverViews(coversList);
+        }, 60 * 60 * 1000);
     }
 
     function initializeConcertPagination() {

@@ -2,3 +2,6 @@
 # continue to resolve from the site root.
 [build.processing.html]
   pretty_urls = false
+
+[functions]
+  directory = "netlify/functions"
