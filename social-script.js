@@ -59,7 +59,7 @@ const concertData = [
 
 In terms of the show itself, it exceeded expectations. NMIXX is one of the best, if not the best, K-pop groups around when it comes to live vocals. Their "weakest" singer could easily be a main vocalist in her own right. Their choreography and energy were unmatched. There was one brief moment where Sullyoon unfortunately tripped on stage, but she recovered so gracefully it was like nothing happened and made sure to reassure everyone she was okay right after.
 
-Are the VIP Perks Worth It?
+**Are the VIP Perks Worth It?**
 
 I obviously had to get the highest tier of VIP, and the perks were genuinely unique and worth the price. The top tier included an autographed poster from all the members, plus everything from the standard VIP tiers:
 
