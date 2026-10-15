@@ -88,7 +88,34 @@ Overall, I highly recommend catching their show if they come to your city. You w
         date: "March 28th, 2026",
         stars: "★★★★★",
         videoUrl: "https://www.youtube.com/watch?v=QT86KgzxB8I",
-        review: "", // Add your written review here.
+        review: `I’ve known about Ricky Montgomery since the pandemic, but I only really took a deep dive into his discography a year prior to this show. It didn't take long for me to fall completely in love with his sound. So, when he announced a limited three-show run to celebrate his 10th anniversary, I knew I had to be there.
+
+This turned out to be one of my all-time favorite shows. Ricky is an incredible live performer; his vocals, guitar playing, and energy are top-tier, but his fan service is what really sets him apart. You can tell he genuinely wants everyone in the room to feel included. He even brought a fan on stage to play acoustic guitar alongside him for a rendition of "Mr. Loverman."
+
+**A Rare Setlist**
+
+Since this was the 10th-anniversary celebration of his debut album, Montgomery Ricky, the setlist was a massive treat. He played every single song off the album, including the live debut of "Last Night"! We also got to hear an incredible unreleased track titled "Change."
+
+My favorite unexpected moment was when he swapped out a song on the setlist for "Unknown Phantom." Someone on his team thought they saw a fan dressed in the costume from the music video. It ended up being a false alarm, but he played it anyway, making it the only time the song was performed on the entire tour.
+
+**The VIP Experience: Intimate Soundcheck & Q&A**
+
+I grabbed the highest VIP tier for this night, which included a soundcheck and a Q&A session. The soundcheck had a wonderfully intimate vibe; Ricky took requests and played two songs on his acoustic guitar, encouraging the crowd to sing along. Getting to ask him a direct question about how to get started with songwriting process during the Q&A was an absolute highlight for me.
+
+The top VIP tier also included the standard VIP merchandise:
+
+• A tour poster
+
+• A tour-branded mini flag
+
+• A star keychain
+
+To be honest, these were probably my least favorite VIP items I've received. They don't offer much practical use compared to other packages, though I’m sure other fans loved them.
+
+**The Verdict**
+
+Overall, this night at Brooklyn Steel was completely unforgettable. I will absolutely be in the crowd the next time he comes around after his upcoming third album drops!
+`, // Add your written review here.
         score: "5/5"
     },
     {
