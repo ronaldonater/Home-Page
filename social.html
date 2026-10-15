@@ -244,6 +244,24 @@
         &copy; Damian Metovic 2026
     </div>
 
+    <dialog class="concert-dialog" id="concertDialog" aria-labelledby="concertDialogTitle">
+        <div class="concert-dialog-header">
+            <h2 id="concertDialogTitle"></h2>
+            <button type="button" class="concert-close" autofocus aria-label="Close concert details">✕</button>
+        </div>
+        <p id="concertDialogMeta"></p>
+        <p id="concertDialogRating"></p>
+        <section class="concert-detail-section" aria-labelledby="concertFootageHeading">
+            <h3 id="concertFootageHeading">Concert footage</h3>
+            <p id="concertFootageDisclaimer" class="concert-disclaimer" hidden>This video is not my footage. All rights belong to the original owners.</p>
+            <div id="concertVideo"></div>
+        </section>
+        <section class="concert-detail-section" aria-labelledby="concertReviewHeading">
+            <h3 id="concertReviewHeading">My Review</h3>
+            <p id="concertReview" class="concert-review"></p>
+        </section>
+    </dialog>
+    <script src="concert-details.js"></script>
     <script src="social-script.js"></script>
 </body>
 </html>

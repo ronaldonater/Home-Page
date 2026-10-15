@@ -54,6 +54,32 @@ const concertData = [
         venue: "Brooklyn Paramount, New York",
         date: "March 31st, 2026",
         stars: "★★★★★",
+        videoUrl: "https://www.youtube.com/watch?v=cPn697Bu3IE",
+        review: `This was the second concert I've ever camped out for, and it was so worth it! I went to this show with a friend from X/Twitter, and not only did we get the front row, but I also had a hilarious interaction with my bias, Lily. She reacted to a joke flag I made for her, and actually found it so funny that she talked about it on a [livestream](https://www.instagram.com/p/DeAl894OdEn/) the next day! What an absolute dream come true. I was on cloud nine for days just knowing I was memorable to one of my favorite idols. 😭
+
+In terms of the show itself, it exceeded expectations. NMIXX is one of the best, if not the best, K-pop groups around when it comes to live vocals. Their "weakest" singer could easily be a main vocalist in her own right. Their choreography and energy were unmatched. There was one brief moment where Sullyoon unfortunately tripped on stage, but she recovered so gracefully it was like nothing happened and made sure to reassure everyone she was okay right after.
+
+Are the VIP Perks Worth It?
+
+I obviously had to get the highest tier of VIP, and the perks were genuinely unique and worth the price. The top tier included an autographed poster from all the members, plus everything from the standard VIP tiers:
+
+• A tour-branded wireless charger
+
+• A tour-branded pen and mini journal
+
+• A tour-branded pouch bag
+
+• An exclusive photocard set
+
+• Soundcheck access
+
+• The classic VIP lanyard
+
+As far as VIP packages that don't involve meeting the members go, this easily takes the #1 spot. I actually find myself using the wireless charger and pen all the time!
+
+**The Verdict**
+
+Overall, I highly recommend catching their show if they come to your city. You won't regret it!`, // Add your written review here.
         score: "5/5"
     },
     {
@@ -61,6 +87,8 @@ const concertData = [
         venue: "Brooklyn Steel, New York",
         date: "March 28th, 2026",
         stars: "★★★★★",
+        videoUrl: "https://www.youtube.com/watch?v=QT86KgzxB8I",
+        review: "", // Add your written review here.
         score: "5/5"
     },
     {
@@ -68,6 +96,8 @@ const concertData = [
         venue: "Madison Square Garden, New York",
         date: "June 30, 2022",
         stars: "★★★★★",
+        videoUrl: "https://www.youtube.com/watch?v=u8-_dt4uckc",
+        review: "", // Add your written review here.
         score: "5/5"
     },
     {
@@ -75,13 +105,18 @@ const concertData = [
         venue: "Queens Theatre, New York",
         date: "October 10, 2025",
         stars: "★★★★★",
+        videoUrl: "https://www.youtube.com/watch?v=TU-OL9q_eYw",
+        review: "", // Add your written review here.
         score: "5/5"
     },
     {
         title: "LE SSERAFIM - Flame Rises",
+        thirdPartyFootage: true,
         venue: "Prudential Center, New Jersey",
         date: "September 3, 2025",
         stars: "★★★★★",
+        videoUrl: "https://www.youtube.com/watch?v=HXOIDhbS2Hs",
+        review: "", // Add your written review here.
         score: "5/5"
     },
     {
@@ -89,6 +124,8 @@ const concertData = [
         venue: "Barclays Center, New York",
         date: "September 16, 2024",
         stars: "★★★★☆",
+        videoUrl: "https://www.youtube.com/watch?v=qQj0Zle_WQk",
+        review: "", // Add your written review here.
         score: "4/5"
     },
     {
@@ -96,6 +133,8 @@ const concertData = [
         venue: "Hammerstein Ballroom, New York",
         date: "November 22, 2024",
         stars: "★★★★☆",
+        videoUrl: "https://www.youtube.com/watch?v=Ftc2_cfc-kI",
+        review: "", // Add your written review here.
         score: "4/5"
     },
     {
@@ -103,6 +142,8 @@ const concertData = [
         venue: "Hammerstein Ballroom, New York",
         date: "September 15, 2023",
         stars: "★★★★☆",
+        videoUrl: "https://www.youtube.com/watch?v=1cAvptJ0qU0",
+        review: "", // Add your written review here.
         score: "4/5"
     },
     {
@@ -110,6 +151,8 @@ const concertData = [
         venue: "UBS Arena, New York",
         date: "February 20, 2026",
         stars: "★★★★☆",
+        videoUrl: "https://www.youtube.com/watch?v=v8BsXEO7q9E",
+        review: "", // Add your written review here.
         score: "4/5"
     },
     {
@@ -117,6 +160,8 @@ const concertData = [
         venue: "Terminal 5, New York",
         date: "November 18, 2024",
         stars: "★★★★☆",
+        videoUrl: "https://www.youtube.com/watch?v=659Xnb1tYt4",
+        review: "", // Add your written review here.
         score: "4/5"
     },
     {
@@ -124,6 +169,8 @@ const concertData = [
         venue: "Hammerstein Ballroom, New York",
         date: "December 18, 2021",
         stars: "★★★★☆",
+        videoUrl: "https://www.youtube.com/watch?v=KXSfsf4z9b4",
+        review: "", // Add your written review here.
         score: "4/5"
     },
     {
@@ -131,18 +178,23 @@ const concertData = [
         venue: "Prudential Center, New Jersey",
         date: "June 23, 2024",
         stars: "★★★☆☆",
+        videoUrl: "https://www.youtube.com/watch?v=pBAgozuTa9g",
+        review: "", // Add your written review here.
         score: "3/5"
     },
     {
         title: "Guns N' Roses' World Tour 2026",
+        thirdPartyFootage: true,
         venue: "MetLife Stadium, New Jersey",
         date: "August 12, 2026",
         stars: "★★★☆☆",
+        videoUrl: "https://www.youtube.com/watch?v=q3ic_sVqZeY",
+        review: "", // Add your written review here.
         score: "3/5"
     }
 ];
 
-const CONCERTS_PER_PAGE = 6;
+const CONCERTS_PER_PAGE = 5;
 let currentPage = 1;
 
 // Social page animations and interactions
@@ -189,7 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
     contentBoxes.forEach(box => {
         box.addEventListener('click', (e) => {
             // Don't trigger if clicking on a button or any element inside a pagination control
-            if (e.target.closest('.pagination-btn') || e.target.classList.contains('view-more-btn')) return;
+            if (e.target.closest('button, a')) return;
             
             box.style.transform = 'scale(0.98)';
             setTimeout(() => {
@@ -330,6 +382,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const pageNumber = document.getElementById('pageNumber');
         const itemCount = document.getElementById('itemCount');
 
+        if (!concertList) return;
+
         function renderConcerts() {
             concertList.innerHTML = '';
             const totalPages = Math.ceil(concertData.length / CONCERTS_PER_PAGE);
@@ -338,21 +392,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const concerts = concertData.slice(startIdx, endIdx);
 
             concerts.forEach((concert, idx) => {
-                const concertItem = document.createElement('div');
+                const concertItem = document.createElement('button');
+                concertItem.type = 'button';
+                concertItem.setAttribute('aria-haspopup', 'dialog');
+                concertItem.setAttribute('aria-label', `Open footage and review: ${concert.title}`);
+                concertItem.addEventListener('click', () => openConcertDetails(concert));
                 concertItem.className = 'concert-item';
                 concertItem.style.opacity = '0';
                 concertItem.style.transform = 'translateY(10px)';
 
                 concertItem.innerHTML = `
-                    <div class="concert-info">
-                        <h4>${concert.title}</h4>
-                        <div class="venue">${concert.venue}</div>
-                        <div class="date">${concert.date}</div>
-                    </div>
-                    <div class="rating">
+                    <span class="concert-info">
+                        <strong class="concert-title">${concert.title}</strong>
+                        <span class="venue">${concert.venue}</span>
+                        <span class="date">${concert.date}</span>
+                        <span class="concert-open-hint">Footage &amp; review →</span>
+                    </span>
+                    <span class="rating">
                         <span class="stars">${concert.stars}</span>
                         <span class="score">${concert.score}</span>
-                    </div>
+                    </span>
                 `;
 
                 concertList.appendChild(concertItem);

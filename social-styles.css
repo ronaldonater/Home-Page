@@ -463,11 +463,45 @@ body {
     transform: translateX(5px);
 }
 
-.concert-info h4 {
+.concert-info h4, .concert-title {
     color: #ffffff;
     font-size: 1rem;
     margin-bottom: 0.3rem;
     font-weight: 600;
+}
+
+button.concert-item { width: 100%; border: 1px solid transparent; font: inherit; text-align: left; cursor: pointer; gap: 1rem; }
+button.concert-item:focus-visible { outline: 2px solid #f6bd95; outline-offset: 3px; }
+.concert-info { min-width: 0; }
+.concert-title, .concert-info .venue, .concert-info .date, .concert-open-hint { display: block; }
+.concert-title { overflow-wrap: anywhere; }
+.concert-open-hint { color: #f6bd95; font-size: 0.8rem; margin-top: 0.5rem; }
+button.concert-item .rating { flex-shrink: 0; }
+body.concert-dialog-open { overflow: hidden; }
+.concert-dialog {
+    margin: auto; width: min(760px, calc(100% - 2rem)); max-height: calc(100dvh - 2rem);
+    overflow-y: auto; padding: 1.5rem; background: #292b3e; color: #e2e8f0;
+    border: 1px solid #786074; border-radius: 18px; box-shadow: 0 20px 70px #0008;
+}
+.concert-dialog::backdrop { background: #12101ac9; }
+.concert-dialog-header { position: relative; padding-right: 60px; }
+.concert-dialog-header h2 { font-size: 1.4rem; overflow-wrap: anywhere; }
+.concert-close { position: absolute; top: 0; right: 0; width: 44px; height: 44px; border: 0; border-radius: 50%; background: #f6bd95; color: #292b3e; cursor: pointer; }
+.concert-dialog button:focus-visible, .concert-dialog a:focus-visible { outline: 2px solid #f6bd95; outline-offset: 3px; }
+#concertDialogMeta { color: #c0bacd; margin-top: 0.5rem; padding-right: 60px; }
+#concertDialogRating { color: #ffd700; margin-top: 0.5rem; }
+.concert-detail-section { margin-top: 1.5rem; }
+.concert-detail-section h3 { margin-bottom: 0.75rem; }
+.concert-disclaimer { padding: 0.75rem; margin-bottom: 1rem; border-left: 3px solid #f6bd95; background: #f6bd9510; }
+#concertVideo iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 10px; }
+#concertVideo a { display: inline-block; margin-top: 0.75rem; color: #f6bd95; }
+.concert-video-placeholder { display: grid; place-items: center; min-height: 160px; padding: 1rem; border: 1px dashed #786074; border-radius: 10px; color: #c0bacd; }
+.concert-review { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; }
+.concert-review a { color: #f6bd95; text-decoration: underline; }
+@media (max-width: 480px) {
+    .concert-dialog { padding: 1rem; }
+    button.concert-item { align-items: flex-start; gap: 0.5rem; }
+    button.concert-item .rating .stars { font-size: 0.85rem; }
 }
 
 .concert-info .venue {
