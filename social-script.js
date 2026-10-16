@@ -124,7 +124,19 @@ Overall, this night at Brooklyn Steel was completely unforgettable. I will absol
         date: "June 30, 2022",
         stars: "★★★★★",
         videoUrl: "https://www.youtube.com/watch?v=u8-_dt4uckc",
-        review: "", // Add your written review here.
+        review: `This was one of the earliest concerts I ever attended, and it set the bar incredibly high, in fact, it held the title of my all-time favorite show for five solid years!
+
+Big Time Rush has an unbeatable stage presence, breaking up the setlist with fun, creative segments between songs. Their live vocals and signature harmonies are exactly as amazing as you’d hope, and they definitely still have the choreography down.
+
+The atmosphere inside Madison Square Garden was electric. Playing to a sold-out MSG crowd is an incredible feat, especially considering they had been on hiatus and out of the limelight for so long. One of the most impactful moments happened during their track "Fall." Right after Logan sang the lyric, "Selling out The Garden-", the guys took a deliberate pause to embrace and take in the magnitude of the milestone before jumping right back into their high-energy performance.
+
+The crowd interaction was next-level. During "Time of Our Life" and "Paralyzed," the members actually left the stage and went right into the audience. I was lucky enough to get close to Carlos during "Time of Our Life" and super close to Kendall during "Paralyzed", he practically pointed the mic right in my face at one point! (Check out the embedded video above to see exactly what I mean).
+
+The surprises didn't end there. They brought out special guest Maffio to teach the crowd the basic choreography for "Dale Pa'Ya," which was an unreleased collaboration at the time. We all got to dance along as they performed it live for the very first time.
+
+**The Verdict**
+
+Overall, this was an unforgettable experience that hit every single box. Big Time Rush proved that night they are so much more than just a "Nickelodeon band."`, // Add your written review here.
         score: "5/5"
     },
     {
