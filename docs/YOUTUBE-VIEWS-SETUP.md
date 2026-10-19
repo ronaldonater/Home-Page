@@ -30,7 +30,7 @@ YouTube can also delay its statistics. All three videos are fetched in one
 request. The endpoint only fetches the listed videos and ignores caller-supplied
 video IDs. Failed upstream requests are cached briefly to reduce retries.
 
-When adding a cover, update `songCoversData` in `social-script.js` and `VIDEO_IDS`
+When adding a cover, update `songCoversData` in `assets/js/social-script.js` and `VIDEO_IDS`
 in `netlify/functions/youtube-views.mjs`.
 
 ## Troubleshooting and local verification

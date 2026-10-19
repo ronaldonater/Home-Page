@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import vm from 'node:vm';
 import handler from '../netlify/functions/youtube-views.mjs';
 
-const source = await readFile(new URL('../social-script.js', import.meta.url), 'utf8');
+const source = await readFile(new URL('../assets/js/social-script.js', import.meta.url), 'utf8');
 const request = () => new Request('https://example.com/.netlify/functions/youtube-views');
 
 test('function handles configuration, batches allowed IDs, caches, and sanitizes failures', async t => {

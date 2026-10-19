@@ -1,4 +1,4 @@
-// Keep this allowlist in sync with the embeds in social-script.js.
+// Keep this allowlist in sync with the embeds in assets/js/social-script.js.
 const VIDEO_IDS = ['KfpwzmEuAL4', '1CQ3mMtB6Ec', '8FE7TDufSoc'];
 
 function json(body, status, cache = 'no-store') {

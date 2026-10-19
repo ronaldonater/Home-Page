@@ -10,7 +10,7 @@
 }
 
 body {
-  background-image: url('homebg.png');
+  background-image: url('../images/homebg.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;

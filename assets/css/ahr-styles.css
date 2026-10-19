@@ -1,5 +1,5 @@
 /* Layout and palette adapted from osuTitanic/titanic services/stern.
-   See THIRD-PARTY-NOTICES.md for source and license. AHR-specific responsive styles. */
+   See docs/THIRD-PARTY-NOTICES.md for source and license. AHR-specific responsive styles. */
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {

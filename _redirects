@@ -1,10 +1,14 @@
-# Redirect old bookmarks, even though the original HTML files still exist.
+# Redirect legacy page URLs to clean URLs.
 /index.html    /          301!
 /dev.html      /dev       301!
 /social.html   /social    301!
 /osu-ahr.html  /osu-ahr   301!
 
 # Serve the existing pages at extensionless URLs.
-/dev          /dev.html      200
-/social       /social.html   200
-/osu-ahr      /osu-ahr.html  200
+/dev          /pages/dev.html      200
+/social       /pages/social.html   200
+/osu-ahr      /pages/osu-ahr.html  200
+
+# Preserve public download and favicon URLs after organizing assets.
+/resume.pdf    /assets/downloads/resume.pdf    301
+/favicon.png   /assets/icons/favicon.png      301

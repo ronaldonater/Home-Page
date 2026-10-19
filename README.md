@@ -1,0 +1,37 @@
+# Personal website
+
+Static personal site hosted on Netlify.
+
+## Layout
+
+- `index.html` — landing page
+- `pages/` — Dev, Social, and osu!AHR pages
+- `assets/css/` — stylesheets
+- `assets/js/` — browser scripts, concert reviews, and cover data
+- `assets/images/` — profile pictures, project images, and NextUp logo
+- `assets/icons/` — favicon and social/platform icons
+- `assets/downloads/` — résumé
+- `docs/` — setup instructions and third-party notices
+- `archive/` — original website ZIP, preserved unchanged
+- `netlify/functions/` — server-side YouTube view-count function
+- `tests/` — automated checks
+
+`netlify.toml`, `_redirects`, and `index.html` stay at the root for deployment.
+The public page URLs remain `/`, `/dev`, `/social`, and `/osu-ahr`.
+HTML asset paths are site-root-relative, so assets work at both the clean URLs
+and the physical `/pages/*.html` paths. CSS image paths are relative to the CSS.
+
+## Editing
+
+Concert links, reviews, and song covers are in `assets/js/social-script.js`.
+See [YouTube view-count setup](docs/YOUTUBE-VIEWS-SETUP.md) and
+[third-party notices](docs/THIRD-PARTY-NOTICES.md).
+
+## Preview and checks
+
+Run `npx netlify-cli dev` from this directory to preview clean URLs and functions.
+With VS Code Live Server, serve this directory as the root and open
+`/pages/social.html`, `/pages/dev.html`, or `/pages/osu-ahr.html` directly;
+Live Server does not process Netlify's clean-URL rules or functions.
+
+Run `node --test tests/youtube-views.test.mjs` from this directory.
