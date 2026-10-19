@@ -232,6 +232,10 @@ body {
     gap: 0.8rem;
 }
 
+.interest-tag, .hobby-tag {
+    position: relative;
+}
+
 .interest-tag {
     background: linear-gradient(135deg, rgba(246, 189, 149, 1) 0%, rgba(210, 138, 114, 1) 100%);
     color: white;

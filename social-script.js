@@ -145,7 +145,37 @@ Overall, this was an unforgettable experience that hit every single box. Big Tim
         date: "October 10, 2025",
         stars: "★★★★★",
         videoUrl: "https://www.youtube.com/watch?v=TU-OL9q_eYw",
-        review: "", // Add your written review here.
+        review: `Seeing PURPLE KISS live for the first time was incredibly special, but it’s a shame knowing it would also be my last. With their parent company announcing the group's disbandment, "A Violet to Remember" served as their official farewell tour.
+
+I had tried to catch them the year prior, but they unfortunately didn't have a NY/NJ stop on that run. Ultimately, I'm just grateful I got to see them perform together at least once.
+
+**The "Everything" VIP Experience**
+
+Knowing this was my one and only chance to see the group, I had to go all out. I grabbed the "Everything" ticket, which was remarkably well-priced at $250 considering the massive list of perks included:
+
+• Fan-sign
+
+• Group Photo
+
+• Soundcheck Access
+
+• Hi-Touch
+
+• You+ Photo
+
+• Selfies with all the members
+
+A huge shoutout to the tour organizers, Leo Presents, for putting together such a stacked package!
+
+**Intimate Setting, Incredible Performance**
+
+As for the performance itself, PURPLE KISS absolutely killed it. Their live vocals were incredible, matched only by their top-tier dancing. The segments between songs were super fun and wholesome, carrying an extra layer of emotion given the context of the tour.
+
+The venue was actually the smallest I've ever been in for a concert, comparable in size to a school auditorium. Honestly, that made it even better. It created a beautifully intimate setting for one of their final shows together.
+
+**The Final Send-Off**
+
+It's a shame we'll never get to see them perform together again, especially knowing some members have completely left the industry to pursue their own paths (like Dosie, who now works an office job for a clothing brand). If PURPLE KISS were still around, I definitely would have attended more of their shows. But at the very least, they got the proper send-off they deserved, unlike so many other groups who just disappear out of the blue.`, // Add your written review here.
         score: "5/5"
     },
     {
@@ -155,7 +185,13 @@ Overall, this was an unforgettable experience that hit every single box. Big Tim
         date: "September 3, 2025",
         stars: "★★★★★",
         videoUrl: "https://www.youtube.com/watch?v=HXOIDhbS2Hs",
-        review: "", // Add your written review here.
+        review: `This was LE SSERAFIM's first-ever concert tour in the U.S., and it couldn't have gone any better!
+
+Heading into this concert, there was a lot of online discussion critiquing their live vocal abilities (mainly surrounding Kazuha, Sakura, and Eunchae). I have to admit, even putting my bias for the group aside, I was a little wary of this heading into the show. However, I was undoubtedly proven wrong. They sounded amazing! On top of their live vocals, their energy was absolutely contagious and stayed through the roof the entire night.
+
+**The Verdict**
+
+This was such an incredibly fun concert. I think it speaks volumes that this is my only 5-star rated K-Pop concert that doesn't involve having VIP perks as well. I would definitely recommend seeing them at least once, even if you're just a casual fan. You will absolutely fall in love with the members, and hopefully, their music as well!`, // Add your written review here.
         score: "5/5"
     },
     {
@@ -164,7 +200,27 @@ Overall, this was an unforgettable experience that hit every single box. Big Tim
         date: "September 16, 2024",
         stars: "★★★★☆",
         videoUrl: "https://www.youtube.com/watch?v=qQj0Zle_WQk",
-        review: "", // Add your written review here.
+        review: `This was Linkin Park's first set of shows returning from hiatus with new vocalist Emily Armstrong and new drummer Colin Brittain. I was lucky enough to attend the New York stop, and I managed to go for free, though that's a story for another time.
+
+Linkin Park is one of my all-time favorite bands. Unfortunately, I never got the opportunity to see them perform with Chester Bennington or Rob Bourdon. Despite that, I've remained fiercely loyal to the group. I didn't align with the crowds pushing back against the new direction, claiming they didn't like female vocalists or that Emily was trying to "replace" Chester.
+
+**Tempered Expectations and a Euphoric Reality**
+
+With absolutely no offense to Emily, I headed into this show with tempered expectations for her vocals. She was brand new to the lineup and had the monumental task of taking legacy songs and adjusting them to her own style and tone. I didn't expect her to be comfortable straight away, and that initial adjustment period showed a bit on their reveal stream. Looking back on this tour now, she has definitely found her stride and settled into the band perfectly. They’ve figured out exactly which classic tracks work for her, which ones don’t, and how to tailor the arrangements to her strengths.
+
+Regardless of those early expectations, her live vocals that night were incredibly powerful. It was a deeply euphoric experience to finally see one of my favorite bands perform in person. Mike Shinoda hasn't lost a single step, either. He has stayed so active as a solo artist and through collaborations, and he’s still killing the game. He knows exactly how to command a crowd, and when you pair that veteran stage presence with Emily's fierce vocals, it is a perfect recipe.
+
+Colin was great too. I was actually familiar with him beforehand since he worked with Logan Henderson (a member of another one of my all-time favorite bands, Big Time Rush) as a composer, writer, and producer during his solo career. I wasn't even aware he was a drummer, let alone how incredible he is at it!
+
+**Top-Tier Production and a Standout Moment**
+
+The presentation for the show was incredible, featuring atmospheric interludes and slick transitions between sections of the set, along with awesome laser and lighting effects on display throughout the night.
+
+Still, the peak moment belongs to Emily's performance of "Waiting for the End." It was hands down one of the most beautiful things I've witnessed live. She delivers it with such raw emotion that it becomes the defining, euphoric highlight of the show, even tearing up toward the outro. She is a fan just like the rest of us, and you can tell how deeply the music resonates with her. Honestly, I'll even go as far as saying I prefer Emily's live performance of that song over Chester's.
+
+**The Verdict**
+
+Overall, I had an absolute blast singing my heart out to every single song all night long. While this specific show was already amazing, I have no doubt that the next time I see Linkin Park, especially now that Emily is fully settled into her role, it will easily earn that perfect 5-star rating.`, // Add your written review here.
         score: "4/5"
     },
     {
@@ -299,7 +355,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Sparkle effect function
     function createSparkle(element) {
-        const sparkle = document.createElement('div');
+        const sparkle = document.createElement('span');
+        sparkle.setAttribute('aria-hidden', 'true');
         sparkle.style.position = 'absolute';
         sparkle.style.width = '4px';
         sparkle.style.height = '4px';
@@ -308,11 +365,11 @@ document.addEventListener('DOMContentLoaded', () => {
         sparkle.style.pointerEvents = 'none';
         sparkle.style.zIndex = '1000';
         
-        const rect = element.getBoundingClientRect();
-        sparkle.style.left = (rect.left + Math.random() * rect.width) + 'px';
-        sparkle.style.top = (rect.top + Math.random() * rect.height) + 'px';
+        // Position inside the tag so scrolling and hover transforms move them together.
+        sparkle.style.left = (Math.random() * Math.max(0, element.clientWidth - 4)) + 'px';
+        sparkle.style.top = (Math.random() * Math.max(0, element.clientHeight - 4)) + 'px';
         
-        document.body.appendChild(sparkle);
+        element.appendChild(sparkle);
         
         // Animate sparkle
         sparkle.animate([
