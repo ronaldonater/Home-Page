@@ -261,7 +261,7 @@ If I had one critique, I do wish there had been a live band; that definitely wou
 
 During the encore, I got some incredibly wholesome interactions with Natty (my bias) and Julie, which capped off the night even better than I could have imagined.
 
-The Verdict
+**The Verdict**
 
 Overall, this was a fantastic first world tour. I only expect bigger and better things from KISS OF LIFE as their stock continues to rise!`, // Add your written review here.
         score: "4/5"
