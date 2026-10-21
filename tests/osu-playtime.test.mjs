@@ -61,10 +61,10 @@ test('osu label converts seconds to hours and preserves fallback on invalid data
     });
     vm.runInContext(source, context);
     await vm.runInContext('refreshOsuPlaytime()', context);
-    assert.equal(label.textContent, '1,748.5 hrs');
+    assert.equal(label.textContent, '1,748 hrs');
     seconds = null;
     await vm.runInContext('refreshOsuPlaytime()', context);
-    assert.equal(label.textContent, '1,748.5 hrs');
+    assert.equal(label.textContent, '1,748 hrs');
     seconds = 0;
     await vm.runInContext('refreshOsuPlaytime()', context);
     assert.equal(label.textContent, '0 hrs');

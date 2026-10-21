@@ -13,7 +13,7 @@ or the upstream service failed. Live Server cannot execute Netlify functions.
 
 The page refreshes every ten minutes while visible; successful responses are
 cached for ten minutes. Tokens are reused until shortly before expiration within
-a warm function instance. Hours show at most one decimal place. This is recorded
+a warm function instance. Hours show completed whole hours, rounded down. This is recorded
 osu!standard gameplay, not application-open time or a sum across rulesets.
 Failures preserve the current display; fresh pages fall back to the HTML hours.
 

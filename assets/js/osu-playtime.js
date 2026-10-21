@@ -8,7 +8,7 @@ async function refreshOsuPlaytime() {
         if (!Number.isSafeInteger(data.seconds) || data.seconds < 0 || data.mode !== 'osu') return;
         const label = document.querySelector('[data-osu-playtime]');
         if (!label) return;
-        label.textContent = `${(data.seconds / 3600).toLocaleString('en-US', { maximumFractionDigits: 1 })} hrs`;
+        label.textContent = `${Math.floor(data.seconds / 3600).toLocaleString('en-US')} hrs`;
         label.title = 'Latest osu!standard playtime reported by osu!';
     } catch {
         // Preserve the existing hours if the API is unavailable.

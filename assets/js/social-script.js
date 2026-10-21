@@ -75,6 +75,8 @@ I obviously had to get the highest tier of VIP, and the perks were genuinely uni
 
 • The classic VIP lanyard
 
+• Early Entry + Merch Access
+
 As far as VIP packages that don't involve meeting the members go, this easily takes the #1 spot. I actually find myself using the wireless charger and pen all the time!
 
 **The Verdict**
@@ -109,6 +111,8 @@ The top VIP tier also included the standard VIP merchandise:
 • A tour-branded mini flag
 
 • A star keychain
+
+• Early Entry + Merch Access
 
 To be honest, these were probably my least favorite VIP items I've received. They don't offer much practical use compared to other packages, though I’m sure other fans loved them.
 
@@ -152,6 +156,8 @@ I had tried to catch them the year prior, but they unfortunately didn't have a N
 **The "Everything" VIP Experience**
 
 Knowing this was my one and only chance to see the group, I had to go all out. I grabbed the "Everything" ticket, which was remarkably well-priced at $250 considering the massive list of perks included:
+
+• Early Entry + Merch Access
 
 • Fan-sign
 
@@ -229,7 +235,35 @@ Overall, I had an absolute blast singing my heart out to every single song all n
         date: "November 22, 2024",
         stars: "★★★★☆",
         videoUrl: "https://www.youtube.com/watch?v=Ftc2_cfc-kI",
-        review: "", // Add your written review here.
+        review: `KISS OF LIFE is currently my ultimate bias group in K-Pop. I've been following them quite literally since their debut, and it's crazy how consistently they continue to put out great music. Considering my emotional attachment to them, I just knew I had to try to get front row to see them; despite the fact that I've never actually gotten front row for a show before.
+
+Thanks to some advice from a friend with experience camping for K-Pop concerts, I was able to achieve my dream and experience them from the barricade!
+
+**The VIP Group Photo Experience**
+
+In addition to camping out, I bought the highest VIP tier. This package allowed you to take a group photo with the members alongside a few other fans. It also included everything from the standard VIP tiers:
+
+• Soundcheck Access
+
+• Tour Poster
+
+• VIP Lanyard
+
+• Early Entry + Merch Access
+
+I'd say the highest tier was absolutely worth it because you got to meet the idols and commemorate the moment with two high-quality pictures. It honestly didn't take that long to receive them, it took about a month, and you just had to scan the QR code on the back of your VIP lanyard to get redirected to the photo gallery for your specific show.
+
+**Live Vocals and Encore Interactions**
+
+In terms of the performance, their live vocals were great. Belle, especially, stood out. She truly is the Ariana Grande of K-Pop, just like everyone says! Their dancing ability was also top-notch, and the little segments between songs were incredibly fun.
+
+If I had one critique, I do wish there had been a live band; that definitely would have elevated the concert experience even further. I understand, though, that this was their very first tour and it's still pretty early in their career.
+
+During the encore, I got some incredibly wholesome interactions with Natty (my bias) and Julie, which capped off the night even better than I could have imagined.
+
+The Verdict
+
+Overall, this was a fantastic first world tour. I only expect bigger and better things from KISS OF LIFE as their stock continues to rise!`, // Add your written review here.
         score: "4/5"
     },
     {
