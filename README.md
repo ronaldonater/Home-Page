@@ -13,7 +13,7 @@ Static personal site hosted on Netlify.
 - `assets/downloads/` — résumé
 - `docs/` — setup instructions and third-party notices
 - `archive/` — original website ZIP, preserved unchanged
-- `netlify/functions/` — server-side YouTube view-count function
+- `netlify/functions/` — server-side YouTube view counts and Steam playtime
 - `tests/` — automated checks
 
 `netlify.toml`, `_redirects`, and `index.html` stay at the root for deployment.
@@ -26,6 +26,8 @@ and the physical `/pages/*.html` paths. CSS image paths are relative to the CSS.
 Concert links, reviews, and song covers are in `assets/js/social-script.js`.
 See [YouTube view-count setup](docs/YOUTUBE-VIEWS-SETUP.md) and
 [third-party notices](docs/THIRD-PARTY-NOTICES.md).
+See [Steam playtime setup](docs/STEAM-PLAYTIME-SETUP.md) for automatic game hours.
+See [osu! playtime setup](docs/OSU-PLAYTIME-SETUP.md) for osu!standard hours.
 
 ## Preview and checks
 
@@ -35,3 +37,4 @@ With VS Code Live Server, serve this directory as the root and open
 Live Server does not process Netlify's clean-URL rules or functions.
 
 Run `node --test tests/youtube-views.test.mjs` from this directory.
+Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
