@@ -272,7 +272,27 @@ Overall, this was a fantastic first world tour. I only expect bigger and better 
         date: "September 15, 2023",
         stars: "★★★★☆",
         videoUrl: "https://www.youtube.com/watch?v=1cAvptJ0qU0",
-        review: "", // Add your written review here.
+        review: `Just a heads up: this review is definitely going to be more BABYMETAL-focused, as that’s who I specifically came to see. Though, in all fairness, Dethklok was great, and it seemed like a majority of the crowd was actually there for them and left more than satisfied with their heavy-hitting performance.
+
+As for BABYMETAL, they were absolutely amazing live! They bring exactly the kind of crazy, infectious energy you’d expect from them, and it felt completely surreal being able to see it all happen from practically the front row. However, if you're planning on getting that close, prepare for your body to be sore and knocked around due to the mosh pits. It's definitely not for the weak! Not to mention, Su-Metal's live vocals were stellar; she really holds her own amidst all that heavy instrumentation.
+
+**The VIP Experience: Was It Worth It?**
+
+For this tour, I bought the lowest tier of the BABYMETAL VIP packages, which cost me nearly $230. The package included:
+
+• Priority Entry + Early Access to Merch
+
+• A BABYMETAL tote bag
+
+• A BABYMETAL bandana
+
+• A VIP Lanyard
+
+Honestly, the gifts were just okay. They definitely aren't the worst things in the world, but they felt pretty underwhelming for the price point. I haven't found any use for the items yet, and I especially don't see myself ever using the bandana. When you compare this to the incredible value of the VIP packages from NMIXX or PURPLE KISS, it definitely falls short on the merchandise front.
+
+**The Verdict**
+
+Overall, this show was incredibly fun, and getting to see BABYMETAL up close was an unforgettable experience. However, I’d definitely be wary of the VIP pricing if you plan on going to any of their future shows. If I recall correctly, their VIP tiers have only gotten more expensive over the years, so just make sure the specific perks are worth the investment for you before pulling the trigger.`, // Add your written review here.
         score: "4/5"
     },
     {
