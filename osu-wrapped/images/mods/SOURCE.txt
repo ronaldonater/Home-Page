@@ -1,0 +1,2 @@
+Official osu! mod icons from https://github.com/ppy/osu-web/tree/master/public/images/badges/mods
+Acronym mapping from database/mods.json in the same repository.

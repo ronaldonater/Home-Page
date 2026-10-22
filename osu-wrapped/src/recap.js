@@ -1,3 +1,5 @@
+import {modIconUrl} from './mod-icons.js';
+import {favoriteModLabel,favoriteModNote} from './mods.js';
 import {medalImageUrl,rarityText} from './medals.js';
 import {accuracyRank} from './accuracy.js';
 const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -15,8 +17,8 @@ function avatarImage(userId){
 }
 export async function createRecap(data){
  const topPlays=data.top.slice(0,5);
- const [avatar,covers,mapperAvatars,artistAvatars,medalArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(artist=>artistImage(artist.name))),recapMedalImage(data.rarestMedal)]);
- const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2168;
+ const [avatar,covers,mapperAvatars,artistAvatars,medalArt,modArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(artist=>artistImage(artist.name))),recapMedalImage(data.rarestMedal),Promise.all((data.favoriteMod?.mods||[]).slice(0,3).map(mod=>recapModImage(mod)))]);
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2278;
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
  const text=(value,x,y,size=24,color=white,weight=400,maxWidth=1000)=>{
   ctx.font=weight+' '+size+'px "Segoe UI", sans-serif';ctx.fillStyle=color;
@@ -49,6 +51,8 @@ export async function createRecap(data){
  text(peak?number(peak.count):'—',1108,711,40,'#c5eda7',700,280);
  text(peak?'plays in '+months[peak.month]:'No history returned',1108,743,15,muted,400,280);
  ctx.restore();
+ box(64,790,1072,96,'#282231');text('FAVORITE MOD',88,818,14,pink,700,300);let modX=88;for(const icon of modArt){if(!icon)continue;ctx.drawImage(icon,modX,830,60,42);modX+=66;}ctx.save();ctx.textBaseline='middle';text(favoriteModLabel(data.favoriteMod),modX,851,32,white,700,Math.max(100,580-modX));ctx.restore();text(favoriteModNote(data.favoriteMod)+' · Individual mods in your 2026 selection',600,846,16,muted,400,510);
+ ctx.save();ctx.translate(0,110);
  text('YOUR TOP 5 PLAYS',64,831,23,pink,700);text('2026 scores found in your current top 200 · '+(modeNames[data.mode]||data.mode),64,863,17,muted);
  box(64,884,1072,461);
  if(!data.top.length)text('No 2026 PP scores found in your current top 200.',88,946,22,muted);
@@ -104,7 +108,7 @@ export async function createRecap(data){
  text(number(data.sampleCount)+' scores dated in 2026 from your current top 200; not a full annual archive.',64,1912,17,muted,400,1072);
  text('Mapper credits use mapset creators. Profile history may be incomplete. Year to date until 2027.',64,1940,16,muted,400,1072);
  text('Independent fan project · Not affiliated with ppy / osu!',64,1980,15,muted,400,1072);
- ctx.restore();
+ ctx.restore();ctx.restore();
  return new Promise((resolve,reject)=>{try{canvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG export failed')),'image/png');}catch(error){reject(error);}});
 }
 
@@ -120,3 +124,5 @@ function coverImage(value){
 function artistImage(name){return new Promise(resolve=>{const img=new Image();const timer=setTimeout(()=>{img.src='';resolve(null);},10000);img.onload=()=>{clearTimeout(timer);resolve(img);};img.onerror=()=>{clearTimeout(timer);resolve(null);};img.src='/api/osu-wrapped/artist-image?name='+encodeURIComponent(name);});}
 
 function recapMedalImage(medal){const url=medalImageUrl(medal);if(!url)return Promise.resolve(null);return new Promise(resolve=>{const image=new Image();const timer=setTimeout(()=>{image.src='';resolve(null);},7000);image.onload=()=>{clearTimeout(timer);resolve(image);};image.onerror=()=>{clearTimeout(timer);resolve(null);};image.src=url;});}
+
+function recapModImage(mod){const url=modIconUrl(mod);if(!url)return Promise.resolve(null);return new Promise(resolve=>{const image=new Image();const timer=setTimeout(()=>resolve(null),5000);image.onload=()=>{clearTimeout(timer);resolve(image);};image.onerror=()=>{clearTimeout(timer);resolve(null);};image.src=url;});}
