@@ -180,3 +180,5 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .favorite-mod-icon{background:transparent;padding:0;border-radius:0}
 
 .story-map-info .story-map-mods{display:inline;color:#fa82b5;font-weight:600}
+
+@media(max-width:720px){.stats-grid>.stat:last-child{grid-column:1 / -1}}
