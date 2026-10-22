@@ -38,3 +38,7 @@ Live Server does not process Netlify's clean-URL rules or functions.
 
 Run `node --test tests/youtube-views.test.mjs` from this directory.
 Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
+
+## osu! Wrapped 2026
+
+The /osu-wrapped/ subpage is linked from Dev. See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md) for its separate client and environment variables. Run node --test tests/*.test.mjs for the full test suite.

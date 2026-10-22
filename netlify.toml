@@ -1,3 +1,7 @@
+[build]
+  publish = "."
+  command = ""
+
 # Keep extensionless URLs without adding a trailing slash, so relative assets
 # continue to resolve from the site root.
 [build.processing.html]
@@ -5,3 +9,14 @@
 
 [functions]
   directory = "netlify/functions"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+[[headers]]
+  for = "/osu-wrapped/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-Frame-Options = "DENY"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' https://a.ppy.sh https://assets.ppy.sh https://osu.ppy.sh data:; style-src 'self'; script-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"

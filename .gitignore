@@ -1,3 +1,10 @@
 .vscode/c_cpp_properties.json
 .vscode/launch.json
 .vscode/settings.json
+
+# Local secrets and Netlify state
+.env
+.env.*
+!.env.example
+.netlify/
+node_modules/

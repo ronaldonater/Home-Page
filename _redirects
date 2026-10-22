@@ -12,3 +12,7 @@
 # Preserve public download and favicon URLs after organizing assets.
 /resume.pdf    /assets/downloads/resume.pdf    301
 /favicon.png   /assets/icons/favicon.png      301
+
+# osu! Wrapped subpage and isolated OAuth/API routes.
+/osu-wrapped       /osu-wrapped/   301
+/api/osu-wrapped/* /.netlify/functions/wrapped-api/:splat 200
