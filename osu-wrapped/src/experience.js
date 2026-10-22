@@ -36,8 +36,8 @@ export function experienceSlides(data){
 }
 export function openExperience(data,{onSave}={}){
  if(document.querySelector('.story-dialog'))return;
- const slides=experienceSlides(data);const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
- const dialog=document.createElement('dialog');dialog.className='story-dialog';dialog.setAttribute('aria-label','Your osu! Wrapped experience');
+ const slides=experienceSlides(data);const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;const mobile=matchMedia('(max-width:720px)').matches;
+ const dialog=document.createElement('dialog');dialog.className='story-dialog'+(mobile?' story-mobile':'');dialog.setAttribute('aria-label','Your osu! Wrapped experience');
  dialog.innerHTML='<div class="story-shell"><div class="story-orb story-orb-one"></div><div class="story-orb story-orb-two"></div><div class="story-progress" aria-label="Story slides">'+slides.map((s,i)=>'<button type="button" data-story-step="'+i+'" aria-label="Go to slide '+(i+1)+'"><progress max="1000" value="0"></progress></button>').join('')+'</div><div class="story-top"><span>osu! wrapped / 2026'+(data.demo?' · DEMO':'')+'</span><div><button type="button" data-story-mute aria-label="Mute slide audio" title="Mute audio" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4Z"/><g class="story-speaker-waves"><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></g><path class="story-speaker-muted" d="m16 9 6 6m0-6-6 6"/></svg></button><button type="button" data-story-pause aria-label="Pause experience">Pause Ⅱ</button><button type="button" data-story-close aria-label="Close experience">Close ×</button></div></div><div class="story-stage"></div><div class="story-bottom"><button type="button" data-story-prev aria-label="Previous slide">← Back</button><span class="story-counter" role="status" aria-live="polite"></span><button type="button" data-story-next>Next →</button></div></div>';
  document.body.append(dialog);
  const stage=dialog.querySelector('.story-stage'),shell=dialog.querySelector('.story-shell'),pause=dialog.querySelector('[data-story-pause]'),next=dialog.querySelector('[data-story-next]');
@@ -92,23 +92,23 @@ export function openExperience(data,{onSave}={}){
   if(index===0&&!reduced&&!paused){
    if(previewAudio)previewAudio.currentTime=0;introActive=true;const intro=document.createElement('div');intro.className='story-intro';intro.innerHTML='<div class="story-intro-logo"><img src="/osu-wrapped/images/osu-intro-logo.svg" alt="osu!" width="200" height="200"/></div><div class="story-intro-flash"></div>';shell.append(intro);
    const logo=intro.querySelector('.story-intro-logo');
-   introMotion=[intro.animate([{backgroundColor:'#15101e'},{backgroundColor:'#15101e',offset:.72},{backgroundColor:'transparent',offset:.75},{backgroundColor:'transparent'}],{duration:4200,fill:'both'}),logo.animate([{opacity:0,transform:'scale(.35)'},{opacity:1,transform:'scale(1.04)',offset:.22},{transform:'scale(1)',offset:.4},{transform:'scale(.94)',offset:.6},{transform:'scale(1.12)',offset:.72},{transform:'scale(.98)',offset:.82},{opacity:1,transform:'scale(1.2)',offset:.91},{opacity:0,transform:'scale(3.4)'}],{duration:3150,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'}),intro.querySelector('.story-intro-flash').animate([{opacity:0},{opacity:0,offset:.7},{opacity:1,offset:.75,easing:'ease-out'},{opacity:0}],{duration:4200,fill:'both'})];
+   introMotion=[intro.animate([{backgroundColor:'#15101e'},{backgroundColor:'#15101e',offset:.72},{backgroundColor:'transparent',offset:.75},{backgroundColor:'transparent'}],{duration:4200,fill:'both'}),logo.animate([{opacity:0,transform:'scale(.35)'},{opacity:1,transform:'scale(1.04)',offset:.22},{transform:'scale(1)',offset:.4},{transform:'scale(.94)',offset:.6},{transform:'scale(1.12)',offset:.72},{transform:'scale(.98)',offset:.82},{opacity:1,transform:'scale(1.2)',offset:.91},{opacity:0,transform:mobile?'scale(2.2)':'scale(3.4)'}],{duration:3150,fill:'both',easing:'cubic-bezier(.2,.7,.2,1)'}),intro.querySelector('.story-intro-flash').animate([{opacity:0},{opacity:0,offset:.7},{opacity:1,offset:.75,easing:'ease-out'},{opacity:0}],{duration:4200,fill:'both'})];
    const animate=(element,frames)=>introMotion.push(element.animate(frames,{duration:4200,fill:'both'}));
    const glow=document.createElement('div');glow.className='story-intro-glow';intro.prepend(glow);
    animate(glow,[{opacity:0,transform:'scale(.4)'},{opacity:.8,transform:'scale(1)',offset:.35},{opacity:1,transform:'scale(1.3)',offset:.65},{opacity:0,transform:'scale(2)',offset:.76},{opacity:0}]);
-   for(let ring=0;ring<3;ring++){
+   for(let ring=0;ring<(mobile?2:3);ring++){
     const element=document.createElement('div');element.className='story-intro-ring';intro.prepend(element);
     const start=.06+ring*.13;
     animate(element,[{opacity:0,transform:'scale(.35)'},{opacity:0,transform:'scale(.35)',offset:start},{opacity:.65,transform:'scale(.65)',offset:start+.08},{opacity:0,transform:'scale(2.7)',offset:.72+ring*.025},{opacity:0,transform:'scale(3)'}]);
    }
-   for(let dot=0;dot<8;dot++){
+   for(let dot=0;dot<(mobile?4:8);dot++){
     const orbit=document.createElement('div');orbit.className='story-intro-orbit';orbit.innerHTML='<i></i>';intro.prepend(orbit);
-    const angle=dot*45;
+    const angle=dot*(mobile?90:45);
     animate(orbit,[{opacity:0,transform:'rotate('+angle+'deg) scale(1.6)'},{opacity:.75,transform:'rotate('+(angle+60)+'deg) scale(1)',offset:.3},{opacity:.8,transform:'rotate('+(angle+140)+'deg) scale(.8)',offset:.63},{opacity:0,transform:'rotate('+(angle+170)+'deg) scale(2.7)',offset:.76},{opacity:0}]);
    }
-   for(let spark=0;spark<16;spark++){
+   for(let spark=0;spark<(mobile?6:16);spark++){
     const element=document.createElement('div');element.className='story-intro-spark';intro.prepend(element);
-    const angle=spark*Math.PI/8,x=Math.cos(angle),y=Math.sin(angle);
+    const angle=spark*Math.PI*2/(mobile?6:16),x=Math.cos(angle),y=Math.sin(angle);
     animate(element,[{opacity:0,transform:'translate('+x*90+'px,'+y*90+'px) scale(.3)'},{opacity:0,offset:.53},{opacity:.9,transform:'translate('+x*150+'px,'+y*150+'px) scale(1)',offset:.6},{opacity:0,transform:'translate('+x*650+'px,'+y*650+'px) scale(.2)',offset:.76},{opacity:0}]);
    }
    const controlInk=getComputedStyle(shell).getPropertyValue('--story-ink').trim();
@@ -125,14 +125,15 @@ export function openExperience(data,{onSave}={}){
    animate(copy.querySelector('span'),[{opacity:0,transform:'translateY(25px)'},{opacity:1,transform:'translateY(0)',offset:.12},{opacity:1,offset:.28},{opacity:0,offset:.37},{opacity:0}]);
    animate(copy.querySelector('strong'),[{opacity:0},{opacity:0,offset:.3},{opacity:1,transform:'scale(.95)',offset:.43},{opacity:1,transform:'scale(1)',offset:.65},{opacity:0,transform:'scale(1.15)',offset:.75},{opacity:0}]);
    animate(copy.querySelector('b'),[{opacity:0},{opacity:0,offset:.68},{opacity:1,transform:'scale(.7)',offset:.77},{opacity:1,transform:'scale(1)',offset:.92},{opacity:0,transform:'scale(3)'}]);
-   for(let n=0;n<6;n++){const ring=document.createElement('div');ring.className='story-finale-ring';finale.prepend(ring);const start=n*.1;animate(ring,[{opacity:0,transform:'scale(.2)'},{opacity:0,offset:start},{opacity:.6,transform:'scale(.5)',offset:start+.12},{opacity:0,transform:'scale(3.8)',offset:Math.min(.99,start+.48)},{opacity:0}]);}
+   for(let n=0;n<(mobile?3:6);n++){const ring=document.createElement('div');ring.className='story-finale-ring';finale.prepend(ring);const start=n*.1;animate(ring,[{opacity:0,transform:'scale(.2)'},{opacity:0,offset:start},{opacity:.6,transform:'scale(.5)',offset:start+.12},{opacity:0,transform:'scale(3.8)',offset:Math.min(.99,start+.48)},{opacity:0}]);}
    const glass=document.createElement('div');glass.className='story-finale-glass';glass.setAttribute('aria-hidden','true');finale.append(glass);
-   for(let shard=0;shard<18;shard++){
-    const angle=shard*Math.PI*2/18,nextAngle=(shard+1)*Math.PI*2/18;
+   const shardCount=mobile?8:18;
+   for(let shard=0;shard<shardCount;shard++){
+    const angle=shard*Math.PI*2/shardCount,nextAngle=(shard+1)*Math.PI*2/shardCount;
     const radius=90,cx=50,cy=50;
     const points=[[cx,cy],[cx+Math.cos(angle)*radius,cy+Math.sin(angle)*radius],[cx+Math.cos(nextAngle)*radius,cy+Math.sin(nextAngle)*radius]];
     const element=document.createElement('div');element.className='story-glass-shard';element.style.clipPath='polygon('+points.map(([x,y])=>x+'% '+y+'%').join(',')+')';glass.append(element);
-    const direction=angle+Math.PI/18,distance=180+(shard%4)*65;
+    const direction=angle+Math.PI/shardCount,distance=(mobile?100:180)+(shard%4)*65;
     animate(element,[{opacity:0,transform:'translate(0,0) rotate(0deg)'},{opacity:0,offset:11.72/13},{opacity:.85,transform:'translate(0,0) rotate(0deg)',offset:11.76/13},{opacity:.6,transform:'translate('+Math.cos(direction)*distance*.35+'px,'+Math.sin(direction)*distance*.35+'px) rotate('+((shard%2?1:-1)*7)+'deg)',offset:11.96/13},{opacity:0,transform:'translate('+Math.cos(direction)*distance+'px,'+Math.sin(direction)*distance+'px) rotate('+((shard%2?1:-1)*36)+'deg)'}]);
    }
    animate(finale.querySelector('.story-finale-curtain'),[{opacity:0},{opacity:0,offset:.96},{opacity:1,offset:.98},{opacity:0}]);

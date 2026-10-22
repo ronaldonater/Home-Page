@@ -153,7 +153,7 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 
 .story-recap-preview{box-sizing:border-box;padding:28px 30px 38px}.story-recap-preview img{box-shadow:0 8px 22px #28152230;max-height:max(80px,calc(var(--story-stage-height,70dvh) - 128px))}@media(max-width:720px){.story-recap-preview{padding:14px 20px 24px}.story-recap-preview img{max-height:min(26dvh,max(60px,calc(var(--story-stage-height,70dvh) - 338px)))}}
 
-.story-bottom{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center}.story-bottom>[data-story-prev]{justify-self:start}.story-bottom>.story-counter{justify-self:center;white-space:nowrap}.story-bottom>[data-story-next]{justify-self:end}
+@media(min-width:721px){.story-bottom{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center}.story-bottom>[data-story-prev]{justify-self:start}.story-bottom>.story-counter{justify-self:center;white-space:nowrap}.story-bottom>[data-story-next]{justify-self:end}}
 
 .story-finish .story-donate{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid currentColor;border-radius:30px;color:inherit;background:transparent;padding:10px 18px;font:inherit;font-size:12px;text-decoration:none;cursor:pointer}.story-finish .story-donate:hover{background:#ffffff2c}
 
@@ -162,3 +162,9 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .story-body .rarest-medal{box-sizing:border-box;width:calc(50% + 145px);max-width:100%;padding-right:28px}@media(max-width:720px){.story-body .rarest-medal{max-width:100%;padding-right:14px}}
 
 @media(max-width:720px){.story-body .rarest-medal{width:100%}}
+
+@media(max-width:720px){.story-recap-preview{padding:20px 24px 30px}.story-recap-preview img{box-shadow:0 4px 10px #28152230;max-height:min(26dvh,max(60px,calc(var(--story-stage-height,70dvh) - 350px)))}}
+
+.story-mobile .story-orb{animation:none}.story-mobile .story-intro,.story-mobile .story-finale{contain:layout paint}.story-mobile .story-intro-logo img{filter:none}.story-mobile .story-intro-ring,.story-mobile .story-intro-orbit i,.story-mobile .story-intro-spark,.story-mobile .story-finale-ring{box-shadow:none}.story-mobile .story-intro-glow,.story-mobile .story-finale-aura{display:none}.story-mobile .story-finale-glass{perspective:none}.story-mobile .story-intro-logo,.story-mobile .story-finale-copy{backface-visibility:hidden}
+
+@media(max-width:720px){.review-meta>div{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr) minmax(0,.85fr) 30px;gap:4px;width:100%;min-width:0}.review-meta>div button{min-width:0;padding:7px 2px;font-size:clamp(8px,2.3vw,10px);white-space:nowrap}.review-meta #story-replay{margin-right:0;padding:8px 4px;font-size:clamp(8px,2.3vw,10px)}.review-meta #social-share{min-width:0;min-height:32px;padding:6px}.review-meta #social-share svg{width:16px;height:16px}}
