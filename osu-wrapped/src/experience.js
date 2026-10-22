@@ -36,7 +36,7 @@ export function experienceSlides(data){
  for(const [kind,title,rows] of [['mapper','Your mappers.',data.mappers],['artist','Your artists.',data.artists]]){const quiz=makeQuiz(rows,kind);if(quiz){const reveal=slides.findIndex(slide=>slide.title===title);slides.splice(reveal,0,quiz);}}
  return slides;
 }
-export function openExperience(data,{onSave}={}){
+export function openExperience(data,{onSave,onReview}={}){
  if(document.querySelector('.story-dialog'))return;
  const slides=experienceSlides(data);const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;const mobile=matchMedia('(max-width:720px)').matches;
  const dialog=document.createElement('dialog');dialog.className='story-dialog'+(mobile?' story-mobile':'');dialog.setAttribute('aria-label','Your osu! Wrapped experience');
@@ -147,7 +147,7 @@ export function openExperience(data,{onSave}={}){
 
   pauseLabel();
   stage.querySelector('[data-story-share]')?.addEventListener('click',()=>{const resumeOnClose=!paused;if(resumeOnClose)toggle();openCardShare(data,{onClose:()=>{if(resumeOnClose&&dialog.open&&!closing&&paused)toggle();}});});
-  stage.querySelector('[data-story-review]')?.addEventListener('click',()=>closeExperience());
+  stage.querySelector('[data-story-review]')?.addEventListener('click',()=>closeExperience(onReview));
   stage.querySelector('[data-story-save]')?.addEventListener('click',()=>onSave?.());
  }
  function advance(){if(index<slides.length-1)show(index+1);else closeExperience();}
