@@ -29,3 +29,8 @@ test('aggregation includes the two-hundredth best score when set in 2026',()=>{
  const result=summarize({},best,'osu');
  assert.equal(result.sampleCount,1);assert.equal(result.top[0].id,200);assert.equal(result.mappers[0].count,1);assert.equal(result.artists[0].count,1);
 });
+
+test('highest combo links to its source score even outside top 25 PP plays',()=>{
+ const best=Array.from({length:30},(_,i)=>({...score(i+1,'2026-06-01T00:00:00Z',300-i),max_combo:i===29?2000:400}));
+ const result=summarize({},best,'osu');assert.equal(result.combo,2000);assert.equal(result.comboScoreId,30);assert.ok(!result.top.some(s=>s.id===30));assert.equal(summarize({},[],'osu').comboScoreId,null);
+});

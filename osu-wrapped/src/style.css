@@ -47,3 +47,5 @@ nav .donate-button{display:inline-flex;align-items:center;gap:8px;padding:11px 1
 a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 
 .song .score-date{color:#b7a8c2}.pb-map-info .pb-date{font-size:10px;color:#bdcdb2}.score-list .score{height:90px;min-height:90px}.score-list{max-height:630px}
+
+.stat-link:hover{border-color:var(--pink);background:#2b2030}.stat-link:hover strong{color:var(--pink)}

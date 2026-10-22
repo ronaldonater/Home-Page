@@ -9,6 +9,7 @@ export function summarize(user, best, mode) {
   for(const score of best) if(inYear(score.ended_at || score.created_at)) unique.set(String(score.id),score);
   const scores = [...unique.values()];
   const passed = scores.filter(s=>s.passed !== false);
+  const comboScore = passed.reduce((best,score)=>!best || (score.max_combo||0)>(best.max_combo||0)?score:best,null);
   const top = passed.filter(s=>Number.isFinite(s.pp)).sort((a,b)=>b.pp-a.pp).slice(0,25);
   const group = key => Object.entries(scores.reduce((all,s)=>{
     const name = s.beatmapset?.[key]; if(name) all[name]=(all[name]||0)+1; return all;
@@ -18,7 +19,8 @@ export function summarize(user, best, mode) {
     replayViews:Array.isArray(user.replays_watched_counts)?user.replays_watched_counts.filter(r=>inYear(r.start_date)).reduce((s,r)=>s+r.count,0):null,
     medals:Array.isArray(user.user_achievements)?user.user_achievements.filter(a=>inYear(a.achieved_at)).length:null,
     accuracy:passed.length?passed.reduce((s,p)=>s+p.accuracy*100,0)/passed.length:null,
-    combo:passed.length?Math.max(...passed.map(s=>s.max_combo||0)):null,
+    combo:comboScore?(comboScore.max_combo||0):null,
+    comboScoreId:comboScore?.id ?? null,
     top:top.map(s=>({id:s.id,beatmapId:s.beatmap?.id,title:s.beatmapset?.title||'Unknown beatmap',artist:s.beatmapset?.artist||'Unknown artist',creator:s.beatmapset?.creator||'Unknown mapper',version:s.beatmap?.version||'',pp:s.pp,accuracy:s.accuracy*100,combo:s.max_combo,rank:s.rank,date:s.ended_at||s.created_at,mods:formatMods(s.mods),cover:s.beatmapset?.covers?.['cover@2x']})),
     mappers:group('creator').map(mapper=>({...mapper,userId:scores.find(s=>s.beatmapset?.creator===mapper.name && Number.isSafeInteger(s.beatmapset?.user_id) && s.beatmapset.user_id>0)?.beatmapset.user_id ?? null})),artists:group('artist'),sampleCount:scores.length,passedCount:passed.length,
     coverage:'All score statistics and mapper/artist rankings use only deduplicated 2026 scores found in your current top 200 best plays. This is a partial sample, not your complete year. Mapper credits use the beatmapset creator; guest difficulty creators may differ. Counts are observed scores, not all map attempts.'};
