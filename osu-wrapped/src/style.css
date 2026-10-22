@@ -49,3 +49,36 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .song .score-date{color:#b7a8c2}.pb-map-info .pb-date{font-size:10px;color:#bdcdb2}.score-list .score{height:90px;min-height:90px}.score-list{max-height:630px}
 
 .stat-link:hover{border-color:var(--pink);background:#2b2030}.stat-link:hover strong{color:var(--pink)}
+
+/* Keep grid content within its track, including long song and mapper names. */
+.stats-grid,.middle-grid,.bottom-grid{min-width:0}
+.middle-grid{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+.bottom-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.45fr)}
+.stats-grid>*,.middle-grid>*,.bottom-grid>*{min-width:0}
+.favorites-list li{min-width:0}
+.favorites-list .favorite-name{min-width:0}
+.favorites-list li>span:last-child{flex-shrink:0;white-space:nowrap}
+@media(min-width:721px) and (max-width:1050px){
+ .middle-grid{grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}
+ .bottom-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr)}
+}
+@media(max-width:720px){
+ .middle-grid,.bottom-grid{grid-template-columns:minmax(0,1fr)}
+ .stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .stat.featured{display:flex;flex-direction:column;align-items:flex-start;gap:8px;position:relative;padding:22px;min-height:0}
+ .stat.featured>span{display:block;line-height:1.5;padding-right:24px}
+ .stat.featured strong{display:block;margin:0;font-size:44px;line-height:1.1}
+ .stat.featured p{display:block;margin:0;font-size:12px;line-height:1.5}
+ .stat.featured p span{float:none;position:absolute;right:22px;top:22px}
+ .stat.featured small{display:block;line-height:1.6}
+ .panel{width:100%;max-width:100%}
+ .tabs{gap:16px}
+ .tabs button{min-width:0;font-size:11px}
+ .favorites-list{margin:16px 0}
+ .favorites-list li{gap:10px;padding:10px 0}
+ .favorites .favorite-name:has(.mapper-avatar){gap:8px}
+ .favorites-list .mapper-avatar{width:28px;height:28px;flex-basis:28px}
+ .song small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .review-meta{flex-wrap:wrap;gap:4px 12px}
+ .mode-picker{max-width:100%;flex-wrap:wrap}
+}
