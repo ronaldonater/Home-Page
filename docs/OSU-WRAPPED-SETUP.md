@@ -1,6 +1,6 @@
 # osu! Wrapped 2026 subpage
 
-Public URL: https://ronaldonater.com/osu-wrapped/ (use your actual canonical host if different). The Dev page links to it. Wrapped is a self-contained static ES-module app; no build step or Vite installation is needed for the personal site. All existing pages and integrations remain in place. No credentials were copied from the standalone app.
+Public URL: https://ronaldonater.com/osu-wrapped/ (use your actual canonical host if different). Its Dev-page entry is managed manually. Wrapped is a self-contained static ES-module app; no build step or Vite installation is needed for the personal site. All existing pages and integrations remain in place. No credentials were copied from the standalone app.
 
 ## New OAuth client
 

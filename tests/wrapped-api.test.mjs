@@ -1,12 +1,12 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {handler} from '../netlify/functions/wrapped-api.mjs';
+import {handler} from '../netlify/functions/wrapped/api-handler.mjs';
 import {seal} from '../netlify/functions/wrapped/security.mjs';
 process.env.WRAPPED_SESSION_SECRET='test-session-secret-at-least-32-characters';
 const event=(path,extra={})=>({path,headers:{},httpMethod:'GET',...extra});
 test('API requires a session and validates rulesets',async()=>{
  assert.equal((await handler(event('/api/wrapped'))).statusCode,401);
- const headers={cookie:`wrapped_session=${seal({token:'test',exp:Date.now()+10000})}`};
+ const headers={cookie:`wrapped_session=${seal({kind:'session',token:'test',exp:Date.now()+10000})}`};
  assert.equal((await handler(event('/api/wrapped',{headers,queryStringParameters:{mode:'invalid'}}))).statusCode,400);
 });
 test('OAuth rejects invalid state before exchanging any token',async()=>{
@@ -23,7 +23,7 @@ test('wrapped fetch uses authenticated identity and selected mode',async()=>{
  const original=globalThis.fetch;const requests=[];
  globalThis.fetch=async(url,options)=>{requests.push([url,options.headers.Authorization]);return {ok:true,json:async()=>url.includes('/me/')?{id:123,username:'test',monthly_playcounts:[]}:[]};};
  try{
- const headers={cookie:`wrapped_session=${seal({token:'private-token',exp:Date.now()+10000})}`};
+ const headers={cookie:`wrapped_session=${seal({kind:'session',token:'private-token',exp:Date.now()+10000})}`};
  const r=await handler(event('/.netlify/functions/wrapped-api/wrapped',{headers,queryStringParameters:{mode:'mania'}}));
  assert.equal(r.statusCode,200);assert.equal(JSON.parse(r.body).mode,'mania');assert.equal(requests.length,3);assert.ok(requests[0][0].endsWith('/me/mania'));assert.ok(requests[1][0].includes('/users/123/'));assert.ok(requests[1][0].includes('offset=0'));assert.ok(requests[2][0].includes('offset=100'));assert.deepEqual(requests.slice(1).map(([url])=>Number(new URL(url).searchParams.get('offset'))),Array.from({length:2},(_,i)=>i*100));assert.ok(requests.slice(1).every(([url])=>new URL(url).searchParams.get('legacy_only')==='0'));assert.ok(requests.slice(1).every(([url])=>url.includes('/scores/best?')));assert.equal(requests[0][1],'Bearer private-token');assert.equal(r.headers['Cache-Control'],'no-store');assert.ok(!r.body.includes('private-token'));
  }finally{globalThis.fetch=original;}

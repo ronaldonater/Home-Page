@@ -26,6 +26,7 @@ export async function createRecap(data){
  ctx.fillStyle='#15131b';ctx.fillRect(0,0,1200,2018);
  const glow=ctx.createRadialGradient(1100,0,0,1100,0,900);glow.addColorStop(0,'#71334d70');glow.addColorStop(1,'#15131b00');ctx.fillStyle=glow;ctx.fillRect(0,0,1200,900);
  text('osu! wrapped / 2026',64,78,27,pink,700);
+ ctx.save();ctx.textAlign='right';text('ronaldonater.com/osu-wrapped',1136,78,20,muted,500,650);ctx.restore();
  text(data.demo?'DEMO · FICTIONAL EXAMPLE':'YOUR YEAR IN RHYTHM',64,117,15,muted,600);
  ctx.save();ctx.beginPath();ctx.arc(120,213,56,0,Math.PI*2);ctx.clip();ctx.fillStyle='#68445f';ctx.fillRect(64,157,112,112);
  if(avatar){const edge=Math.min(avatar.naturalWidth,avatar.naturalHeight);ctx.drawImage(avatar,(avatar.naturalWidth-edge)/2,(avatar.naturalHeight-edge)/2,edge,edge,64,157,112,112);}

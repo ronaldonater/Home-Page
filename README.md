@@ -41,4 +41,6 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-The /osu-wrapped/ subpage is linked from Dev. See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md) for its separate client and environment variables. Run node --test tests/*.test.mjs for the full test suite.
+The /osu-wrapped/ subpage is available directly; its Dev-page entry is managed manually. See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md) for its separate client and environment variables. Run node --test tests/*.test.mjs for the full test suite.
+
+See the [Wrapped security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md) for hardening changes, audit results, and post-deployment verification.

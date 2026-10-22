@@ -1,66 +1,10 @@
-import {randomBytes,timingSafeEqual} from 'node:crypto';
-import {seal,unseal,cookie,cookies} from './wrapped/security.mjs';
-import {summarize} from '../../osu-wrapped/src/summary.js';
-const json=(statusCode,body,extra={})=>({statusCode,headers:{'Content-Type':'application/json','Cache-Control':'no-store',...extra},body:JSON.stringify(body)});
-const redirect=(to,setCookies=[])=>({statusCode:302,headers:{Location:to,'Cache-Control':'no-store'},multiValueHeaders:{'Set-Cookie':setCookies},body:''});
-async function osu(path,token){const res=await fetch(`https://osu.ppy.sh/api/v2${path}`,{headers:{Authorization:`Bearer ${token}`,Accept:'application/json','x-api-version':'20220705'},signal:AbortSignal.timeout(12000)});if(!res.ok){const error=new Error(res.status===429?'osu! is busy. Please wait a minute and try again.':'Unable to retrieve osu! data. Please try signing in again.');error.status=res.status===401?401:502;throw error;}return res.json();}
-export async function handler(event){
- try{
- const path=event.path.replace(/^\/.netlify\/functions\/wrapped-api/,'/api').replace(/^\/api\/osu-wrapped(?=\/|$)/,'/api');const jar=cookies(event);
- if(path==='/api/cover'){
-  if(event.httpMethod!=='GET')return json(405,{error:'Method not allowed'});
-  let url;try{url=new URL(event.queryStringParameters?.url);}catch{return json(400,{error:'Invalid cover URL'});}
-  if(url.origin!=='https://assets.ppy.sh' || url.username || url.password || !/^\/beatmaps\/\d+\/covers\/cover(?:@2x)?\.(?:jpg|jpeg|png)$/.test(url.pathname))return json(400,{error:'Invalid cover URL'});
-  // Profile cover URLs can include cache-version query parameters. Fetch only the validated image path.
-  url.search='';url.hash='';
-  const response=await fetch(url.href,{redirect:'error',signal:AbortSignal.timeout(10000)});
-  if(!response.ok)return json(502,{error:'Cover unavailable'});
-  const type=(response.headers.get('content-type')||'').split(';')[0].trim().toLowerCase();
-  if(!['image/jpeg','image/png','image/webp'].includes(type))return json(502,{error:'Unsupported cover image'});
-  const bytes=Buffer.from(await response.arrayBuffer());
-  if(bytes.length>2*1024*1024)return json(502,{error:'Cover too large'});
-  return {statusCode:200,headers:{'Content-Type':type,'Cache-Control':'public, max-age=86400','X-Content-Type-Options':'nosniff'},body:bytes.toString('base64'),isBase64Encoded:true};
- }
- if(path==='/api/avatar'){
-  if(event.httpMethod!=='GET')return json(405,{error:'Method not allowed'});
-  const id=event.queryStringParameters?.id;
-  if(!/^[1-9]\d{0,14}$/.test(id||'') || !Number.isSafeInteger(Number(id)))return json(400,{error:'Invalid user ID'});
-  const response=await fetch('https://a.ppy.sh/'+id,{signal:AbortSignal.timeout(10000)});
-  if(!response.ok)return json(502,{error:'Avatar unavailable'});
-  const type=(response.headers.get('content-type')||'').split(';')[0].trim().toLowerCase();
-  if(!['image/png','image/jpeg','image/webp','image/gif','image/avif'].includes(type))return json(502,{error:'Unsupported avatar image'});
-  const bytes=Buffer.from(await response.arrayBuffer());
-  if(bytes.length>2*1024*1024)return json(502,{error:'Avatar too large'});
-  return {statusCode:200,headers:{'Content-Type':type,'Cache-Control':'public, max-age=3600','X-Content-Type-Options':'nosniff'},body:bytes.toString('base64'),isBase64Encoded:true};
- }
- if(path==='/api/auth/login'){
-  if(!process.env.WRAPPED_OSU_CLIENT_ID||!process.env.WRAPPED_OSU_CLIENT_SECRET||!process.env.WRAPPED_OSU_REDIRECT_URI)return json(503,{error:'Login is not configured yet. Add the osu! OAuth environment variables in Netlify. You can explore the demo now.'});
-  const state=randomBytes(24).toString('hex');const url=new URL('https://osu.ppy.sh/oauth/authorize');url.search=new URLSearchParams({client_id:process.env.WRAPPED_OSU_CLIENT_ID,redirect_uri:process.env.WRAPPED_OSU_REDIRECT_URI,response_type:'code',scope:'identify public',state}).toString();
-  return redirect(url.toString(),[cookie('wrapped_state',seal({state,exp:Date.now()+600000}),600)]);
- }
- if(path==='/api/auth/callback'){
-  const q=event.queryStringParameters||{};const saved=unseal(jar.wrapped_state||'');
-  if(!saved||!q.state||q.state.length!==saved.state.length||!timingSafeEqual(Buffer.from(q.state),Buffer.from(saved.state))||!q.code)return redirect('/osu-wrapped/?error=login',[cookie('wrapped_state','',0)]);
-  const res=await fetch('https://osu.ppy.sh/oauth/token',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({client_id:process.env.WRAPPED_OSU_CLIENT_ID,client_secret:process.env.WRAPPED_OSU_CLIENT_SECRET,code:q.code,grant_type:'authorization_code',redirect_uri:process.env.WRAPPED_OSU_REDIRECT_URI}),signal:AbortSignal.timeout(12000)});
-  if(!res.ok)return redirect('/osu-wrapped/?error=login',[cookie('wrapped_state','',0)]);
-  const token=await res.json();const age=Math.min(Number(token.expires_in)||3600,86400);
-  return redirect('/osu-wrapped/?connected=1',[cookie('wrapped_session',seal({token:token.access_token,exp:Date.now()+age*1000}),age),cookie('wrapped_state','',0)]);
- }
- if(path==='/api/auth/logout'){
-  if(event.httpMethod!=='POST')return json(405,{error:'Method not allowed'});
-  const expected=new URL(process.env.WRAPPED_OSU_REDIRECT_URI).origin;
-  if(event.headers.origin!==expected)return json(403,{error:'Invalid origin'});
-  return json(200,{ok:true},{'Set-Cookie':cookie('wrapped_session','',0)});
- }
- if(path==='/api/wrapped'){
-  const session=unseal(jar.wrapped_session||'');if(!session)return json(401,{error:'Sign in with osu! to generate your Wrapped.'});
-  const mode=event.queryStringParameters?.mode||'osu';if(!['osu','taiko','fruits','mania'].includes(mode))return json(400,{error:'Invalid game mode'});
-  const user=await osu(`/me/${mode}`,session.token);
-  const pages=await Promise.all(Array.from({length:2},(_,page)=>osu(`/users/${user.id}/scores/best?mode=${mode}&limit=100&offset=${page*100}&legacy_only=0`,session.token)));
-  const best=pages.flat();
-  return json(200,summarize(user,best,mode));
- }
- return json(404,{error:'Not found'});
- }catch(error){console.error('Wrapped request failed:',error.name);return json(error.status||500,{error:error.status?error.message:'Could not generate your Wrapped. Check deployment configuration or try again shortly.'});}
+import {handler} from './wrapped/api-handler.mjs';
+// The default Fetch API wrapper lets Netlify extract and enforce traffic rules.
+export default async function api(request){
+ const url=new URL(request.url);
+ const result=await handler({path:url.pathname,httpMethod:request.method,headers:Object.fromEntries(request.headers),queryStringParameters:Object.fromEntries(url.searchParams)});
+ const headers=new Headers(result.headers);
+ for(const [name,values] of Object.entries(result.multiValueHeaders||{}))for(const value of values)headers.append(name,value);
+ return new Response(result.isBase64Encoded?Buffer.from(result.body,'base64'):result.body,{status:result.statusCode,headers});
 }
-
+export const config={rateLimit:{windowLimit:120,windowSize:60,aggregateBy:['ip','domain']}};

@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {handler} from '../netlify/functions/wrapped-api.mjs';
+import {handler} from '../netlify/functions/wrapped/api-handler.mjs';
 const event=(path,extra={})=>({path,httpMethod:'GET',headers:{},...extra});
 test('Wrapped subpage uses independent routes, assets, and credentials',async()=>{
  const html=await readFile(new URL('../osu-wrapped/index.html',import.meta.url),'utf8');
