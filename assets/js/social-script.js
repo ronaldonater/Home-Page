@@ -301,7 +301,25 @@ Overall, this show was incredibly fun, and getting to see BABYMETAL up close was
         date: "February 20, 2026",
         stars: "★★★★☆",
         videoUrl: "https://www.youtube.com/watch?v=v8BsXEO7q9E",
-        review: "", // Add your written review here.
+        review: `
+        To preface, I'm definitely a fan of TWICE, but over time, their releases have started to stand out a bit less to me compared to some of the new-generation groups. However, I consider TWICE a definitive part of the "Big 3" when it comes to modern K-Pop acts (right alongside BLACKPINK and BTS), so I felt like I had to attend at least one of their shows, it would just feel wrong not to.
+
+The tickets were surprisingly reasonably priced considering their massive global status. Compared to a group like BLACKPINK, you don't have to give up an arm and a leg to go see TWICE, which is awesome for the fans.
+
+**Missing Dubu & Unmatched Stage Production**
+
+Unfortunately, Dahyun was absent from this show due to an ankle injury, which was a real shame. She brings so much character to their stages, so her absence was definitely felt.
+
+Despite being down a member, the stage production for this show was evidently the best out of every K-Pop act I've ever gone to see, which completely makes sense for a group of their caliber. Their live band was incredible, and it made some of the lesser-recognized songs on the setlist stand out like crazy. A perfect example of this was "Gone." I already liked the studio version, but hearing the live band arrangement took it to a whole other level.
+
+**Jihyo's Contagious Stage Presence**
+
+I also have to specifically mention that Jihyo stood out the most to me. Her infectious energy throughout the whole show was impossible to ignore. She completely commands the stage and gives it 110% from the first song all the way to the encore, which really elevates the entire concert experience.
+
+**The Verdict**
+
+The concert was great! However, compared to almost every other show I've been to, I actually got the least "post-concert depression" from this one. I think that simply comes down to the fact that TWICE isn't one of my absolute ultimate groups, so the emotional attachment just wasn't as heavy. It had absolutely nothing to do with their performance- they were truly exceptional on stage. If you are a huge fan of theirs, you should definitely make it a point to go!
+        `, // Add your written review here.
         score: "4/5"
     },
     {
