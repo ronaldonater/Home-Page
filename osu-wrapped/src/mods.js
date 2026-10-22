@@ -5,3 +5,5 @@ export function favoriteMod(scores){
 }
 export const favoriteModLabel=value=>value?.mods?.length?value.mods.map(mod=>mod==='NM'?'No Mod':mod).join(' / '):'Unavailable';
 export const favoriteModNote=value=>value?value.count+' of '+value.total+' selected scores'+(value.mods.length>1?' each · tied':''):'No selected scores available';
+
+export const favoriteModPercentage=value=>Number.isFinite(value?.count)&&Number.isFinite(value?.total)&&value.total>0?(value.count/value.total*100).toFixed(2)+'% of selected scores'+(value.mods.length>1?' per tied mod':''):'Percentage unavailable';
