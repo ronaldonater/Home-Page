@@ -17,7 +17,7 @@ Static personal site hosted on Netlify.
 - `tests/` — automated checks
 
 `netlify.toml`, `_redirects`, and `index.html` stay at the root for deployment.
-The public page URLs remain `/`, `/dev`, `/social`, and `/osu-ahr`.
+The public page URLs are `/`, `/dev`, `/social`, `/osu-ahr`, and `/osu-wrapped/`.
 HTML asset paths are site-root-relative, so assets work at both the clean URLs
 and the physical `/pages/*.html` paths. CSS image paths are relative to the CSS.
 

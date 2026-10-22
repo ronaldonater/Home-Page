@@ -200,7 +200,7 @@ function storyGrade(rank){const label=({X:'SS',XH:'SS',SSH:'SS',SH:'S'})[rank]||
 function storyPlays(scores){
  return '<ol class="story-plays">'+scores.slice(0,5).map((score,i)=>{
   const cover=storyCover(score.cover);
-  return '<li><span class="story-place">0'+(i+1)+'</span><span class="story-map-thumb">'+(cover?'<img src="'+escape(cover)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"/>':'')+storyGrade(score.rank)+'</span><div class="story-map-info"><b>'+escape(score.title)+'</b><span>'+escape(score.artist)+'</span><span>'+escape(score.version||'Unknown difficulty')+' · Mapped by '+escape(score.creator)+'</span></div><div class="story-map-result"><strong class="story-map-pp">'+number(Math.round(score.pp))+' <small>pp</small></strong><span class="story-map-date">'+storyDate(score.date)+'</span></div></li>';
+  return '<li><span class="story-place">0'+(i+1)+'</span><span class="story-map-thumb">'+(cover?'<img src="'+escape(cover)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"/>':'')+storyGrade(score.rank)+'</span><div class="story-map-info"><b>'+escape(score.title)+'</b><span>'+escape(score.artist)+' · <span class="story-map-mods">'+escape(score.mods||'NM')+'</span></span><span>'+escape(score.version||'Unknown difficulty')+' · Mapped by '+escape(score.creator)+'</span></div><div class="story-map-result"><strong class="story-map-pp">'+number(Math.round(score.pp))+' <small>pp</small></strong><span class="story-map-date">'+storyDate(score.date)+'</span></div></li>';
  }).join('')+'</ol>';
 }
 

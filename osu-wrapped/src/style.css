@@ -178,3 +178,5 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .favorite-mod-value,.story-favorite-mod>b{display:flex;align-items:center;flex-wrap:wrap;gap:8px}.favorite-mod-value>span{min-width:0;overflow-wrap:anywhere}.favorite-mod-icon{display:inline-block;flex:none;width:60px;height:42px;object-fit:contain;border-radius:7px;background:#15131b;padding:3px;box-sizing:border-box}.story-favorite-mod .favorite-mod-icon{width:72px;height:50px}@media(max-width:720px){.favorite-mod-icon{width:48px;height:34px}.story-favorite-mod .favorite-mod-icon{width:60px;height:42px}}
 
 .favorite-mod-icon{background:transparent;padding:0;border-radius:0}
+
+.story-map-info .story-map-mods{display:inline;color:#fa82b5;font-weight:600}
