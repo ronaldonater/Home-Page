@@ -1,3 +1,5 @@
+import {medalImageUrl,rarityText} from './medals.js';
+import {accuracyRank} from './accuracy.js';
 const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const number=value=>value==null?'—':new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(value);
 const pink='#fa82b5',muted='#b6a9c2',white='#f6f0fa';
@@ -13,8 +15,8 @@ function avatarImage(userId){
 }
 export async function createRecap(data){
  const topPlays=data.top.slice(0,5);
- const [avatar,covers,mapperAvatars]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId)))]);
- const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2018;
+ const [avatar,covers,mapperAvatars,artistAvatars,medalArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(artist=>artistImage(artist.name))),recapMedalImage(data.rarestMedal)]);
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2168;
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
  const text=(value,x,y,size=24,color=white,weight=400,maxWidth=1000)=>{
   ctx.font=weight+' '+size+'px "Segoe UI", sans-serif';ctx.fillStyle=color;
@@ -23,7 +25,7 @@ export async function createRecap(data){
  };
  const box=(x,y,w,h,fill='#241d2d')=>{ctx.fillStyle=fill;ctx.beginPath();ctx.roundRect(x,y,w,h,18);ctx.fill();};
  const line=(x,y,w)=>{ctx.strokeStyle='#ffffff15';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+w,y);ctx.stroke();};
- ctx.fillStyle='#15131b';ctx.fillRect(0,0,1200,2018);
+ ctx.fillStyle='#15131b';ctx.fillRect(0,0,canvas.width,canvas.height);
  const glow=ctx.createRadialGradient(1100,0,0,1100,0,900);glow.addColorStop(0,'#71334d70');glow.addColorStop(1,'#15131b00');ctx.fillStyle=glow;ctx.fillRect(0,0,1200,900);
  text('osu! wrapped / 2026',64,78,27,pink,700);
  ctx.save();ctx.textAlign='right';text('ronaldonater.com/osu-wrapped',1136,78,20,muted,500,650);ctx.restore();
@@ -35,7 +37,7 @@ export async function createRecap(data){
  const modeNames={osu:'osu!',taiko:'osu!taiko',fruits:'osu!catch',mania:'osu!mania'};
  text((modeNames[data.mode]||data.mode)+' · January 1 – December 31, 2026 (UTC)',200,251,20,muted,400,930);
  const stats=[['PLAYS IN 2026',number(data.playcount),'Monthly profile history · all modes'],['AVERAGE ACCURACY',data.accuracy==null?'—':data.accuracy.toFixed(2)+'%','2026 scores in current top 200'],['HIGHEST COMBO',data.combo==null?'—':number(data.combo)+'×','2026 scores in current top 200'],['MEDALS UNLOCKED',number(data.medals),'Dated achievements · all modes'],['REPLAYS WATCHED',number(data.replayViews),'Monthly profile history · all modes'],['HIGHEST PP',data.top[0]?Math.round(data.top[0].pp)+' pp':'—','2026 score in current top 200']];
- stats.forEach(([label,value,note],i)=>{const x=64+(i%3)*365,y=310+Math.floor(i/3)*157;box(x,y,342,137,i===0?'#fa82b5':'#241d2d');text(label,x+20,y+30,14,i===0?'#563045':muted,700,302);text(value,x+20,y+83,43,i===0?'#281820':white,700,302);text(note,x+20,y+115,13,i===0?'#633b50':muted,400,302);});
+ stats.forEach(([label,value,note],i)=>{const x=64+(i%3)*365,y=310+Math.floor(i/3)*157;box(x,y,342,137,i===0?'#fa82b5':'#241d2d');text(label,x+20,y+30,14,i===0?'#563045':muted,700,302);text(value,x+20,y+83,43,i===0?'#281820':white,700,i===1?225:302);if(i===1){const rank=accuracyRank(data.accuracy);if(rank){const color=({SS:'#ffd46b',S:'#ffd46b',A:'#b8eb9d',B:'#84caff',C:'#c292f2',D:'#ff7b86'})[rank];box(x+270,y+49,52,44,'#15131b');ctx.save();ctx.textAlign='center';text(rank,x+296,y+80,28,color,800,46);ctx.restore();}}text(note,x+20,y+115,13,i===0?'#633b50':muted,400,302);});
  const available=data.months.filter(m=>m.available);const peak=available.reduce((best,m)=>!best||m.count>best.count?m:best,null);
  box(64,640,1072,135,'#282231');
  ctx.save();ctx.beginPath();ctx.roundRect(64,640,1072,135,18);ctx.clip();ctx.fillStyle=pink;ctx.fillRect(64,640,5,135);ctx.restore();
@@ -48,7 +50,7 @@ export async function createRecap(data){
  text(peak?'plays in '+months[peak.month]:'No history returned',1108,743,15,muted,400,280);
  ctx.restore();
  text('YOUR TOP 5 PLAYS',64,831,23,pink,700);text('2026 scores found in your current top 200 · '+(modeNames[data.mode]||data.mode),64,863,17,muted);
- box(64,884,1072,475);
+ box(64,884,1072,461);
  if(!data.top.length)text('No 2026 PP scores found in your current top 200.',88,946,22,muted);
  topPlays.forEach((score,i)=>{
   const y=904+i*87;
@@ -88,13 +90,21 @@ export async function createRecap(data){
    if(i<4)line(x+24,y+23,476);
   });
  };
- rankings('TOP 5 MAPPERS',data.mappers,64,mapperAvatars);rankings('TOP 5 ARTISTS',data.artists,612);
- text('Ranked by score count in your 2026 selection, not yearly map attempts.',64,1820,17,muted,400,1072);
+ rankings('TOP 5 MAPPERS',data.mappers,64,mapperAvatars);rankings('TOP 5 ARTISTS',data.artists,612,artistAvatars);
+ text('Ranked by selected score count, not yearly attempts. Artist images: TheAudioDB.com.',64,1820,17,muted,400,1072);
+ box(64,1845,1072,128,'#282231');
+ const medal=data.rarestMedal;if(medalArt)ctx.drawImage(medalArt,84,1860,96,96);
+ const medalX=medalArt?200:88;
+ text(data.rarestMedalStatus==='partial'?'RAREST MATCHED MEDAL · 2026':'RAREST MEDAL EARNED · 2026',medalX,1875,14,pink,700,900);
+ text(medal?medal.name:data.rarestMedalStatus==='none'?'No medals earned in 2026':'Medal rarity unavailable',medalX,1910,28,white,700,900);
+ if(medal){text(rarityText(medal.rarityPercent)+' of Osekai-tracked users · current estimate',medalX,1936,16,muted,400,900);text('Earned '+new Date(medal.earnedAt).toISOString().slice(0,10)+' UTC · Source: osekai.net',medalX,1958,15,muted,400,900);}
+ ctx.save();ctx.translate(0,150);
  line(64,1848,1072);
  text('SCORE COVERAGE',64,1883,14,pink,700);
  text(number(data.sampleCount)+' scores dated in 2026 from your current top 200; not a full annual archive.',64,1912,17,muted,400,1072);
  text('Mapper credits use mapset creators. Profile history may be incomplete. Year to date until 2027.',64,1940,16,muted,400,1072);
  text('Independent fan project · Not affiliated with ppy / osu!',64,1980,15,muted,400,1072);
+ ctx.restore();
  return new Promise((resolve,reject)=>{try{canvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG export failed')),'image/png');}catch(error){reject(error);}});
 }
 
@@ -106,3 +116,7 @@ function coverImage(value){
   img.src='/api/osu-wrapped/cover?url='+encodeURIComponent(value);
  });
 }
+
+function artistImage(name){return new Promise(resolve=>{const img=new Image();const timer=setTimeout(()=>{img.src='';resolve(null);},10000);img.onload=()=>{clearTimeout(timer);resolve(img);};img.onerror=()=>{clearTimeout(timer);resolve(null);};img.src='/api/osu-wrapped/artist-image?name='+encodeURIComponent(name);});}
+
+function recapMedalImage(medal){const url=medalImageUrl(medal);if(!url)return Promise.resolve(null);return new Promise(resolve=>{const image=new Image();const timer=setTimeout(()=>{image.src='';resolve(null);},7000);image.onload=()=>{clearTimeout(timer);resolve(image);};image.onerror=()=>{clearTimeout(timer);resolve(null);};image.src=url;});}

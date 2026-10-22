@@ -1,13 +1,13 @@
 const MAX_IMAGE_BYTES=2*1024*1024;
-export async function imageBytes(response){
+export async function imageBytes(response,maxBytes=MAX_IMAGE_BYTES){
  const declared=response.headers.get('content-length');
- if(declared && (!/^\d+$/.test(declared) || Number(declared)>MAX_IMAGE_BYTES)){
+ if(declared && (!/^\d+$/.test(declared) || Number(declared)>maxBytes)){
   await response.body?.cancel();throw Error('Image exceeds size limit');
  }
  if(!response.body)throw Error('Missing image body');
  const reader=response.body.getReader();const chunks=[];let size=0;
  try{while(true){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;
-  if(size>MAX_IMAGE_BYTES){await reader.cancel();throw Error('Image exceeds size limit');}chunks.push(Buffer.from(value));
+  if(size>maxBytes){await reader.cancel();throw Error('Image exceeds size limit');}chunks.push(Buffer.from(value));
  }}finally{reader.releaseLock();}
  return Buffer.concat(chunks,size);
 }

@@ -51,3 +51,12 @@ test('recap covers proxy only accepts osu beatmap cover images',async()=>{
  globalThis.fetch=async(url,options)=>{assert.equal(url,'https://assets.ppy.sh/beatmaps/123/covers/cover@2x.jpg');assert.equal(options.redirect,'error');return new Response(new Uint8Array([255,216,255]),{headers:{'content-type':'image/jpeg'}});};
  try{const result=await handler(event('/api/cover',{queryStringParameters:{url:'https://assets.ppy.sh/beatmaps/123/covers/cover@2x.jpg?1738291000#cache'}}));assert.equal(result.statusCode,200);assert.equal(result.isBase64Encoded,true);assert.equal(result.headers['Content-Type'],'image/jpeg');}finally{globalThis.fetch=original;}
 });
+
+test('initial Wrapped uses the profile preferred mode with a safe fallback',async()=>{
+ const original=globalThis.fetch;
+ try{for(const [preferred,expected] of [['mania','mania'],['taiko','taiko'],['fruits','fruits'],['invalid','osu'],[undefined,'osu']]){
+ const requests=[];globalThis.fetch=async url=>{requests.push(url);return {ok:true,json:async()=>url.endsWith('/me')?{id:123,username:'test',playmode:preferred,monthly_playcounts:[]}:[]};};
+ const headers={cookie:'wrapped_session='+seal({kind:'session',token:'test-token',exp:Date.now()+10000})};
+ const response=await handler(event('/api/wrapped',{headers}));assert.equal(response.statusCode,200);assert.equal(JSON.parse(response.body).mode,expected);assert.ok(requests[0].endsWith('/me'));assert.ok(requests.slice(1).every(url=>new URL(url).searchParams.get('mode')===expected));
+ }}finally{globalThis.fetch=original;}
+});

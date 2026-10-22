@@ -1,3 +1,5 @@
+import {rarestMedal} from './medals.mjs';
+import {artistImage} from './artist-images.mjs';
 import {imageBytes,callbackUrl,sessionValid,stateValid} from './hardening.mjs';
 import {randomBytes,timingSafeEqual} from 'node:crypto';
 import {seal,unseal,cookie,cookies} from './security.mjs';
@@ -10,6 +12,26 @@ export async function handler(event){
  const path=event.path.replace(/^\/.netlify\/functions\/wrapped-api(?=\/|$)/,'/api').replace(/^\/api\/osu-wrapped(?=\/|$)/,'/api');const jar=cookies(event);
  if(event.httpMethod!==(path==='/api/auth/logout'?'POST':'GET'))return json(405,{error:'Method not allowed'},{Allow:path==='/api/auth/logout'?'POST':'GET'});
  if(path!=='/api/auth/callback' && event.headers['sec-fetch-site']==='cross-site' && event.headers['sec-fetch-mode']!=='navigate')return json(403,{error:'Cross-site request denied'});
+ if(path==='/api/replay'){
+  const session=unseal(jar.wrapped_session||'');if(!sessionValid(session))return json(401,{error:'Sign in again to watch this replay.'});
+  const id=event.queryStringParameters?.id;if(!/^[1-9]\d{0,15}$/.test(id||'') || !Number.isSafeInteger(Number(id)))return json(400,{error:'Invalid score ID'});
+  const [user,score]=await Promise.all([osu('/me',session.token),osu('/scores/'+id,session.token)]);
+  if(score.user_id!==user.id)return json(403,{error:'Only your own replays can be loaded here.'});
+  if(score.has_replay===false)return json(404,{error:'osu! has no replay available for this score.'});
+  const response=await fetch('https://osu.ppy.sh/api/v2/scores/'+id+'/download',{headers:{Authorization:'Bearer '+session.token},redirect:'error',signal:AbortSignal.timeout(15000)});
+  if(!response.ok)return json(response.status===429?429:404,{error:response.status===429?'osu! replay downloads are rate limited. Please try later.':'This replay cannot be downloaded from osu!.'});
+  const type=(response.headers.get('content-type')||'').split(';')[0].trim().toLowerCase();
+  if(!['application/octet-stream','application/x-osu-replay'].includes(type))return json(502,{error:'osu! returned an unexpected replay format.'});
+  const bytes=await imageBytes(response,4*1024*1024);
+  return {statusCode:200,headers:{'Content-Type':'application/octet-stream','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'},body:bytes.toString('base64'),isBase64Encoded:true};
+ }
+ if(path==='/api/medal-image'){
+  const file=event.queryStringParameters?.file;if(!/^[a-zA-Z0-9_-]+(?:@2x)?\.png$/.test(file||'')||file.length>150)return json(400,{error:'Invalid medal image'});
+  const response=await fetch('https://assets.ppy.sh/medals/web/'+file,{redirect:'error',signal:AbortSignal.timeout(5000)});if(!response.ok)return json(404,{error:'Medal image unavailable'});
+  if((response.headers.get('content-type')||'').split(';')[0]!=='image/png')return json(502,{error:'Unexpected medal image'});
+  const bytes=await imageBytes(response,512*1024);return {statusCode:200,headers:{'Content-Type':'image/png','Cache-Control':'public, max-age=86400','X-Content-Type-Options':'nosniff'},body:bytes.toString('base64'),isBase64Encoded:true};
+ }
+ if(path==='/api/artist-image')return artistImage(event.queryStringParameters?.name);
  if(path==='/api/cover'){
   if(event.httpMethod!=='GET')return json(405,{error:'Method not allowed'});
   let url;try{url=new URL(event.queryStringParameters?.url);}catch{return json(400,{error:'Invalid cover URL'});}
@@ -61,11 +83,12 @@ export async function handler(event){
  }
  if(path==='/api/wrapped'){
   const session=unseal(jar.wrapped_session||'');if(!sessionValid(session))return json(401,{error:'Sign in with osu! to generate your Wrapped.'});
-  const mode=event.queryStringParameters?.mode||'osu';if(!['osu','taiko','fruits','mania'].includes(mode))return json(400,{error:'Invalid game mode'});
-  const user=await osu(`/me/${mode}`,session.token);
+  const requestedMode=event.queryStringParameters?.mode;const validModes=['osu','taiko','fruits','mania'];if(requestedMode!==undefined&&!validModes.includes(requestedMode))return json(400,{error:'Invalid game mode'});
+  const user=await osu(requestedMode?`/me/${requestedMode}`:'/me',session.token);
+  const mode=requestedMode||(validModes.includes(user.playmode)?user.playmode:'osu');
   const pages=await Promise.all(Array.from({length:2},(_,page)=>osu(`/users/${user.id}/scores/best?mode=${mode}&limit=100&offset=${page*100}&legacy_only=0`,session.token)));
   const best=pages.flat();
-  return json(200,summarize(user,best,mode));
+  return json(200,{...summarize(user,best,mode),...await rarestMedal(user.user_achievements)});
  }
  return json(404,{error:'Not found'});
  }catch(error){console.error('Wrapped request failed:',error.name);return json(error.status||500,{error:error.status?error.message:'Could not generate your Wrapped. Check deployment configuration or try again shortly.'});}
