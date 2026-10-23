@@ -78,7 +78,7 @@ export function openExperience(data,{onSave,onReview}={}){
    const content=document.createElement('div');while(container.firstChild)content.append(container.firstChild);container.append(content);
    const preview=document.createElement('div');preview.className='story-recap-preview';preview.setAttribute('aria-live','polite');preview.textContent='Preparing your card…';container.append(preview);
    recapPreview??=createRecap(data).then(blob=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(blob);})).catch(()=>{recapPreview=null;return null;});
-   recapPreview.then(source=>{if(!preview.isConnected)return;if(!source){preview.textContent='Use Save recap card to try generating your card again.';return;}const image=document.createElement('img');image.src=source;image.alt=data.user.username+'’s '+data.year+' recap card preview';preview.replaceChildren(image);});
+   recapPreview.then(source=>{if(!preview.isConnected)return;if(!source){preview.textContent='Use Save recap card to try generating your card again.';return;}const image=document.createElement('img');image.src=source;image.alt=data.user.username+'’s '+data.year+' recap card preview';const expand=document.createElement('button');expand.type='button';expand.className='story-recap-expand';expand.setAttribute('aria-label','Expand recap card');expand.title='Click to expand';expand.append(image);expand.addEventListener('click',()=>expandRecap(source,expand));preview.replaceChildren(expand);});
   }
   stage.querySelectorAll('.story-mapper-avatar img,.story-user-avatar img,.story-artist-avatar img,.rarest-medal>img').forEach(image=>{image.addEventListener('error',()=>image.remove(),{once:true});if(image.complete&&image.naturalWidth===0)image.remove();});
   counters=[...stage.querySelectorAll('[data-count]')].map(el=>({el,value:Number(el.dataset.count)}));
@@ -150,6 +150,16 @@ export function openExperience(data,{onSave,onReview}={}){
   stage.querySelector('[data-story-review]')?.addEventListener('click',()=>closeExperience(onReview));
   stage.querySelector('[data-story-save]')?.addEventListener('click',()=>onSave?.());
  }
+ let expandedRecap=null;
+ function expandRecap(source,trigger){
+  if(expandedRecap||closing)return;const resume=!paused;if(resume)toggle();
+  const viewer=document.createElement('dialog');expandedRecap=viewer;viewer.className='recap-image-viewer';viewer.setAttribute('aria-label','Expanded recap card');
+  const close=document.createElement('button');close.type='button';close.textContent='Close ×';close.setAttribute('aria-label','Close expanded recap card');close.onclick=()=>viewer.close();
+  const image=document.createElement('img');image.src=source;image.alt=data.user.username+'’s '+data.year+' recap card';viewer.append(close,image);
+  viewer.addEventListener('click',event=>{if(event.target===viewer)viewer.close();});
+  viewer.addEventListener('close',()=>{viewer.remove();expandedRecap=null;if(trigger.isConnected)trigger.focus();if(resume&&dialog.open&&!closing&&paused)toggle();},{once:true});
+  document.body.append(viewer);viewer.showModal();close.focus();
+ }
  function advance(){if(index<slides.length-1)show(index+1);else closeExperience();}
  function renderAnswer(){const quiz=slides[index].quiz;if(!quiz||!answers.has(index))return;const chosen=answers.get(index),correct=quiz.options[chosen].count===quiz.topCount;
   stage.querySelectorAll('[data-quiz-choice]').forEach((button,i)=>{button.disabled=true;button.setAttribute('aria-pressed',String(i===chosen));button.classList.toggle('quiz-correct',quiz.options[i].count===quiz.topCount);button.classList.toggle('quiz-wrong',quiz.options[i].count!==quiz.topCount);});
@@ -157,7 +167,7 @@ export function openExperience(data,{onSave,onReview}={}){
   result.textContent=(correct?'You got it! ':'Good guess! ')+(quiz.tied?'There’s a tie for first. ':winner.name+' is your top '+quiz.kind+'. ')+number(quiz.topCount)+' '+(quiz.topCount===1?'score':'scores')+' in your 2026 selection.';
   next.textContent='See my '+quiz.kind+'s →';pauseLabel();
  }
- function pauseLabel(){const waiting=slides[index].quiz&&!answers.has(index);pause.disabled=Boolean(waiting);pause.textContent=waiting?'Your turn':paused?'Play ▷':'Pause Ⅱ';pause.setAttribute('aria-label',waiting?'Choose an answer or skip':paused?'Play experience':'Pause experience');}
+ function pauseLabel(){shell.classList.toggle('story-paused',paused);const waiting=slides[index].quiz&&!answers.has(index);pause.disabled=Boolean(waiting);pause.textContent=waiting?'Your turn':paused?'Play ▷':'Pause Ⅱ';pause.setAttribute('aria-label',waiting?'Choose an answer or skip':paused?'Play experience':'Pause experience');}
  function toggle(){if(closing)return;paused=!paused;last=performance.now();pauseLabel();syncPreview();}
  const keyboard=event=>{if(closing){event.preventDefault();return;}if(event.target.closest('input,textarea'))return;if(event.code==='Space' && event.target.closest('button,a'))return;if(event.key==='ArrowRight'){event.preventDefault();advance();}if(event.key==='ArrowLeft'){event.preventDefault();show(index-1);}if(event.code==='Space'){event.preventDefault();toggle();}};
  function closeExperience(afterClose){
@@ -189,7 +199,7 @@ export function openExperience(data,{onSave,onReview}={}){
   raf=requestAnimationFrame(tick);
  }
  const focusBefore=document.activeElement;const overflowBefore=document.body.style.overflow;
- dialog.addEventListener('close',()=>{cancelAnimationFrame(raf);closeAudio.pause();stageSize.disconnect();introMotion.forEach(animation=>animation.cancel());if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;document.removeEventListener("visibilitychange",visibilityChanged);stampAudio.pause();quizAudio?.pause();quizAudio=null;document.body.style.overflow=overflowBefore;dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});
+ dialog.addEventListener('close',()=>{cancelAnimationFrame(raf);expandedRecap?.close();closeAudio.pause();stageSize.disconnect();introMotion.forEach(animation=>animation.cancel());if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;document.removeEventListener("visibilitychange",visibilityChanged);stampAudio.pause();quizAudio?.pause();quizAudio=null;document.body.style.overflow=overflowBefore;dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});
  dialog.showModal();document.body.style.overflow='hidden';show(0);stage.tabIndex=0;stage.focus();pauseLabel();raf=requestAnimationFrame(tick);
 }
 
