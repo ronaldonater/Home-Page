@@ -1,3 +1,4 @@
+import {slideFitScale} from './slide-fit.js';
 import {clubMarkup} from './clubs.js';
 import {personalModsMarkup} from './mod-breakdown.js';
 import {globalPlaysMarkup,globalPlayerLeadersMarkup,popularBeatmapsetsMarkup,rankedMappersMarkup,popularMapperLeadersMarkup,globalModUsageMarkup,popularGenresMarkup,popularBeatmapUrl} from './global.js';
@@ -64,7 +65,27 @@ export function openExperience(data,{onSave,onReview}={}){
  dialog.innerHTML='<div class="story-shell"><div class="story-orb story-orb-one"></div><div class="story-orb story-orb-two"></div><div class="story-progress" aria-label="Story slides">'+slides.map((s,i)=>'<button type="button" data-story-step="'+i+'" aria-label="Go to slide '+(i+1)+'"><progress max="1000" value="0"></progress></button>').join('')+'</div><div class="story-top"><span>osu! wrapped / 2026'+(data.demo?' · DEMO':'')+'</span><div><button type="button" data-story-mute aria-label="Mute slide audio" title="Mute audio" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4Z"/><g class="story-speaker-waves"><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></g><path class="story-speaker-muted" d="m16 9 6 6m0-6-6 6"/></svg></button><button type="button" data-story-pause aria-label="Pause experience">Pause Ⅱ</button><button type="button" data-story-close aria-label="Close experience">Close ×</button></div></div><div class="story-stage"></div><div class="story-bottom"><button type="button" data-story-prev aria-label="Previous slide">← Back</button><span class="story-counter" role="status" aria-live="polite"></span><button type="button" data-story-next>Next →</button></div></div>';
  document.body.append(dialog);
  const stage=dialog.querySelector('.story-stage'),shell=dialog.querySelector('.story-shell'),pause=dialog.querySelector('[data-story-pause]'),next=dialog.querySelector('[data-story-next]');
- const stageSize=new ResizeObserver(()=>stage.style.setProperty('--story-stage-height',stage.clientHeight+'px'));stageSize.observe(stage);
+ let fitFrame=0;
+ function scheduleSlideFit(){if(!fitFrame)fitFrame=requestAnimationFrame(()=>{fitFrame=0;fitCurrentSlide();});}
+ function fitCurrentSlide(){
+  const frame=stage.querySelector('.story-fit-frame'),content=stage.querySelector('.story-fit-content');
+  if(!frame||!content||!stage.clientWidth||!stage.clientHeight)return;
+  const naturalWidth=Math.max(1,stage.clientWidth-16);content.style.width=naturalWidth+'px';
+  const naturalHeight=content.offsetHeight;
+  const scale=slideFitScale(naturalWidth,naturalHeight,stage.clientWidth,stage.clientHeight);
+  frame.style.width=(naturalWidth*scale)+'px';frame.style.height=(naturalHeight*scale)+'px';
+  content.style.transform='scale('+scale+')';
+ }
+ const slideContentSize=new ResizeObserver(scheduleSlideFit);
+ function mountSlideFit(){
+  slideContentSize.disconnect();
+  const slide=stage.querySelector('.story-slide');if(!slide)return;
+  const frame=document.createElement('div'),content=document.createElement('div');
+  frame.className='story-fit-frame';content.className='story-fit-content';slide.replaceWith(frame);content.append(slide);frame.append(content);
+  stage.classList.add('story-stage-fitted');slideContentSize.observe(content);fitCurrentSlide();
+ }
+ const stageSize=new ResizeObserver(()=>{stage.style.setProperty('--story-stage-height',stage.clientHeight+'px');scheduleSlideFit();});stageSize.observe(stage);
+ document.fonts?.ready.then(()=>{if(dialog.isConnected)scheduleSlideFit();});
  let slideAnimationsSkipped=false;
  let index=0,elapsed=0,paused=reduced,last=performance.now(),raf=0,touchX=null;
  const openingSong="/osu-wrapped/sounds/triangles.mp3";
@@ -208,6 +229,8 @@ export function openExperience(data,{onSave,onReview}={}){
    for(const control of shell.querySelectorAll('.story-top,.story-bottom,.story-progress button'))animate(control,[{color:'#fff'},{color:'#fff',offset:.96},{color:ink}]);
    introMotion.forEach(animation=>animation.pause());
   }
+  mountSlideFit();
+  stage.scrollTop=0;stage.scrollLeft=0;
   syncPreview();
 
   if(slide.layout==='club'&&data.club&&!clubRevealed)next.textContent='Skip reveal →';
@@ -308,7 +331,7 @@ export function openExperience(data,{onSave,onReview}={}){
   raf=requestAnimationFrame(tick);
  }
  const focusBefore=document.activeElement;const overflowBefore=document.body.style.overflow;
- dialog.addEventListener('close',()=>{stopClubSound();cancelAnimationFrame(raf);impactAudio.pause();swooshAudio.pause();peakMotion?.cancel();stopTally();expandedRecap?.close();closeAudio.pause();stageSize.disconnect();introMotion.forEach(animation=>animation.cancel());if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;document.removeEventListener("visibilitychange",visibilityChanged);stampAudio.pause();quizAudio?.pause();quizAudio=null;document.body.style.overflow=overflowBefore;dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});
+ dialog.addEventListener('close',()=>{stopClubSound();cancelAnimationFrame(raf);impactAudio.pause();swooshAudio.pause();peakMotion?.cancel();stopTally();expandedRecap?.close();closeAudio.pause();stageSize.disconnect();slideContentSize.disconnect();cancelAnimationFrame(fitFrame);introMotion.forEach(animation=>animation.cancel());if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;document.removeEventListener("visibilitychange",visibilityChanged);stampAudio.pause();quizAudio?.pause();quizAudio=null;document.body.style.overflow=overflowBefore;dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});
  dialog.showModal();document.body.style.overflow='hidden';show(0);stage.tabIndex=0;stage.focus();pauseLabel();raf=requestAnimationFrame(tick);
 }
 

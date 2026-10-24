@@ -521,3 +521,21 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 @media(max-width:480px){.rarest-medal-panel .rarest-medal{min-height:260px;gap:14px}.rarest-medal-panel .rarest-medal>img{width:108px;height:108px}.rarest-medal-panel .rarest-medal b{font-size:23px}}
 
 .club-legend-card{position:relative}.club-legend-card .club-legend-heading{padding-right:86px;flex-wrap:wrap;min-height:38px}.club-legend-heading h3{min-width:0;overflow-wrap:anywhere}.club-legend-card .club-legend-current{margin-left:0}.club-compatibility{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;align-items:flex-end;gap:3px;color:var(--club-color);font-variant-numeric:tabular-nums}.club-compatibility strong{font-size:17px;line-height:1.1}.club-compatibility small{font-size:8px;letter-spacing:.3px;opacity:.8}@media(max-width:600px){.club-compatibility{top:13px;right:13px}.club-legend-card .club-legend-heading{padding-right:82px}}
+
+@media(max-width:720px){
+ /* A tall slide must start at the scroll origin, not above it via flex centering. */
+ .story-stage:has(.story-slide-club){display:block;overflow-y:auto;overflow-x:hidden}
+ .story-stage .story-slide-club{width:100%;min-width:0;margin-inline:auto;padding:18px 10px 24px}
+ .story-slide-club .story-body,.story-slide-club .club-copy{min-width:0;max-width:100%}
+ .story-slide-club .club-reveal{width:100%;min-width:0;grid-template-columns:minmax(0,1fr);box-sizing:border-box}
+ .story-slide-club .club-secondary{width:100%;min-width:0;box-sizing:border-box}
+ .story-slide-club .club-secondary>div{min-width:0;flex:1}
+ .story-slide-club p,.story-slide-club h3,.story-slide-club small{overflow-wrap:anywhere}
+}
+
+/* Fit the whole slide between the controls without clipping its text. */
+.story-stage.story-stage-fitted{display:flex;align-items:center;justify-content:center;overflow:hidden;min-width:0}
+.story-fit-frame{position:relative;flex:none;min-width:0}
+.story-fit-content{display:flow-root;transform-origin:top left}
+.story-stage-fitted .story-slide{margin-inline:auto;min-width:0}
+.story-stage-fitted .story-body{min-width:0;max-width:100%}
