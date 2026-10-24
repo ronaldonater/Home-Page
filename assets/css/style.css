@@ -116,6 +116,8 @@ body {
 }
 
 .nav-button {
+  box-sizing: border-box;
+  text-decoration: none;
   background-color: transparent;
   color: white;
   border: 2px solid rgba(255, 255, 255, 0.3);
