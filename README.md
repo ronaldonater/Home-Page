@@ -41,7 +41,7 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**v1.1.6:** Interactive experience with up to 27 slides, sixteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
+**v1.1.7:** Interactive experience with up to 27 slides, eighteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
 
 The /osu-wrapped/ subpage is available directly; its Dev-page entry is managed manually. See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md) for its separate client and environment variables. Run node --test tests/*.test.mjs for the full test suite.
 
@@ -62,6 +62,21 @@ Missing map ranking dates are not counted as old/new matches. The backend attemp
 Only two SQL files are needed:
 
 - `scripts/sql/club-community.sql`: create a fresh database table.
-- `scripts/sql/club-community-v4.sql`: update any existing earlier schema directly, preserving participant records. Superseded v2/v3 migration files were removed.
+- `scripts/sql/club-community-v5.sql`: update any existing earlier schema directly, preserving participant records. Superseded v2/v3 migration files were removed.
 
-Current assignment rules are **`2026-v5`**. The SQL schema migration is still **v4**; no new SQL is needed if it has already been applied. Percentages include participants under the current rules as they generate a fresh review. Keep the database URL and tracking secret unchanged. See [community setup](docs/CLUB-COMMUNITY.md) for private environment variables and deployment steps.
+Current assignment rules are **`2026-v6`**. The SQL schema migration is now **v5**; no new SQL is needed if it has already been applied. Percentages include participants under the current rules as they generate a fresh review. Keep the database URL and tracking secret unchanged. See [community setup](docs/CLUB-COMMUNITY.md) for private environment variables and deployment steps.
+
+### Stable and lazer clubs
+
+Stable Loyalists and Lazer Pioneers require 100% of the full eligible 2026 sample to have the same confirmed client. Mixed or missing metadata cannot qualify; CL alone is not a client detector. Client exclusivity takes priority after Quality Over Quantity and before map/mod preferences. Modern stable scores have a positive legacy score ID; confirmed lazer records have a null legacy ID with a solo-score type or client build ID. Explicit boolean client metadata is also supported. Descriptions refer to the available sample rather than all lifetime scores. Run `scripts/sql/club-community-v5.sql` before deploying these clubs; assignment rule version is `2026-v6`. This migration preserves rows and supports all older schemas directly.
+
+
+### Latest club updates (v1.1.7)
+
+- 18 clubs, each with a unique hex color, emblem, legend entry, and recap styling.
+- Stable Loyalists and Lazer Pioneers require 100% confirmed client usage across all eligible 2026 scores from the current top 200. Mixed or unknown client metadata does not qualify. These clubs take priority after Quality Over Quantity, before map/mod preferences.
+- Time Capsule includes mapsets ranked in 2016 or earlier. Class of 2026 and Crowd Favorites also use the entire eligible sample, not just the user's top 25 scores.
+- EZ Does It motto: "Smaller score. Bigger mind games."
+- Legend community percentages stay aligned at the bottom of each card, and legend copy uses regular hyphens.
+- Current assignment rules: `2026-v6`. Latest schema upgrade: `scripts/sql/club-community-v5.sql`. Run it in Neon SQL Editor before deploying if your database has not already been upgraded. It directly supports earlier schemas and retains existing participant rows. Fresh databases use `scripts/sql/club-community.sql`.
+- Keep the connection string and tracking secret unchanged. Returning participants update their existing assignment when they generate a new review; percentages include the current rule version only.

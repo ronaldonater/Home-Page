@@ -42,7 +42,7 @@ No live Neon project was created or configured by this code change. The SQL and 
 
 ## Current SQL files
 
-Use `scripts/sql/club-community.sql` for a fresh database, or `scripts/sql/club-community-v4.sql` to update any existing v1/v2/v3 schema directly. The v4 migration permits all 16 club IDs without deleting participant records. Superseded v2/v3 SQL files have been removed; they are not prerequisites. Current assignment rules are `2026-v5`, which require no further schema change.
+Use `scripts/sql/club-community.sql` for a fresh database, or `scripts/sql/club-community-v5.sql` to update any existing v1/v2/v3 schema directly. The v5 migration permits all 18 club IDs without deleting participant records. Superseded v2/v3 SQL files have been removed; they are not prerequisites. Current assignment rules are `2026-v6`, which require no further schema change.
 
 ## Current map-preference rules and schema
 
@@ -55,6 +55,10 @@ Missing map ranking dates are not counted as old/new matches. The backend attemp
 Only two SQL files are needed:
 
 - `scripts/sql/club-community.sql`: create a fresh database table.
-- `scripts/sql/club-community-v4.sql`: update any existing earlier schema directly, preserving participant records. Superseded v2/v3 migration files were removed.
+- `scripts/sql/club-community-v5.sql`: update any existing earlier schema directly, preserving participant records. Superseded v2/v3 migration files were removed.
 
-Current assignment rules are **`2026-v5`**. The SQL schema migration is still **v4**; no new SQL is needed if it has already been applied. Percentages include participants under the current rules as they generate a fresh review. Keep the database URL and tracking secret unchanged. The private environment variables and deployment steps are documented above.
+Current assignment rules are **`2026-v6`**. The SQL schema migration is **v5**; no new SQL is needed if it has already been applied. Percentages include participants under the current rules as they generate a fresh review. Keep the database URL and tracking secret unchanged. The private environment variables and deployment steps are documented above.
+
+## Stable/lazer client clubs
+
+Run the latest `scripts/sql/club-community-v5.sql` before deployment (or the base SQL for a new database). Stable Loyalists and Lazer Pioneers use all eligible 2026 scores from the current top 200, require 100% confirmed client metadata, and take priority after Quality Over Quantity. Unknown client information never becomes an inferred match. The current rule version is `2026-v6`; older rows enter percentages as participants generate fresh reviews. No connection string or tracking-secret changes are needed.

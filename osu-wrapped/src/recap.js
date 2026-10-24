@@ -55,7 +55,7 @@ export async function createRecap(data){
  box(64,790,1072,96,'#282231');text('FAVORITE MOD',88,818,14,pink,700,300);let modX=88;for(const icon of modArt){if(!icon)continue;ctx.drawImage(icon,modX,830,60,42);modX+=66;}ctx.save();ctx.textBaseline='middle';text(favoriteModLabel(data.favoriteMod),modX,851,32,white,700,Math.max(100,580-modX));ctx.restore();text(favoriteModNote(data.favoriteMod)+' · Individual mods in your 2026 selection',600,846,16,muted,400,510);
  const club=CLUBS[data.club?.id];
  const secondary=data.club?.badge==='Precision-minded'?CLUBS.precision:null;
- const clubColor=({overdrive:'#ff9a66',precision:'#8edcff',hardmode:'#ff777f',afterdark:'#bd9aff',loyalist:'#b7e58b',wanderer:'#71dfcb',nomod:'#ffd46b',repeat:'#f6ac69',allrounder:'#fa82b5',easy:'#87d89a',closeenough:'#f2bf78',safetynet:'#9db7ff',quality:'#f5d88a',timecapsule:'#dcb995',class2026:'#83e5cf',crowdfavorites:'#e0a0ef'})[data.club?.id]||pink;
+ const clubColor=({overdrive:'#ff9a66',precision:'#8edcff',hardmode:'#ff777f',afterdark:'#bd9aff',loyalist:'#b7e58b',wanderer:'#71dfcb',nomod:'#ffd46b',repeat:'#f6ac69',allrounder:'#fa82b5',easy:'#87d89a',closeenough:'#f2bf78',safetynet:'#9db7ff',quality:'#f5d88a',timecapsule:'#dcb995',class2026:'#83e5cf',crowdfavorites:'#e0a0ef',stable:'#e9c38a',lazer:'#ff95c8'})[data.club?.id]||pink;
  box(64,906,1072,150,'#282231');
  if(club){
   ctx.save();ctx.translate(88,936);ctx.scale(.92,.92);ctx.strokeStyle=clubColor;ctx.lineWidth=1;ctx.beginPath();ctx.arc(50,50,43,0,Math.PI*2);ctx.stroke();ctx.lineWidth=4;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke(new Path2D(club.icon));ctx.restore();

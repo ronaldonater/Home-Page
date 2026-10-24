@@ -8,15 +8,23 @@ export const CLUBS={
  wanderer:{name:'The Wanderers',motto:'Your next favorite could be anywhere.',icon:'M62 35L54 56L34 66L43 45ZM50 20V26M50 74V80M20 50H26M74 50H80'},
  nomod:{name:'No Mod, No Problem',motto:'Just you and the beatmap.',icon:'M29 50A21 21 0 1 0 71 50A21 21 0 1 0 29 50M40 51L47 58L62 42'},
  repeat:{name:'The Repeat Offenders',motto:'One more try became a lifestyle.',icon:'M72 40A24 24 0 0 0 30 32L23 41M23 25V41H39M28 60A24 24 0 0 0 70 68L77 59M61 59H77V75'},
- easy:{name:'EZ Does It',motto:'Smaller numbers. Bigger mind games.',icon:'M28 34H72L42 66H72M28 50H58'},
+ easy:{name:'EZ Does It',motto:'Smaller score. Bigger mind games.',icon:'M28 34H72L42 66H72M28 50H58'},
  closeenough:{name:'Close Enough Club',motto:'Not every hit was perfect. The story still counts.',icon:'M29 50A21 21 0 1 0 71 50A21 21 0 1 0 29 50M37 51L47 61L64 40M31 24L25 18M69 24L75 18'},
  safetynet:{name:'Safety Net Society',motto:'A little backup. Another chance to play.',icon:'M50 22L73 31V49Q73 67 50 78Q27 67 27 49V31ZM38 49L47 58L63 40'},
  quality:{name:'Quality Over Quantity',motto:'A few plays. A lasting impression.',icon:'M50 22L58 40L78 43L63 57L67 78L50 68L33 78L37 57L22 43L42 40ZM40 50L48 58L61 43'},
  timecapsule:{name:'Time Capsule',motto:'Great patterns never get old.',icon:'M29 27H71M29 73H71M34 27Q34 42 50 50Q66 58 66 73M66 27Q66 42 50 50Q34 58 34 73'},
  class2026:{name:'Class of 2026',motto:'Freshly ranked. Already unforgettable.',icon:'M27 30H73V75H27ZM37 23V37M63 23V37M27 43H73M39 56L47 64L62 51'},
  crowdfavorites:{name:'Crowd Favorites',motto:'The community hits different. You agree.',icon:'M35 53A15 15 0 1 0 65 53A15 15 0 1 0 35 53M50 29V21M71 35L77 29M79 53H87M29 35L23 29M21 53H13M39 54L47 62L62 45'},
+ stable:{name:'Stable Loyalists',motto:'A classic client. Your kind of rhythm.',icon:'M27 35H73V65H27ZM38 44H62M38 54H54M39 74H61M50 65V74'},
+ lazer:{name:'Lazer Pioneers',motto:'The next chapter is already yours.',icon:'M56 21L29 55H47L42 79L72 42H53Z'},
  allrounder:{name:'All-Rounder',motto:'A little of everything. A style all your own.',icon:'M50 22.5L58 41.5L79 42.5L63 55.5L69 77.5L50 65.5L31 77.5L37 55.5L21 42.5L42 41.5Z'}
 };
+export function scoreClient(score){
+ if(typeof score.is_lazer==='boolean')return score.is_lazer?'lazer':'stable';
+ if(Number.isSafeInteger(score.legacy_score_id)&&score.legacy_score_id>0)return 'stable';
+ if(Object.hasOwn(score,'legacy_score_id')&&score.legacy_score_id===null&&(score.type==='solo_score'||(Number.isSafeInteger(score.build_id)&&score.build_id>0)))return 'lazer';
+ return null;
+}
 export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null}={}){
  const total=scores.length;if(total<1)return null;
  const families={overdrive:0,hardmode:0,afterdark:0,nomod:0,easy:0,safetynet:0},hosts=new Map(),artists=new Set();
@@ -40,8 +48,10 @@ export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null}
  const popularIds=new Set((Array.isArray(popularBeatmapsets)?popularBeatmapsets:[]).slice(0,25).map(row=>row.id).filter(id=>Number.isSafeInteger(id)&&id>0));
  const popularMatches=eligibleMaps.filter(score=>popularIds.has(mapId(score))),popularUnique=new Set(popularMatches.map(mapId)).size;
  const mapClub=eligibleMaps.length>=5?(popularMatches.length/eligibleMaps.length>=.4&&popularUnique>=3?'crowdfavorites':oldCount/eligibleMaps.length>=.6?'timecapsule':newCount/eligibleMaps.length>=.6?'class2026':null):null;
+ const clients=scores.map(scoreClient),exclusiveClient=clients.every(client=>client==='stable')?'stable':clients.every(client=>client==='lazer')?'lazer':null;
  let id,reason;
  if(activity.length&&plays>0&&plays<100){id='quality';reason=plays.toLocaleString('en-US')+' recorded '+(plays===1?'play':'plays')+' in available 2026 monthly profile history (all modes). A little rhythm goes a long way.';}
+ else if(exclusiveClient){id=exclusiveClient;reason='All '+total+' eligible 2026 '+(total===1?'score was':'scores were')+' set on osu!'+(id==='stable'?'stable':'lazer')+' (100% of your available current top-200 sample).';}
  else if(mapClub){id=mapClub;const count=id==='crowdfavorites'?popularMatches.length:id==='timecapsule'?oldCount:newCount;reason=count+' of '+eligibleMaps.length+' eligible 2026 scores from your current top 200 ('+(count/eligibleMaps.length*100).toFixed(1)+'%) '+(id==='crowdfavorites'?'are on '+popularUnique+' distinct mapsets in this mode’s 2026 popular top 25.':id==='timecapsule'?'are on mapsets ranked in 2016 or earlier.':'are on mapsets ranked in 2026.');}
  else if(preferences.length){const [key,count]=preferences[0];id=key;const label={overdrive:'DT or NC',hardmode:'HR',afterdark:'HD or FL',nomod:'No Mod',easy:'EZ',safetynet:mode==='osu'?'SO or NF':'NF'}[key];reason=count+' of '+total+' selected scores ('+(count/total*100).toFixed(1)+'%) use '+label+'.';}
  else if(precise){id='precision';reason='Your average accuracy is '+accuracy.toFixed(2)+'% across '+passed.length+' passed scores, meeting the '+accuracyThreshold+'% threshold for this mode.';}
@@ -65,6 +75,8 @@ export function clubMarkup(data,{story=false}={}){
 }
 
 const clubSignals={
+ stable:'100% of your eligible 2026 scores from the current top 200 are confirmed osu!stable scores. Unknown client metadata or mixed clients do not qualify.',
+ lazer:'100% of your eligible 2026 scores from the current top 200 are confirmed osu!lazer scores. Unknown client metadata or mixed clients do not qualify.',
  timecapsule:'At least 60% of all your eligible 2026 scores from the current top 200 are on mapsets ranked in 2016 or earlier, with at least five eligible scores.',
  class2026:'At least 60% of all your eligible 2026 scores from the current top 200 are on mapsets ranked in 2026, with at least five eligible scores.',
  crowdfavorites:'At least 40% of all your eligible 2026 scores from the current top 200 are on this mode’s 25 most-played mapsets ranked in 2026, spanning at least three distinct mapsets and at least five scores.',
@@ -97,7 +109,7 @@ export function openClubLegend(data){
  const current=document.createElement('p');current.className='replay-note';current.textContent=data?.club?('Your club: '+CLUBS[data.club.id].name+'. '+data.club.reason):'One available 2026 score is enough to receive a club.';
  const community=document.createElement('div');community.innerHTML=clubCommunityMarkup(data);
  const legend=document.createElement('div');legend.innerHTML=clubLegendMarkup(data);
- const rules=document.createElement('p');rules.className='replay-note';rules.textContent='How selection works: Quality Over Quantity takes priority for 1-99 recorded 2026 plays when monthly history is available. Next we check Crowd Favorites, Time Capsule, then Class of 2026 using all eligible 2026 scores from the current top 200. Mapset ranking dates, not score dates or last updates, determine map age; missing dates do not count. Otherwise the highest qualifying mod percentage wins (ties: Overdrive, HR Headquarters, Afterdark, No Mod, EZ Does It, Safety Net Society). Otherwise we check Precision Society, Close Enough Club, The Repeat Offenders, Mapper Loyalists, then The Wanderers; All-Rounder is the fallback. Mod percentages and accuracy use deduplicated 2026 scores in your current top 200 for the selected mode. CL is excluded; CL-only scores count as No Mod. Repeat Offenders uses recorded monthly playcounts. These clubs describe the available data, not your complete play history.';
+ const rules=document.createElement('p');rules.className='replay-note';rules.textContent='How selection works: Quality Over Quantity takes priority for 1-99 recorded 2026 plays when monthly history is available. Next, Stable Loyalists or Lazer Pioneers applies when every eligible score has the same confirmed client. Then we check Crowd Favorites, Time Capsule, then Class of 2026 using all eligible 2026 scores from the current top 200. Mapset ranking dates, not score dates or last updates, determine map age; missing dates do not count. Otherwise the highest qualifying mod percentage wins (ties: Overdrive, HR Headquarters, Afterdark, No Mod, EZ Does It, Safety Net Society). Otherwise we check Precision Society, Close Enough Club, The Repeat Offenders, Mapper Loyalists, then The Wanderers; All-Rounder is the fallback. Mod percentages and accuracy use deduplicated 2026 scores in your current top 200 for the selected mode. CL is excluded; CL-only scores count as No Mod. Repeat Offenders uses recorded monthly playcounts. These clubs describe the available data, not your complete play history.';
  content.append(current,community,legend,rules);dialog.append(header,content);document.body.append(dialog);
  dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});dialog.addEventListener('close',()=>{dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});dialog.showModal();close.focus();
 }

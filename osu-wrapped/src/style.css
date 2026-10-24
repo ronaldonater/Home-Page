@@ -480,3 +480,5 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .club-timecapsule{--club-color:#dcb995}.club-class2026{--club-color:#83e5cf}.club-crowdfavorites{--club-color:#e0a0ef}
 
 .club-legend-card{display:flex;flex-direction:column}.club-legend-card .club-legend-share{margin-top:auto;padding-top:12px}
+
+.club-stable{--club-color:#e9c38a}.club-lazer{--club-color:#ff95c8}
