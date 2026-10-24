@@ -280,6 +280,8 @@ body {
   .button-container {
     flex-direction: row;
     gap: 2rem;
+    max-width: none;
+    flex-wrap: wrap;
   }
   
   .nav-button {
