@@ -42,7 +42,7 @@ No live Neon project was created or configured by this code change. The SQL and 
 
 ## Current SQL files
 
-Use `scripts/sql/club-community.sql` for a fresh database, or `scripts/sql/club-community-v5.sql` to update any existing v1/v2/v3 schema directly. The v5 migration permits all 18 club IDs without deleting participant records. Superseded v2/v3 SQL files have been removed; they are not prerequisites. Current assignment rules are `2026-v6`, which require no further schema change.
+Use `scripts/sql/club-community.sql` for a fresh database, or `scripts/sql/club-community-v5.sql` to update any existing v1/v2/v3 schema directly. The v5 migration permits all 18 club IDs without deleting participant records. Superseded v2/v3 SQL files have been removed; they are not prerequisites. Current assignment rules are `2026-v12`, which require no further schema change.
 
 ## Current map-preference rules and schema
 
@@ -57,8 +57,18 @@ Only two SQL files are needed:
 - `scripts/sql/club-community.sql`: create a fresh database table.
 - `scripts/sql/club-community-v5.sql`: update any existing earlier schema directly, preserving participant records. Superseded v2/v3 migration files were removed.
 
-Current assignment rules are **`2026-v6`**. The SQL schema migration is **v5**; no new SQL is needed if it has already been applied. Percentages include participants under the current rules as they generate a fresh review. Keep the database URL and tracking secret unchanged. The private environment variables and deployment steps are documented above.
+Current assignment rules are **`2026-v12`**. The SQL schema migration is **v5**; no new SQL is needed if it has already been applied. Percentages include participants under the current rules as they generate a fresh review. Keep the database URL and tracking secret unchanged. The private environment variables and deployment steps are documented above.
 
 ## Stable/lazer client clubs
 
-Run the latest `scripts/sql/club-community-v5.sql` before deployment (or the base SQL for a new database). Stable Loyalists and Lazer Pioneers use all eligible 2026 scores from the current top 200, require 100% confirmed client metadata, and take priority after Quality Over Quantity. Unknown client information never becomes an inferred match. The current rule version is `2026-v6`; older rows enter percentages as participants generate fresh reviews. No connection string or tracking-secret changes are needed.
+Run the latest `scripts/sql/club-community-v5.sql` before deployment (or the base SQL for a new database). Stable Loyalists and Lazer Pioneers use all eligible 2026 scores from the current top 200, require 100% confirmed client metadata, and compete by signal strength for either role. Unknown client information never becomes an inferred match. The current rule version is `2026-v12`; older rows enter percentages as participants generate fresh reviews. No connection string or tracking-secret changes are needed.
+
+## Primary and secondary club ranking
+
+All 18 clubs can be primary or secondary. Qualification thresholds are preserved, but every match now competes by signal strength; the strongest two distinct matches fill those roles. All-Rounder additionally qualifies for a balanced mix of at least three mod combinations, five mapper hosts, and five artists with each mod family below 40%, or serves as fallback when nothing qualifies. Dashboard, story, legend, and recap all support arbitrary secondary clubs with matching artwork and colors. Community percentages count primary clubs only. Assignment rules are `2026-v12`; schema v5 requires no additional SQL for this change. See [ranking rules and weights](CLUB-RANKING.md).
+
+## Evidence weighting and small-sample safeguards
+
+Current assignment rules are `2026-v12`. Listed strength ranges are base weights: score-based candidates are multiplied by `0.5 + 0.5 * min(evidenceScoreCount / 20, 1)`; accuracy uses only valid passed scores for this count. Activity candidates use `0.75 + 0.25 * min(availableMonths / 6, 1)` instead. Full weighting begins at 20 evidence scores or six available months. One eligible score still receives a club, with a provisional message below 20 scores.
+
+Mapper Loyalists additionally requires at least three matching scores across two distinct mapsets from the same host. Balanced All-Rounder considers at least three mod combinations, five hosts, and five artists, with no tracked mod family reaching 40%. All 18 clubs remain eligible for primary or secondary. Mode-specific accuracy thresholds remain heuristic; they are not claimed to be population-calibrated. This update needs no new SQL on schema v5.

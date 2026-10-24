@@ -482,3 +482,42 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .club-legend-card{display:flex;flex-direction:column}.club-legend-card .club-legend-share{margin-top:auto;padding-top:12px}
 
 .club-stable{--club-color:#e9c38a}.club-lazer{--club-color:#ff95c8}
+
+.club-secondary{display:flex;gap:10px;align-items:center;border-top:1px solid #ffffff18;padding-top:12px;margin:12px 0;color:var(--club-color)}.club-secondary-icon{width:40px;height:40px;flex:none}.club-secondary-icon svg{width:100%;height:100%}.club-secondary-caption{display:block;font-size:9px;letter-spacing:1px;margin-bottom:4px}.club-secondary b{font-size:14px}.club-secondary p{font-size:11px;color:#bcafc6;line-height:1.5;margin:5px 0 0}.story-slide-club .club-secondary{max-width:520px}.story-slide-club .club-secondary p{font-size:12px}@media(max-width:720px){.story-slide-club .club-secondary{justify-content:center;margin-left:auto;margin-right:auto}.story-slide-club .club-secondary p{font-size:10px}}
+
+.club-sample-note{font-size:11px;line-height:1.5;color:#c9b8d8;border-left:2px solid var(--club-color);padding-left:9px;margin:10px 0}.story-slide-club .club-sample-note{font-size:11px;max-width:520px}
+
+/* Keep the additional evidence note within the club slide's normal layout. */
+.story-slide-club:has(.club-sample-note){padding-block:12px}
+.story-slide-club:has(.club-sample-note) h2{font-size:clamp(32px,4vw,54px);margin-bottom:18px}
+.story-slide-club .story-body .club-sample-note{margin:8px 0;font-size:11px;line-height:1.4}
+.story-slide-club:has(.club-sample-note) .club-copy h3{margin:6px 0}
+.story-slide-club:has(.club-sample-note) .club-motto{margin:8px 0}
+.story-slide-club:has(.club-sample-note) .club-reason{margin:8px 0;line-height:1.45}
+.story-slide-club:has(.club-sample-note) .club-secondary{margin:10px 0;padding-top:9px}
+.story-slide-club:has(.club-sample-note) .club-secondary p{margin:4px 0 0;line-height:1.4}
+.story-slide-club:has(.club-sample-note) .club-community{margin:8px 0;font-size:12px;line-height:1.45}
+.story-slide-club:has(.club-sample-note) .story-footnote{margin-top:18px}
+@media(max-width:720px),(max-height:650px){
+ .story-slide-club:has(.club-sample-note) h2{font-size:36px;margin-bottom:14px}
+ .story-slide-club:has(.club-sample-note) .club-reveal{gap:16px;padding-block:8px}
+ .story-slide-club:has(.club-sample-note) .club-emblem{width:96px}
+ .story-slide-club:has(.club-sample-note) .story-footnote{margin-top:12px}
+}
+
+/* Dashboard medal showcase: centered award with a quiet display-case glow. */
+.personal-highlights-grid>.rarest-medal-panel{position:relative;isolation:isolate;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at 50% 30%,#9970df19,transparent 65%),linear-gradient(145deg,#241e2e,#1b1822);border-color:#9d79c538}
+.rarest-medal-panel::before{content:"";position:absolute;inset:12px;border:1px solid #c8a9ef0d;border-radius:10px;pointer-events:none;z-index:-1}
+.rarest-medal-panel::after{content:"";position:absolute;top:0;left:22%;right:22%;height:1px;background:linear-gradient(90deg,transparent,#d9b7ff80,transparent);pointer-events:none}
+.rarest-medal-panel .rarest-medal{width:100%;min-height:280px;flex-direction:column;justify-content:center;gap:18px;text-align:center;padding:12px 8px}
+.rarest-medal-panel .rarest-medal>img{width:122px;height:122px;padding:14px;border:1px solid #c7a2ef38;border-radius:30px;background:radial-gradient(circle,#be96fa24,#ffffff03 72%);box-shadow:0 0 45px #a66bf218,inset 0 1px 0 #ffffff0d;filter:drop-shadow(0 6px 10px #0003)}
+.rarest-medal-panel .rarest-medal>div{width:100%;align-items:center;gap:9px}
+.rarest-medal-panel .rarest-medal b{font-size:25px;line-height:1.2;max-width:100%}
+.rarest-medal-panel .medal-caption{font-size:9px;letter-spacing:1.5px;color:#d7b9f2}
+.rarest-medal-panel .rarest-medal>div>span:not(.medal-caption){color:#c5bbd1;font-size:11px;line-height:1.6}
+.rarest-medal-panel .rarest-medal>div>span>span{display:inline-block;color:#efd6ff;font-weight:700;border:1px solid #c7a2ef33;border-radius:20px;padding:2px 8px;margin-right:3px;background:#b57ee714}
+.rarest-medal-panel .rarest-medal a{display:inline-flex;align-items:center;margin-top:4px;padding:7px 11px;border:1px solid #b48ace40;border-radius:20px;font-size:10px;color:#dec3f5;background:#b48ace0a;transition:background .2s,border-color .2s}
+.rarest-medal-panel .rarest-medal a:hover{background:#b48ace20;border-color:#d7b9f280}
+@media(max-width:480px){.rarest-medal-panel .rarest-medal{min-height:260px;gap:14px}.rarest-medal-panel .rarest-medal>img{width:108px;height:108px}.rarest-medal-panel .rarest-medal b{font-size:23px}}
+
+.club-legend-card{position:relative}.club-legend-card .club-legend-heading{padding-right:86px;flex-wrap:wrap;min-height:38px}.club-legend-heading h3{min-width:0;overflow-wrap:anywhere}.club-legend-card .club-legend-current{margin-left:0}.club-compatibility{position:absolute;top:16px;right:16px;display:flex;flex-direction:column;align-items:flex-end;gap:3px;color:var(--club-color);font-variant-numeric:tabular-nums}.club-compatibility strong{font-size:17px;line-height:1.1}.club-compatibility small{font-size:8px;letter-spacing:.3px;opacity:.8}@media(max-width:600px){.club-compatibility{top:13px;right:13px}.club-legend-card .club-legend-heading{padding-right:82px}}
