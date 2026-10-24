@@ -1,0 +1,32 @@
+name: Refresh ranked mapper leaderboard
+on:
+  schedule:
+    - cron: '23 8 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ranked-mappers-snapshot
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Refresh complete 2026 catalogue
+        env:
+          OSU_CLIENT_ID: ${{ secrets.OSU_CLIENT_ID }}
+          OSU_CLIENT_SECRET: ${{ secrets.OSU_CLIENT_SECRET }}
+        run: node scripts/update-ranked-mappers.mjs
+      - name: Commit refreshed snapshot
+        run: |
+          git add netlify/functions/wrapped/data/ranked-mappers.json
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Refresh 2026 ranked mapper leaderboard'
+          git push

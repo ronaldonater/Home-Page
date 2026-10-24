@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {rankMapperSets} from '../scripts/ranked-mappers-core.mjs';
+const set=(id,user,mode='osu')=>({id,user_id:user,creator:'Mapper '+user,status:'ranked',ranked_date:'2026-06-01T00:00:00Z',beatmaps:[{mode},{mode}]});
+test('mapper catalogue counts unique sets under hosts per native mode, not difficulties',()=>{const rows=[set(1,1),set(1,1),set(2,1),set(3,2),{...set(4,3),beatmaps:[{mode:'osu'},{mode:'mania'}]},{...set(5,9),beatmaps:[{mode:'osu',convert:true}]},{...set(6,8),ranked_date:'2025-12-31T23:59:59Z'},{...set(7,8),status:'loved'}];const result=rankMapperSets(rows);assert.equal(result.modes.osu.totalSets,4);assert.deepEqual(result.modes.osu.top.map(r=>[r.userId,r.count,r.rank]),[[1,2,1],[2,1,2],[3,1,2]]);assert.equal(result.modes.mania.totalSets,1);assert.equal(result.modes.mania.top[0].userId,3);assert.deepEqual(result.modes.taiko.top,[]);});
+test('mapper catalogue limits ranking to ten and preserves tied ranks',()=>{const result=rankMapperSets(Array.from({length:15},(_,i)=>set(i+1,i+1)));assert.equal(result.modes.osu.top.length,10);assert.ok(result.modes.osu.top.every(row=>row.rank===1));});

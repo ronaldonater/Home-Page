@@ -1,5 +1,5 @@
 const VIEWER_ORIGIN='https://www.replayviewer.com';
-export function openReplay(score,apiBase='/api'){
+export function openReplay(score,apiBase='/api',{globalMode=null}={}){
  const dialog=document.createElement('dialog');dialog.className='replay-dialog';
  const header=document.createElement('div');header.className='replay-header';
  const title=document.createElement('h2');title.textContent='Watch replay · '+score.title;
@@ -23,7 +23,7 @@ export function openReplay(score,apiBase='/api'){
  close.onclick=()=>dialog.close();
  dialog.addEventListener('close',()=>{controller.abort();clearTimeout(deadline);window.removeEventListener('message',receive);frame.src='about:blank';dialog.remove();},{once:true});
  dialog.showModal();frame.src=VIEWER_ORIGIN+'/?embed';
- fetch(apiBase+'/replay?id='+encodeURIComponent(score.id),{signal:controller.signal}).then(async response=>{
+ fetch(apiBase+(globalMode?'/global-replay?mode='+encodeURIComponent(globalMode)+'&id=':'/replay?id=')+encodeURIComponent(score.id),{signal:controller.signal}).then(async response=>{
   if(!response.ok){let message='Replay unavailable.';try{message=(await response.json()).error||message;}catch{}throw Error(message);}
   bytes=await response.arrayBuffer();status.textContent='Waiting for ReplayViewer…';send();
  }).catch(error=>{if(!dialog.isConnected)return;clearTimeout(deadline);status.textContent=error.name==='AbortError'?'Replay loading timed out. Please try again.':error.message;});

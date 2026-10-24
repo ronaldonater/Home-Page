@@ -1,7 +1,8 @@
+import {CLUBS} from './clubs.js';
 import {modIconUrl} from './mod-icons.js';
 import {favoriteModLabel,favoriteModNote} from './mods.js';
 import {medalImageUrl,rarityText} from './medals.js';
-import {accuracyRank} from './accuracy.js';
+import {accuracyRank,formatScoreAccuracy} from './accuracy.js';
 const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const number=value=>value==null?'—':new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(value);
 const pink='#fa82b5',muted='#b6a9c2',white='#f6f0fa';
@@ -18,7 +19,7 @@ function avatarImage(userId){
 export async function createRecap(data){
  const topPlays=data.top.slice(0,5);
  const [avatar,covers,mapperAvatars,artistAvatars,medalArt,modArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(artist=>artistImage(artist.name))),recapMedalImage(data.rarestMedal),Promise.all((data.favoriteMod?.mods||[]).slice(0,3).map(mod=>recapModImage(mod)))]);
- const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2278;
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2446;
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
  const text=(value,x,y,size=24,color=white,weight=400,maxWidth=1000)=>{
   ctx.font=weight+' '+size+'px "Segoe UI", sans-serif';ctx.fillStyle=color;
@@ -52,12 +53,38 @@ export async function createRecap(data){
  text(peak?'plays in '+months[peak.month]:'No history returned',1108,743,15,muted,400,280);
  ctx.restore();
  box(64,790,1072,96,'#282231');text('FAVORITE MOD',88,818,14,pink,700,300);let modX=88;for(const icon of modArt){if(!icon)continue;ctx.drawImage(icon,modX,830,60,42);modX+=66;}ctx.save();ctx.textBaseline='middle';text(favoriteModLabel(data.favoriteMod),modX,851,32,white,700,Math.max(100,580-modX));ctx.restore();text(favoriteModNote(data.favoriteMod)+' · Individual mods in your 2026 selection',600,846,16,muted,400,510);
- ctx.save();ctx.translate(0,110);
+ const club=CLUBS[data.club?.id];
+ const secondary=data.club?.badge==='Precision-minded'?CLUBS.precision:null;
+ const clubColor=({overdrive:'#ff9a66',precision:'#8edcff',hardmode:'#ff777f',afterdark:'#bd9aff',loyalist:'#b7e58b',wanderer:'#71dfcb',nomod:'#ffd46b',repeat:'#f6ac69',allrounder:'#fa82b5'})[data.club?.id]||pink;
+ box(64,906,1072,150,'#282231');
+ if(club){
+  ctx.save();ctx.translate(88,936);ctx.scale(.92,.92);ctx.strokeStyle=clubColor;ctx.lineWidth=1;ctx.beginPath();ctx.arc(50,50,43,0,Math.PI*2);ctx.stroke();ctx.lineWidth=4;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke(new Path2D(club.icon));ctx.restore();
+  const clubWidth=secondary?376:900;
+  text('YOUR PLAYSTYLE CLUB',200,936,14,clubColor,700,clubWidth);
+  text(club.name,200,973,secondary?28:30,clubColor,700,clubWidth);
+  text(club.motto,200,1004,secondary?17:20,white,500,clubWidth);
+  text(data.club.reason,200,1033,secondary?13:15,muted,400,clubWidth);
+  if(secondary){
+   ctx.save();ctx.strokeStyle='#ffffff20';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(600,926);ctx.lineTo(600,1036);ctx.stroke();
+   ctx.translate(1020,936);ctx.scale(.92,.92);ctx.strokeStyle='#8edcff';ctx.beginPath();ctx.arc(50,50,43,0,Math.PI*2);ctx.stroke();ctx.lineWidth=4;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke(new Path2D(secondary.icon));ctx.restore();
+   ctx.save();ctx.textAlign='right';
+   text('SECONDARY ARCHETYPE',1000,936,14,'#8edcff',700,376);
+   text(data.club.badge,1000,973,28,'#8edcff',700,376);
+   text(secondary.motto,1000,1004,17,white,500,376);
+   text(Number.isFinite(data.accuracy)?data.accuracy.toFixed(2)+'% average accuracy · 2026 passed scores':'High accuracy across your selected scores.',1000,1033,13,muted,400,376);
+   ctx.restore();
+  }
+ }else{
+  text('YOUR PLAYSTYLE CLUB',88,942,14,pink,700,1000);
+  text('Your club is taking shape.',88,981,28,white,700,1000);
+  text('One available 2026 score is needed to assign a playstyle club.',88,1015,17,muted,400,1000);
+ }
+ ctx.save();ctx.translate(0,290);
  text('YOUR TOP 5 PLAYS',64,831,23,pink,700);text('2026 scores found in your current top 200 · '+(modeNames[data.mode]||data.mode),64,863,17,muted);
- box(64,884,1072,461);
+ box(64,884,1072,449);
  if(!data.top.length)text('No 2026 PP scores found in your current top 200.',88,946,22,muted);
  topPlays.forEach((score,i)=>{
-  const y=904+i*87;
+  const y=892+i*87;
   text(String(i+1).padStart(2,'0'),88,y+43,18,muted,600,34);
   ctx.save();ctx.beginPath();ctx.roundRect(130,y+6,96,64,9);ctx.clip();
   ctx.fillStyle='#68445f';ctx.fillRect(130,y+6,96,64);
@@ -73,9 +100,10 @@ export async function createRecap(data){
   text('Mapped by '+score.creator+' · '+score.mods,246,y+68,15,muted,400,662);
   const date=new Date(score.date);
   const dateLabel=score.date && !Number.isNaN(date.getTime())?new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(date)+' · UTC':'Date unavailable';
-  ctx.save();ctx.textAlign='right';text(Math.round(score.pp)+' pp',1112,y+31,26,pink,700,174);text(dateLabel,1112,y+59,13,muted,400,174);ctx.restore();
+  ctx.save();ctx.textAlign='right';text(Math.round(score.pp)+' pp',1112,y+31,26,pink,700,174);text(formatScoreAccuracy(score.accuracy)+' accuracy',1112,y+52,15,white,500,174);text(dateLabel,1112,y+72,13,muted,400,174);ctx.restore();
   if(i<4)line(88,y+82,1024);
  });
+ ctx.translate(0,-12);
  const rankings=(title,rows,x,avatars=null)=>{
   text(title,x,1416,22,pink,700,510);box(x,1440,524,344);
   if(!rows.length)text('No 2026 scores to rank.',x+24,1500,20,muted,400,476);

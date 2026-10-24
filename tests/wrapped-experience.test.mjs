@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {experienceSlides,experienceKey,firstExperience,markExperience,quizOptions} from '../osu-wrapped/src/experience.js';
 import {demo} from '../osu-wrapped/src/demo.js';
 const player=id=>({...demo(),demo:false,user:{...demo().user,id,username:'<script>alert(1)</script>'}});
-test('story has eleven slides with two interactive quizzes and escapes user-supplied names',()=>{
- const slides=experienceSlides(player(101));assert.equal(slides.length,11);assert.equal(slides.filter(s=>s.quiz).length,2);assert.ok(slides.filter(s=>!s.quiz).every(s=>s.duration>=5000));assert.ok(!slides[0].title.includes('<script>'));assert.ok(slides[0].title.includes('&lt;script&gt;'));assert.ok(slides.some(s=>s.note.includes('top 200')));
+test('story has twenty-seven slides with two interactive quizzes and escapes user-supplied names',()=>{
+ const slides=experienceSlides(player(101));assert.equal(slides.length,27);assert.equal(slides.filter(s=>s.quiz).length,2);assert.ok(slides.filter(s=>!s.quiz).every(s=>s.duration>=5000));assert.ok(!slides[0].title.includes('<script>'));assert.ok(slides[0].title.includes('&lt;script&gt;'));assert.ok(slides.some(s=>s.note.includes('top 200')));
 });
 test('first experience is recorded per account and year, not repeated on another mode',()=>{
  const values=new Map();const storage={getItem:key=>values.get(key),setItem:(key,value)=>values.set(key,value)};
@@ -17,7 +17,7 @@ test('demo never consumes first-sign-in state and blocked storage still works in
 });
 test('story handles missing score and profile history without invented results',()=>{
  const data=player(105);data.top=[];data.mappers=[];data.artists=[];data.months=[];data.accuracy=null;data.combo=null;data.playcount=null;
- const slides=experienceSlides(data);assert.ok(slides[4].body.includes('No 2026 PP scores'));assert.ok(slides.find(s=>s.title==='Your mappers.').body.includes('No mapper'));assert.ok(!slides.some(s=>s.body.includes('NaN')));
+ const slides=experienceSlides(data);assert.ok(slides.find(s=>s.eyebrow==='THE ONE TO REMEMBER').body.includes('No 2026 PP scores'));assert.ok(slides.find(s=>s.title==='Your mappers.').body.includes('No mapper'));assert.ok(!slides.some(s=>s.body.includes('NaN')));
 });
 
 test('quiz choices include a winner, stay unique, and use at most four real entries',()=>{
@@ -28,3 +28,5 @@ test('quizzes immediately precede reveals and support ties without inventing ext
  const data=player(200);data.mappers=[{name:'One',count:3},{name:'Two',count:3}];data.artists=[];
  const slides=experienceSlides(data);const index=slides.findIndex(s=>s.quiz);assert.equal(slides[index].quiz.kind,'mapper');assert.equal(slides[index].quiz.tied,true);assert.equal(slides[index].quiz.options.length,2);assert.equal(slides[index+1].title,'Your mappers.');assert.ok(!slides.some(s=>s.quiz?.kind==='artist'));
 });
+
+test('genre slide follows popular maps and shows at most five genres with its source explained',()=>{const data=player(555);data.globalStats={popularBeatmapsets:Array.from({length:12},(_,i)=>({id:i+1,genreId:[2,3,4,5,6,7,9,10,11,12,13,14][i]}))};const slides=experienceSlides(data);const index=slides.findIndex(s=>s.layout==='global-genres');assert.ok(index>0);assert.equal(slides[index-1].layout,'global-popular');assert.equal((slides[index].body.match(/<li>/g)||[]).length,5);assert.ok(slides[index].note.includes('Each mapset counts once'));});

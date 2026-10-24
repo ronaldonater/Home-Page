@@ -1,3 +1,4 @@
+import {globalStats} from './global-stats.mjs';
 import {rarestMedal} from './medals.mjs';
 import {artistImage} from './artist-images.mjs';
 import {imageBytes,callbackUrl,sessionValid,stateValid} from './hardening.mjs';
@@ -12,11 +13,19 @@ export async function handler(event){
  const path=event.path.replace(/^\/.netlify\/functions\/wrapped-api(?=\/|$)/,'/api').replace(/^\/api\/osu-wrapped(?=\/|$)/,'/api');const jar=cookies(event);
  if(event.httpMethod!==(path==='/api/auth/logout'?'POST':'GET'))return json(405,{error:'Method not allowed'},{Allow:path==='/api/auth/logout'?'POST':'GET'});
  if(path!=='/api/auth/callback' && event.headers['sec-fetch-site']==='cross-site' && event.headers['sec-fetch-mode']!=='navigate')return json(403,{error:'Cross-site request denied'});
- if(path==='/api/replay'){
+ if(path==='/api/global'){const result=await globalStats(event.queryStringParameters?.mode||'osu',{clientId:process.env.WRAPPED_OSU_CLIENT_ID,clientSecret:process.env.WRAPPED_OSU_CLIENT_SECRET});return json(result.statusCode,result.body,result.statusCode===200?{'Cache-Control':'public, max-age=300','Netlify-CDN-Cache-Control':'public, max-age=900'}:{});}
+ if(path==='/api/replay'||path==='/api/global-replay'){
   const session=unseal(jar.wrapped_session||'');if(!sessionValid(session))return json(401,{error:'Sign in again to watch this replay.'});
   const id=event.queryStringParameters?.id;if(!/^[1-9]\d{0,15}$/.test(id||'') || !Number.isSafeInteger(Number(id)))return json(400,{error:'Invalid score ID'});
-  const [user,score]=await Promise.all([osu('/me',session.token),osu('/scores/'+id,session.token)]);
-  if(score.user_id!==user.id)return json(403,{error:'Only your own replays can be loaded here.'});
+  let score;
+  if(path==='/api/global-replay'){
+   const listing=await globalStats(event.queryStringParameters?.mode||'osu',{clientId:process.env.WRAPPED_OSU_CLIENT_ID,clientSecret:process.env.WRAPPED_OSU_CLIENT_SECRET});
+   if(!listing.body.top?.some(row=>row.scoreId===Number(id)))return json(403,{error:'This score is not in the current global top 25 for this mode.'});
+   score=await osu('/scores/'+id,session.token);
+  }else{
+   const [user,ownScore]=await Promise.all([osu('/me',session.token),osu('/scores/'+id,session.token)]);score=ownScore;
+   if(score.user_id!==user.id)return json(403,{error:'Only your own replays can be loaded here.'});
+  }
   if(score.has_replay===false)return json(404,{error:'osu! has no replay available for this score.'});
   const response=await fetch('https://osu.ppy.sh/api/v2/scores/'+id+'/download',{headers:{Authorization:'Bearer '+session.token},redirect:'error',signal:AbortSignal.timeout(15000)});
   if(!response.ok)return json(response.status===429?429:404,{error:response.status===429?'osu! replay downloads are rate limited. Please try later.':'This replay cannot be downloaded from osu!.'});
