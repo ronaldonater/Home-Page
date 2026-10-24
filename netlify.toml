@@ -20,3 +20,14 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     X-Frame-Options = "DENY"
     Content-Security-Policy = "default-src 'self'; img-src 'self' https://a.ppy.sh https://assets.ppy.sh https://osu.ppy.sh data:; style-src 'self'; script-src 'self'; connect-src 'self'; media-src 'self' https://b.ppy.sh; frame-src https://www.replayviewer.com https://preview.tryz.id.vn; object-src 'none'; base-uri 'none'; frame-ancestors 'none'; form-action 'self'"
+
+# Backend responses are not public search results.
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"

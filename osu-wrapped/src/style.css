@@ -458,3 +458,15 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 
 /* Let reveal light expand freely; suppress transient scrolling at the viewport. */
 .story-stage:has(.story-slide-club.club-reveal-animating){overflow:hidden}
+
+@media(max-width:720px){.section-heading .mode-picker{margin-left:auto;margin-right:auto}}
+
+@media(max-width:720px){
+ .story-slide-club{text-align:center}
+ .story-slide-club .club-reveal{justify-items:center;padding:12px 10px}
+ .story-slide-club .club-copy{min-width:0;width:100%}
+ .story-slide-club .club-emblem{margin-left:auto;margin-right:auto}
+ .story-slide-club .club-reason{margin-left:auto;margin-right:auto}
+ .story-slide-club .story-footnote{margin-left:auto;margin-right:auto}
+ .story-slide-club .club-caption{display:block}
+}

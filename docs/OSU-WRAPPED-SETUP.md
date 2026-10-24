@@ -1,6 +1,6 @@
 # osu! Wrapped 2026 subpage
 
-**Version 1.1.3**
+**Version 1.1.4**
 
 Public URL: https://ronaldonater.com/osu-wrapped/ (use your actual canonical host if different). Its Dev-page entry is managed manually. Wrapped is a self-contained static ES-module app; no build step or Vite installation is needed for the personal site. All existing pages and integrations remain in place. No credentials were copied from the standalone app.
 
@@ -104,3 +104,9 @@ Recap PNGs include the club emblem, color, name, motto, and assignment reason. W
 The story includes up to 27 slides, personal mod rankings before medal/replay recognition, and the club reveal after favorite artists. Music, counter ticks, impact effects, and one-time beat-aligned grade stamps accompany the experience. Navigating while paused shows finished slide states immediately without replaying skipped entrance effects on resume. The OhnePixel panel enters after a 1.5-second delay during playback.
 
 The club and rarest medal cards share a compact responsive row, as do global mods and genres. Favorite mod percentages are visible inline. Medal rarity truncates to two decimal places and exposes its original decimal value on hover. Recap exports include primary club and optional Precision-minded secondary archetype. The legend uses a matching scrollbar and a full-width All-Rounder entry.
+
+## Search indexing
+
+The public Wrapped landing page has a canonical URL, descriptive search/social metadata, and static HTML introducing the app before JavaScript renders it. The Dev page links to the canonical `/osu-wrapped/` URL. Root `robots.txt` points to `sitemap.xml`; API/function routes are excluded from crawling and have noindex response headers. Authenticated reviews remain session-protected and are not sitemap entries.
+
+After deployment, verify `/robots.txt`, `/sitemap.xml`, and `/osu-wrapped/` on the production domain. In Google Search Console, verify the `ronaldonater.com` property, submit `https://ronaldonater.com/sitemap.xml`, then inspect `https://ronaldonater.com/osu-wrapped/` and request indexing. These account actions have not been performed automatically. Indexing and ranking are decided by Google and are not guaranteed.
