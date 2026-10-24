@@ -18,8 +18,8 @@ export function normalizeGlobalScores(rows,mode='osu'){
  return {scoreId:row.id,bpm:Number.isFinite(row.beatmap?.bpm)?row.beatmap.bpm:Number.isFinite(row.beatmapset?.bpm)?row.beatmapset.bpm:null,replayAvailable:row.has_replay!==false,previewUrl:typeof row.beatmapset?.preview_url==='string'?row.beatmapset.preview_url:null,userId:row.user_id,username:row.user?.username||'Player #'+row.user_id,beatmapId:row.beatmap_id,title:row.beatmapset?.title||'Beatmap #'+row.beatmap_id,artist:row.beatmapset?.artist||'',version:row.beatmap?.version||'',creator:row.beatmapset?.creator||'',cover,pp:row.pp,accuracy:Number.isFinite(row.accuracy)&&row.accuracy>=0&&row.accuracy<=1?row.accuracy*100:null,mods:names.filter(name=>!(name==='DT'&&names.includes('NC'))&&!(name==='SD'&&names.includes('PF'))).join(', ')||'NM',rank:typeof row.rank==='string'?row.rank:'',date:new Date(row.ended_at).toISOString()};});
 }
 export function createGlobalService({fetchImpl=(...args)=>fetch(...args),now=()=>Date.now()}={}){
- const cache=new Map(),pending=new Map();let appToken=null;
- async function popular(mode,credentials){
+ const cache=new Map(),pending=new Map(),popularCache=new Map(),popularPending=new Map();let appToken=null;
+ async function fetchPopular(mode,credentials){
   try{
    if(!credentials.clientId||!credentials.clientSecret)return null;
    if(!appToken||appToken.expires<=now()){
@@ -34,6 +34,12 @@ export function createGlobalService({fetchImpl=(...args)=>fetch(...args),now=()=
   }catch{return null;}
  }
 
+ async function popular(mode,credentials={}){
+  if(!Object.hasOwn(modes,mode))return null;
+  const stored=popularCache.get(mode);if(stored&&stored.expires>now())return stored.rows;
+  if(popularPending.has(mode))return popularPending.get(mode);
+  const task=fetchPopular(mode,credentials).then(rows=>{if(Array.isArray(rows))popularCache.set(mode,{rows,expires:now()+900000});return rows;}).finally(()=>popularPending.delete(mode));popularPending.set(mode,task);return task;
+ }
  const load=async function globalStats(mode,credentials={}){
   if(!Object.hasOwn(modes,mode))return {statusCode:400,body:{error:'Invalid game mode'}};
   const stored=cache.get(mode);if(stored&&stored.expires>now())return {statusCode:200,body:stored.data};if(pending.has(mode))return pending.get(mode);
@@ -51,6 +57,7 @@ export function createGlobalService({fetchImpl=(...args)=>fetch(...args),now=()=
    cache.set(mode,{data,expires:now()+15*60000});return {statusCode:200,body:data};
   }catch{if(stored)return {statusCode:200,body:{...stored.data,stale:true}};return {statusCode:503,body:{error:'Global plays are temporarily unavailable. Your personal Wrapped is still available.'}};}finally{pending.delete(mode);}})();pending.set(mode,task);return task;
  };
+ load.popularBeatmapsets=popular;
  return load;
 }
 export const globalStats=createGlobalService();

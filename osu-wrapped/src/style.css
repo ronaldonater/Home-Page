@@ -422,10 +422,10 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .club-legend-content::-webkit-scrollbar-button{display:none;width:0;height:0}
 .club-legend-content::-webkit-scrollbar-corner{background:#251e2b}
 
-.club-legend-card.club-allrounder{grid-column:1/-1;text-align:center}
-.club-legend-card.club-allrounder .club-legend-heading{justify-content:center;flex-wrap:wrap}
-.club-legend-card.club-allrounder .club-legend-current{margin-left:0}
-.club-legend-card.club-allrounder>p{max-width:580px;margin-left:auto;margin-right:auto}
+.club-legend-card.club-allrounder:last-child:nth-child(odd){grid-column:1/-1;text-align:center}
+.club-legend-card.club-allrounder:last-child:nth-child(odd) .club-legend-heading{justify-content:center;flex-wrap:wrap}
+.club-legend-card.club-allrounder:last-child:nth-child(odd) .club-legend-current{margin-left:0}
+.club-legend-card.club-allrounder:last-child:nth-child(odd)>p{max-width:580px;margin-left:auto;margin-right:auto}
 
 .personal-highlights-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:18px;margin:18px 0}
 .personal-highlights-grid>.panel{margin:0;min-width:0;display:flex;align-items:center;padding:24px!important}
@@ -459,7 +459,7 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 /* Let reveal light expand freely; suppress transient scrolling at the viewport. */
 .story-stage:has(.story-slide-club.club-reveal-animating){overflow:hidden}
 
-@media(max-width:720px){.section-heading .mode-picker{margin-left:auto;margin-right:auto}}
+
 
 @media(max-width:720px){
  .story-slide-club{text-align:center}
@@ -470,3 +470,13 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
  .story-slide-club .story-footnote{margin-left:auto;margin-right:auto}
  .story-slide-club .club-caption{display:block}
 }
+
+.club-community{font-size:12px;line-height:1.6;color:#c4b9ce;margin:12px 0}.club-community strong,.club-legend-share strong{color:var(--club-color,#fa82b5)}.club-community small{display:block;font-size:10px;opacity:.75;margin-top:4px}.story-slide-club .club-community{font-size:13px}
+
+.club-easy{--club-color:#87d89a}.club-closeenough{--club-color:#f2bf78}.club-safetynet{--club-color:#9db7ff}
+
+.club-quality{--club-color:#f5d88a}
+
+.club-timecapsule{--club-color:#dcb995}.club-class2026{--club-color:#83e5cf}.club-crowdfavorites{--club-color:#e0a0ef}
+
+.club-legend-card{display:flex;flex-direction:column}.club-legend-card .club-legend-share{margin-top:auto;padding-top:12px}

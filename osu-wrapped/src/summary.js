@@ -2,7 +2,7 @@ import {assignClub} from './clubs.js';
 import {favoriteMod,modRankings} from './mods.js';
 export const YEAR = 2026;
 export const inYear = value => typeof value === 'string' && new Date(value).getUTCFullYear() === YEAR;
-export function summarize(user, best, mode) {
+export function summarize(user, best, mode, clubContext={}) {
   const months = Array.from({length:12}, (_,i) => ({month:i,count:0,available:false}));
   for (const row of user.monthly_playcounts || []) if(inYear(row.start_date)) {
     const m = new Date(row.start_date).getUTCMonth(); months[m].count += row.count; months[m].available = true;
@@ -26,7 +26,7 @@ export function summarize(user, best, mode) {
     comboScore:comboScore?{id:comboScore.id,title:comboScore.beatmapset?.title||'Unknown beatmap',artist:comboScore.beatmapset?.artist||'Unknown artist',creator:comboScore.beatmapset?.creator||'Unknown mapper',version:comboScore.beatmap?.version||'',cover:comboScore.beatmapset?.covers?.['cover@2x']||comboScore.beatmapset?.covers?.cover}:null,
     favoriteMod:favoriteMod(scores),
     modUsage:modRankings(scores),
-    club:assignClub(scores,mode,months),
+    club:assignClub(scores,mode,months,clubContext),
     top:top.map(s=>({id:s.id,bpm:Number.isFinite(s.beatmap?.bpm)?s.beatmap.bpm:Number.isFinite(s.beatmapset?.bpm)?s.beatmapset.bpm:null,replayAvailable:s.has_replay!==false,beatmapId:s.beatmap?.id,previewUrl:s.beatmapset?.preview_url,title:s.beatmapset?.title||'Unknown beatmap',artist:s.beatmapset?.artist||'Unknown artist',creator:s.beatmapset?.creator||'Unknown mapper',version:s.beatmap?.version||'',pp:s.pp,accuracy:s.accuracy*100,combo:s.max_combo,rank:s.rank,date:s.ended_at||s.created_at,mods:formatMods(s.mods),cover:s.beatmapset?.covers?.['cover@2x']})),
     mappers:group('creator').map(mapper=>({...mapper,userId:scores.find(s=>s.beatmapset?.creator===mapper.name && Number.isSafeInteger(s.beatmapset?.user_id) && s.beatmapset.user_id>0)?.beatmapset.user_id ?? null})),artists:group('artist').map(artist=>{const song=scores.find(s=>s.beatmapset?.artist===artist.name && (s.beatmapset?.preview_url||s.beatmapset?.covers?.['cover@2x']));return {...artist,previewUrl:song?.beatmapset?.preview_url,cover:song?.beatmapset?.covers?.['cover@2x']};}),sampleCount:scores.length,passedCount:passed.length,
     coverage:'All score statistics and mapper/artist rankings use only deduplicated 2026 scores found in your current top 200 best plays. This is a partial sample, not your complete year. Mapper credits use the beatmapset creator; guest difficulty creators may differ. Counts are observed scores, not all map attempts.'};

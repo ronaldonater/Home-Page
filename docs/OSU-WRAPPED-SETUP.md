@@ -1,6 +1,6 @@
 # osu! Wrapped 2026 subpage
 
-**Version 1.1.4**
+**Version 1.1.6**
 
 Public URL: https://ronaldonater.com/osu-wrapped/ (use your actual canonical host if different). Its Dev-page entry is managed manually. Wrapped is a self-contained static ES-module app; no build step or Vite installation is needed for the personal site. All existing pages and integrations remain in place. No credentials were copied from the standalone app.
 
@@ -79,7 +79,7 @@ The `Refresh ranked mapper leaderboard` GitHub Actions workflow refreshes daily 
 
 ### Playstyle clubs
 
-One available 2026 score is enough to receive a club. The nine clubs are:
+One available 2026 score is enough to receive a club. The sixteen clubs are:
 
 | Club | Qualifying signal |
 | --- | --- |
@@ -91,13 +91,20 @@ One available 2026 score is enough to receive a club. The nine clubs are:
 | The Repeat Offenders | At least 10,000 recorded 2026 plays and six months with at least 500 plays each. |
 | Mapper Loyalists | At least 25% of selected scores under one mapset host. |
 | The Wanderers | At least ten distinct hosts and ten artists; each unique-name count is at least half the score count. |
+| EZ Does It | EZ on at least 40% of selected scores. |
+| Close Enough Club | At least ten passed scores below 90% mean accuracy (95% in catch); considered after mod preferences. |
+| Safety Net Society | SO/NF on at least 50% (NF only outside osu!); no inference of deranking intent. |
+| Quality Over Quantity | 1–99 recorded 2026 profile plays across available months (all modes); takes priority over other signals. |
+| Time Capsule | At least 60% of all eligible 2026 scores in the current top 200 are on mapsets ranked in 2016 or earlier; at least five scores. |
+| Class of 2026 | At least 60% of all eligible 2026 scores in the current top 200 are on mapsets ranked in 2026; at least five scores. |
+| Crowd Favorites | At least 40% of all eligible 2026 scores in the current top 200 overlap the selected mode’s popular 2026 top 25 mapsets, spanning at least three distinct sets and five eligible scores. |
 | All-Rounder | Fallback when no other qualifying signal takes priority. |
 
-Mod preferences use percentages of the deduplicated selected-mode 2026 score sample from the current top 200, excluding CL. The largest qualifying mod share wins; ties use Overdrive, HR Headquarters, Afterdark, then No Mod. Otherwise priority is precision, regular activity, mapper loyalty, exploration, then All-Rounder. Repeat Offenders uses available monthly profile playcounts (across modes), not inferred retries. These are playful descriptions of available data, not complete play histories.
+Quality Over Quantity takes priority when available 2026 monthly history totals 1–99 plays. Zero or missing history does not qualify. Next, map preferences are checked in this order: Crowd Favorites, Time Capsule, Class of 2026. They use the user’s entire deduplicated 2026 sample from the current top 200, including scores without PP. Missing ranked dates do not count, and the denominator includes all eligible scores. Otherwise mod preferences use percentages of the deduplicated selected-mode 2026 score sample from the current top 200, excluding CL. The largest qualifying mod share wins; ties use Overdrive, HR Headquarters, Afterdark, No Mod, EZ Does It, then Safety Net Society. Otherwise priority is precision, lower accuracy, regular activity, mapper loyalty, exploration, then All-Rounder. Repeat Offenders uses available monthly profile playcounts (across modes), not inferred retries. These are playful descriptions of available data, not complete play histories.
 
-Users qualifying for precision alongside another primary club receive the **Precision-minded** secondary archetype. The dashboard opens a scrollable legend of all nine clubs with the current club highlighted. The story uses a click-triggered evolution reveal with sound effects; text selection is disabled until the entrance animations finish. Reduced motion and mute are supported.
+Users qualifying for precision alongside another primary club receive the **Precision-minded** secondary archetype. The dashboard opens a scrollable legend of all sixteen clubs with the current club highlighted. The story uses a click-triggered evolution reveal with sound effects; text selection is disabled until the entrance animations finish. Reduced motion and mute are supported.
 
-Recap PNGs include the club emblem, color, name, motto, and assignment reason. When earned, the secondary archetype appears on the right with a central divider. Clubs are computed per review: no database stores assignments or community club percentages.
+Recap PNGs include the club emblem, color, name, motto, and assignment reason. When earned, the secondary archetype appears on the right with a central divider. Clubs are computed per review; optional Neon tracking records pseudonymous assignments for community percentages. See [community setup](CLUB-COMMUNITY.md).
 
 ### Experience and recap updates in v1.1.0
 
@@ -110,3 +117,29 @@ The club and rarest medal cards share a compact responsive row, as do global mod
 The public Wrapped landing page has a canonical URL, descriptive search/social metadata, and static HTML introducing the app before JavaScript renders it. The Dev page links to the canonical `/osu-wrapped/` URL. Root `robots.txt` points to `sitemap.xml`; API/function routes are excluded from crawling and have noindex response headers. Authenticated reviews remain session-protected and are not sitemap entries.
 
 After deployment, verify `/robots.txt`, `/sitemap.xml`, and `/osu-wrapped/` on the production domain. In Google Search Console, verify the `ronaldonater.com` property, submit `https://ronaldonater.com/sitemap.xml`, then inspect `https://ronaldonater.com/osu-wrapped/` and request indexing. These account actions have not been performed automatically. Indexing and ranking are decided by Google and are not guaranteed.
+
+
+## v1.1.6 updates
+
+- Sixteen playstyle clubs, including EZ Does It (EZ on at least 40% of selected scores), Safety Net Society (SO/NF on at least 50%, NF only outside standard), and Close Enough Club (at least ten passed scores averaging below 90%, or below 95% in catch).
+- Quality Over Quantity takes priority for users with 1–99 recorded 2026 profile plays across available months and at least one eligible score. Missing or zero profile history does not qualify.
+- Time Capsule (2016 or earlier), Class of 2026, and Crowd Favorites use the full eligible top-200 sample rather than only the top 25 scores.
+- All new clubs have matching emblems and colors in the dashboard, legend, animated story, and recap exports.
+- Optional Neon Free tracking shows community club percentages from one participant per year/mode/rule version. Repeat visits update existing pseudonymous records; database failures do not block Wrapped.
+- Before deploying to an existing database, run `scripts/sql/club-community-v4.sql` in Neon SQL Editor. It supports the earlier schemas and retains participant records. Fresh databases use `scripts/sql/club-community.sql`. Rule version `2026-v5` counts participants as they generate a fresh review.
+
+
+### Map-preference clubs and community schema
+
+All score-based clubs use the complete deduplicated sample of eligible 2026 scores from the user's current top 200, including scores without PP. Precision Society and Close Enough Club use valid passed scores within that sample. Quality Over Quantity and Repeat Offenders use available monthly profile playcounts across all modes.
+
+Time Capsule requires at least 60% of the sample on mapsets ranked in **2016 or earlier**. Class of 2026 requires at least 60% on mapsets ranked in **2026**. Crowd Favorites requires at least 40% on the selected mode's **25 most-played mapsets ranked in 2026**, spanning at least three distinct mapsets. Each requires at least five eligible scores. The popular top 25 is the comparison catalogue, not a limit on the user's score sample.
+
+Missing map ranking dates are not counted as old/new matches. The backend attempts date enrichment across up to 200 scores, with four concurrent lookups and a shared three-second budget; successfully fetched dates cache for 24 hours per warm instance. Popular catalogue requests coalesce and cache for 15 minutes. Metadata failures do not block the review.
+
+Only two SQL files are needed:
+
+- `scripts/sql/club-community.sql`: create a fresh database table.
+- `scripts/sql/club-community-v4.sql`: update any existing earlier schema directly, preserving participant records. Superseded v2/v3 migration files were removed.
+
+Current assignment rules are **`2026-v5`**. The SQL schema migration is still **v4**; no new SQL is needed if it has already been applied. Percentages include participants under the current rules as they generate a fresh review. Keep the database URL and tracking secret unchanged. See [community setup](CLUB-COMMUNITY.md) for private environment variables and deployment steps.
