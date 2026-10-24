@@ -1,5 +1,7 @@
 # osu! Wrapped 2026 subpage
 
+**Version 1.1.1**
+
 Public URL: https://ronaldonater.com/osu-wrapped/ (use your actual canonical host if different). Its Dev-page entry is managed manually. Wrapped is a self-contained static ES-module app; no build step or Vite installation is needed for the personal site. All existing pages and integrations remain in place. No credentials were copied from the standalone app.
 
 ## New OAuth client
@@ -34,7 +36,7 @@ Live OAuth verification requires your new credentials and the actual deployed ho
 
 ## Embedded replay viewer
 
-Top-score Watch replay buttons open a sandboxed ReplayViewer panel. The backend authorizes the current player and verifies score ownership before downloading a replay; only the replay bytes are passed to https://www.replayviewer.com/?embed using its replayviewer:load interface. No osu! token is sent to that site. Downloads are bounded to 4 MiB and use no-store; image downloads remain bounded to 2 MiB. The CSP allows only that viewer as a frame source. Closing the panel aborts pending downloads and removes its message listener/frame. Missing replays and upstream download quotas may prevent playback. ReplayViewer currently lists no lazer-mod support. Full third-party playback requires live verification; this repository does not control that service. No OAuth client change or additional environment variable is required.
+Top-score Watch replay buttons open a sandboxed ReplayViewer panel. The backend authorizes the current player and verifies score ownership before downloading a replay; only the replay bytes are passed to https://www.replayviewer.com/?embed using its replayviewer:load interface. No osu! token is sent to that site. Downloads are bounded to 4 MiB and use no-store; image downloads remain bounded to 2 MiB. The CSP allows ReplayViewer and the JoSu beatmap viewer as frame sources. Closing the panel aborts pending downloads and removes its message listener/frame. Missing replays and upstream download quotas may prevent playback. ReplayViewer currently lists no lazer-mod support. Full third-party playback requires live verification; this repository does not control that service. No OAuth client change or additional environment variable is required.
 
 ## Wrapped experience
 
@@ -49,13 +51,23 @@ Rarest 2026 medal: profile achievement timestamps are filtered using UTC, then m
 
 ## Global stats
 
-A sliding Your Stats / Global Stats selector switches the dashboard scope while preserving the selected ruleset. The slideshow adds an animated global introduction and a top-five recorded-play slide after personal rankings and before the finale. Full stories now contain 13 slides when both quizzes are available.
+The Your Stats / Global Stats selector preserves the selected gamemode. The full experience has up to **27 slides** when both quizzes have enough candidates.
 
-The global endpoint reads the official osu! top plays rankings, including player names, beatmap details, mods, PP, and direct score IDs. It scans up to ten pages (1,000 plays) until it finds 25 unique eligible 2026 plays, and caches results for 15 minutes per warm instance. No additional credentials or user permissions are required. Failed global requests preserve personal stats and may return previously cached global data with a stale-data notice.
+Global panels include:
 
-This leaderboard shows 2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only the highest-PP play per player and difficulty is shown. The dashboard shows up to 25 results and the slideshow shows five. Each entry links directly to its official score page. Global registrations, annual concurrency peaks, and ban counts are not included. Source: https://osu.ppy.sh/rankings/top-plays/osu
+- Up to 25 recorded 2026 PP plays from the current official top 1,000, plus player appearance rankings.
+- The 25 most-played mapsets ranked in 2026, ordered by lifetime mapset plays. Links open the most-played native difficulty for the selected mode.
+- Individual mod usage across the global top 25 PP plays, showing counts and percentages. CL is excluded and ties share a rank.
+- Up to ten genres across the popular top 25 mapsets, counting each unique mapset once. Missing metadata is labeled Unknown genre. Genre links open osu! searches filtered to the selected mode; the story shows the top five genres.
+- Ranked mapper totals and the number of unique mapsets ranked in 2026, from the catalogue snapshot described below.
 
-Restart the local backend after updating; deploy both frontend and functions for the live site.
+Community slides also show approximate new accounts, peak concurrent users with OhnePixel context, and over 1.7 billion ranked plays submitted. These community figures are separate from the selected-mode score sample; source and coverage notes appear on their slides. Restriction counts are not included.
+
+The global backend scans up to ten official ranking pages until it finds 25 eligible unique 2026 plays. Only the highest-PP play per player and difficulty is retained. This is not a complete annual archive. Results are cached for 15 minutes per warm instance; upstream failures preserve personal stats and may return stale cached results. Popular-mapset searches use the existing osu! application's public client credentials, with no additional service account or database.
+
+### Beatmap and replay panels
+
+Watch beatmap opens the embedded [JoSu beatmap viewer](https://preview.tryz.id.vn/), using the most-played native difficulty for the selected mode. Buttons are enabled for all four modes; viewer support can vary. Global Watch replay verifies that the requested score belongs to the returned global top 25 before downloading it for the signed-in user. Personal replay downloads still require score ownership. Tokens are never sent to either viewer.
 
 ### Ranked mapper leaderboard
 
@@ -67,4 +79,28 @@ The `Refresh ranked mapper leaderboard` GitHub Actions workflow refreshes daily 
 
 ### Playstyle clubs
 
-Personal stats now include one of nine explainable clubs: Overdrive, Precision Society, HR Headquarters, Afterdark, Mapper Loyalists, The Wanderers, No Mod No Problem, All-Rounder, and The Repeat Offenders. Repeat Offenders uses recorded 2026 monthly activity: at least 10,000 plays and six months with at least 500 plays each, after mod and precision preferences. Clubs are assigned from the deduplicated selected-mode 2026 score sample, require at least one score, exclude CL, and use percentage-based mod preferences. Accuracy thresholds vary by mode. The card explains the deciding signal and full assignment rules; the slideshow reveals the club with an animated emblem and supports pause and reduced motion. Clubs are a playful sample-based summary, not a complete play-history classification.
+One available 2026 score is enough to receive a club. The nine clubs are:
+
+| Club | Qualifying signal |
+| --- | --- |
+| Overdrive | DT or NC on at least 40% of selected scores. |
+| HR Headquarters | HR on at least 40%; excluded as a defining club for mania. |
+| Afterdark | HD or FL on at least 50%. |
+| No Mod, No Problem | Unmodified scores on at least 60%. |
+| Precision Society | At least ten passed scores averaging 99% in osu!/taiko, 99.5% in catch, or 98% in mania. |
+| The Repeat Offenders | At least 10,000 recorded 2026 plays and six months with at least 500 plays each. |
+| Mapper Loyalists | At least 25% of selected scores under one mapset host. |
+| The Wanderers | At least ten distinct hosts and ten artists; each unique-name count is at least half the score count. |
+| All-Rounder | Fallback when no other qualifying signal takes priority. |
+
+Mod preferences use percentages of the deduplicated selected-mode 2026 score sample from the current top 200, excluding CL. The largest qualifying mod share wins; ties use Overdrive, HR Headquarters, Afterdark, then No Mod. Otherwise priority is precision, regular activity, mapper loyalty, exploration, then All-Rounder. Repeat Offenders uses available monthly profile playcounts (across modes), not inferred retries. These are playful descriptions of available data, not complete play histories.
+
+Users qualifying for precision alongside another primary club receive the **Precision-minded** secondary archetype. The dashboard opens a scrollable legend of all nine clubs with the current club highlighted. The story uses a click-triggered evolution reveal with sound effects; text selection is disabled until the entrance animations finish. Reduced motion and mute are supported.
+
+Recap PNGs include the club emblem, color, name, motto, and assignment reason. When earned, the secondary archetype appears on the right with a central divider. Clubs are computed per review: no database stores assignments or community club percentages.
+
+### Experience and recap updates in v1.1.0
+
+The story includes up to 27 slides, personal mod rankings before medal/replay recognition, and the club reveal after favorite artists. Music, counter ticks, impact effects, and one-time beat-aligned grade stamps accompany the experience. Navigating while paused shows finished slide states immediately without replaying skipped entrance effects on resume. The OhnePixel panel enters after a 1.5-second delay during playback.
+
+The club and rarest medal cards share a compact responsive row, as do global mods and genres. Favorite mod percentages are visible inline. Medal rarity truncates to two decimal places and exposes its original decimal value on hover. Recap exports include primary club and optional Precision-minded secondary archetype. The legend uses a matching scrollbar and a full-width All-Rounder entry.
