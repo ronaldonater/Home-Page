@@ -39,3 +39,10 @@ test('zero eligible scores block the personal experience',()=>{
  markExperience(empty);
  assert.equal(firstExperience({...empty,sampleCount:1}),true);
 });
+
+test('mapping slide uses supplied counts after club and before community, and omits missing data',()=>{
+ const data=player(777);data.mapping={status:'ready',created:12,ranked:3,mostPopular:{previewUrl:'https://b.ppy.sh/preview/123.mp3'}};const slides=experienceSlides(data),index=slides.findIndex(slide=>slide.layout==='mapping');
+ assert.ok(index>0);assert.equal(slides[index-1].layout,'club');assert.equal(slides[index+1].layout,'global-intro');assert.ok(slides[index].body.includes('data-count="12"'));assert.ok(slides[index].body.includes('data-count="3"'));assert.ok(slides[index].note.includes('across all modes'));assert.equal(slides[index].preview,'https://b.ppy.sh/preview/123.mp3');assert.equal(slides[index].syncToPreview,true);
+ data.mapping={status:'unavailable'};assert.ok(!experienceSlides(data).some(slide=>slide.layout==='mapping'));
+ data.mapping={status:'ready',created:0,ranked:0};assert.ok(!experienceSlides(data).some(slide=>slide.layout==='mapping'));
+});

@@ -18,8 +18,8 @@ function avatarImage(userId){
 }
 export async function createRecap(data){
  const topPlays=data.top.slice(0,5);
- const [avatar,covers,mapperAvatars,artistAvatars,medalArt,modArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(artist=>artistImage(artist.name))),recapMedalImage(data.rarestMedal),Promise.all((data.favoriteMod?.mods||[]).slice(0,3).map(mod=>recapModImage(mod)))]);
- const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2446;
+ const [avatar,covers,mapperAvatars,artistAvatars,medalArt,modArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(async artist=>(await artistImage(artist.name))||await coverImage(artist.cover))),recapMedalImage(data.rarestMedal),Promise.all((data.favoriteMod?.mods||[]).slice(0,3).map(mod=>recapModImage(mod)))]);
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2446+(data.mapping?.status==='ready'?170:0);
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
  const text=(value,x,y,size=24,color=white,weight=400,maxWidth=1000)=>{
   ctx.font=weight+' '+size+'px "Segoe UI", sans-serif';ctx.fillStyle=color;
@@ -126,12 +126,25 @@ export async function createRecap(data){
  rankings('TOP 5 MAPPERS',data.mappers,64,mapperAvatars);rankings('TOP 5 ARTISTS',data.artists,612,artistAvatars);
  text('Ranked by selected score count, not yearly attempts. Artist images: TheAudioDB.com.',64,1820,17,muted,400,1072);
  box(64,1845,1072,128,'#282231');
- const medal=data.rarestMedal;if(medalArt)ctx.drawImage(medalArt,84,1860,96,96);
+ const medal=data.rarestMedal;if(medalArt){const scale=Math.min(96/medalArt.naturalWidth,96/medalArt.naturalHeight),width=medalArt.naturalWidth*scale,height=medalArt.naturalHeight*scale;ctx.drawImage(medalArt,84+(96-width)/2,1860+(96-height)/2,width,height);}
  const medalX=medalArt?200:88;
  text(data.rarestMedalStatus==='partial'?'RAREST MATCHED MEDAL · 2026':'RAREST MEDAL EARNED · 2026',medalX,1875,14,pink,700,900);
  text(medal?medal.name:data.rarestMedalStatus==='none'?'No medals earned in 2026':'Medal rarity unavailable',medalX,1910,28,white,700,900);
  if(medal){text(rarityText(medal.rarityPercent)+' of Osekai-tracked users · current estimate',medalX,1936,16,muted,400,900);text('Earned '+new Date(medal.earnedAt).toISOString().slice(0,10)+' UTC · Source: osekai.net',medalX,1958,15,muted,400,900);}
  ctx.save();ctx.translate(0,150);
+ if(data.mapping?.status==='ready'){
+  box(64,1848,1072,150,'#202934');
+  text('YOUR MAPPING YEAR / ALL MODES',88,1876,14,'#8edcff',700,1000);
+  text(number(data.mapping.created),88,1932,42,'#8edcff',700,300);
+  text('mapsets submitted in 2026',88,1960,15,white,400,300);
+  ctx.save();ctx.strokeStyle='#ffffff20';ctx.beginPath();ctx.moveTo(420,1900);ctx.lineTo(420,1967);ctx.moveTo(776,1900);ctx.lineTo(776,1967);ctx.stroke();ctx.restore();
+  text(number(data.mapping.ranked),448,1932,42,'#b7e58b',700,300);
+  text('of those currently ranked',448,1960,15,white,400,300);
+  text(number(data.mapping.totalPlays),804,1932,38,'#ffd46b',700,304);
+  text('all-time plays on these mapsets',804,1960,15,white,400,304);
+  text('Hosted mapsets only. First submission date (UTC); current ranked status.',88,1984,13,muted,400,1000);
+  ctx.translate(0,170);
+ }
  line(64,1848,1072);
  text('SCORE COVERAGE',64,1883,14,pink,700);
  text(number(data.sampleCount)+' scores dated in 2026 from your current top 200; not a full annual archive.',64,1912,17,muted,400,1072);

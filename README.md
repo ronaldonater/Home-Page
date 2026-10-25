@@ -41,7 +41,7 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**v1.1.17:** Interactive experience with up to 27 slides, nineteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
+**v1.1.18:** Interactive experience with up to 27 slides, nineteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
 
 The /osu-wrapped/ subpage is available directly; its Dev-page entry is managed manually. See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md) for its separate client and environment variables. Run node --test tests/*.test.mjs for the full test suite.
 
@@ -91,8 +91,13 @@ Current assignment rules are `2026-v13`. Listed strength ranges are base weights
 
 Mapper Loyalists additionally requires at least three matching scores across two distinct mapsets from the same host. Balanced All-Rounder considers at least three mod combinations, five hosts, and five artists, with no tracked mod family reaching 40%. All 19 clubs remain eligible for primary or secondary. Mode-specific accuracy thresholds remain heuristic; they are not claimed to be population-calibrated. This update needs no new SQL on schema v5.
 
-### Wrapped v1.1.17 updates
+### Wrapped v1.1.18 updates
 
+- Added a blueprint-themed mapping panel at the bottom of personal stats. It counts hosted mapsets first submitted in 2026 (UTC), the currently ranked subset, and combined all-time plays on those mapsets across all modes.
+- Added a mapping slide after the club reveal. It showcases the most-played 2026 submission with cover artwork, title, artist, lifetime playcount, and a mapset link, and plays its complete audio preview. The slide is skipped when there are no qualifying mapsets or mapping data is unavailable.
+- Recap cards include mapping counts and grow to fit the added section. Medal artwork now retains its original aspect ratio.
+- Artist photos fall back to a matching beatmap background on the dashboard, slideshow, and recap card, then to an initial if both images fail.
+- Mapping data uses paginated osu! profile catalogues with a 15-minute cache. Incomplete or failed fetches show unavailable. No new OAuth scopes, secrets, or database migration are required.
 - Replaced the elongated dash in the recap card date range with a regular hyphen.
 - Standardized the website introduction credit to lowercase `ronaldonater`.
 - On desktop, the five visible genre rows expand to fill the space beside the mod rankings, with remaining genres scrollable. Mobile retains compact rows.
@@ -141,3 +146,13 @@ Genre rankings now cover all currently ranked 2026 mapsets in the selected nativ
 ### Search indexing across the website
 
 All five public pages (home, Dev, Social, NextUp!/osu!AHR, and osu! Wrapped) have unique titles, descriptions, canonical URLs, indexing metadata, and entries in the root sitemap. Navigation uses crawlable links. API routes remain excluded from search. After deployment, submit `https://ronaldonater.com/sitemap.xml` in Google Search Console and use URL Inspection for individual pages when needed. Google determines actual indexing and rankings; this setup makes pages discoverable without guaranteeing inclusion.
+
+Personal mapping stats show hosted mapsets first submitted in 2026 (UTC), across all modes, and how many of those are currently ranked. The app paginates ranked/loved/pending/graveyard profile catalogues, deduplicates set IDs, and caches successful results for 15 minutes. Missing or incomplete fetches show unavailable, not a misleading zero. Guest difficulties hosted by others, deleted sets, and local-only maps are excluded. No new OAuth scopes, database migration, or secrets are needed.
+
+Mapping statistics also appear on a conditional personal slide after the club reveal and before community statistics, plus a compact two-count section near the recap card footer. Both show first-submitted 2026 hosted mapsets across all modes and the currently ranked subset. Unavailable mapping data omits these sections; valid zero counts remain visible. The recap canvas grows to accommodate the new row.
+
+The mapping slide is skipped when no hosted mapsets were first submitted in 2026. Otherwise it plays the complete osu! audio preview of the most-played mapset in that cohort, using lifetime mapset playcount, and advances when the preview ends. Missing preview playback falls back to the normal slide duration. Zero counts remain visible on the dashboard and recap.
+
+The mapping dashboard, slide, and recap also show combined all-time plays on the user’s hosted mapsets first submitted in 2026. Counts combine all difficulties and modes in each unique mapset. Missing playcount metadata is shown as unavailable rather than zero.
+
+Developer portfolio updates: a seamless technology ticker with pause/resume, one-tag arrow navigation and queued rapid clicks, plus fading edge controls; a slower Matrix background with an icon-only pause button positioned under Home on desktop and centered in the mobile navbar. All public pages have indexing metadata and crawlable navigation. The Wrapped project and social preview use the revised logo image.

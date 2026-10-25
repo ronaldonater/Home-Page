@@ -1,3 +1,4 @@
+import {mappingStats} from './mapping-stats.mjs';
 import {enrichMapDates} from './map-clubs.mjs';
 import {recordClubCommunity} from './club-community.mjs';
 import {globalStats} from './global-stats.mjs';
@@ -101,8 +102,8 @@ export async function handler(event){
   const best=pages.flat();
   const [enriched,popularBeatmapsets]=await Promise.all([enrichMapDates(best,session.token),globalStats.popularBeatmapsets(mode,{clientId:process.env.WRAPPED_OSU_CLIENT_ID,clientSecret:process.env.WRAPPED_OSU_CLIENT_SECRET})]);
   const summary=summarize(user,enriched,mode,{popularBeatmapsets});
-  const [medal,clubCommunity]=await Promise.all([rarestMedal(user.user_achievements),recordClubCommunity(summary,{databaseUrl:process.env.WRAPPED_DATABASE_URL,trackingSecret:process.env.WRAPPED_CLUB_TRACKING_SECRET})]);
-  return json(200,{...summary,...medal,...(clubCommunity?{clubCommunity}:{})});
+  const [mapping,medal,clubCommunity]=await Promise.all([mappingStats(user.id,session.token),rarestMedal(user.user_achievements),recordClubCommunity(summary,{databaseUrl:process.env.WRAPPED_DATABASE_URL,trackingSecret:process.env.WRAPPED_CLUB_TRACKING_SECRET})]);
+  return json(200,{...summary,mapping,...medal,...(clubCommunity?{clubCommunity}:{})});
  }
  return json(404,{error:'Not found'});
  }catch(error){console.error('Wrapped request failed:',error.name);return json(error.status||500,{error:error.status?error.message:'Could not generate your Wrapped. Check deployment configuration or try again shortly.'});}
