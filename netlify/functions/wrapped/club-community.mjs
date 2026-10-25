@@ -1,6 +1,6 @@
 import {createHmac} from 'node:crypto';
 import {CLUBS} from '../../../osu-wrapped/src/clubs.js';
-export const CLUB_RULES_VERSION='2026-v12';
+export const CLUB_RULES_VERSION='2026-v13';
 export const COMMUNITY_MINIMUM=1;
 const modes=['osu','taiko','fruits','mania'];
 const upsert=`INSERT INTO wrapped_club_assignments (participant_key, year, mode, club_id, rules_version)

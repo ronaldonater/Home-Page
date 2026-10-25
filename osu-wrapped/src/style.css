@@ -539,3 +539,5 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .story-fit-content{display:flow-root;transform-origin:top left}
 .story-stage-fitted .story-slide{margin-inline:auto;min-width:0}
 .story-stage-fitted .story-body{min-width:0;max-width:100%}
+
+.club-oneshot{--club-color:#d4e579}

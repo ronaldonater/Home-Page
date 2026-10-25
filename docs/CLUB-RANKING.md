@@ -1,6 +1,6 @@
 # Club ranking and primary/secondary archetypes
 
-All 18 clubs can qualify as primary or secondary. The app evaluates every signal independently rather than stopping at the first qualifying category. It ranks qualifying candidates by strength, assigns the strongest as primary, and assigns the next distinct candidate as secondary. If only one qualifies, there is no secondary. All-Rounder remains the fallback and can also qualify as a genuinely balanced signal.
+All 19 clubs can qualify as primary or secondary. The app evaluates every signal independently rather than stopping at the first qualifying category. It ranks qualifying candidates by strength, assigns the strongest as primary, and assigns the next distinct candidate as secondary. If only one qualifies, there is no secondary. All-Rounder remains the fallback and can also qualify as a genuinely balanced signal.
 
 ## Sample and eligibility
 
@@ -34,7 +34,7 @@ This allows contextual clubs such as client exclusivity and low playcount to win
 
 The dashboard, club reveal slide, and recap all show the same primary and secondary result. Each secondary uses its actual club name, emblem, color, motto on the recap, and deciding reason. The former precision-only badge is replaced by this generic secondary slot. The legend highlights both roles.
 
-Community percentages still count one primary club per participant/year/mode. Secondary matches do not inflate those percentages. Current assignment rules are `2026-v12`. Existing schema v5 already supports all 18 IDs, so this ranking change needs no new SQL migration. Participants update their existing row when generating a fresh review; aggregates exclude older assignment-rule versions until refreshed.
+Community percentages still count one primary club per participant/year/mode. Secondary matches do not inflate those percentages. Current assignment rules are `2026-v13`. Existing schema v6 supports all 19 IDs, so this ranking change needs no new SQL migration. Participants update their existing row when generating a fresh review; aggregates exclude older assignment-rule versions until refreshed.
 
 Mod preference weighting is reduced to 40-55 so stronger accuracy, map preference, loyalty, or exploration can lead instead of duplicating the Favorite Mod stat. Qualification thresholds are unchanged. This is an assignment-rule update only; no new SQL is needed on schema v5.
 
@@ -42,10 +42,12 @@ Both activity clubs use the same 55-80 range. Repeat Offenders starts at 55 with
 
 ## Evidence weighting and small-sample safeguards
 
-Current assignment rules are `2026-v12`. Listed strength ranges are base weights: score-based candidates are multiplied by `0.5 + 0.5 * min(evidenceScoreCount / 20, 1)`; accuracy uses only valid passed scores for this count. Activity candidates use `0.75 + 0.25 * min(availableMonths / 6, 1)` instead. Full weighting begins at 20 evidence scores or six available months. One eligible score still receives a club, with a provisional message below 20 scores.
+Current assignment rules are `2026-v13`. Listed strength ranges are base weights: score-based candidates are multiplied by `0.5 + 0.5 * min(evidenceScoreCount / 20, 1)`; accuracy uses only valid passed scores for this count. Activity candidates use `0.75 + 0.25 * min(availableMonths / 6, 1)` instead. Full weighting begins at 20 evidence scores or six available months. One eligible score still receives a club, with a provisional message below 20 scores.
 
-Mapper Loyalists additionally requires at least three matching scores across two distinct mapsets from the same host. Balanced All-Rounder considers at least three mod combinations, five hosts, and five artists, with no tracked mod family reaching 40%. All 18 clubs remain eligible for primary or secondary. Mode-specific accuracy thresholds remain heuristic; they are not claimed to be population-calibrated. This update needs no new SQL on schema v5.
+Mapper Loyalists additionally requires at least three matching scores across two distinct mapsets from the same host. Balanced All-Rounder considers at least three mod combinations, five hosts, and five artists, with no tracked mod family reaching 40%. All 19 clubs remain eligible for primary or secondary. Mode-specific accuracy thresholds remain heuristic; they are not claimed to be population-calibrated. This update needs no new SQL on schema v5.
 
 Mod clubs now use a low base range of 40-55 to avoid duplicating the Favorite Mod stat. They remain eligible for either role but usually yield to qualifying skill, map-preference, activity, client, and diversity signals. Evidence weighting and qualification thresholds are unchanged.
 
 Balanced All-Rounder now uses a 60-80 base range, with existing variety requirements and evidence weighting. Fallback All-Rounder remains 0. All clubs still have primary and secondary test cases.
+
+One Shot Society: SD or PF on at least 40% of selected scores; each score counts once. Base strength 40-55 with normal evidence weighting, eligible as primary or secondary. Existing databases must run `scripts/sql/club-community-v6.sql` before deployment; fresh databases use the base SQL. This migration preserves participant records. Assignment rules: `2026-v13`.

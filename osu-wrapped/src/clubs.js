@@ -10,6 +10,7 @@ export const CLUBS={
  repeat:{name:'The Repeat Offenders',motto:'One more try became a lifestyle.',icon:'M72 40A24 24 0 0 0 30 32L23 41M23 25V41H39M28 60A24 24 0 0 0 70 68L77 59M61 59H77V75'},
  easy:{name:'EZ Does It',motto:'Smaller score. Bigger mind games.',icon:'M28 34H72L42 66H72M28 50H58'},
  closeenough:{name:'Close Enough Club',motto:'Not every hit was perfect. The story still counts.',icon:'M29 50A21 21 0 1 0 71 50A21 21 0 1 0 29 50M37 51L47 61L64 40M31 24L25 18M69 24L75 18'},
+ oneshot:{name:'One Shot Society',motto:'One miss. Back to the beginning.',icon:'M30 50A20 20 0 1 0 70 50A20 20 0 1 0 30 50M50 23V35M50 65V77M23 50H35M65 50H77M43 50L49 56L60 43'},
  safetynet:{name:'Safety Net Society',motto:'A little backup. Another chance to play.',icon:'M50 22L73 31V49Q73 67 50 78Q27 67 27 49V31ZM38 49L47 58L63 40'},
  quality:{name:'Quality Over Quantity',motto:'A few plays. A lasting impression.',icon:'M50 22L58 40L78 43L63 57L67 78L50 68L33 78L37 57L22 43L42 40ZM40 50L48 58L61 43'},
  timecapsule:{name:'Time Capsule',motto:'Great patterns never get old.',icon:'M29 27H71M29 73H71M34 27Q34 42 50 50Q66 58 66 73M66 27Q66 42 50 50Q34 58 34 73'},
@@ -19,7 +20,7 @@ export const CLUBS={
  lazer:{name:'Lazer Pioneers',motto:'The next chapter is already yours.',icon:'M56 21L29 55H47L42 79L72 42H53Z'},
  allrounder:{name:'All-Rounder',motto:'A little of everything. A style all your own.',icon:'M50 22.5L58 41.5L79 42.5L63 55.5L69 77.5L50 65.5L31 77.5L37 55.5L21 42.5L42 41.5Z'}
 };
-export const CLUB_COLORS={overdrive:'#ff9a66',precision:'#8edcff',hardmode:'#ff777f',afterdark:'#bd9aff',loyalist:'#b7e58b',wanderer:'#71dfcb',nomod:'#ffd46b',repeat:'#f6ac69',allrounder:'#fa82b5',easy:'#87d89a',closeenough:'#f2bf78',safetynet:'#9db7ff',quality:'#f5d88a',timecapsule:'#dcb995',class2026:'#83e5cf',crowdfavorites:'#e0a0ef',stable:'#e9c38a',lazer:'#ff95c8'};
+export const CLUB_COLORS={overdrive:'#ff9a66',precision:'#8edcff',hardmode:'#ff777f',afterdark:'#bd9aff',loyalist:'#b7e58b',wanderer:'#71dfcb',nomod:'#ffd46b',repeat:'#f6ac69',allrounder:'#fa82b5',easy:'#87d89a',closeenough:'#f2bf78',safetynet:'#9db7ff',oneshot:'#d4e579',quality:'#f5d88a',timecapsule:'#dcb995',class2026:'#83e5cf',crowdfavorites:'#e0a0ef',stable:'#e9c38a',lazer:'#ff95c8'};
 export function scoreClient(score){
  if(typeof score.is_lazer==='boolean')return score.is_lazer?'lazer':'stable';
  if(Number.isSafeInteger(score.legacy_score_id)&&score.legacy_score_id>0)return 'stable';
@@ -28,14 +29,14 @@ export function scoreClient(score){
 }
 export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null}={}){
  const total=scores.length;if(total<1)return null;
- const families={overdrive:0,hardmode:0,afterdark:0,nomod:0,easy:0,safetynet:0},hosts=new Map(),hostSets=new Map(),artists=new Set(),modPatterns=new Set();
+ const families={overdrive:0,hardmode:0,afterdark:0,nomod:0,easy:0,safetynet:0,oneshot:0},hosts=new Map(),hostSets=new Map(),artists=new Set(),modPatterns=new Set();
  for(const score of scores){const mods=new Set((score.mods||[]).map(mod=>typeof mod==='string'?mod:mod?.acronym).filter(mod=>typeof mod==='string'&&/^[A-Z0-9]{1,6}$/.test(mod)&&mod!=='CL'));
   modPatterns.add([...mods].sort().join(',')||'NM');
   if(mods.has('DT')||mods.has('NC'))families.overdrive++;if(mode!=='mania'&&mods.has('HR'))families.hardmode++;if(mods.has('HD')||mods.has('FL'))families.afterdark++;if(!mods.size||(mods.size===1&&mods.has('NM')))families.nomod++;
-  if(mods.has('EZ'))families.easy++;if(mods.has('NF')||(mode==='osu'&&mods.has('SO')))families.safetynet++;
+  if(mods.has('SD')||mods.has('PF'))families.oneshot++;if(mods.has('EZ'))families.easy++;if(mods.has('NF')||(mode==='osu'&&mods.has('SO')))families.safetynet++;
   const host=score.beatmapset?.user_id||score.beatmapset?.creator;if(host){const key=String(host);hosts.set(key,(hosts.get(key)||0)+1);const setId=score.beatmapset?.id??score.beatmap?.beatmapset_id;if(Number.isSafeInteger(setId)&&setId>0){if(!hostSets.has(key))hostSets.set(key,new Set());hostSets.get(key).add(setId);}}if(score.beatmapset?.artist)artists.add(score.beatmapset.artist.toLocaleLowerCase('en'));
  }
- const thresholds={overdrive:.4,hardmode:.4,afterdark:.5,nomod:.6,easy:.4,safetynet:.5};
+ const thresholds={overdrive:.4,hardmode:.4,afterdark:.5,nomod:.6,easy:.4,safetynet:.5,oneshot:.4};
  const preferences=Object.entries(families).filter(([key,count])=>count/total>=thresholds[key]).sort((a,b)=>b[1]-a[1]||Object.keys(families).indexOf(a[0])-Object.keys(families).indexOf(b[0]));
  const passed=scores.filter(s=>s.passed!==false&&Number.isFinite(s.accuracy)&&s.accuracy>=0&&s.accuracy<=1),accuracy=passed.length?passed.reduce((sum,s)=>sum+s.accuracy*100,0)/passed.length:null;
  const accuracyThreshold=({osu:99,taiko:99,fruits:99.5,mania:98})[mode]??99;
@@ -59,7 +60,7 @@ export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null}
   candidates.push({id,baseStrength:Math.round(baseStrength*1000)/1000,evidenceCount,evidenceWeight,strength:Math.round(baseStrength*evidenceWeight*1000)/1000,reason,support});
  };
  const shareStrength=(share,threshold,base=70,range=30)=>base+range*clamp((share-threshold)/(1-threshold));
- for(const [id,count] of preferences){const label={overdrive:'DT or NC',hardmode:'HR',afterdark:'HD or FL',nomod:'No Mod',easy:'EZ',safetynet:mode==='osu'?'SO or NF':'NF'}[id];add(id,shareStrength(count/total,thresholds[id],40,15),count+' of '+total+' selected scores ('+(count/total*100).toFixed(1)+'%) use '+label+'.',count/total);}
+ for(const [id,count] of preferences){const label={overdrive:'DT or NC',hardmode:'HR',afterdark:'HD or FL',nomod:'No Mod',easy:'EZ',oneshot:'SD or PF',safetynet:mode==='osu'?'SO or NF':'NF'}[id];add(id,shareStrength(count/total,thresholds[id],40,15),count+' of '+total+' selected scores ('+(count/total*100).toFixed(1)+'%) use '+label+'.',count/total);}
  if(precise)add('precision',70+30*clamp((accuracy-accuracyThreshold)/(100-accuracyThreshold)),'Your average accuracy is '+accuracy.toFixed(2)+'% across '+passed.length+' passed scores, meeting the '+accuracyThreshold+'% threshold for this mode.',passed.length/total);
  if(lowAccuracy)add('closeenough',70+30*clamp((lowAccuracyThreshold-accuracy)/15),'Your average accuracy is '+accuracy.toFixed(2)+'% across '+passed.length+' passed scores, below the '+lowAccuracyThreshold+'% threshold for this mode.',passed.length/total);
  if(plays>=10000&&regularMonths>=6)add('repeat',55+25*(.7*clamp((plays-10000)/40000)+.3*clamp((regularMonths-6)/6)),plays.toLocaleString('en-US')+' recorded 2026 plays, with at least 500 plays in '+regularMonths+' months.',regularMonths/12);
@@ -98,6 +99,7 @@ export function clubMarkup(data,{story=false}={}){
 }
 
 const clubSignals={
+ oneshot:'SD or PF on at least 40% of selected scores. A score containing both counts once.',
  stable:'100% of selected scores are confirmed osu!stable scores. Unknown client metadata or mixed clients do not qualify.',
  lazer:'100% of selected scores are confirmed osu!lazer scores. Unknown client metadata or mixed clients do not qualify.',
  timecapsule:'At least 60% of selected scores are on mapsets ranked in 2016 or earlier, with at least five selected scores.',
