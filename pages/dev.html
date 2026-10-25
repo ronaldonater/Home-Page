@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="/assets/icons/favicon.png">
     <title>Dev - ronaldonater</title>
+    <meta name="robots" content="index,follow,max-image-preview:large">
     <meta name="theme-color" content="#00ff00">
     <meta name="description" content="Explore Damian Metovic’s software projects, technical skills, and experience in full-stack and front-end development.">
     <link rel="canonical" href="https://ronaldonater.com/dev">
@@ -33,12 +34,12 @@
 <body>
     <!-- Matrix Background Animation -->
     <canvas id="matrix-canvas" aria-hidden="true"></canvas>
-    <button type="button" id="matrix-pause" class="matrix-pause" aria-pressed="false">Ⅱ Pause background</button>
+    <button type="button" id="matrix-pause" class="matrix-pause" aria-pressed="false" aria-label="Pause background" title="Pause background"><svg class="matrix-pause-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5H10V19H7ZM14 5H17V19H14Z"/></svg><svg class="matrix-play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5L19 12L8 19Z"/></svg></button>
     
     <!-- Navigation Bar -->
     <nav class="navbar">
-        <button class="nav-btn" onclick="window.location.href='/'">Home</button>
-        <button class="nav-btn" onclick="window.location.href='/social'">Social</button>
+        <a class="nav-btn" href="/">Home</a>
+        <a class="nav-btn" href="/social">Social</a>
     </nav>
 
     <!-- Main Content -->
@@ -101,6 +102,8 @@
             <div class="technologies">
                 <h3>Technologies I Use</h3>
                 <div class="tech-display" role="region" aria-label="Technologies I use" tabindex="0">
+                <button type="button" class="tech-scroll-arrow tech-scroll-prev" aria-label="Previous technologies"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5L7 12L14 19"/></svg></button>
+                <button type="button" class="tech-scroll-arrow tech-scroll-next" aria-label="Next technologies"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5L17 12L10 19"/></svg></button>
                 <div class="tech-track"><div class="tech-grid">
                     <span class="tech-tag">JavaScript</span>
                     <span class="tech-tag">Java</span>

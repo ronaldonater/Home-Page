@@ -32,7 +32,9 @@ class MatrixAnimation {
         cancelAnimationFrame(this.frame);
         this.frame = null;
         if (this.toggle) {
-            this.toggle.textContent = paused ? '▶ Resume background' : 'Ⅱ Pause background';
+            const label = paused ? 'Resume background' : 'Pause background';
+            this.toggle.setAttribute('aria-label', label);
+            this.toggle.title = label;
             this.toggle.setAttribute('aria-pressed', String(paused));
         }
         if (!paused) { this.lastFrame = 0; this.animate(); }
@@ -187,17 +189,46 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
-// Duplicate only the visual row so the ticker loops without repeating accessible content.
+// Keep manual navigation and autoplay on the same seamless ticker timeline.
 {
  const display=document.querySelector('.tech-display');
  const track=display?.querySelector('.tech-track');
  const row=track?.querySelector('.tech-grid');
  const toggle=document.querySelector('.tech-scroll-toggle');
  if(row&&toggle){
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const duplicate=row.cloneNode(true);duplicate.setAttribute('aria-hidden','true');track.append(duplicate);
-  toggle.addEventListener('click',()=>{
-   const paused=display.classList.toggle('tech-scroll-paused');
+  let motion=null,duration=0,hovered=false;
+  const sync=()=>{
+   const paused=display.classList.contains('tech-scroll-paused');
    toggle.setAttribute('aria-pressed',String(paused));toggle.textContent=paused?'Resume scrolling':'Pause scrolling';
-  });
+   if(motion){if(paused||hovered||display.contains(document.activeElement)||document.hidden)motion.pause();else motion.play();}
+  };
+  const setup=()=>{
+   const progress=duration&&motion?Number(motion.currentTime||0)%duration/duration:0;
+   motion?.cancel();motion=null;
+   if(!reduced.matches&&row.offsetWidth){
+    duration=row.offsetWidth/32*1000;
+    motion=track.animate([{transform:'translateX(0)'},{transform:'translateX(-'+row.offsetWidth+'px)'}],{duration,iterations:Infinity,easing:'linear'});
+    motion.currentTime=progress*duration;sync();
+   }
+  };
+  const navigate=direction=>{
+   const distance=Math.max(150,display.clientWidth*.65);
+   if(reduced.matches){display.scrollBy({left:direction*distance,behavior:'instant'});return;}
+   if(motion){const time=Number(motion.currentTime||0)+direction*distance/32*1000;motion.currentTime=((time%duration)+duration)%duration;sync();}
+  };
+  display.querySelector('.tech-scroll-prev').addEventListener('click',()=>navigate(-1));
+  display.querySelector('.tech-scroll-next').addEventListener('click',()=>navigate(1));
+  display.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();navigate(event.key==='ArrowLeft'?-1:1);}});
+  toggle.addEventListener('click',()=>{display.classList.toggle('tech-scroll-paused');sync();});
+  display.addEventListener('mouseenter',()=>{hovered=true;sync();});
+  display.addEventListener('mouseleave',()=>{hovered=false;sync();});
+  display.addEventListener('focusin',sync);
+  display.addEventListener('focusout',()=>queueMicrotask(sync));
+  document.addEventListener('visibilitychange',sync);
+  reduced.addEventListener('change',setup);
+  new ResizeObserver(setup).observe(row);
+  setup();
  }
 }

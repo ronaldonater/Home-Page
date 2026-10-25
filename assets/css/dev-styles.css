@@ -461,3 +461,28 @@ body {
 .matrix-pause:hover{border-color:#00ff00;background:#002000}
 .matrix-pause:focus-visible{outline:2px solid #00ff00;outline-offset:3px}
 @media(max-width:600px){.matrix-pause{left:8px;top:80px;font-size:10px;padding:6px 9px}}
+
+.matrix-pause{width:34px;height:34px;padding:7px;display:grid;place-items:center;border-radius:50%}
+.matrix-pause svg{width:18px;height:18px;fill:currentColor;grid-area:1/1}
+.matrix-pause .matrix-play-icon{display:none}
+.matrix-pause[aria-pressed="true"] .matrix-pause-icon{display:none}
+.matrix-pause[aria-pressed="true"] .matrix-play-icon{display:block}
+@media(max-width:600px){.matrix-pause{width:34px;height:34px;padding:7px}}
+
+/* Keep the technology controls closer to the profile card edge. */
+.profile-section{padding-bottom:16px}
+.tech-scroll-toggle{margin-top:8px}
+
+/* Manual ticker navigation appears without changing the bar's dimensions. */
+.tech-display{position:relative;mask-image:none}
+.tech-track{animation:none}
+.tech-scroll-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:32px;height:36px;display:grid;place-items:center;border:1px solid #00ff0060;border-radius:8px;background:#001000f5;color:#00ff00;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .18s ease,background .18s ease}
+.tech-scroll-prev{left:4px}.tech-scroll-next{right:4px}
+.tech-scroll-arrow svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.tech-display:hover .tech-scroll-arrow,.tech-display:focus-within .tech-scroll-arrow,.tech-scroll-paused .tech-scroll-arrow{opacity:1;pointer-events:auto}
+.tech-scroll-arrow:hover{background:#003000}.tech-scroll-arrow:focus-visible{outline:2px solid #00ff00;outline-offset:2px}
+@media(prefers-reduced-motion:reduce){.tech-scroll-arrow{display:none}}
+@media(hover:none){.tech-scroll-arrow{opacity:1;pointer-events:auto}}
+
+/* Navigation links remain crawlable and retain their button appearance. */
+.nav-btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}

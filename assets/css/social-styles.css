@@ -872,3 +872,6 @@ body.concert-dialog-open { overflow: hidden; }
         padding: 0.35rem 0.7rem;
     }
 }
+
+/* Navigation links remain crawlable and retain their button appearance. */
+.nav-btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}

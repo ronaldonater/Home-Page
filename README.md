@@ -137,3 +137,7 @@ Current assignment rules: `2026-v13`. The latest schema migration remains `scrip
 One Shot Society: SD or PF on at least 40% of selected scores; each score counts once. Base strength 40-55 with normal evidence weighting, eligible as primary or secondary. Existing databases must run `scripts/sql/club-community-v6.sql` before deployment; fresh databases use the base SQL. This migration preserves participant records. Assignment rules: `2026-v13`.
 
 Genre rankings now cover all currently ranked 2026 mapsets in the selected native gamemode, using the daily catalogue snapshot. The slideshow shows the top five; the global panel shows every genre in a scrollable list with five rows visible initially. Each unique mapset counts once, including an Unknown genre category for missing metadata.
+
+### Search indexing across the website
+
+All five public pages (home, Dev, Social, NextUp!/osu!AHR, and osu! Wrapped) have unique titles, descriptions, canonical URLs, indexing metadata, and entries in the root sitemap. Navigation uses crawlable links. API routes remain excluded from search. After deployment, submit `https://ronaldonater.com/sitemap.xml` in Google Search Console and use URL Inspection for individual pages when needed. Google determines actual indexing and rankings; this setup makes pages discoverable without guaranteeing inclusion.
