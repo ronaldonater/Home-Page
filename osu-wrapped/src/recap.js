@@ -38,7 +38,7 @@ export async function createRecap(data){
  else{text([...data.user.username][0]?.toUpperCase()||'?',99,232,53,white,700,90);}ctx.restore();
  text(data.user.username+'’s 2026',200,213,48,white,700,936);
  const modeNames={osu:'osu!',taiko:'osu!taiko',fruits:'osu!catch',mania:'osu!mania'};
- text((modeNames[data.mode]||data.mode)+' · January 1 – December 31, 2026 (UTC)',200,251,20,muted,400,930);
+ text((modeNames[data.mode]||data.mode)+' · January 1 - December 31, 2026 (UTC)',200,251,20,muted,400,930);
  const stats=[['PLAYS IN 2026',number(data.playcount),'Monthly profile history · all modes'],['AVERAGE ACCURACY',data.accuracy==null?'—':data.accuracy.toFixed(2)+'%','2026 scores in current top 200'],['HIGHEST COMBO',data.combo==null?'—':number(data.combo)+'×','2026 scores in current top 200'],['MEDALS UNLOCKED',number(data.medals),'Dated achievements · all modes'],['REPLAYS WATCHED',number(data.replayViews),'Monthly profile history · all modes'],['HIGHEST PP',data.top[0]?Math.round(data.top[0].pp)+' pp':'—','2026 score in current top 200']];
  stats.forEach(([label,value,note],i)=>{const x=64+(i%3)*365,y=310+Math.floor(i/3)*157;box(x,y,342,137,i===0?'#fa82b5':'#241d2d');text(label,x+20,y+30,14,i===0?'#563045':muted,700,302);text(value,x+20,y+83,43,i===0?'#281820':white,700,i===1?225:302);if(i===1){const rank=accuracyRank(data.accuracy);if(rank){const color=({SS:'#ffd46b',S:'#ffd46b',A:'#b8eb9d',B:'#84caff',C:'#c292f2',D:'#ff7b86'})[rank];box(x+270,y+49,52,44,'#15131b');ctx.save();ctx.textAlign='center';text(rank,x+296,y+80,28,color,800,46);ctx.restore();}}text(note,x+20,y+115,13,i===0?'#633b50':muted,400,302);});
  const available=data.months.filter(m=>m.available);const peak=available.reduce((best,m)=>!best||m.count>best.count?m:best,null);
