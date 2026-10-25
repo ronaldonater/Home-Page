@@ -32,7 +32,8 @@
 </head>
 <body>
     <!-- Matrix Background Animation -->
-    <canvas id="matrix-canvas"></canvas>
+    <canvas id="matrix-canvas" aria-hidden="true"></canvas>
+    <button type="button" id="matrix-pause" class="matrix-pause" aria-pressed="false">Ⅱ Pause background</button>
     
     <!-- Navigation Bar -->
     <nav class="navbar">
@@ -99,7 +100,8 @@
             <!-- Technologies -->
             <div class="technologies">
                 <h3>Technologies I Use</h3>
-                <div class="tech-grid">
+                <div class="tech-display" role="region" aria-label="Technologies I use" tabindex="0">
+                <div class="tech-track"><div class="tech-grid">
                     <span class="tech-tag">JavaScript</span>
                     <span class="tech-tag">Java</span>
                     <span class="tech-tag">C</span>
@@ -107,21 +109,31 @@
                     <span class="tech-tag">C++</span>
                     <span class="tech-tag">Python</span>
                     <span class="tech-tag">HTML5</span>
-                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">CSS3</span>
+                    <span class="tech-tag">Vite</span>
+                    <span class="tech-tag">TypeScript</span>
                     <span class="tech-tag">Lua</span>
                     <span class="tech-tag">PHP</span>
                     <span class="tech-tag">Assembly</span>
                     <span class="tech-tag">SQL</span>
                     <span class="tech-tag">SQLite</span>
+                    <span class="tech-tag">PostgreSQL</span>
                     <span class="tech-tag">Kotlin</span>
+                    <span class="tech-tag">Prisma ORM</span>
+                    <span class="tech-tag">Jetpack Compose</span>
                     <span class="tech-tag">Node.js</span>
                     <span class="tech-tag">React.js</span>
                     <span class="tech-tag">TensorFlow</span>
                     <span class="tech-tag">PyTorch</span>
                     <span class="tech-tag">JavaFX</span>
                     <span class="tech-tag">AWS</span>
+                    <span class="tech-tag">Netlify</span>
                     <span class="tech-tag">Unity</span>
+                    <span class="tech-tag">GitHub Actions</span>
+                    <span class="tech-tag">Git</span>
+                </div></div>
                 </div>
+                <button type="button" class="tech-scroll-toggle" aria-pressed="false">Pause scrolling</button>
             </div>
         </div>
 
@@ -142,7 +154,7 @@
                     </p>
                     <div class="project-tech">
                         <span class="tech-tag">Kotlin</span>
-                        <span class="tech-tag">JetPack Compose</span>
+                        <span class="tech-tag">Jetpack Compose</span>
                         <span class="tech-tag">SQLite</span>
                     </div>
                     <div class="project-links">

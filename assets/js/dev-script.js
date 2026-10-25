@@ -8,8 +8,13 @@ class MatrixAnimation {
         this.columns = 0;
         this.drops = [];
         
+        this.paused = false;
+        this.frame = null;
+        this.lastFrame = 0;
+        this.toggle = document.getElementById('matrix-pause');
         this.init();
         this.animate();
+        this.toggle?.addEventListener('click', () => this.setPaused(!this.paused));
         
         // Handle window resize
         window.addEventListener('resize', () => this.init());
@@ -22,7 +27,22 @@ class MatrixAnimation {
         this.drops = Array(this.columns).fill(1);
     }
     
-    animate() {
+    setPaused(paused) {
+        this.paused = paused;
+        cancelAnimationFrame(this.frame);
+        this.frame = null;
+        if (this.toggle) {
+            this.toggle.textContent = paused ? '▶ Resume background' : 'Ⅱ Pause background';
+            this.toggle.setAttribute('aria-pressed', String(paused));
+        }
+        if (!paused) { this.lastFrame = 0; this.animate(); }
+    }
+
+    animate(now = 0) {
+        if (this.paused) return;
+        this.frame = requestAnimationFrame(time => this.animate(time));
+        if (now - this.lastFrame < 1000 / 30) return;
+        this.lastFrame = now;
         // Semi-transparent black background for fade effect
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -43,10 +63,10 @@ class MatrixAnimation {
                 this.drops[i] = 0;
             }
             
-            this.drops[i] += 0.5;
+            this.drops[i] += 0.6;
         }
         
-        requestAnimationFrame(() => this.animate());
+
     }
 }
 
@@ -167,3 +187,17 @@ style.textContent = `
     }
 `;
 document.head.appendChild(style);
+// Duplicate only the visual row so the ticker loops without repeating accessible content.
+{
+ const display=document.querySelector('.tech-display');
+ const track=display?.querySelector('.tech-track');
+ const row=track?.querySelector('.tech-grid');
+ const toggle=document.querySelector('.tech-scroll-toggle');
+ if(row&&toggle){
+  const duplicate=row.cloneNode(true);duplicate.setAttribute('aria-hidden','true');track.append(duplicate);
+  toggle.addEventListener('click',()=>{
+   const paused=display.classList.toggle('tech-scroll-paused');
+   toggle.setAttribute('aria-pressed',String(paused));toggle.textContent=paused?'Resume scrolling':'Pause scrolling';
+  });
+ }
+}

@@ -444,3 +444,20 @@ body {
         padding: 0.4rem 0.8rem;
     }
 }
+
+/* Slow, seamless technology display bar. */
+.tech-display{max-width:100%;min-width:0;overflow:hidden;border-block:1px solid #00ff0030;padding:18px 0;mask-image:linear-gradient(to right,transparent,#000 4%,#000 96%,transparent)}
+.tech-track{display:flex;width:max-content;animation:tech-scroll 110s linear infinite}
+.tech-display .tech-grid{display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:12px;flex:none;margin:0;padding:0 12px 0 0}
+.tech-display .tech-tag{flex:none;white-space:nowrap}
+.tech-display:hover .tech-track,.tech-display:focus-within .tech-track,.tech-scroll-paused .tech-track{animation-play-state:paused}
+.tech-scroll-toggle{display:block;margin:10px auto 0;background:transparent;border:1px solid #00ff0040;border-radius:20px;padding:6px 12px;color:#00ff00;font:inherit;font-size:11px;cursor:pointer}
+.tech-scroll-toggle:focus-visible,.tech-display:focus-visible{outline:2px solid #00ff00;outline-offset:4px}
+@keyframes tech-scroll{to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.tech-display{overflow-x:auto;mask-image:none}.tech-track{animation:none}.tech-track>.tech-grid[aria-hidden="true"]{display:none}.tech-scroll-toggle{display:none}}
+
+/* Standalone background control below, and outside, the navigation bar. */
+.matrix-pause{position:fixed;top:86px;left:16px;z-index:999;padding:8px 12px;border:1px solid #00ff0055;border-radius:18px;background:#001000e8;color:#00ff00;font:11px 'Fira Code',monospace;cursor:pointer;backdrop-filter:blur(8px)}
+.matrix-pause:hover{border-color:#00ff00;background:#002000}
+.matrix-pause:focus-visible{outline:2px solid #00ff00;outline-offset:3px}
+@media(max-width:600px){.matrix-pause{left:8px;top:80px;font-size:10px;padding:6px 9px}}
