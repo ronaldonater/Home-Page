@@ -548,3 +548,9 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 
 .global-dashboard .global-genre-list{display:block;max-height:310px;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#756080 #211b29;padding-right:8px}
 .global-dashboard .global-genre-list li{height:62px;min-height:62px}
+
+/* Let the five visible genre rows share the space beside the mod ranking. */
+@media(min-width:1001px){
+ .global-dashboard .global-genre-panel .global-genre-list{flex:1 1 0;height:310px;min-height:310px;max-height:none}
+ .global-dashboard .global-genre-panel .global-genre-list li{height:20%;min-height:62px}
+}
