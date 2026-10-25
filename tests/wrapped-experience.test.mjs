@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {experienceSlides,experienceKey,firstExperience,markExperience,quizOptions} from '../osu-wrapped/src/experience.js';
+import {canViewWrapped,openExperience,experienceSlides,experienceKey,firstExperience,markExperience,quizOptions} from '../osu-wrapped/src/experience.js';
 import {demo} from '../osu-wrapped/src/demo.js';
 const player=id=>({...demo(),demo:false,user:{...demo().user,id,username:'<script>alert(1)</script>'}});
 test('story has twenty-seven slides with two interactive quizzes and escapes user-supplied names',()=>{
@@ -30,3 +30,12 @@ test('quizzes immediately precede reveals and support ties without inventing ext
 });
 
 test('genre slide follows popular maps and shows at most five genres with its source explained',()=>{const data=player(555);data.globalStats={popularBeatmapsets:Array.from({length:12},(_,i)=>({id:i+1,genreId:[2,3,4,5,6,7,9,10,11,12,13,14][i]}))};const slides=experienceSlides(data);const index=slides.findIndex(s=>s.layout==='global-genres');assert.ok(index>0);assert.equal(slides[index-1].layout,'global-popular');assert.equal((slides[index].body.match(/<li>/g)||[]).length,5);assert.ok(slides[index].note.includes('Each mapset counts once'));});
+
+test('zero eligible scores block the personal experience',()=>{
+ const empty={...player(98765),sampleCount:0};
+ assert.equal(canViewWrapped(empty),false);
+ assert.equal(firstExperience(empty),false);
+ assert.equal(openExperience(empty),undefined);
+ markExperience(empty);
+ assert.equal(firstExperience({...empty,sampleCount:1}),true);
+});

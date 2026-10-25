@@ -13,14 +13,15 @@ const number=value=>value==null?'—':new Intl.NumberFormat('en-US',{maximumFrac
 const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const seen=new Set();
 export const experienceKey=data=>'osu-wrapped:experience:'+data.year+':'+data.user.id;
+export const canViewWrapped=data=>Number.isInteger(data?.sampleCount)&&data.sampleCount>0;
 export function firstExperience(data,storage){
- if(!data || data.demo)return false;
+ if(!canViewWrapped(data) || data.demo)return false;
  const key=experienceKey(data);if(seen.has(key))return false;
  try{if(storage?.getItem(key))return false;}catch{}
  return true;
 }
 export function markExperience(data,storage){
- if(data.demo)return;const key=experienceKey(data);seen.add(key);try{storage?.setItem(key,'seen');}catch{}
+ if(!canViewWrapped(data)||data.demo)return;const key=experienceKey(data);seen.add(key);try{storage?.setItem(key,'seen');}catch{}
 }
 export function experienceSlides(data){
  const best=data.top[0];const available=data.months.filter(m=>m.available);const peak=available.reduce((a,b)=>!a||b.count>a.count?b:a,null);
@@ -59,6 +60,7 @@ export function experienceSlides(data){
  return slides;
 }
 export function openExperience(data,{onSave,onReview}={}){
+ if(!canViewWrapped(data))return;
  if(document.querySelector('.story-dialog'))return;
  const slides=experienceSlides(data);const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;const mobile=matchMedia('(max-width:720px)').matches;
  const dialog=document.createElement('dialog');dialog.className='story-dialog'+(mobile?' story-mobile':'');dialog.setAttribute('aria-label','Your osu! Wrapped experience');

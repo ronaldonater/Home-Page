@@ -4,17 +4,17 @@ Static personal site hosted on Netlify.
 
 ## Layout
 
-- `index.html` — landing page
-- `pages/` — Dev, Social, and osu!AHR pages
-- `assets/css/` — stylesheets
-- `assets/js/` — browser scripts, concert reviews, and cover data
-- `assets/images/` — profile pictures, project images, and NextUp logo
-- `assets/icons/` — favicon and social/platform icons
-- `assets/downloads/` — résumé
-- `docs/` — setup instructions and third-party notices
-- `archive/` — original website ZIP, preserved unchanged
-- `netlify/functions/` — server-side YouTube view counts and Steam playtime
-- `tests/` — automated checks
+- `index.html` - landing page
+- `pages/` - Dev, Social, and osu!AHR pages
+- `assets/css/` - stylesheets
+- `assets/js/` - browser scripts, concert reviews, and cover data
+- `assets/images/` - profile pictures, project images, and NextUp logo
+- `assets/icons/` - favicon and social/platform icons
+- `assets/downloads/` - résumé
+- `docs/` - setup instructions and third-party notices
+- `archive/` - original website ZIP, preserved unchanged
+- `netlify/functions/` - server-side YouTube view counts and Steam playtime
+- `tests/` - automated checks
 
 `netlify.toml`, `_redirects`, and `index.html` stay at the root for deployment.
 The public page URLs are `/`, `/dev`, `/social`, `/osu-ahr`, and `/osu-wrapped/`.
@@ -41,7 +41,7 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**v1.1.10:** Interactive experience with up to 27 slides, eighteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
+**v1.1.11:** Interactive experience with up to 27 slides, eighteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
 
 The /osu-wrapped/ subpage is available directly; its Dev-page entry is managed manually. See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md) for its separate client and environment variables. Run node --test tests/*.test.mjs for the full test suite.
 
@@ -91,8 +91,12 @@ Current assignment rules are `2026-v12`. Listed strength ranges are base weights
 
 Mapper Loyalists additionally requires at least three matching scores across two distinct mapsets from the same host. Balanced All-Rounder considers at least three mod combinations, five hosts, and five artists, with no tracked mod family reaching 40%. All 18 clubs remain eligible for primary or secondary. Mode-specific accuracy thresholds remain heuristic; they are not claimed to be population-calibrated. This update needs no new SQL on schema v5.
 
-### Wrapped v1.1.10 updates
+### Wrapped v1.1.11 updates
 
+- Personal Wrapped requires at least one eligible 2026 score from the selected mode's current top 200. With zero eligible scores, an explanation replaces the dashboard and its slideshow/recap controls; switching modes remains available.
+- Slides automatically scale to fit the available screen space while playback and navigation controls remain full-size.
+- Keyboard arrow navigation survives slide content changes without requiring another click, and yields to other open panels.
+- Removed the arrow from the “Click the play to view score” hint.
 - All 18 clubs can be primary or secondary. Every qualifying signal is ranked; the strongest becomes primary and the next distinct match becomes secondary.
 - Evidence weighting reduces the influence of small samples. One selected score remains eligible; reviews with fewer than 20 selected scores display a provisional note. Score-based signals reach full weight at 20 evidence scores, using valid passed scores for accuracy. Activity signals reach full weight at six available months.
 - Mapper Loyalists requires three matching scores across at least two distinct mapsets. Balanced All-Rounder considers mod, mapper, and artist variety rather than mods alone.
