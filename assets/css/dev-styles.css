@@ -486,3 +486,21 @@ body {
 
 /* Navigation links remain crawlable and retain their button appearance. */
 .nav-btn{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+
+/* Fade the tags behind the ticker controls instead of overlapping their outlines. */
+.tech-display::before,.tech-display::after{content:"";position:absolute;top:0;bottom:0;width:76px;z-index:1;pointer-events:none;opacity:0;transition:opacity .2s ease}
+.tech-display::before{left:0;background:linear-gradient(90deg,#000 0%,#000e 35%,#0000 100%)}
+.tech-display::after{right:0;background:linear-gradient(270deg,#000 0%,#000e 35%,#0000 100%)}
+.tech-display:hover::before,.tech-display:hover::after,.tech-display:focus-within::before,.tech-display:focus-within::after,.tech-scroll-paused::before,.tech-scroll-paused::after{opacity:1}
+.tech-scroll-arrow{width:30px;height:34px;border-color:#00ff0035;border-radius:9px;background:#000b;box-shadow:0 0 16px #0009;backdrop-filter:blur(6px)}
+.tech-scroll-prev{left:8px}.tech-scroll-next{right:8px}
+.tech-scroll-arrow svg{width:17px;height:17px;stroke-width:1.8}
+.tech-scroll-arrow:hover{background:#071707;border-color:#00ff0090;box-shadow:0 0 14px #00ff0010}
+@media(hover:none){.tech-display::before,.tech-display::after{opacity:1}}
+@media(prefers-reduced-motion:reduce){.tech-display::before,.tech-display::after{display:none}}
+
+/* Balance the pause control between the ticker and the card bottom edge. */
+.tech-scroll-toggle{margin-top:16px}
+
+/* Align the standalone background control with the Home link center. */
+.matrix-pause{transform:translateX(-50%)}

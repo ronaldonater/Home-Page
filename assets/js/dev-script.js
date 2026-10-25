@@ -15,6 +15,7 @@ class MatrixAnimation {
         this.init();
         this.animate();
         this.toggle?.addEventListener('click', () => this.setPaused(!this.paused));
+        document.fonts?.ready.then(() => this.alignControl());
         
         // Handle window resize
         window.addEventListener('resize', () => this.init());
@@ -25,8 +26,17 @@ class MatrixAnimation {
         this.canvas.height = window.innerHeight;
         this.columns = Math.floor(this.canvas.width / this.fontSize);
         this.drops = Array(this.columns).fill(1);
+        this.alignControl();
     }
     
+    alignControl() {
+        const home = document.querySelector('.navbar a[href="/"]');
+        if (home && this.toggle) {
+            const bounds = home.getBoundingClientRect();
+            this.toggle.style.left = (bounds.left + bounds.width / 2) + 'px';
+        }
+    }
+
     setPaused(paused) {
         this.paused = paused;
         cancelAnimationFrame(this.frame);
