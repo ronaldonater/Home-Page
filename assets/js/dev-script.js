@@ -33,7 +33,8 @@ class MatrixAnimation {
         const home = document.querySelector('.navbar a[href="/"]');
         if (home && this.toggle) {
             const bounds = home.getBoundingClientRect();
-            this.toggle.style.left = (bounds.left + bounds.width / 2) + 'px';
+            const mobile = matchMedia('(max-width: 768px)').matches;
+            this.toggle.style.left = mobile ? '50%' : (bounds.left + bounds.width / 2) + 'px';
         }
     }
 
@@ -209,12 +210,14 @@ document.head.appendChild(style);
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   const duplicate=row.cloneNode(true);duplicate.setAttribute('aria-hidden','true');track.append(duplicate);
   let motion=null,duration=0,hovered=false,navigation=null;
+  const navigationQueue=[];
   const sync=()=>{
    const paused=display.classList.contains('tech-scroll-paused');
    toggle.setAttribute('aria-pressed',String(paused));toggle.textContent=paused?'Resume scrolling':'Pause scrolling';
    if(motion){if(navigation||paused||hovered||display.contains(document.activeElement)||document.hidden)motion.pause();else motion.play();}
   };
   const setup=()=>{
+   navigationQueue.length=0;
    if(navigation){cancelAnimationFrame(navigation);navigation=null;}
    const progress=duration&&motion?Number(motion.currentTime||0)%duration/duration:0;
    motion?.cancel();motion=null;
@@ -225,7 +228,7 @@ document.head.appendChild(style);
    }
   };
   const navigate=direction=>{
-   if(navigation)return;
+   if(navigation){navigationQueue.push(direction);return;}
    const tags=[...row.children],cycle=row.offsetWidth;
    if(!cycle||!tags.length)return;
    const origin=row.getBoundingClientRect().left;
@@ -235,13 +238,13 @@ document.head.appendChild(style);
    if(reduced.matches){display.scrollTo({left:Math.max(0,target),behavior:'instant'});return;}
    if(!motion)return;
    motion.pause();
-   const start=performance.now(),distance=target-current;
+   const start=performance.now(),distance=target-current,stepDuration=navigationQueue.length?160:300;
    const step=now=>{
-    const progress=Math.min(1,(now-start)/300),eased=progress<.5?2*progress*progress:1-Math.pow(-2*progress+2,2)/2;
+    const progress=Math.min(1,(now-start)/stepDuration),eased=progress<.5?2*progress*progress:1-Math.pow(-2*progress+2,2)/2;
     const position=current+distance*eased;
     motion.currentTime=((position%cycle+cycle)%cycle)/32*1000;
     if(progress<1)navigation=requestAnimationFrame(step);
-    else{navigation=null;sync();}
+    else{navigation=null;if(navigationQueue.length)navigate(navigationQueue.shift());else sync();}
    };
    navigation=requestAnimationFrame(step);
   };

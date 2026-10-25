@@ -504,3 +504,6 @@ body {
 
 /* Align the standalone background control with the Home link center. */
 .matrix-pause{transform:translateX(-50%)}
+
+/* Mobile places the background control midway between the navigation links. */
+@media(max-width:768px){.matrix-pause{top:35px;z-index:1001;transform:translate(-50%,-50%)}}
