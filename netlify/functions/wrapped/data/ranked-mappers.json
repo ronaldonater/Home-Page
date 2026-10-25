@@ -1,15 +1,15 @@
 {
   "year": 2026,
-  "totalSets": 5705,
+  "totalSets": 5735,
   "modes": {
     "osu": {
-      "totalSets": 2794,
-      "totalMappers": 1025,
+      "totalSets": 2811,
+      "totalMappers": 1029,
       "top": [
         {
           "userId": 12693713,
           "username": "killian",
-          "count": 32,
+          "count": 34,
           "rank": 1
         },
         {
@@ -33,26 +33,26 @@
         {
           "userId": 33599,
           "username": "Andrea",
-          "count": 20,
+          "count": 21,
           "rank": 5
         },
         {
           "userId": 8688812,
           "username": "Mir",
           "count": 20,
-          "rank": 5
+          "rank": 6
+        },
+        {
+          "userId": 6149313,
+          "username": "Pata-Mon",
+          "count": 18,
+          "rank": 7
         },
         {
           "userId": 13650508,
           "username": "App",
           "count": 17,
-          "rank": 7
-        },
-        {
-          "userId": 6149313,
-          "username": "Pata-Mon",
-          "count": 17,
-          "rank": 7
+          "rank": 8
         },
         {
           "userId": 10589721,
@@ -69,7 +69,7 @@
       ]
     },
     "taiko": {
-      "totalSets": 1458,
+      "totalSets": 1461,
       "totalMappers": 299,
       "top": [
         {
@@ -81,7 +81,7 @@
         {
           "userId": 5159715,
           "username": "[-E S I A-]",
-          "count": 57,
+          "count": 58,
           "rank": 2
         },
         {
@@ -129,13 +129,13 @@
         {
           "userId": 2597417,
           "username": "Jaltzu",
-          "count": 28,
+          "count": 29,
           "rank": 10
         }
       ]
     },
     "fruits": {
-      "totalSets": 522,
+      "totalSets": 526,
       "totalMappers": 141,
       "top": [
         {
@@ -153,18 +153,24 @@
         {
           "userId": 4138746,
           "username": "Cielbami",
-          "count": 15,
+          "count": 16,
           "rank": 3
         },
         {
           "userId": 32159666,
           "username": "DizzyOracel",
           "count": 15,
-          "rank": 3
+          "rank": 4
         },
         {
           "userId": 19647032,
           "username": "kastracja",
+          "count": 14,
+          "rank": 5
+        },
+        {
+          "userId": 2306637,
+          "username": "Secre",
           "count": 14,
           "rank": 5
         },
@@ -178,31 +184,25 @@
           "userId": 8846762,
           "username": "4rcheR-",
           "count": 13,
-          "rank": 7
+          "rank": 8
         },
         {
-          "userId": 2306637,
-          "username": "Secre",
+          "userId": 16352736,
+          "username": "bighzonda",
           "count": 13,
-          "rank": 7
+          "rank": 8
         },
         {
           "userId": 8290364,
           "username": "[ Azu- ]",
           "count": 12,
-          "rank": 9
-        },
-        {
-          "userId": 16352736,
-          "username": "bighzonda",
-          "count": 12,
-          "rank": 9
+          "rank": 10
         }
       ]
     },
     "mania": {
-      "totalSets": 1065,
-      "totalMappers": 396,
+      "totalSets": 1071,
+      "totalMappers": 397,
       "top": [
         {
           "userId": 27834381,
@@ -225,20 +225,20 @@
         {
           "userId": 29645291,
           "username": "[TCD] Ena-suki",
-          "count": 14,
+          "count": 15,
           "rank": 4
         },
         {
           "userId": 23097320,
           "username": "keksikosu",
           "count": 14,
-          "rank": 4
+          "rank": 5
         },
         {
           "userId": 6185083,
           "username": "menphiss",
           "count": 14,
-          "rank": 4
+          "rank": 5
         },
         {
           "userId": 34587251,
@@ -267,7 +267,7 @@
       ]
     }
   },
-  "updatedAt": "2026-10-23T16:07:56.898Z",
+  "updatedAt": "2026-10-25T00:40:16.085Z",
   "source": "osu!",
   "sourceUrl": "https://osu.ppy.sh/beatmapsets?q=ranked%3E%3D2026-01-01%20ranked%3C2027-01-01&s=ranked",
   "coverage": "Currently ranked mapsets with a 2026 ranked date (UTC). Each unique set counts once for its host in each native gamemode it contains. Guest difficulties are not separate set credits."
