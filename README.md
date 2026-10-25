@@ -41,7 +41,7 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**v1.1.13:** Interactive experience with up to 27 slides, nineteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
+**v1.1.14:** Interactive experience with up to 27 slides, nineteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
 
 The /osu-wrapped/ subpage is available directly; its Dev-page entry is managed manually. See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md) for its separate client and environment variables. Run node --test tests/*.test.mjs for the full test suite.
 
@@ -91,8 +91,12 @@ Current assignment rules are `2026-v13`. Listed strength ranges are base weights
 
 Mapper Loyalists additionally requires at least three matching scores across two distinct mapsets from the same host. Balanced All-Rounder considers at least three mod combinations, five hosts, and five artists, with no tracked mod family reaching 40%. All 19 clubs remain eligible for primary or secondary. Mode-specific accuracy thresholds remain heuristic; they are not claimed to be population-calibrated. This update needs no new SQL on schema v5.
 
-### Wrapped v1.1.13 updates
+### Wrapped v1.1.14 updates
 
+- Genre rankings now cover all currently ranked mapsets with a 2026 ranked date in the selected native gamemode, instead of only the 25 most-played mapsets. Each unique mapset counts once; missing genre metadata is counted as Unknown genre.
+- The global genre panel lists every genre in a keyboard-accessible scroll list with five entries visible initially. The slideshow shows only the top five genres.
+- The genre slide appears immediately after "New patterns. More ways to play." (the total mapsets ranked in 2026 slide).
+- Genre counts and percentages refresh through the existing daily ranked-catalogue GitHub Actions workflow. No new secrets or workflow settings are required; the refreshed snapshot is included.
 - Centered the full-width All-Rounder legend heading and simplified the One Shot Society requirement wording.
 - Added One Shot Society for SD/PF players: at least 40% of selected scores, with a 40-55 base strength and support as a primary or secondary club.
 - Community tracking now supports 19 clubs under assignment rules `2026-v13`. Run `scripts/sql/club-community-v6.sql` for an existing database; use `scripts/sql/club-community.sql` for a fresh database. Superseded migrations have been removed.
@@ -128,3 +132,5 @@ Current assignment rules: `2026-v13`. The latest schema migration remains `scrip
 
 
 One Shot Society: SD or PF on at least 40% of selected scores; each score counts once. Base strength 40-55 with normal evidence weighting, eligible as primary or secondary. Existing databases must run `scripts/sql/club-community-v6.sql` before deployment; fresh databases use the base SQL. This migration preserves participant records. Assignment rules: `2026-v13`.
+
+Genre rankings now cover all currently ranked 2026 mapsets in the selected native gamemode, using the daily catalogue snapshot. The slideshow shows the top five; the global panel shows every genre in a scrollable list with five rows visible initially. Each unique mapset counts once, including an Unknown genre category for missing metadata.

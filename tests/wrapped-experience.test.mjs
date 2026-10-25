@@ -29,7 +29,7 @@ test('quizzes immediately precede reveals and support ties without inventing ext
  const slides=experienceSlides(data);const index=slides.findIndex(s=>s.quiz);assert.equal(slides[index].quiz.kind,'mapper');assert.equal(slides[index].quiz.tied,true);assert.equal(slides[index].quiz.options.length,2);assert.equal(slides[index+1].title,'Your mappers.');assert.ok(!slides.some(s=>s.quiz?.kind==='artist'));
 });
 
-test('genre slide follows popular maps and shows at most five genres with its source explained',()=>{const data=player(555);data.globalStats={popularBeatmapsets:Array.from({length:12},(_,i)=>({id:i+1,genreId:[2,3,4,5,6,7,9,10,11,12,13,14][i]}))};const slides=experienceSlides(data);const index=slides.findIndex(s=>s.layout==='global-genres');assert.ok(index>0);assert.equal(slides[index-1].layout,'global-popular');assert.equal((slides[index].body.match(/<li>/g)||[]).length,5);assert.ok(slides[index].note.includes('Each mapset counts once'));});
+test('genre slide follows the ranked mapset total and shows at most five genres with its source explained',()=>{const data=player(555);data.globalStats={rankedGenres:{totalSets:12,rows:[2,3,4,5,6,7,9,10,11,12,13,14].map(id=>({id,count:1}))}};const slides=experienceSlides(data);const index=slides.findIndex(s=>s.layout==='global-genres');assert.ok(index>0);assert.equal(slides[index-1].title,'New patterns.<br>More ways to play.');assert.equal((slides[index].body.match(/<li>/g)||[]).length,5);assert.ok(slides[index].note.includes('Each mapset counts once'));});
 
 test('zero eligible scores block the personal experience',()=>{
  const empty={...player(98765),sampleCount:0};

@@ -53,7 +53,7 @@ export function createGlobalService({fetchImpl=(...args)=>fetch(...args),now=()=
     if(top.length>=25||scores.length<100)break;
    }
    const popularBeatmapsets=await popular(mode,credentials);
-   const data={year:2026,mode,top,popularBeatmapsets,rankedMappers:{...mapperSnapshot.modes[mode],updatedAt:mapperSnapshot.updatedAt,coverage:mapperSnapshot.coverage},source:'osu!',sourceUrl:'https://osu.ppy.sh/rankings/top-plays/'+mode,updatedAt:new Date(now()).toISOString(),coverage:'2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only each player’s highest-PP play per difficulty is shown, regardless of mod combination.'};
+   const data={year:2026,mode,top,popularBeatmapsets,rankedGenres:Array.isArray(mapperSnapshot.modes[mode]?.genres)?{rows:mapperSnapshot.modes[mode].genres,totalSets:mapperSnapshot.modes[mode].totalSets,updatedAt:mapperSnapshot.updatedAt}:null,rankedMappers:{...mapperSnapshot.modes[mode],updatedAt:mapperSnapshot.updatedAt,coverage:mapperSnapshot.coverage},source:'osu!',sourceUrl:'https://osu.ppy.sh/rankings/top-plays/'+mode,updatedAt:new Date(now()).toISOString(),coverage:'2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only each player’s highest-PP play per difficulty is shown, regardless of mod combination.'};
    cache.set(mode,{data,expires:now()+15*60000});return {statusCode:200,body:data};
   }catch{if(stored)return {statusCode:200,body:{...stored.data,stale:true}};return {statusCode:503,body:{error:'Global plays are temporarily unavailable. Your personal Wrapped is still available.'}};}finally{pending.delete(mode);}})();pending.set(mode,task);return task;
  };
