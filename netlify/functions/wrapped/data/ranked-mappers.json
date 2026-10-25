@@ -1,12 +1,12 @@
 {
   "year": 2026,
-  "totalSets": 5738,
+  "totalSets": 5742,
   "modes": {
     "osu": {
       "genres": [
         {
           "id": 4,
-          "count": 558
+          "count": 559
         },
         {
           "id": 2,
@@ -14,7 +14,7 @@
         },
         {
           "id": 5,
-          "count": 745
+          "count": 747
         },
         {
           "id": 10,
@@ -22,7 +22,7 @@
         },
         {
           "id": 3,
-          "count": 205
+          "count": 206
         },
         {
           "id": 11,
@@ -53,7 +53,7 @@
           "count": 21
         }
       ],
-      "totalSets": 2813,
+      "totalSets": 2817,
       "totalMappers": 1029,
       "top": [
         {
@@ -126,7 +126,7 @@
         },
         {
           "id": 5,
-          "count": 310
+          "count": 311
         },
         {
           "id": 11,
@@ -169,8 +169,8 @@
           "count": 8
         }
       ],
-      "totalSets": 1461,
-      "totalMappers": 299,
+      "totalSets": 1462,
+      "totalMappers": 300,
       "top": [
         {
           "userId": 35619347,
@@ -467,7 +467,7 @@
       ]
     }
   },
-  "updatedAt": "2026-10-25T03:51:08.584Z",
+  "updatedAt": "2026-10-25T13:16:59.519Z",
   "source": "osu!",
   "sourceUrl": "https://osu.ppy.sh/beatmapsets?q=ranked%3E%3D2026-01-01%20ranked%3C2027-01-01&s=ranked",
   "coverage": "Currently ranked mapsets with a 2026 ranked date (UTC). Each unique set counts once for its host in each native gamemode it contains. Guest difficulties are not separate set credits."
