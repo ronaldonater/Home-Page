@@ -132,7 +132,7 @@ export function openExperience(data,{onSave,onReview}={}){
   const animations=slide.getAnimations({subtree:true}).filter(animation=>Number.isFinite(animation.effect?.getComputedTiming().endTime));
   Promise.allSettled(animations.map(animation=>animation.finished)).then(()=>{if(slide.isConnected)slide.classList.remove('club-reveal-animating');});
  }
- function show(i){if(closing)return;stopClubSound();impactAudio.pause();impactAudio.currentTime=0;impactPlayed=false;swooshAudio.pause();swooshAudio.currentTime=0;swooshStarted=false;swooshFallback=false;peakMotion?.cancel();peakMotion=null;stopTally();tallyIndex=0;lastTally=0;introMotion.forEach(animation=>animation.cancel());introMotion=[];shell.querySelector(".story-intro")?.remove();introActive=false;introEnd=4200;stampAudio.pause();stampAudio.currentTime=0;stampPlayed=false;gradeBeatTime=null;index=Math.max(0,Math.min(slides.length-1,i));slideAnimationsSkipped=paused;elapsed=0;last=performance.now();const slide=slides[index];if(slideAnimationsSkipped&&slide.layout==='club'&&data.club)clubRevealed=true;shell.className='story-shell story-theme-'+slide.theme;
+ function show(i){if(closing)return;const focusedBeforeSlide=document.activeElement;const replacingFocusedContent=stage.contains(focusedBeforeSlide);stopClubSound();impactAudio.pause();impactAudio.currentTime=0;impactPlayed=false;swooshAudio.pause();swooshAudio.currentTime=0;swooshStarted=false;swooshFallback=false;peakMotion?.cancel();peakMotion=null;stopTally();tallyIndex=0;lastTally=0;introMotion.forEach(animation=>animation.cancel());introMotion=[];shell.querySelector(".story-intro")?.remove();introActive=false;introEnd=4200;stampAudio.pause();stampAudio.currentTime=0;stampPlayed=false;gradeBeatTime=null;index=Math.max(0,Math.min(slides.length-1,i));slideAnimationsSkipped=paused;elapsed=0;last=performance.now();const slide=slides[index];if(slideAnimationsSkipped&&slide.layout==='club'&&data.club)clubRevealed=true;shell.className='story-shell story-theme-'+slide.theme;
   shell.querySelector('.story-backdrop')?.remove();
   if(slide.artwork){const image=document.createElement('img');image.className='story-backdrop';image.src=slide.artwork;image.alt='';image.referrerPolicy='no-referrer';image.addEventListener('error',()=>{if(image.parentElement){image.remove();shell.classList.remove('story-has-artwork');}},{once:true});shell.prepend(image);shell.classList.add('story-has-artwork');}
   stage.innerHTML='<div class="story-slide'+(slide.layout==='club'?' story-slide-club':slide.layout==='personal-mods'?' story-slide-personal-mods':slide.layout==='flow'?' story-slide-flow':slide.layout==='plays'?' story-slide-plays':slide.layout==='global-intro'?' story-slide-global-intro':slide.layout==='global-plays'?' story-slide-global-plays':['global-players','global-mappers','global-popular','global-popular-mappers','global-highlight','global-score','global-community','global-peak','global-mods','global-genres'].includes(slide.layout)?' story-slide-global-players story-slide-'+slide.layout:slide.quiz?' story-slide-quiz':'')+'"><span class="story-eyebrow">'+slide.eyebrow+'</span><h2>'+slide.title+'</h2><div class="story-body">'+slide.body+'</div><p class="story-footnote">'+escape(slide.note)+'</p></div>';
@@ -230,6 +230,7 @@ export function openExperience(data,{onSave,onReview}={}){
    introMotion.forEach(animation=>animation.pause());
   }
   mountSlideFit();
+  if(replacingFocusedContent||!dialog.contains(document.activeElement)){stage.tabIndex=0;stage.focus({preventScroll:true});}
   stage.scrollTop=0;stage.scrollLeft=0;
   syncPreview();
 
@@ -291,7 +292,7 @@ export function openExperience(data,{onSave,onReview}={}){
  }
  function pauseLabel(){shell.classList.toggle('story-paused',paused);const waiting=(slides[index].quiz&&!answers.has(index))||(slides[index].layout==='club'&&data.club&&!clubRevealed);pause.disabled=Boolean(waiting);pause.textContent=waiting?'Your turn':paused?'Play ▷':'Pause Ⅱ';pause.setAttribute('aria-label',waiting?(slides[index].layout==='club'?'Reveal your club or skip':'Choose an answer or skip'):paused?'Play experience':'Pause experience');}
  function toggle(){if(closing)return;paused=!paused;last=performance.now();pauseLabel();syncPreview();}
- const keyboard=event=>{if(closing){event.preventDefault();return;}if(event.target.closest('input,textarea'))return;if(event.code==='Space' && event.target.closest('button,a'))return;if(event.key==='ArrowRight'){event.preventDefault();advance();}if(event.key==='ArrowLeft'){event.preventDefault();show(index-1);}if(event.code==='Space'){event.preventDefault();toggle();}};
+ const keyboard=event=>{if(!dialog.open||expandedRecap?.open||[...document.querySelectorAll('dialog[open]')].at(-1)!==dialog)return;if(closing){event.preventDefault();return;}if(event.target.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"])'))return;if(event.code==='Space' && event.target.closest('button,a'))return;if(event.key==='ArrowRight'){event.preventDefault();advance();}if(event.key==='ArrowLeft'){event.preventDefault();show(index-1);}if(event.code==='Space'){event.preventDefault();toggle();}};
  function closeExperience(afterClose){
   if(closing)return;stopClubSound();closing=true;paused=true;cancelAnimationFrame(raf);introMotion.forEach(animation=>animation.pause());
   for(const audio of new Set([previewAudio,openingAudio,ambientAudio,...previewFades.keys()]))if(audio)fadePreview(audio,0,400);
@@ -302,7 +303,7 @@ export function openExperience(data,{onSave,onReview}={}){
   closeAudio.play().catch(()=>{});animation.finished.then(finish,finish);
  }
  dialog.addEventListener('cancel',event=>{event.preventDefault();closeExperience();});
- dialog.addEventListener('keydown',keyboard);
+ document.addEventListener('keydown',keyboard);
  const mute=dialog.querySelector('[data-story-mute]');
  mute.onclick=()=>{muted=!muted;clubCharge.muted=muted;clubArrival.muted=muted;for(const audio of new Set([previewAudio,openingAudio,ambientAudio,stampAudio,quizAudio,closeAudio,swooshAudio,impactAudio,...tallySounds,...previewFades.keys()]))if(audio)audio.muted=muted;mute.title=muted?'Unmute audio':'Mute audio';mute.setAttribute('aria-pressed',String(muted));mute.setAttribute('aria-label',muted?'Unmute slide audio':'Mute slide audio');};
  dialog.querySelector('[data-story-close]').onclick=()=>closeExperience();pause.onclick=toggle;
@@ -331,7 +332,7 @@ export function openExperience(data,{onSave,onReview}={}){
   raf=requestAnimationFrame(tick);
  }
  const focusBefore=document.activeElement;const overflowBefore=document.body.style.overflow;
- dialog.addEventListener('close',()=>{stopClubSound();cancelAnimationFrame(raf);impactAudio.pause();swooshAudio.pause();peakMotion?.cancel();stopTally();expandedRecap?.close();closeAudio.pause();stageSize.disconnect();slideContentSize.disconnect();cancelAnimationFrame(fitFrame);introMotion.forEach(animation=>animation.cancel());if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;document.removeEventListener("visibilitychange",visibilityChanged);stampAudio.pause();quizAudio?.pause();quizAudio=null;document.body.style.overflow=overflowBefore;dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});
+ dialog.addEventListener('close',()=>{document.removeEventListener('keydown',keyboard);stopClubSound();cancelAnimationFrame(raf);impactAudio.pause();swooshAudio.pause();peakMotion?.cancel();stopTally();expandedRecap?.close();closeAudio.pause();stageSize.disconnect();slideContentSize.disconnect();cancelAnimationFrame(fitFrame);introMotion.forEach(animation=>animation.cancel());if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;document.removeEventListener("visibilitychange",visibilityChanged);stampAudio.pause();quizAudio?.pause();quizAudio=null;document.body.style.overflow=overflowBefore;dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});
  dialog.showModal();document.body.style.overflow='hidden';show(0);stage.tabIndex=0;stage.focus();pauseLabel();raf=requestAnimationFrame(tick);
 }
 
@@ -377,7 +378,7 @@ function storyComboScore(data){
 
 function globalFeaturedPlay(data){
  const score=data?.top?.[0];if(!score)return '<p>Global plays are temporarily unavailable.</p>';
- return '<div class="story-score-heading"><strong class="story-number" data-count="'+Math.round(score.pp)+'" title="'+escape(score.pp)+' pp">'+number(Math.round(score.pp))+'</strong><span class="story-unit">pp</span>'+storyGrade(score.rank)+'</div><a class="global-featured-player" href="https://osu.ppy.sh/users/'+encodeURIComponent(score.userId)+'" target="_blank" rel="noopener noreferrer">'+storyUserAvatar({id:score.userId,username:score.username})+'<b>'+escape(score.username)+'</b></a><a class="global-featured-score-link" href="https://osu.ppy.sh/scores/'+encodeURIComponent(score.scoreId)+'" target="_blank" rel="noopener noreferrer"><b>'+escape(score.title)+'</b><span>'+escape(score.artist)+'</span><span>'+escape(score.version)+' · Mapped by '+escape(score.creator)+'</span></a><div class="story-tags">'+escape(score.mods)+' · '+formatScoreAccuracy(score.accuracy)+' accuracy</div><p class="story-score-date">'+storyDate(score.date)+' · Click the play to view score ↗</p>';
+ return '<div class="story-score-heading"><strong class="story-number" data-count="'+Math.round(score.pp)+'" title="'+escape(score.pp)+' pp">'+number(Math.round(score.pp))+'</strong><span class="story-unit">pp</span>'+storyGrade(score.rank)+'</div><a class="global-featured-player" href="https://osu.ppy.sh/users/'+encodeURIComponent(score.userId)+'" target="_blank" rel="noopener noreferrer">'+storyUserAvatar({id:score.userId,username:score.username})+'<b>'+escape(score.username)+'</b></a><a class="global-featured-score-link" href="https://osu.ppy.sh/scores/'+encodeURIComponent(score.scoreId)+'" target="_blank" rel="noopener noreferrer"><b>'+escape(score.title)+'</b><span>'+escape(score.artist)+'</span><span>'+escape(score.version)+' · Mapped by '+escape(score.creator)+'</span></a><div class="story-tags">'+escape(score.mods)+' · '+formatScoreAccuracy(score.accuracy)+' accuracy</div><p class="story-score-date">'+storyDate(score.date)+' · Click the play to view score</p>';
 }
 
 function globalFeaturedMap(data){

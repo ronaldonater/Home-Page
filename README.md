@@ -41,7 +41,7 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**v1.1.9:** Interactive experience with up to 27 slides, eighteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
+**v1.1.10:** Interactive experience with up to 27 slides, eighteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
 
 The /osu-wrapped/ subpage is available directly; its Dev-page entry is managed manually. See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md) for its separate client and environment variables. Run node --test tests/*.test.mjs for the full test suite.
 
@@ -91,7 +91,7 @@ Current assignment rules are `2026-v12`. Listed strength ranges are base weights
 
 Mapper Loyalists additionally requires at least three matching scores across two distinct mapsets from the same host. Balanced All-Rounder considers at least three mod combinations, five hosts, and five artists, with no tracked mod family reaching 40%. All 18 clubs remain eligible for primary or secondary. Mode-specific accuracy thresholds remain heuristic; they are not claimed to be population-calibrated. This update needs no new SQL on schema v5.
 
-### Wrapped v1.1.9 updates
+### Wrapped v1.1.10 updates
 
 - All 18 clubs can be primary or secondary. Every qualifying signal is ranked; the strongest becomes primary and the next distinct match becomes secondary.
 - Evidence weighting reduces the influence of small samples. One selected score remains eligible; reviews with fewer than 20 selected scores display a provisional note. Score-based signals reach full weight at 20 evidence scores, using valid passed scores for accuracy. Activity signals reach full weight at six available months.
