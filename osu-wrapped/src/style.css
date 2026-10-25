@@ -541,3 +541,7 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .story-stage-fitted .story-body{min-width:0;max-width:100%}
 
 .club-oneshot{--club-color:#d4e579}
+
+/* Reserve equal space on both sides so the full-width club heading stays centered. */
+.club-legend-card.club-allrounder:last-child:nth-child(odd) .club-legend-heading{padding-left:86px;padding-right:86px}
+@media(max-width:600px){.club-legend-card.club-allrounder:last-child:nth-child(odd) .club-legend-heading{padding-left:82px;padding-right:82px}}

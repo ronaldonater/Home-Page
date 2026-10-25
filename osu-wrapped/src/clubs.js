@@ -99,7 +99,7 @@ export function clubMarkup(data,{story=false}={}){
 }
 
 const clubSignals={
- oneshot:'SD or PF on at least 40% of selected scores. A score containing both counts once.',
+ oneshot:'SD or PF on at least 40% of selected scores.',
  stable:'100% of selected scores are confirmed osu!stable scores. Unknown client metadata or mixed clients do not qualify.',
  lazer:'100% of selected scores are confirmed osu!lazer scores. Unknown client metadata or mixed clients do not qualify.',
  timecapsule:'At least 60% of selected scores are on mapsets ranked in 2016 or earlier, with at least five selected scores.',
