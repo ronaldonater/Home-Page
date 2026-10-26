@@ -677,3 +677,5 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 
 .story-slide .ui-external-arrow{display:inline-block;font-family:Arial,sans-serif;font-size:.85em;font-weight:400;line-height:1;vertical-align:baseline;white-space:nowrap}
 @media(max-width:720px){.story-slide .ui-external-arrow{font-size:.8em}}
+
+.footer-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.app-version{font-size:10px;line-height:1.4;color:#aaa3b4;border:1px solid #ffffff18;border-radius:5px;padding:3px 6px;white-space:nowrap;font-variant-numeric:tabular-nums}
