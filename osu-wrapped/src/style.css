@@ -671,3 +671,9 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
  .club-legend-card.club-allrounder:last-child:nth-child(odd) .club-legend-heading{justify-content:flex-start;padding-left:0;padding-right:82px}
  .club-legend-card.club-allrounder:last-child:nth-child(odd)>p{max-width:none;margin-left:0;margin-right:0}
 }
+
+.ui-external-arrow{display:inline-block;font-family:Arial,sans-serif;font-size:.85em;font-weight:400;line-height:1;vertical-align:baseline}
+@media(max-width:720px){.stat .ui-external-arrow{font-size:10px;line-height:1}.stat.featured p>.ui-external-arrow{font-size:14px}}
+
+.story-slide .ui-external-arrow{display:inline-block;font-family:Arial,sans-serif;font-size:.85em;font-weight:400;line-height:1;vertical-align:baseline;white-space:nowrap}
+@media(max-width:720px){.story-slide .ui-external-arrow{font-size:.8em}}
