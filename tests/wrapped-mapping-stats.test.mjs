@@ -26,3 +26,9 @@ test('mapping panel explains cohort and gracefully handles missing statistics',(
 test('mapping preview selects the most played eligible mapset',()=>{const result=mappingCounts([row(1,{play_count:50}),row(2,{play_count:900}),row(3,{play_count:99999,submitted_date:'2025-01-01'})],42);assert.equal(result.mostPopular.id,2);assert.equal(result.mostPopular.previewUrl,'https://b.ppy.sh/preview/2.mp3');assert.equal(mappingCounts([],42).mostPopular,null);});
 
 test('mapping lifetime plays sum the eligible cohort and preserve missing metadata',()=>{assert.equal(mappingCounts([row(1,{play_count:20}),row(1,{play_count:20}),row(2,{play_count:30}),row(3,{play_count:900,submitted_date:'2025-01-01'})],42).totalPlays,50);assert.equal(mappingCounts([row(1)],42).totalPlays,null);assert.equal(mappingCounts([],42).totalPlays,0);});
+
+test('mapping genre variety counts identified genres once within the eligible upload cohort',()=>{
+ const row=(id,genre,user=42)=>({id,user_id:user,submitted_date:'2026-04-01T00:00:00Z',status:'pending',play_count:0,genre_id:genre});
+ const counts=mappingCounts([row(1,5),row(2,5),row(3,2),row(4,1),row(5,null),row(6,3,99),{...row(7,4),submitted_date:'2025-01-01T00:00:00Z'}],42);
+ assert.equal(counts.genreCount,2);
+});

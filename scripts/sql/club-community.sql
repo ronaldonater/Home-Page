@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS wrapped_club_assignments (
  participant_key text NOT NULL CHECK (participant_key ~ '^[a-f0-9]{64}$'),
  year integer NOT NULL CHECK (year = 2026),
  mode text NOT NULL CHECK (mode IN ('osu','taiko','fruits','mania')),
- club_id text NOT NULL CHECK (club_id IN ('overdrive','precision','hardmode','afterdark','loyalist','wanderer','nomod','repeat','allrounder','easy','closeenough','safetynet','quality','timecapsule','class2026','crowdfavorites','stable','lazer','oneshot')),
+ club_id text NOT NULL CHECK (club_id IN ('overdrive','precision','hardmode','afterdark','loyalist','wanderer','nomod','repeat','allrounder','easy','closeenough','safetynet','quality','timecapsule','class2026','crowdfavorites','stable','lazer','oneshot','choke','replay')),
  rules_version text NOT NULL,
  created_at timestamptz NOT NULL DEFAULT now(),
  updated_at timestamptz NOT NULL DEFAULT now(),

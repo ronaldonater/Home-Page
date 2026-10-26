@@ -19,58 +19,39 @@ node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 Do not point deploy previews or local tests at production unless you intend those authenticated visits to count. If both app copies share the same database, use the same tracking secret to deduplicate participants across them. Rotating that secret changes pseudonymous identities; reset or migrate the stored population when intentionally rotating it.
 
-## What is stored and displayed
 
-Only a keyed HMAC of the authenticated osu! ID, year, mode, club ID, rule version, and timestamps are stored. No usernames, email addresses, OAuth tokens, raw osu! IDs, or score histories are stored in this table. Pseudonymous records are still participant data; the app discloses collection under About the data. Database access stays on the backend. There is no browser endpoint accepting an arbitrary club or user ID.
+## Community database setup
 
-The primary key prevents repeat visits from increasing the population. Queries filter by year, gamemode, and assignment rule version. Modifying club assignment rules requires bumping `CLUB_RULES_VERSION` in the backend; older assignments are excluded until those users generate a fresh review. Monthly activity remains profile-wide, as in the existing club rules.
+The database is optional for reviews, slides and exports. It enables community primary-club percentages after one participant. Demos are never recorded; failed tracking does not block the review. Aggregates cache for one minute.
 
-The club card and story show the user's club percentage; the legend shows the full distribution. Percentages appear as soon as one participant is recorded per year/mode/rule version. An empty population shows a collecting message. Counts are participants who generated a Wrapped, not all osu! players. Aggregate reads cache for one minute per warm instance. A query timeout or error returns an unavailable status and backs off for one minute; personal Wrapped and club assignment continue working. Without either required environment variable, the integration stays disabled.
+- Fresh playstyle database: run `scripts/sql/club-community.sql`.
+- Existing playstyle database: run `scripts/sql/club-community-v8.sql`. It directly upgrades earlier schemas and retains existing rows.
+- Mapping community: additionally run `scripts/sql/mapping-community.sql` in the same database and branch. It creates `wrapped_mapping_club_assignments` independently of `wrapped_club_assignments`.
+- Earlier v6/v7 files may remain as historical migrations; they are not prerequisites for v8.
+- Standalone Functions variables: `DATABASE_URL`, `CLUB_TRACKING_SECRET`.
+- Website Functions variables: `WRAPPED_DATABASE_URL`, `WRAPPED_CLUB_TRACKING_SECRET`.
 
-Deleting an account's record can be handled by the site operator: calculate the same HMAC using the tracking secret and osu! ID, then execute a parameterized deletion for that participant key in the database. Removing the database environment variables disables future collection; existing rows remain until deleted.
+Playstyle assignments count once per participant/year/mode under `2026-v15`. Mapping assignments count once per mapper/year across modes under `mapping-2026-v1`. Only current-rule assignments enter percentages; returning users refresh existing records. Keep the secret stable. Neither table stores raw osu! IDs, usernames, tokens, full reviews, or replay files. See [community setup](CLUB-COMMUNITY.md).
 
-## Verify after deployment
+## Evidence and ranking
 
-- Missing configuration: Wrapped still works and no community percentage is fabricated.
-- Authenticated generation: a single row is inserted with a 64-character pseudonymous key.
-- Repeat generation: population does not increase.
-- Different mode: a separate mode-specific row is stored.
-- At least one participant: percentages sum to 100% before display rounding.
-- Database failure: the review still loads, with community stats unavailable.
+All 21 playstyle clubs can be primary or secondary. Strongest evidence-adjusted signal wins, followed by the next distinct match. Exact ties use supporting coverage, then definition order. Score evidence uses `0.5 + 0.5 * min(evidenceScores / 20, 1)`; accuracy uses valid passed scores. Activity evidence uses `0.75 + 0.25 * min(availableMonths / 6, 1)`, using replay-history months for Replay Society. One eligible score remains enough; fewer than 20 scores receive a provisional note. These are design weights, not probabilities. See [ranking guide](CLUB-RANKING.md).
 
-No live Neon project was created or configured by this code change. The SQL and private environment variables above must be configured before live persistence works.
+## Personal mapping and recap
 
-## Current SQL files
+Hosted mapsets first submitted in 2026 (UTC) are counted across all modes, deduplicated by set ID. The service paginates ranked, loved, pending and graveyard catalogues with a 15-minute cache. Guest difficulties hosted by others, deleted sets and unsubmitted maps are excluded. Ranked status is current. Missing/incomplete data is unavailable rather than zero.
 
-Use `scripts/sql/club-community.sql` for a fresh database, or `scripts/sql/club-community-v6.sql` to update any existing v1/v2/v3 schema directly. The v5 migration permits all 19 club IDs without deleting participant records. Superseded v2-v5 SQL files have been removed; they are not prerequisites. Current assignment rules are `2026-v13`, which require no further schema change.
+The panel shows submissions, their currently ranked subset, combined all-time plays, a mapping club, and the most-played upload. Club criteria and matching accent colors appear on the badge; a button opens the themed legend. Community share appears on the right on desktop and stacks on mobile. The legend shows scope, then the primary community summary, then all six clubs.
 
-## Current map-preference rules and schema
+The mapping slide follows the playstyle reveal and precedes global community statistics. It plays the most-played upload's complete audio preview. The recap shows three counters, then a divided row with club logo/name/motto/criteria and the most-played upload's cover/title/artist/playcount. Both slide and recap are omitted without a valid positive 2026 submission count, including unavailable data; no extra recap space is reserved. Zero counts can still appear on the dashboard.
 
-All score-based clubs use the complete deduplicated sample of eligible 2026 scores from the user's current top 200, including scores without PP. Precision Society and Close Enough Club use valid passed scores within that sample. Quality Over Quantity and Repeat Offenders use available monthly profile playcounts across all modes.
+## Demo data
 
-Time Capsule requires at least 60% of the sample on mapsets ranked in **2016 or earlier**. Class of 2026 requires at least 60% on mapsets ranked in **2026**. Crowd Favorites requires at least 40% on the selected mode's **25 most-played mapsets ranked in 2026**, spanning at least three distinct mapsets. Each requires at least five eligible scores. The popular top 25 is the comparison catalogue, not a limit on the user's score sample.
+Each mode includes real public metadata for ten native-mode mapsets from at least ten distinct hosts, including artwork and previews. Scores, PP, dates, activity, mapping totals and medal award dates remain fictional and labeled. Silver S/SS grades require HD or FL. The example medal displays a dated Osekai ownership snapshot. Demo community tracking is disabled. Refresh fixtures with `node scripts/update-demo-beatmaps.mjs` using local app credentials; no runtime credentials are needed for demos.
 
-Missing map ranking dates are not counted as old/new matches. The backend attempts date enrichment across up to 200 scores, with four concurrent lookups and a shared three-second budget; successfully fetched dates cache for 24 hours per warm instance. Popular catalogue requests coalesce and cache for 15 minutes. Metadata failures do not block the review.
+### Mapping club community tracking
 
-Only two SQL files are needed:
+Run `scripts/sql/mapping-community.sql` in the Neon SQL Editor before deploying. This creates a separate table and leaves existing playstyle data intact. Reuse the existing private database and tracking-secret variables: `DATABASE_URL` / `CLUB_TRACKING_SECRET` for the standalone app, or `WRAPPED_DATABASE_URL` / `WRAPPED_CLUB_TRACKING_SECRET` for the website integration. No new secrets are required.
 
-- `scripts/sql/club-community.sql`: create a fresh database table.
-- `scripts/sql/club-community-v6.sql`: update any existing earlier schema directly, preserving participant records. Superseded v2-v5 migration files were removed; v6 upgrades all earlier schemas directly.
+Authenticated Wrapped requests register one primary mapping club per mapper per year, across all modes. Only users with an eligible 2026 upload qualify; demos and unavailable mapping data are excluded. Revisiting updates an existing assignment. Percentages describe participating mappers, not all osu! users, and appear after one participant. Aggregates cache for one minute. Tracking stores a domain-separated HMAC key, year, all-mode scope, club ID, rule version and timestamps; no raw user IDs or usernames. Missing database configuration disables tracking; database failures leave Wrapped usable. Keep the tracking secret stable to avoid duplicate participant keys. Mapping ranking changes require a new mapping rules version.
 
-Current assignment rules are **`2026-v13`**. The SQL schema migration is **v5**; no new SQL is needed if it has already been applied. Percentages include participants under the current rules as they generate a fresh review. Keep the database URL and tracking secret unchanged. The private environment variables and deployment steps are documented above.
-
-## Stable/lazer client clubs
-
-Run the latest `scripts/sql/club-community-v6.sql` before deployment (or the base SQL for a new database). Stable Loyalists and Lazer Pioneers use all eligible 2026 scores from the current top 200, require 100% confirmed client metadata, and compete by signal strength for either role. Unknown client information never becomes an inferred match. The current rule version is `2026-v13`; older rows enter percentages as participants generate fresh reviews. No connection string or tracking-secret changes are needed.
-
-## Primary and secondary club ranking
-
-All 19 clubs can be primary or secondary. Qualification thresholds are preserved, but every match now competes by signal strength; the strongest two distinct matches fill those roles. All-Rounder additionally qualifies for a balanced mix of at least three mod combinations, five mapper hosts, and five artists with each mod family below 40%, or serves as fallback when nothing qualifies. Dashboard, story, legend, and recap all support arbitrary secondary clubs with matching artwork and colors. Community percentages count primary clubs only. Assignment rules are `2026-v13`; schema v5 requires no additional SQL for this change. See [ranking rules and weights](CLUB-RANKING.md).
-
-## Evidence weighting and small-sample safeguards
-
-Current assignment rules are `2026-v13`. Listed strength ranges are base weights: score-based candidates are multiplied by `0.5 + 0.5 * min(evidenceScoreCount / 20, 1)`; accuracy uses only valid passed scores for this count. Activity candidates use `0.75 + 0.25 * min(availableMonths / 6, 1)` instead. Full weighting begins at 20 evidence scores or six available months. One eligible score still receives a club, with a provisional message below 20 scores.
-
-Mapper Loyalists additionally requires at least three matching scores across two distinct mapsets from the same host. Balanced All-Rounder considers at least three mod combinations, five hosts, and five artists, with no tracked mod family reaching 40%. All 19 clubs remain eligible for primary or secondary. Mode-specific accuracy thresholds remain heuristic; they are not claimed to be population-calibrated. This update needs no new SQL on schema v5.
-
-One Shot Society: SD or PF on at least 40% of selected scores; each score counts once. Base strength 40-55 with normal evidence weighting, eligible as primary or secondary. Existing databases must run `scripts/sql/club-community-v6.sql` before deployment; fresh databases use the base SQL. This migration preserves participant records. Assignment rules: `2026-v13`.

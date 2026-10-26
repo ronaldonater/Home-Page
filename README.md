@@ -41,118 +41,108 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**v1.1.18:** Interactive experience with up to 27 slides, nineteen playstyle clubs and a club legend, primary/secondary club recap exports, personal mod breakdowns, global mod and genre rankings, and embedded replay/beatmap viewers. Global map and genre links preserve the selected gamemode; paused navigation shows completed slide states. No database is required; optional Neon Free tracking adds community club percentages.
+**Version 1.1.19**
 
-The /osu-wrapped/ subpage is available directly; its Dev-page entry is managed manually. See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md) for its separate client and environment variables. Run node --test tests/*.test.mjs for the full test suite.
+Supports all four modes, up to 28 slides (including the optional mapping slide), 21 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score. Community percentages optionally use Neon.
 
-See the [Wrapped security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md) for hardening changes, audit results, and post-deployment verification.
+See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md), and [club ranking guide](docs/CLUB-RANKING.md). Public routes are `/osu-wrapped/` and `/api/osu-wrapped/`; use the private `WRAPPED_` environment variables documented in setup. Run `node --test tests/*.test.mjs` from the website root.
 
-## Optional community club percentages
+## v1.1.19 updates
 
-Authenticated reviews can record pseudonymous club assignments in a separate Neon Free database. The dashboard, club legend, and story show community percentages once a mode has one participant. Repeat visits update the existing record. Tracking is disabled without configuration, and database outages do not block Wrapped. See [Neon setup and data scope](docs/CLUB-COMMUNITY.md).
+- Added six independent mapping clubs with qualification criteria, shared vector logos, and a themed legend panel.
+- Added mapping community percentages backed by a separate Neon table, counting each mapper once across all game modes.
+- Refined mapping club cards and recap exports, including the club logo, motto, criteria, and most-played 2026 upload.
+- Omit mapping sections from the slideshow and recap when no eligible 2026 uploads exist.
+- Added Replay Society as a primary or secondary playstyle club, with a logarithmic strength scale based on replay views received in 2026.
+- Improved club legend descriptions, consistent accent colors, and mapping button styling.
+- Deployment: existing databases must run `scripts/sql/club-community-v8.sql` for Replay Society and `scripts/sql/mapping-community.sql` for mapping tracking. Existing Netlify database variables are reused.
 
-### Map-preference clubs and community schema
+## Community database setup
 
-All score-based clubs use the complete deduplicated sample of eligible 2026 scores from the user's current top 200, including scores without PP. Precision Society and Close Enough Club use valid passed scores within that sample. Quality Over Quantity and Repeat Offenders use available monthly profile playcounts across all modes.
+The database is optional for reviews, slides and exports. It enables community primary-club percentages after one participant. Demos are never recorded; failed tracking does not block the review. Aggregates cache for one minute.
 
-Time Capsule requires at least 60% of the sample on mapsets ranked in **2016 or earlier**. Class of 2026 requires at least 60% on mapsets ranked in **2026**. Crowd Favorites requires at least 40% on the selected mode's **25 most-played mapsets ranked in 2026**, spanning at least three distinct mapsets. Each requires at least five eligible scores. The popular top 25 is the comparison catalogue, not a limit on the user's score sample.
+- Fresh playstyle database: run `scripts/sql/club-community.sql`.
+- Existing playstyle database: run `scripts/sql/club-community-v8.sql`. It directly upgrades earlier schemas and retains existing rows.
+- Mapping community: additionally run `scripts/sql/mapping-community.sql` in the same database and branch. It creates `wrapped_mapping_club_assignments` independently of `wrapped_club_assignments`.
+- Earlier v6/v7 files may remain as historical migrations; they are not prerequisites for v8.
+- Standalone Functions variables: `DATABASE_URL`, `CLUB_TRACKING_SECRET`.
+- Website Functions variables: `WRAPPED_DATABASE_URL`, `WRAPPED_CLUB_TRACKING_SECRET`.
 
-Missing map ranking dates are not counted as old/new matches. The backend attempts date enrichment across up to 200 scores, with four concurrent lookups and a shared three-second budget; successfully fetched dates cache for 24 hours per warm instance. Popular catalogue requests coalesce and cache for 15 minutes. Metadata failures do not block the review.
+Playstyle assignments count once per participant/year/mode under `2026-v15`. Mapping assignments count once per mapper/year across modes under `mapping-2026-v1`. Only current-rule assignments enter percentages; returning users refresh existing records. Keep the secret stable. Neither table stores raw osu! IDs, usernames, tokens, full reviews, or replay files. See [community setup](docs/CLUB-COMMUNITY.md).
 
-Only two SQL files are needed:
+## Evidence and ranking
 
-- `scripts/sql/club-community.sql`: create a fresh database table.
-- `scripts/sql/club-community-v6.sql`: update any existing earlier schema directly, preserving participant records. Superseded v2-v5 migration files were removed; v6 upgrades all earlier schemas directly.
+All 21 playstyle clubs can be primary or secondary. Strongest evidence-adjusted signal wins, followed by the next distinct match. Exact ties use supporting coverage, then definition order. Score evidence uses `0.5 + 0.5 * min(evidenceScores / 20, 1)`; accuracy uses valid passed scores. Activity evidence uses `0.75 + 0.25 * min(availableMonths / 6, 1)`, using replay-history months for Replay Society. One eligible score remains enough; fewer than 20 scores receive a provisional note. These are design weights, not probabilities. See [ranking guide](docs/CLUB-RANKING.md).
 
-Current assignment rules are **`2026-v13`**. The SQL schema migration is now **v5**; no new SQL is needed if it has already been applied. Percentages include participants under the current rules as they generate a fresh review. Keep the database URL and tracking secret unchanged. See [community setup](docs/CLUB-COMMUNITY.md) for private environment variables and deployment steps.
+## Personal mapping and recap
 
-### Stable and lazer clubs
+Hosted mapsets first submitted in 2026 (UTC) are counted across all modes, deduplicated by set ID. The service paginates ranked, loved, pending and graveyard catalogues with a 15-minute cache. Guest difficulties hosted by others, deleted sets and unsubmitted maps are excluded. Ranked status is current. Missing/incomplete data is unavailable rather than zero.
 
-Stable Loyalists and Lazer Pioneers require 100% of the full eligible 2026 sample to have the same confirmed client. Mixed or missing metadata cannot qualify; CL alone is not a client detector. Client exclusivity competes by strength for either role. Modern stable scores have a positive legacy score ID; confirmed lazer records have a null legacy ID with a solo-score type or client build ID. Explicit boolean client metadata is also supported. Descriptions refer to the available sample rather than all lifetime scores. Run `scripts/sql/club-community-v6.sql` before deploying these clubs; assignment rule version is `2026-v13`. This migration preserves rows and supports all older schemas directly.
+The panel shows submissions, their currently ranked subset, combined all-time plays, a mapping club, and the most-played upload. Club criteria and matching accent colors appear on the badge; a button opens the themed legend. Community share appears on the right on desktop and stacks on mobile. The legend shows scope, then the primary community summary, then all six clubs.
 
+The mapping slide follows the playstyle reveal and precedes global community statistics. It plays the most-played upload's complete audio preview. The recap shows three counters, then a divided row with club logo/name/motto/criteria and the most-played upload's cover/title/artist/playcount. Both slide and recap are omitted without a valid positive 2026 submission count, including unavailable data; no extra recap space is reserved. Zero counts can still appear on the dashboard.
 
-### Latest club updates (v1.1.7)
+## Demo data
 
-- 18 clubs, each with a unique hex color, emblem, legend entry, and recap styling.
-- Stable Loyalists and Lazer Pioneers require 100% confirmed client usage across all eligible 2026 scores from the current top 200. Mixed or unknown client metadata does not qualify. These clubs compete by strength for either role.
-- Time Capsule includes mapsets ranked in 2016 or earlier. Class of 2026 and Crowd Favorites also use the entire eligible sample, not just the user's top 25 scores.
-- EZ Does It motto: "Smaller score. Bigger mind games."
-- Legend community percentages stay aligned at the bottom of each card, and legend copy uses regular hyphens.
-- Current assignment rules: `2026-v13`. Latest schema upgrade: `scripts/sql/club-community-v6.sql`. Run it in Neon SQL Editor before deploying if your database has not already been upgraded. It directly supports earlier schemas and retains existing participant rows. Fresh databases use `scripts/sql/club-community.sql`.
-- Keep the connection string and tracking secret unchanged. Returning participants update their existing assignment when they generate a new review; percentages include the current rule version only.
+Each mode includes real public metadata for ten native-mode mapsets from at least ten distinct hosts, including artwork and previews. Scores, PP, dates, activity, mapping totals and medal award dates remain fictional and labeled. Silver S/SS grades require HD or FL. The example medal displays a dated Osekai ownership snapshot. Demo community tracking is disabled. Refresh fixtures with `node scripts/update-demo-beatmaps.mjs` using local app credentials; no runtime credentials are needed for demos.
 
-## Primary and secondary club ranking
+### Playstyle clubs
 
-All 19 clubs can be primary or secondary. Qualification thresholds are preserved, but every match now competes by signal strength; the strongest two distinct matches fill those roles. All-Rounder additionally qualifies for a balanced mix of at least three mod combinations, five mapper hosts, and five artists with each mod family below 40%, or serves as fallback when nothing qualifies. Dashboard, story, legend, and recap all support arbitrary secondary clubs with matching artwork and colors. Community percentages count primary clubs only. Assignment rules are `2026-v13`; schema v5 requires no additional SQL for this change. See [ranking rules and weights](docs/CLUB-RANKING.md).
+One available 2026 score is enough to receive a club. The 21 clubs are:
 
-## Evidence weighting and small-sample safeguards
-
-Current assignment rules are `2026-v13`. Listed strength ranges are base weights: score-based candidates are multiplied by `0.5 + 0.5 * min(evidenceScoreCount / 20, 1)`; accuracy uses only valid passed scores for this count. Activity candidates use `0.75 + 0.25 * min(availableMonths / 6, 1)` instead. Full weighting begins at 20 evidence scores or six available months. One eligible score still receives a club, with a provisional message below 20 scores.
-
-Mapper Loyalists additionally requires at least three matching scores across two distinct mapsets from the same host. Balanced All-Rounder considers at least three mod combinations, five hosts, and five artists, with no tracked mod family reaching 40%. All 19 clubs remain eligible for primary or secondary. Mode-specific accuracy thresholds remain heuristic; they are not claimed to be population-calibrated. This update needs no new SQL on schema v5.
-
-### Wrapped v1.1.18 updates
-
-- Added a blueprint-themed mapping panel at the bottom of personal stats. It counts hosted mapsets first submitted in 2026 (UTC), the currently ranked subset, and combined all-time plays on those mapsets across all modes.
-- Added a mapping slide after the club reveal. It showcases the most-played 2026 submission with cover artwork, title, artist, lifetime playcount, and a mapset link, and plays its complete audio preview. The slide is skipped when there are no qualifying mapsets or mapping data is unavailable.
-- Recap cards include mapping counts and grow to fit the added section. Medal artwork now retains its original aspect ratio.
-- Artist photos fall back to a matching beatmap background on the dashboard, slideshow, and recap card, then to an initial if both images fail.
-- Mapping data uses paginated osu! profile catalogues with a 15-minute cache. Incomplete or failed fetches show unavailable. No new OAuth scopes, secrets, or database migration are required.
-- Replaced the elongated dash in the recap card date range with a regular hyphen.
-- Standardized the website introduction credit to lowercase `ronaldonater`.
-- On desktop, the five visible genre rows expand to fill the space beside the mod rankings, with remaining genres scrollable. Mobile retains compact rows.
-- Genre rankings now cover all currently ranked mapsets with a 2026 ranked date in the selected native gamemode, instead of only the 25 most-played mapsets. Each unique mapset counts once; missing genre metadata is counted as Unknown genre.
-- The global genre panel lists every genre in a keyboard-accessible scroll list with five entries visible initially. The slideshow shows only the top five genres.
-- The genre slide appears immediately after "New patterns. More ways to play." (the total mapsets ranked in 2026 slide).
-- Genre counts and percentages refresh through the existing daily ranked-catalogue GitHub Actions workflow. No new secrets or workflow settings are required; the refreshed snapshot is included.
-- Centered the full-width All-Rounder legend heading and simplified the One Shot Society requirement wording.
-- Added One Shot Society for SD/PF players: at least 40% of selected scores, with a 40-55 base strength and support as a primary or secondary club.
-- Community tracking now supports 19 clubs under assignment rules `2026-v13`. Run `scripts/sql/club-community-v6.sql` for an existing database; use `scripts/sql/club-community.sql` for a fresh database. Superseded migrations have been removed.
-- Personal Wrapped requires at least one eligible 2026 score from the selected mode's current top 200. With zero eligible scores, an explanation replaces the dashboard and its slideshow/recap controls; switching modes remains available.
-- Slides automatically scale to fit the available screen space while playback and navigation controls remain full-size.
-- Keyboard arrow navigation survives slide content changes without requiring another click, and yields to other open panels.
-- Removed the arrow from the “Click the play to view score” hint.
-- All 19 clubs can be primary or secondary. Every qualifying signal is ranked; the strongest becomes primary and the next distinct match becomes secondary.
-- Evidence weighting reduces the influence of small samples. One selected score remains eligible; reviews with fewer than 20 selected scores display a provisional note. Score-based signals reach full weight at 20 evidence scores, using valid passed scores for accuracy. Activity signals reach full weight at six available months.
-- Mapper Loyalists requires three matching scores across at least two distinct mapsets. Balanced All-Rounder considers mod, mapper, and artist variety rather than mods alone.
-- The legend displays personal Match strength in the top-right, separately from community primary-club percentages anchored at the bottom. Selected scores are defined once in the panel.
-- Recap cards, story slides, and the dashboard support any secondary club with its own emblem, color, and explanation.
-- The provisional club slide uses tighter spacing. The medal card has centered content, a framed medal, and a subtle glow.
-
-#### Current base strength ranges
-
-| Signal | Base strength |
+| Club | Qualifying signal |
 | --- | --- |
-| High / low accuracy | 70-100 |
-| Map age / popular maps | 68-96 |
-| Mapper Loyalists | 60-95 |
-| The Wanderers | 60-85 |
-| Balanced All-Rounder | 60-80 |
-| The Repeat Offenders | 55-80 |
-| Quality Over Quantity | 55-80 |
-| Stable Loyalists / Lazer Pioneers | 62 |
-| Mod preferences | 40-55 |
-| Fallback All-Rounder | 0 |
+| Overdrive | DT or NC on at least 40% of selected scores. |
+| HR Headquarters | HR on at least 40%; excluded as a defining club for mania. |
+| Afterdark | HD or FL on at least 50%. |
+| No Mod, No Problem | Unmodified scores on at least 60%. |
+| Precision Society | At least ten passed scores averaging 99% in osu!/taiko, 99.5% in catch, or 98% in mania. |
+| The Repeat Offenders | At least 10,000 recorded 2026 plays and six months with at least 500 plays each. |
+| Mapper Loyalists | At least 25% under one host, with three matching scores across two distinct mapsets. |
+| The Wanderers | At least ten distinct hosts and ten artists; each unique-name count is at least half the score count. |
+| EZ Does It | EZ on at least 40% of selected scores. |
+| Close Enough Club | At least ten passed scores below 90% mean accuracy (95% in catch); competes by strength. |
+| Safety Net Society | SO/NF on at least 50% (NF only outside osu!); no inference of deranking intent. |
+| Quality Over Quantity | 1-99 recorded 2026 profile plays across available months (all modes); competes by strength with other qualifying signals. |
+| Time Capsule | At least 60% of all eligible 2026 scores in the current top 200 are on mapsets ranked in 2016 or earlier; at least five scores. |
+| Class of 2026 | At least 60% of all eligible 2026 scores in the current top 200 are on mapsets ranked in 2026; at least five scores. |
+| Crowd Favorites | At least 40% of all eligible 2026 scores in the current top 200 overlap the selected mode’s popular 2026 top 25 mapsets, spanning at least three distinct sets and five eligible scores. |
+| Stable Loyalists | 100% confirmed osu!stable scores in the eligible 2026 top-200 sample. |
+| Lazer Pioneers | 100% confirmed osu!lazer scores in the eligible 2026 top-200 sample. |
+| One Shot Society | SD/PF on at least 40% of selected scores. |
+| Choke Artists | At least five selected scores, three qualifying passes and a 30% share: exactly one miss, or standard passes with no misses and exactly one reported slider combo-break event. |
+| Replay Society | At least 500 replay views received by others in available 2026 monthly history across modes. |
+| All-Rounder | At least three mod combinations, five hosts and five artists, with every mod family below 40%; also the fallback when no signal qualifies. |
 
-These are base weights, not probabilities. Actual Match strength applies evidence weighting. Qualification thresholds are unchanged unless described above. Exact ties use evidence coverage, then a deterministic order. Community percentages count primary clubs only.
+All qualifying signals are ranked by strength rather than by first-match priority. Every club can be primary or secondary; the top two distinct matches are selected. Client exclusivity and playcount no longer automatically override stronger playstyle signals. All-Rounder can represent a balanced mod mix and remains the fallback. See the club ranking guide for weights, thresholds, and tie-breaking. These are playful descriptions of available data, not complete play histories.
 
-Current assignment rules: `2026-v13`. The latest schema migration remains `scripts/sql/club-community-v6.sql`; no further SQL is needed if already applied. Fresh databases use `scripts/sql/club-community.sql`. Returning participants update their existing record when generating a fresh review. Database credentials and the tracking secret stay unchanged.
+Every qualifying club is eligible for either role: the strongest signal becomes primary and the next distinct match becomes secondary. The precision-only badge has been replaced by the generic secondary archetype. The dashboard opens a scrollable legend of all 21 clubs with the current club highlighted. The story uses a click-triggered evolution reveal with sound effects; text selection is disabled until the entrance animations finish. Reduced motion and mute are supported.
 
+Recap PNGs include the club emblem, color, name, motto, and assignment reason. When earned, the secondary archetype appears on the right with a central divider. Clubs are computed per review: optional Neon tracking stores pseudonymous assignments to calculate participant percentages; see the community setup guide.
 
-One Shot Society: SD or PF on at least 40% of selected scores; each score counts once. Base strength 40-55 with normal evidence weighting, eligible as primary or secondary. Existing databases must run `scripts/sql/club-community-v6.sql` before deployment; fresh databases use the base SQL. This migration preserves participant records. Assignment rules: `2026-v13`.
+### Mapping clubs
 
-Genre rankings now cover all currently ranked 2026 mapsets in the selected native gamemode, using the daily catalogue snapshot. The slideshow shows the top five; the global panel shows every genre in a scrollable list with five rows visible initially. Each unique mapset counts once, including an Unknown genre category for missing metadata.
+Mapping clubs have separate assignments and community percentages from playstyle clubs. The mapping panel includes a six-club legend; the mapping slide and recap feature the first qualifying club in this order:
 
-### Search indexing across the website
+1. Community Soundtrack: at least 100,000 combined lifetime plays on 2026 submissions.
+2. Ranked & Recognized: at least 3 currently ranked 2026 submissions.
+3. Ranked Debut: at least 1 currently ranked 2026 submission, regardless of earlier ranked mapsets.
+4. Pattern Factory: at least 10 mapsets submitted in 2026.
+5. Hidden Gems: at least 5 submissions, none currently ranked.
+6. First Draft Society: at least 1 submission in 2026, regardless of earlier mapping history.
 
-All five public pages (home, Dev, Social, NextUp!/osu!AHR, and osu! Wrapped) have unique titles, descriptions, canonical URLs, indexing metadata, and entries in the root sitemap. Navigation uses crawlable links. API routes remain excluded from search. After deployment, submit `https://ronaldonater.com/sitemap.xml` in Google Search Console and use URL Inspection for individual pages when needed. Google determines actual indexing and rankings; this setup makes pages discoverable without guaranteeing inclusion.
+All qualifying clubs are marked in the legend. First Draft Society covers every eligible mapper not assigned a higher-priority club. Statistics cover hosted mapsets first submitted in 2026 (UTC), across all modes. Multi-Mode Architects is excluded. Community tracking setup is described below.
 
-Personal mapping stats show hosted mapsets first submitted in 2026 (UTC), across all modes, and how many of those are currently ranked. The app paginates ranked/loved/pending/graveyard profile catalogues, deduplicates set IDs, and caches successful results for 15 minutes. Missing or incomplete fetches show unavailable, not a misleading zero. Guest difficulties hosted by others, deleted sets, and local-only maps are excluded. No new OAuth scopes, database migration, or secrets are needed.
+### Mapping club community tracking
 
-Mapping statistics also appear on a conditional personal slide after the club reveal and before community statistics, plus a compact two-count section near the recap card footer. Both show first-submitted 2026 hosted mapsets across all modes and the currently ranked subset. Unavailable mapping data omits these sections; valid zero counts remain visible. The recap canvas grows to accommodate the new row.
+Run `scripts/sql/mapping-community.sql` in the Neon SQL Editor before deploying. This creates a separate table and leaves existing playstyle data intact. Reuse the existing private database and tracking-secret variables: `DATABASE_URL` / `CLUB_TRACKING_SECRET` for the standalone app, or `WRAPPED_DATABASE_URL` / `WRAPPED_CLUB_TRACKING_SECRET` for the website integration. No new secrets are required.
 
-The mapping slide is skipped when no hosted mapsets were first submitted in 2026. Otherwise it plays the complete osu! audio preview of the most-played mapset in that cohort, using lifetime mapset playcount, and advances when the preview ends. Missing preview playback falls back to the normal slide duration. Zero counts remain visible on the dashboard and recap.
+Authenticated Wrapped requests register one primary mapping club per mapper per year, across all modes. Only users with an eligible 2026 upload qualify; demos and unavailable mapping data are excluded. Revisiting updates an existing assignment. Percentages describe participating mappers, not all osu! users, and appear after one participant. Aggregates cache for one minute. Tracking stores a domain-separated HMAC key, year, all-mode scope, club ID, rule version and timestamps; no raw user IDs or usernames. Missing database configuration disables tracking; database failures leave Wrapped usable. Keep the tracking secret stable to avoid duplicate participant keys. Mapping ranking changes require a new mapping rules version.
 
-The mapping dashboard, slide, and recap also show combined all-time plays on the user’s hosted mapsets first submitted in 2026. Counts combine all difficulties and modes in each unique mapset. Missing playcount metadata is shown as unavailable rather than zero.
+### Replay Society
 
-Developer portfolio updates: a seamless technology ticker with pause/resume, one-tag arrow navigation and queued rapid clicks, plus fading edge controls; a slower Matrix background with an icon-only pause button positioned under Home on desktop and centered in the mobile navbar. All public pages have indexing metadata and crawlable navigation. The Wrapped project and social preview use the revised logo image.
+Replay Society - "Your plays deserve another look." Requires at least 500 views received on the user's replays in available 2026 monthly profile history (all modes). This measures views by others, not replays the user watched, and not unique viewers. Source: https://osu.ppy.sh/docs/ (UserStatistics.replays_watched_by_others); monthly history uses replays_watched_counts.
+
+500 per year is a provisional, deliberately substantial design threshold (about 42 per month over a full year), not a verified percentile or population average. No reliable population distribution was available during implementation. Base strength is 55 + 25 * clamp(log10(views / 500) / 2, 0, 1): 55 at 500, 67.5 at 5,000, 80 at 50,000+. Apply the same activity confidence multiplier as other activity clubs: 0.75 + 0.25 * min(available replay-history months / 6, 1). No annualization of partial-year data; missing or invalid history cannot qualify. It can be a primary or secondary trait.
+
+Playstyle assignment rules are `2026-v15`. Replay Society uses the existing playstyle community table and v8 migration; mapping tracking remains independent.

@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {assignClub,scoreClient,CLUBS,CLUB_COLORS,clubMarkup,clubLegendMarkup} from '../osu-wrapped/src/clubs.js';
+import {assignClub,isChokeScore,scoreClient,CLUBS,CLUB_COLORS,clubMarkup,clubLegendMarkup} from '../osu-wrapped/src/clubs.js';
 const mixed=i=>[['HD'],['HR'],['DT'],['EZ'],['HT']][i%5];
 const sample=(mods=mixed,accuracy=.97)=>Array.from({length:20},(_,i)=>({id:i+1,mods:typeof mods==='function'?mods(i):mods,accuracy,passed:true,pp:200-i,beatmapset:{id:i+1,user_id:i%8+1,artist:'Artist '+(i%8)}}));
 const decorate=(rows,extra)=>rows.map((row,i)=>({...row,...(typeof extra==='function'?extra(row,i):extra)}));
@@ -11,14 +11,16 @@ const regular=Array.from({length:12},()=>({available:true,count:5000}));
 const crowd=()=>maps(2026).map((s,i)=>i<16?s:{...s,beatmapset:{...s.beatmapset,ranked_date:'2020-01-01T00:00:00Z'}});
 const catalogue=Array.from({length:16},(_,i)=>({id:i+1}));
 const fixture={
+ replay:[sample(['HT']),'osu',[],{replayViews:50000,replayMonths:6}],
+ choke:[decorate(sample(['HT']),{statistics:{miss:1}})],
  oneshot:[sample(['PF'])],overdrive:[sample(['DT'])],hardmode:[sample(['HR'])],afterdark:[sample(['HD'])],nomod:[sample([])],easy:[sample(['EZ'])],safetynet:[sample(['NF'])],
  precision:[sample(mixed,1)],closeenough:[sample(mixed,.7)],repeat:[sample(),'osu',regular],quality:[sample(),'osu',Array.from({length:6},(_,i)=>({available:true,count:i===0?1:0}))],
  loyalist:[loyal()],wanderer:[diverse()],timecapsule:[maps(2016)],class2026:[maps(2026)],crowdfavorites:[crowd(),'osu',[],{popularBeatmapsets:catalogue}],
  stable:[decorate(sample(['HT']),{legacy_score_id:123})],lazer:[decorate(sample(['HT']),{legacy_score_id:null,type:'solo_score',build_id:456})],allrounder:[sample()]
 };
-test('all nineteen clubs can be primary based on signal strength',()=>{assert.equal(Object.keys(CLUBS).length,19);for(const [id,args] of Object.entries(fixture)){const result=assignClub(...args);assert.equal(result.id,id,id);assert.ok(Number.isFinite(result.strength));assert.ok(!result.secondary||result.secondary.id!==id);}});
-test('all nineteen clubs can also be secondary when a stronger signal qualifies',()=>{
- const cases={};
+test('all twenty-one clubs can be primary based on signal strength',()=>{assert.equal(Object.keys(CLUBS).length,21);for(const [id,args] of Object.entries(fixture)){const result=assignClub(...args);assert.equal(result.id,id,id);assert.ok(Number.isFinite(result.strength));assert.ok(!result.secondary||result.secondary.id!==id);}});
+test('all twenty-one clubs can also be secondary when a stronger signal qualifies',()=>{
+ const cases={replay:[sample(mixed,1),'osu',[],{replayViews:50000,replayMonths:6}],choke:[decorate(sample(['HT'],1),{statistics:{miss:1}})]};
  for(const [id,mod] of Object.entries({oneshot:'SD',overdrive:'DT',hardmode:'HR',afterdark:'HD',nomod:'NM',easy:'EZ',safetynet:'NF'}))cases[id]=[sample(i=>i<16?[mod]:['HT'],1)];
  cases.precision=[maps(2016,.99)];cases.closeenough=[maps(2016,.89)];cases.repeat=[sample(mixed,1),'osu',regular];cases.quality=[sample(['DT']),'osu',[{available:true,count:50}]];
  cases.loyalist=[loyal().map(s=>({...s,accuracy:1}))];cases.wanderer=[diverse().map(s=>({...s,accuracy:1}))];cases.timecapsule=[maps(2016,1)];cases.class2026=[maps(2026,1)];cases.crowdfavorites=[crowd().map(s=>({...s,accuracy:1})),'osu',[],{popularBeatmapsets:catalogue}];
@@ -44,7 +46,7 @@ test('client matching requires confirmed metadata and rejects mixed or unknown s
 });
 test('generic secondary is rendered with its own identity, escaped reason and legend role',()=>{
  const club=assignClub(decorate(maps(2016).map(row=>({...row,mods:['HT']})),{legacy_score_id:123}));club.secondary.reason='<script>bad</script>';const data={club};const html=clubMarkup(data);assert.ok(html.includes('SECONDARY ARCHETYPE'));assert.ok(html.includes('Stable Loyalists'));assert.ok(!html.includes('<script>'));assert.ok(html.includes('&lt;script&gt;'));assert.ok(clubLegendMarkup(data).includes('>Secondary</span>'));
- for(const entry of Object.values(CLUBS))assert.ok(clubLegendMarkup(data).includes(entry.name));assert.equal(new Set(Object.values(CLUB_COLORS)).size,19);
+ for(const entry of Object.values(CLUBS))assert.ok(clubLegendMarkup(data).includes(entry.name));assert.equal(new Set(Object.values(CLUB_COLORS)).size,21);
 });
 
 test('mod strength is 40-55 and yields to stronger accuracy and map preferences',()=>{const modOnly=assignClub(sample(['HR']));assert.equal(modOnly.strength,55);const precise=assignClub(sample(['HR'],.995));assert.equal(precise.id,'precision');assert.equal(precise.secondary.id,'hardmode');const oldMaps=assignClub(maps(2016).map(s=>({...s,mods:['HR']})));assert.equal(oldMaps.id,'timecapsule');assert.equal(oldMaps.secondary.id,'hardmode');const minimum=assignClub(sample(i=>i<8?['HR']:['HT']));assert.equal(minimum.matches.find(row=>row.id==='hardmode').strength,40);});
@@ -64,7 +66,7 @@ test('accuracy uses passed-score evidence while activity uses available months',
  const rows=sample(mixed,1);rows.slice(10).forEach(row=>row.passed=false);const accuracy=assignClub(rows).matches.find(row=>row.id==='precision');assert.equal(accuracy.evidenceCount,10);assert.equal(accuracy.evidenceWeight,.75);const one=assignClub(sample(),'osu',[{available:true,count:50}]).matches.find(row=>row.id==='quality');const six=assignClub(sample(),'osu',Array.from({length:6},()=>({available:true,count:8}))).matches.find(row=>row.id==='quality');assert.ok(six.evidenceWeight>one.evidenceWeight);
 });
 
-test('legend match strength uses personal evidence-adjusted strength separately from community share',()=>{const club=assignClub(sample(['HR']));const html=clubLegendMarkup({club});assert.equal((html.match(/class="club-compatibility"/g)||[]).length,19);assert.ok(html.includes('HR Headquarters match strength: 55.0'));assert.ok(html.includes('Lazer Pioneers match strength: 0.0'));assert.ok(clubLegendMarkup({}).includes('HR Headquarters match strength: —'));assert.ok(html.includes('not a probability or community share'));});
+test('legend match strength uses personal evidence-adjusted strength separately from community share',()=>{const club=assignClub(sample(['HR']));const html=clubLegendMarkup({club});assert.equal((html.match(/class="club-compatibility"/g)||[]).length,21);assert.ok(html.includes('HR Headquarters match strength: 55.0'));assert.ok(html.includes('Lazer Pioneers match strength: 0.0'));assert.ok(clubLegendMarkup({}).includes('HR Headquarters match strength: —'));assert.ok(html.includes('not a probability or community share'));});
 
 test('balanced All-Rounder has a 60-80 base range while fallback stays zero',()=>{const result=assignClub(sample());assert.equal(result.id,'allrounder');assert.ok(result.baseStrength>=60&&result.baseStrength<=80);const unknown=sample().map(row=>({...row,mods:['HT'],beatmapset:{}}));const fallback=assignClub(unknown);assert.equal(fallback.id,'allrounder');assert.equal(fallback.baseStrength,0);assert.equal(fallback.strength,0);});
 
@@ -74,4 +76,22 @@ test('SD and PF share one signal with a 40 percent threshold',()=>{
  const match=result.matches.find(row=>row.id==='oneshot');assert.ok(match);assert.equal(match.baseStrength,40);assert.ok(match.reason.startsWith('8 of 20'));
  }
  assert.ok(!assignClub(sample(i=>i<7?['SD']:['HT'])).matches.some(row=>row.id==='oneshot'));
+});
+
+test('choke evidence uses actual misses and reported slider breaks without combo inference',()=>{
+ assert.ok(isChokeScore({passed:true,statistics:{miss:1}},'mania'));
+ assert.ok(isChokeScore({passed:true,statistics:{count_miss:1}}));
+ assert.ok(isChokeScore({passed:true,statistics:{miss:0,large_tick_miss:1}}));
+ assert.ok(isChokeScore({passed:true,statistics:{miss:0,combo_break:1}}));
+ for(const row of [{passed:false,statistics:{miss:1}},{passed:true,statistics:{miss:0},max_combo:100},{passed:true,statistics:{miss:0,large_tick_miss:2}},{passed:true,statistics:{}},{passed:true,statistics:{miss:0,small_tick_miss:1}}])assert.equal(isChokeScore(row),false);
+ assert.equal(isChokeScore({passed:true,statistics:{miss:0,large_tick_miss:1}},'mania'),false);
+ const enough=decorate(sample(['HT']).slice(0,10),(_,i)=>({statistics:{miss:i<3?1:0}}));assert.ok(assignClub(enough).matches.some(row=>row.id==='choke'));
+ assert.ok(!assignClub(enough.slice(0,4)).matches.some(row=>row.id==='choke'));
+});
+
+test('Replay Society uses received views and logarithmic activity strength with valid evidence',()=>{
+ const signal=(views,months=6)=>assignClub(sample(['HT']),'osu',[],{replayViews:views,replayMonths:months}).matches.find(c=>c.id==='replay');
+ assert.equal(signal(499),undefined);assert.equal(signal(null),undefined);assert.equal(signal(-1),undefined);assert.equal(signal(500,0),undefined);
+ assert.equal(signal(500).baseStrength,55);assert.equal(signal(5000).baseStrength,67.5);assert.equal(signal(50000).baseStrength,80);assert.equal(signal(500000).baseStrength,80);
+ assert.ok(signal(500,1).strength<signal(500,6).strength);assert.equal(signal(500,6).evidenceCount,6);
 });

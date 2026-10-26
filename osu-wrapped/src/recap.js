@@ -1,3 +1,4 @@
+import {assignMappingClub,mappingClubArtwork} from './mapping-clubs.js';
 import {CLUBS,CLUB_COLORS} from './clubs.js';
 import {modIconUrl} from './mod-icons.js';
 import {favoriteModLabel,favoriteModNote} from './mods.js';
@@ -19,7 +20,9 @@ function avatarImage(userId){
 export async function createRecap(data){
  const topPlays=data.top.slice(0,5);
  const [avatar,covers,mapperAvatars,artistAvatars,medalArt,modArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(async artist=>(await artistImage(artist.name))||await coverImage(artist.cover))),recapMedalImage(data.rarestMedal),Promise.all((data.favoriteMod?.mods||[]).slice(0,3).map(mod=>recapModImage(mod)))]);
- const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2446+(data.mapping?.status==='ready'?170:0);
+ const hasMapping=data.mapping?.status==='ready'&&Number.isSafeInteger(data.mapping.created)&&data.mapping.created>0;
+ const mappingCover=hasMapping?await coverImage(data.mapping?.mostPopular?.cover):null;
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2446+(hasMapping?290:0);
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
  const text=(value,x,y,size=24,color=white,weight=400,maxWidth=1000)=>{
   ctx.font=weight+' '+size+'px "Segoe UI", sans-serif';ctx.fillStyle=color;
@@ -128,13 +131,13 @@ export async function createRecap(data){
  box(64,1845,1072,128,'#282231');
  const medal=data.rarestMedal;if(medalArt){const scale=Math.min(96/medalArt.naturalWidth,96/medalArt.naturalHeight),width=medalArt.naturalWidth*scale,height=medalArt.naturalHeight*scale;ctx.drawImage(medalArt,84+(96-width)/2,1860+(96-height)/2,width,height);}
  const medalX=medalArt?200:88;
- text(data.rarestMedalStatus==='partial'?'RAREST MATCHED MEDAL · 2026':'RAREST MEDAL EARNED · 2026',medalX,1875,14,pink,700,900);
+ text(data.demo?'EXAMPLE MEDAL / DEMO':data.rarestMedalStatus==='partial'?'RAREST MATCHED MEDAL · 2026':'RAREST MEDAL EARNED · 2026',medalX,1875,14,pink,700,900);
  text(medal?medal.name:data.rarestMedalStatus==='none'?'No medals earned in 2026':'Medal rarity unavailable',medalX,1910,28,white,700,900);
- if(medal){text(rarityText(medal.rarityPercent)+' of Osekai-tracked users · current estimate',medalX,1936,16,muted,400,900);text('Earned '+new Date(medal.earnedAt).toISOString().slice(0,10)+' UTC · Source: osekai.net',medalX,1958,15,muted,400,900);}
+ if(medal){text(data.demo?rarityText(medal.rarityPercent)+' of Osekai-tracked users / snapshot '+medal.raritySnapshot:rarityText(medal.rarityPercent)+' of Osekai-tracked users · current estimate',medalX,1936,16,muted,400,900);text('Earned '+new Date(medal.earnedAt).toISOString().slice(0,10)+' UTC · Source: osekai.net',medalX,1958,15,muted,400,900);}
  ctx.save();ctx.translate(0,150);
- if(data.mapping?.status==='ready'){
-  box(64,1848,1072,150,'#202934');
-  text('YOUR MAPPING YEAR / ALL MODES',88,1876,14,'#8edcff',700,1000);
+ if(hasMapping){
+  box(64,1848,1072,270,'#202934');
+  text(data.demo?'DEMO MAPPING STATS / FICTIONAL':'YOUR MAPPING YEAR / ALL MODES',88,1876,14,'#8edcff',700,1000);
   text(number(data.mapping.created),88,1932,42,'#8edcff',700,300);
   text('mapsets submitted in 2026',88,1960,15,white,400,300);
   ctx.save();ctx.strokeStyle='#ffffff20';ctx.beginPath();ctx.moveTo(420,1900);ctx.lineTo(420,1967);ctx.moveTo(776,1900);ctx.lineTo(776,1967);ctx.stroke();ctx.restore();
@@ -143,7 +146,35 @@ export async function createRecap(data){
   text(number(data.mapping.totalPlays),804,1932,38,'#ffd46b',700,304);
   text('all-time plays on these mapsets',804,1960,15,white,400,304);
   text('Hosted mapsets only. First submission date (UTC); current ranked status.',88,1984,13,muted,400,1000);
-  ctx.translate(0,170);
+  const mappingClub=assignMappingClub(data.mapping);
+  line(88,2000,1024);
+  if(mappingClub){
+   const art=mappingClubArtwork(mappingClub.id);
+   ctx.save();ctx.strokeStyle=mappingClub.color;ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(88,2026,72,72,17);ctx.stroke();
+   ctx.translate(102,2040);ctx.scale(44/24,44/24);ctx.translate(art.x,art.y);ctx.lineWidth=1.8;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke(new Path2D(art.path));ctx.restore();
+   text('YOUR MAPPING CLUB',180,2024,12,mappingClub.color,700,410);
+   text(mappingClub.name,180,2053,24,mappingClub.color,700,410);
+   text(mappingClub.motto,180,2078,15,white,400,410);
+   text(mappingClub.rule.split('. ')[0]+'.',180,2100,13,muted,400,410);
+  }else{
+   text('YOUR MAPPING CLUB',88,2023,12,'#8edcff',700,1000);
+   text('Your mapping identity is taking shape.',88,2054,24,white,700,1000);
+  }
+  const popular=data.mapping.mostPopular;
+  if(popular){
+   ctx.save();ctx.strokeStyle='#ffffff15';ctx.beginPath();ctx.moveTo(618,2018);ctx.lineTo(618,2102);ctx.stroke();ctx.restore();
+   text(data.demo?'EXAMPLE UPLOADED MAPSET':'MOST-PLAYED 2026 UPLOAD',642,2024,12,'#8edcff',700,470);
+   if(mappingCover){
+    ctx.save();ctx.beginPath();ctx.roundRect(642,2038,94,64,8);ctx.clip();
+    const scale=Math.max(94/mappingCover.naturalWidth,64/mappingCover.naturalHeight),w=mappingCover.naturalWidth*scale,h=mappingCover.naturalHeight*scale;
+    ctx.drawImage(mappingCover,642+(94-w)/2,2038+(64-h)/2,w,h);ctx.restore();
+   }
+   const mapX=mappingCover?752:642,mapWidth=1112-mapX;
+   text(popular.title,mapX,2057,20,white,700,mapWidth);
+   text(popular.artist,mapX,2079,14,muted,400,mapWidth);
+   text(number(popular.plays)+' all-time plays',mapX,2100,14,'#8edcff',600,mapWidth);
+  }
+  ctx.translate(0,290);
  }
  line(64,1848,1072);
  text('SCORE COVERAGE',64,1883,14,pink,700);

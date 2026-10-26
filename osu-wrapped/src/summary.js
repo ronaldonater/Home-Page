@@ -7,6 +7,9 @@ export function summarize(user, best, mode, clubContext={}) {
   for (const row of user.monthly_playcounts || []) if(inYear(row.start_date)) {
     const m = new Date(row.start_date).getUTCMonth(); months[m].count += row.count; months[m].available = true;
   }
+  const replayRows=Array.isArray(user.replays_watched_counts)?user.replays_watched_counts.filter(row=>inYear(row.start_date)&&Number.isSafeInteger(row.count)&&row.count>=0):null;
+  const replayViews=replayRows?replayRows.reduce((sum,row)=>sum+row.count,0):null;
+  const replayMonths=replayRows?new Set(replayRows.map(row=>new Date(row.start_date).getUTCMonth())).size:0;
   const unique = new Map();
   for(const score of best) if(inYear(score.ended_at || score.created_at)) unique.set(String(score.id),score);
   const scores = [...unique.values()];
@@ -18,7 +21,7 @@ export function summarize(user, best, mode, clubContext={}) {
   },Object.create(null))).sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0])).slice(0,10).map(([name,count])=>({name,count}));
   return {year:YEAR,mode,generatedAt:new Date().toISOString(),user:{id:user.id,username:user.username,avatar:user.avatar_url,country:user.country_code,pp:user.statistics?.pp,rank:user.statistics?.global_rank},months,
     playcount:months.some(m=>m.available)?months.reduce((s,m)=>s+m.count,0):null,
-    replayViews:Array.isArray(user.replays_watched_counts)?user.replays_watched_counts.filter(r=>inYear(r.start_date)).reduce((s,r)=>s+r.count,0):null,
+    replayViews,
     medals:Array.isArray(user.user_achievements)?user.user_achievements.filter(a=>inYear(a.achieved_at)).length:null,
     accuracy:passed.length?passed.reduce((s,p)=>s+p.accuracy*100,0)/passed.length:null,
     combo:comboScore?(comboScore.max_combo||0):null,
@@ -26,7 +29,7 @@ export function summarize(user, best, mode, clubContext={}) {
     comboScore:comboScore?{id:comboScore.id,title:comboScore.beatmapset?.title||'Unknown beatmap',artist:comboScore.beatmapset?.artist||'Unknown artist',creator:comboScore.beatmapset?.creator||'Unknown mapper',version:comboScore.beatmap?.version||'',cover:comboScore.beatmapset?.covers?.['cover@2x']||comboScore.beatmapset?.covers?.cover}:null,
     favoriteMod:favoriteMod(scores),
     modUsage:modRankings(scores),
-    club:assignClub(scores,mode,months,clubContext),
+    club:assignClub(scores,mode,months,{...clubContext,replayViews,replayMonths}),
     top:top.map(s=>({id:s.id,bpm:Number.isFinite(s.beatmap?.bpm)?s.beatmap.bpm:Number.isFinite(s.beatmapset?.bpm)?s.beatmapset.bpm:null,replayAvailable:s.has_replay!==false,beatmapId:s.beatmap?.id,previewUrl:s.beatmapset?.preview_url,title:s.beatmapset?.title||'Unknown beatmap',artist:s.beatmapset?.artist||'Unknown artist',creator:s.beatmapset?.creator||'Unknown mapper',version:s.beatmap?.version||'',pp:s.pp,accuracy:s.accuracy*100,combo:s.max_combo,rank:s.rank,date:s.ended_at||s.created_at,mods:formatMods(s.mods),cover:s.beatmapset?.covers?.['cover@2x']})),
     mappers:group('creator').map(mapper=>({...mapper,userId:scores.find(s=>s.beatmapset?.creator===mapper.name && Number.isSafeInteger(s.beatmapset?.user_id) && s.beatmapset.user_id>0)?.beatmapset.user_id ?? null})),artists:group('artist').map(artist=>{const song=scores.find(s=>s.beatmapset?.artist===artist.name && (s.beatmapset?.preview_url||s.beatmapset?.covers?.['cover@2x']));return {...artist,previewUrl:song?.beatmapset?.preview_url,cover:song?.beatmapset?.covers?.['cover@2x']};}),sampleCount:scores.length,passedCount:passed.length,
     coverage:'All score statistics and mapper/artist rankings use only deduplicated 2026 scores found in your current top 200 best plays. This is a partial sample, not your complete year. Mapper credits use the beatmapset creator; guest difficulty creators may differ. Counts are observed scores, not all map attempts.'};

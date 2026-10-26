@@ -571,3 +571,70 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .mapping-story-showcase{display:flex;align-items:center;gap:18px;max-width:720px;margin-top:28px;padding:16px;border:1px solid currentColor;border-radius:14px;color:inherit;text-decoration:none;background:#ffffff12}.mapping-story-showcase>img,.mapping-story-placeholder{width:110px;height:78px;border-radius:8px;object-fit:cover;flex:none}.mapping-story-placeholder{display:grid;place-items:center;font-size:40px;background:#00000012}.mapping-story-showcase>div{display:flex;flex-direction:column;gap:7px;min-width:0}.mapping-story-showcase small{font-size:9px;letter-spacing:1.5px;font-weight:800}.mapping-story-showcase b{font-size:22px;overflow-wrap:anywhere}.mapping-story-showcase div>span{font-size:13px;opacity:.75}.mapping-story-open{margin-left:auto;font-size:22px}.mapping-story-showcase:hover{background:#ffffff24}.mapping-story-showcase:focus-visible{outline:3px solid currentColor;outline-offset:4px}@media(max-width:600px){.mapping-story-showcase{gap:12px;padding:12px}.mapping-story-showcase>img,.mapping-story-placeholder{width:76px;height:64px}.mapping-story-showcase b{font-size:17px}.mapping-story-showcase small{font-size:8px}.mapping-story-showcase div>span{font-size:11px}}
 
 .mapping-counts{grid-template-columns:repeat(3,minmax(0,1fr))}.mapping-total-plays strong,.mapping-total-plays .mapping-stat-label{color:#ffd46b}.mapping-story-counts{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}.mapping-story-counts .story-number{font-size:clamp(36px,6vw,80px);overflow-wrap:anywhere}.mapping-story-counts>div>span{font-size:clamp(14px,1.5vw,20px)}@media(max-width:600px){.mapping-counts,.mapping-story-counts{grid-template-columns:1fr}.mapping-story-counts{gap:18px}.mapping-story-counts .story-number{font-size:48px}}
+
+.club-choke{--club-color:#e8a6b2}
+
+/* Keep long mapping counters intact within their own column. */
+.mapping-story-counts>div{container-type:inline-size}
+.mapping-story-counts .story-number{display:block;white-space:nowrap;overflow-wrap:normal;font-size:clamp(24px,17cqw,80px);letter-spacing:-.04em}
+@media(max-width:600px){.mapping-story-counts .story-number{font-size:clamp(24px,12cqw,48px)}}
+
+
+.mapping-dashboard-showcase{max-width:none;margin:0 0 20px;border-color:#8edcff30;background:#15131b66}.mapping-dashboard-showcase small{color:#8edcff}.mapping-dashboard-showcase b{color:#f6f0fa}.mapping-dashboard-showcase div>span{color:#bcafc6}.mapping-dashboard-showcase:hover{background:#8edcff0a}
+
+/* Mapping clubs remain independent of playstyle scoring. */
+.mapping-club-badge{display:flex;align-items:center;gap:18px;padding:18px 22px;margin:18px 0;border:1px solid color-mix(in srgb,var(--mapping-club-color,#8edcff) 35%,transparent);border-radius:14px;background:linear-gradient(115deg,#ffffff09,transparent);color:var(--mapping-club-color,inherit)}
+.mapping-club-symbol{display:grid;place-items:center;flex:0 0 60px;height:60px;border:1px solid currentColor;border-radius:18px;font-size:32px}
+.mapping-club-badge small{display:block;font-size:10px;font-weight:800;letter-spacing:.15em}.mapping-club-badge strong{display:block;font-size:24px;margin:4px 0}.mapping-club-badge p{margin:0;font-size:14px;color:inherit}
+.mapping-club-legend{margin:18px 0}.mapping-club-legend summary{cursor:pointer;color:#8edcff}.mapping-club-legend>p{font-size:13px;color:var(--muted,#b8adbf)}.mapping-club-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}.mapping-club-grid article{display:flex;flex-direction:column;padding:18px;border:1px solid #ffffff20;border-radius:12px;background:#ffffff04}.mapping-club-grid h4{margin:0;color:var(--mapping-club-color)}.mapping-club-grid p{font-size:14px}.mapping-club-grid small{line-height:1.6}.mapping-club-grid b{padding-top:16px;margin-top:auto;font-size:12px;color:var(--mapping-club-color)}
+.story-slide .mapping-club-badge{--mapping-club-color:currentColor!important;margin:12px 0;padding:10px 16px;background:#ffffff14}.story-slide .mapping-club-badge strong{font-size:22px}.story-slide .mapping-club-symbol{flex-basis:42px;height:42px;font-size:25px}
+@media(max-width:600px){.mapping-club-grid{grid-template-columns:1fr}.mapping-club-badge{padding:14px;gap:12px}.mapping-club-badge strong{font-size:21px}}
+
+/* Shared icon artboards avoid font baselines and platform-dependent emoji offsets. */
+.mapping-club-symbol{box-sizing:border-box;aspect-ratio:1;line-height:0;padding:0}
+.mapping-club-symbol svg{display:block;width:60%;height:60%;margin:auto;flex:none;overflow:visible}
+.mapping-club-grid h4{display:flex;align-items:center;gap:10px}
+.mapping-club-legend-icon{display:grid;place-items:center;width:24px;height:24px;flex:0 0 24px;line-height:0}
+.mapping-club-legend-icon svg{display:block;width:24px;height:24px}
+
+/* Anchor icon centers directly to their badge, independent of grid intrinsic sizing. */
+.mapping-club-badge>.mapping-club-symbol{position:relative;display:block;width:60px;min-width:60px;height:60px;flex:0 0 60px;margin:0;padding:0}
+.mapping-club-badge>.mapping-club-symbol>svg{position:absolute;left:50%;top:50%;width:36px;height:36px;max-width:none;max-height:none;margin:0;padding:0;transform:translate(-50%,-50%);transform-origin:center}
+.story-slide .mapping-club-badge>.mapping-club-symbol{width:42px;min-width:42px;height:42px;flex-basis:42px}
+.story-slide .mapping-club-badge>.mapping-club-symbol>svg{width:26px;height:26px}
+
+/* Shared optical horizontal alignment for mapping club artwork. */
+.mapping-club-badge>.mapping-club-symbol>svg{left:calc(50% + 1.5px)}
+.mapping-club-legend-icon svg{transform:translateX(1px)}
+
+.mapping-community{font-size:13px;line-height:1.6;margin:12px 0;color:inherit}.mapping-community small{display:block;font-size:10px;opacity:.7;margin-top:4px}.mapping-club-grid .mapping-community{font-size:11px}
+
+/* Smaller slide badges use a subtler horizontal optical offset. */
+.story-slide .mapping-club-badge>.mapping-club-symbol>svg{left:calc(50% + .75px)}
+
+.mapping-club-badge .mapping-club-criteria{margin-top:7px;font-size:12px;line-height:1.5;opacity:.75}.story-slide .mapping-club-badge .mapping-club-criteria{font-size:11px;margin-top:5px}
+
+.mapping-club-community-side{margin-left:auto;flex:0 1 340px;text-align:right;padding-left:24px}.mapping-club-community-side .mapping-community{margin:0}.mapping-club-badge>div:not(.mapping-club-community-side){min-width:0}.story-slide .mapping-club-community-side{flex-basis:280px}
+@media(max-width:720px){.mapping-club-badge:has(.mapping-club-community-side){flex-wrap:wrap}.mapping-club-community-side,.story-slide .mapping-club-community-side{flex:1 0 100%;padding:12px 0 0;margin:0;text-align:left;border-top:1px solid #ffffff20}}
+
+/* Compact mapping membership statistic with explicit typography, independent of badge copy. */
+.mapping-club-badge{padding:22px;gap:18px;background:linear-gradient(110deg,#ffffff06,transparent 65%)}
+.mapping-club-badge .mapping-club-criteria{max-width:600px;letter-spacing:0;font-weight:400}
+.mapping-club-badge .mapping-legend-trigger{margin-top:12px;padding:7px 11px;font-size:11px}
+.mapping-club-community-side{flex:0 0 260px;margin-left:auto;padding-left:26px;border-left:1px solid #ffffff14;text-align:right}
+.mapping-community .mapping-community-label{display:block;font-size:9px;font-weight:700;letter-spacing:.12em;opacity:.65}
+.mapping-community>strong,.mapping-club-badge .mapping-community>strong{display:block;margin:5px 0 3px;font-size:32px;line-height:1.1;font-weight:750;letter-spacing:-1px}
+.mapping-community>strong>span{font-size:.65em;margin-left:2px;letter-spacing:0}
+.mapping-community .mapping-community-description{display:block;font-size:11px;line-height:1.5;opacity:.85}
+.mapping-community>small,.mapping-club-badge .mapping-community>small{display:block;margin-top:7px;font-size:10px;font-weight:400;letter-spacing:0;line-height:1.5;opacity:.65}
+.mapping-community-refresh{display:block;font-size:9px;margin-top:2px;opacity:.45}
+.mapping-club-grid .mapping-community{margin-top:14px;border-top:1px solid #ffffff14;padding-top:12px}.mapping-club-grid .mapping-community>strong{font-size:25px}
+@media(max-width:720px){.mapping-club-badge{padding:16px}.mapping-club-community-side,.story-slide .mapping-club-community-side{flex:1 0 100%;border-left:0;border-top:1px solid #ffffff14;padding:14px 0 0;text-align:left}.mapping-community>strong,.mapping-club-badge .mapping-community>strong{font-size:28px}}
+
+.mapping-club-badge .mapping-legend-trigger{color:var(--mapping-club-color,#8edcff);border-color:color-mix(in srgb,var(--mapping-club-color,#8edcff) 65%,transparent);background:color-mix(in srgb,var(--mapping-club-color,#8edcff) 20%,transparent);transition:background .18s,border-color .18s}
+.mapping-club-badge .mapping-legend-trigger:hover{background:color-mix(in srgb,var(--mapping-club-color,#8edcff) 30%,transparent);border-color:color-mix(in srgb,var(--mapping-club-color,#8edcff) 65%,transparent)}
+.mapping-club-badge .mapping-legend-trigger:focus-visible{outline-color:var(--mapping-club-color,#8edcff)}
+
+.club-replay{--club-color:#ffffff}
+
+.mapping-legend-community{font-size:12px;line-height:1.6;margin:0 0 16px;color:#c4b9ce}.mapping-legend-community:empty{display:none}.mapping-legend-community p{margin:0 0 4px}.mapping-legend-community strong{color:var(--mapping-club-color,#8edcff)}.mapping-legend-community>small{display:block;font-size:10px;opacity:.75}

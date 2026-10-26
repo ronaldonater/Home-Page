@@ -7,9 +7,11 @@ export const CLUBS={
  loyalist:{name:'Mapper Loyalists',motto:'You know who makes your favorite patterns.',icon:'M30 27.5H70V72.5H30ZM40 39.5H60M40 50.5H60M40 61.5H53'},
  wanderer:{name:'The Wanderers',motto:'Your next favorite could be anywhere.',icon:'M62 35L54 56L34 66L43 45ZM50 20V26M50 74V80M20 50H26M74 50H80'},
  nomod:{name:'No Mod, No Problem',motto:'Just you and the beatmap.',icon:'M29 50A21 21 0 1 0 71 50A21 21 0 1 0 29 50M40 51L47 58L62 42'},
+ replay:{name:'Replay Society',motto:'Your plays deserve another look.',icon:'M22 50Q50 18 78 50Q50 82 22 50ZM43 38L62 50L43 62Z'},
  repeat:{name:'The Repeat Offenders',motto:'One more try became a lifestyle.',icon:'M72 40A24 24 0 0 0 30 32L23 41M23 25V41H39M28 60A24 24 0 0 0 70 68L77 59M61 59H77V75'},
  easy:{name:'EZ Does It',motto:'Smaller score. Bigger mind games.',icon:'M28 34H72L42 66H72M28 50H58'},
  closeenough:{name:'Close Enough Club',motto:'Not every hit was perfect. The story still counts.',icon:'M29 50A21 21 0 1 0 71 50A21 21 0 1 0 29 50M37 51L47 61L64 40M31 24L25 18M69 24L75 18'},
+ choke:{name:'Choke Artists',motto:'One note away. Every time.',icon:'M47 30C35 13 15 25 20 43C24 57 39 69 50 78C61 69 76 57 80 43C85 25 65 13 53 30M51 25L44 43L56 49L45 63L50 78'},
  oneshot:{name:'One Shot Society',motto:'One miss. Back to the beginning.',icon:'M30 50A20 20 0 1 0 70 50A20 20 0 1 0 30 50M50 23V35M50 65V77M23 50H35M65 50H77M43 50L49 56L60 43'},
  safetynet:{name:'Safety Net Society',motto:'A little backup. Another chance to play.',icon:'M50 22L73 31V49Q73 67 50 78Q27 67 27 49V31ZM38 49L47 58L63 40'},
  quality:{name:'Quality Over Quantity',motto:'A few plays. A lasting impression.',icon:'M50 22L58 40L78 43L63 57L67 78L50 68L33 78L37 57L22 43L42 40ZM40 50L48 58L61 43'},
@@ -20,14 +22,26 @@ export const CLUBS={
  lazer:{name:'Lazer Pioneers',motto:'The next chapter is already yours.',icon:'M56 21L29 55H47L42 79L72 42H53Z'},
  allrounder:{name:'All-Rounder',motto:'A little of everything. A style all your own.',icon:'M50 22.5L58 41.5L79 42.5L63 55.5L69 77.5L50 65.5L31 77.5L37 55.5L21 42.5L42 41.5Z'}
 };
-export const CLUB_COLORS={overdrive:'#ff9a66',precision:'#8edcff',hardmode:'#ff777f',afterdark:'#bd9aff',loyalist:'#b7e58b',wanderer:'#71dfcb',nomod:'#ffd46b',repeat:'#f6ac69',allrounder:'#fa82b5',easy:'#87d89a',closeenough:'#f2bf78',safetynet:'#9db7ff',oneshot:'#d4e579',quality:'#f5d88a',timecapsule:'#dcb995',class2026:'#83e5cf',crowdfavorites:'#e0a0ef',stable:'#e9c38a',lazer:'#ff95c8'};
+export const CLUB_COLORS={overdrive:'#ff9a66',precision:'#8edcff',hardmode:'#ff777f',afterdark:'#bd9aff',loyalist:'#b7e58b',wanderer:'#71dfcb',nomod:'#ffd46b',replay:'#ffffff',repeat:'#f6ac69',allrounder:'#fa82b5',easy:'#87d89a',closeenough:'#f2bf78',safetynet:'#9db7ff',oneshot:'#d4e579',choke:'#e8a6b2',quality:'#f5d88a',timecapsule:'#dcb995',class2026:'#83e5cf',crowdfavorites:'#e0a0ef',stable:'#e9c38a',lazer:'#ff95c8'};
 export function scoreClient(score){
  if(typeof score.is_lazer==='boolean')return score.is_lazer?'lazer':'stable';
  if(Number.isSafeInteger(score.legacy_score_id)&&score.legacy_score_id>0)return 'stable';
  if(Object.hasOwn(score,'legacy_score_id')&&score.legacy_score_id===null&&(score.type==='solo_score'||(Number.isSafeInteger(score.build_id)&&score.build_id>0)))return 'lazer';
  return null;
 }
-export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null}={}){
+// Stable aggregate combo cannot reveal an exact sliderbreak count.
+export function isChokeScore(score,mode='osu'){
+ if(score.passed!==true)return false;
+ const stats=score.statistics||{},miss=stats.miss??stats.count_miss;
+ if(!Number.isInteger(miss)||miss<0)return false;
+ if(miss===1)return true;
+ if(miss!==0||mode!=='osu')return false;
+ const tick=stats.large_tick_miss,combo=stats.combo_break;
+ if(tick===undefined&&combo===undefined)return false;
+ if([tick,combo].some(value=>value!==undefined&&(!Number.isInteger(value)||value<0)))return false;
+ return (tick??0)+(combo??0)===1;
+}
+export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null,replayViews=null,replayMonths=0}={}){
  const total=scores.length;if(total<1)return null;
  const families={overdrive:0,hardmode:0,afterdark:0,nomod:0,easy:0,safetynet:0,oneshot:0},hosts=new Map(),hostSets=new Map(),artists=new Set(),modPatterns=new Set();
  for(const score of scores){const mods=new Set((score.mods||[]).map(mod=>typeof mod==='string'?mod:mod?.acronym).filter(mod=>typeof mod==='string'&&/^[A-Z0-9]{1,6}$/.test(mod)&&mod!=='CL'));
@@ -54,15 +68,18 @@ export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null}
  const candidates=[];
  const clamp=value=>Math.max(0,Math.min(1,value));
  const add=(id,baseStrength,reason,support=1)=>{
-  const activitySignal=id==='repeat'||id==='quality';
-  const evidenceCount=activitySignal?activity.length:(id==='precision'||id==='closeenough'?passed.length:total);
+  const activitySignal=id==='repeat'||id==='quality'||id==='replay';
+  const evidenceCount=id==='replay'?Math.min(12,Math.max(0,replayMonths)):activitySignal?activity.length:(id==='precision'||id==='closeenough'?passed.length:total);
   const evidenceWeight=activitySignal?.75+.25*clamp(evidenceCount/6):.5+.5*clamp(evidenceCount/20);
   candidates.push({id,baseStrength:Math.round(baseStrength*1000)/1000,evidenceCount,evidenceWeight,strength:Math.round(baseStrength*evidenceWeight*1000)/1000,reason,support});
  };
  const shareStrength=(share,threshold,base=70,range=30)=>base+range*clamp((share-threshold)/(1-threshold));
  for(const [id,count] of preferences){const label={overdrive:'DT or NC',hardmode:'HR',afterdark:'HD or FL',nomod:'No Mod',easy:'EZ',oneshot:'SD or PF',safetynet:mode==='osu'?'SO or NF':'NF'}[id];add(id,shareStrength(count/total,thresholds[id],40,15),count+' of '+total+' selected scores ('+(count/total*100).toFixed(1)+'%) use '+label+'.',count/total);}
+ const chokeCount=scores.filter(score=>isChokeScore(score,mode)).length;
+ if(total>=5&&chokeCount>=3&&chokeCount/total>=.3)add('choke',shareStrength(chokeCount/total,.3,65,25),chokeCount+' of '+total+' selected scores ('+(chokeCount/total*100).toFixed(1)+'%) are one-miss passes or passes with one reported slider combo-break event.',chokeCount/total);
  if(precise)add('precision',70+30*clamp((accuracy-accuracyThreshold)/(100-accuracyThreshold)),'Your average accuracy is '+accuracy.toFixed(2)+'% across '+passed.length+' passed scores, meeting the '+accuracyThreshold+'% threshold for this mode.',passed.length/total);
  if(lowAccuracy)add('closeenough',70+30*clamp((lowAccuracyThreshold-accuracy)/15),'Your average accuracy is '+accuracy.toFixed(2)+'% across '+passed.length+' passed scores, below the '+lowAccuracyThreshold+'% threshold for this mode.',passed.length/total);
+ if(Number.isSafeInteger(replayViews)&&replayViews>=500&&Number.isInteger(replayMonths)&&replayMonths>=1&&replayMonths<=12)add('replay',55+25*clamp(Math.log10(replayViews/500)/2),replayViews.toLocaleString('en-US')+' views of your replays by others in available 2026 monthly profile history (all modes). This does not count replays you watched or unique viewers.',replayMonths/12);
  if(plays>=10000&&regularMonths>=6)add('repeat',55+25*(.7*clamp((plays-10000)/40000)+.3*clamp((regularMonths-6)/6)),plays.toLocaleString('en-US')+' recorded 2026 plays, with at least 500 plays in '+regularMonths+' months.',regularMonths/12);
  if(activity.length&&plays>0&&plays<100)add('quality',55+25*clamp((99-plays)/98),plays.toLocaleString('en-US')+' recorded '+(plays===1?'play':'plays')+' in available 2026 monthly profile history (all modes).',activity.length/12);
  if(loyal)add('loyalist',shareStrength(loyalCount/total,.25,60,35),loyalCount+' of '+total+' selected scores ('+(loyalCount/total*100).toFixed(1)+'%) come from one mapset host.',loyalCount/total);
@@ -99,9 +116,10 @@ export function clubMarkup(data,{story=false}={}){
 }
 
 const clubSignals={
+ choke:'At least 30% of selected scores, and at least three scores, are passes with exactly one miss, or osu!standard passes with no misses and exactly one reported slider combo-break event. Requires at least five selected scores.',
  oneshot:'SD or PF on at least 40% of selected scores.',
- stable:'100% of selected scores are confirmed osu!stable scores. Unknown client metadata or mixed clients do not qualify.',
- lazer:'100% of selected scores are confirmed osu!lazer scores. Unknown client metadata or mixed clients do not qualify.',
+ stable:'100% of selected scores are confirmed osu!stable scores.',
+ lazer:'100% of selected scores are confirmed osu!lazer scores.',
  timecapsule:'At least 60% of selected scores are on mapsets ranked in 2016 or earlier, with at least five selected scores.',
  class2026:'At least 60% of selected scores are on mapsets ranked in 2026, with at least five selected scores.',
  crowdfavorites:'At least 40% of selected scores are on this mode’s 25 most-played mapsets ranked in 2026, spanning at least three distinct mapsets and at least five selected scores.',
@@ -114,6 +132,7 @@ const clubSignals={
  afterdark:'HD or FL on at least 50% of selected scores.',
  nomod:'No Mod on at least 60% of selected scores.',
  precision:'Average accuracy of at least 99% in osu! or taiko, 99.5% in catch, or 98% in mania, across at least 10 passed selected scores.',
+ replay:'At least 500 recorded views of your replays by others in available 2026 monthly profile history (all modes).',
  repeat:'At least 10,000 recorded 2026 plays, with 500 or more plays in at least six months.',
  loyalist:'At least 25% of selected scores belong to one mapset host, with at least three matching scores across two distinct mapsets. Guest difficulties count under the host.',
  wanderer:'At least 10 unique mapper hosts and 10 artists; each unique-name count must be at least half your selected score count.',
@@ -132,7 +151,7 @@ function clubCompatibility(data,id){
  return '<span class="club-compatibility" title="'+escape(note)+'" aria-label="'+escape(CLUBS[id].name)+' match strength: '+escape(label)+'"><strong>'+label+'</strong><small>Match strength</small></span>';
 }
 export function clubLegendMarkup(data){
- return '<div class="club-legend-grid">'+Object.entries(CLUBS).map(([id,club])=>'<article class="club-legend-card club-'+id+'"'+(data?.club?.id===id?' aria-label="'+escape(club.name)+', your club"':'')+'>'+clubCompatibility(data,id)+'<div class="club-legend-heading"><svg aria-hidden="true" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="'+club.icon+'"/></svg><h3>'+club.name+'</h3>'+(data?.club?.id===id?'<span class="club-legend-current">Your club</span>':data?.club?.secondary?.id===id?'<span class="club-legend-current">Secondary</span>':'')+'</div><p class="club-legend-motto">'+club.motto+'</p><p>'+clubSignals[id]+'</p>'+legendCommunity(data,id)+'</article>').join('')+'</div>';
+ return '<div class="club-legend-grid">'+Object.entries(CLUBS).map(([id,club])=>'<article class="club-legend-card club-'+id+'" style="--club-color:'+CLUB_COLORS[id]+'"'+(data?.club?.id===id?' aria-label="'+escape(club.name)+', your club"':'')+'>'+clubCompatibility(data,id)+'<div class="club-legend-heading"><svg aria-hidden="true" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="'+club.icon+'"/></svg><h3>'+club.name+'</h3>'+(data?.club?.id===id?'<span class="club-legend-current">Your club</span>':data?.club?.secondary?.id===id?'<span class="club-legend-current">Secondary</span>':'')+'</div><p class="club-legend-motto">'+club.motto+'</p><p>'+clubSignals[id]+'</p>'+legendCommunity(data,id)+'</article>').join('')+'</div>';
 }
 export function openClubLegend(data){
  if(document.querySelector('.club-legend-dialog'))return;
@@ -142,7 +161,7 @@ export function openClubLegend(data){
  const community=document.createElement('div');community.innerHTML=clubCommunityMarkup(data);
  const scope=document.createElement('p');scope.className='replay-note';scope.textContent='Selected scores are the deduplicated 2026 scores found in your current top 200 for the selected game mode, not necessarily all 200 scores. Accuracy uses valid passed selected scores. Playcount clubs use monthly profile history across all modes.';
  const legend=document.createElement('div');legend.innerHTML=clubLegendMarkup(data);
- const rules=document.createElement('p');rules.className='replay-note';rules.textContent='How selection works: all qualifying clubs compete for either role. The strongest signal becomes your primary club; the next distinct match becomes your secondary archetype. Mod shares score 40-55, map shares 68-96, accuracy signals 70-100, mapper loyalty 60-95, artist/mapper diversity 60-85, sustained activity 55-80, low playcounts 55-80, confirmed client exclusivity 62, and a varied All-Rounder mix 60-80. These are base strength ranges. Score-based strength is multiplied by 0.5 + 0.5 × min(evidence scores / 20, 1), using valid passed scores for accuracy. Activity strength is multiplied by 0.75 + 0.25 × min(available months / 6, 1). Small samples remain eligible but are marked provisional below 20 scores. Strength grows above each qualification threshold. These are design weights, not statistically calibrated probabilities. Exact ties use supporting score coverage, then a fixed order for repeatable results. All-Rounder also remains the fallback when no signal qualifies. Client choice or playcount cannot automatically override a stronger signal. All score-based signals use selected scores; accuracy uses valid passed selected scores, and monthly activity is profile-wide. CL is excluded; missing metadata does not qualify. Community percentages count primary clubs only.';
+ const rules=document.createElement('p');rules.className='replay-note';rules.textContent='How selection works: all qualifying clubs compete for either role. The strongest signal becomes your primary club; the next distinct match becomes your secondary archetype. Mod shares score 40-55, map shares 68-96, accuracy signals 70-100, mapper loyalty 60-95, artist/mapper diversity 60-85, sustained activity 55-80, low playcounts 55-80, confirmed client exclusivity 62, and a varied All-Rounder mix 60-80. Choke Artists 65-90; Replay Society 55-80. These are base strength ranges. Score-based strength is multiplied by 0.5 + 0.5 × min(evidence scores / 20, 1), using valid passed scores for accuracy. Replay Society base strength is 55 at 500, 67.5 at 5,000, and 80 at 50,000+ views, with logarithmic growth. Replay Society uses replay-history months instead of playcount-history months. Activity strength is multiplied by 0.75 + 0.25 × min(available months / 6, 1). Small samples remain eligible but are marked provisional below 20 scores. Strength grows above each qualification threshold. These are design weights, not statistically calibrated probabilities. Exact ties use supporting score coverage, then a fixed order for repeatable results. All-Rounder also remains the fallback when no signal qualifies. Client choice or playcount cannot automatically override a stronger signal. All score-based signals use selected scores; accuracy uses valid passed selected scores, and monthly activity is profile-wide. CL is excluded; missing metadata does not qualify. Community percentages count primary clubs only.';
  const compatibilityNote=document.createElement('p');compatibilityNote.className='replay-note';compatibilityNote.textContent='Match strength is your evidence-adjusted club score out of 100, not a probability. Non-qualifying clubs show 0; missing review data shows a dash. Community percentages at the bottom show how many participants received each primary club.';
  content.append(scope,compatibilityNote,community,legend,rules);dialog.append(header,content);document.body.append(dialog);
  dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});dialog.addEventListener('close',()=>{dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});dialog.showModal();close.focus();

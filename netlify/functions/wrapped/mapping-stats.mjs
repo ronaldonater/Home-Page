@@ -6,7 +6,8 @@ export function mappingCounts(rows,userId){
  const mostPopular=popular?{id:popular.id,title:popular.title||'Untitled mapset',artist:popular.artist||'Unknown artist',status:popular.status,cover:popular.covers?.['cover@2x']||popular.covers?.cover||null,plays:Number.isFinite(popular.play_count)?popular.play_count:0,previewUrl:'https://b.ppy.sh/preview/'+popular.id+'.mp3'}:null;
  const playCounts=[...sets.values()].map(row=>row.play_count);
  const totalPlays=playCounts.every(value=>Number.isSafeInteger(value)&&value>=0)?playCounts.reduce((sum,value)=>sum+value,0):null;
- return {status:'ready',created:sets.size,totalPlays,ranked:[...sets.values()].filter(row=>row.status==='ranked').length,mostPopular};
+ const genreCount=new Set([...sets.values()].map(row=>Number(row.genre?.id??row.genre_id)).filter(id=>[2,3,4,5,6,7,9,10,11,12,13,14].includes(id))).size;
+ return {status:'ready',genreCount,created:sets.size,totalPlays,ranked:[...sets.values()].filter(row=>row.status==='ranked').length,mostPopular};
 }
 export function createMappingStats({fetchImpl=fetch,now=Date.now}={}){
  const cache=new Map();

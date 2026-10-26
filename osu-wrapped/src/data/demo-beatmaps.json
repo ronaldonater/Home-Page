@@ -1,0 +1,770 @@
+{
+  "osu": [
+    {
+      "id": 320118,
+      "title": "No title",
+      "artist": "Reol",
+      "creator": "VINXIS",
+      "user_id": 4323406,
+      "ranked_date": "2015-12-20T20:22:55Z",
+      "preview_url": "https://b.ppy.sh/preview/320118.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/320118/covers/cover@2x.jpg?1650632079"
+      },
+      "beatmap": {
+        "id": 714001,
+        "mode": "osu",
+        "version": "jieusieu's Lemur",
+        "bpm": 200,
+        "max_combo": 371
+      }
+    },
+    {
+      "id": 765778,
+      "title": "Make a Move (Speed Up Ver.)",
+      "artist": "Icon For Hire",
+      "creator": "Sotarks",
+      "user_id": 4452992,
+      "ranked_date": "2018-05-05T04:22:20Z",
+      "preview_url": "https://b.ppy.sh/preview/765778.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123"
+      },
+      "beatmap": {
+        "id": 1627148,
+        "mode": "osu",
+        "version": "Endless Fear",
+        "bpm": 202.54,
+        "max_combo": 261
+      }
+    },
+    {
+      "id": 596704,
+      "title": "Hitorigoto -TV MIX-",
+      "artist": "ClariS",
+      "creator": "Doormat",
+      "user_id": 3230571,
+      "ranked_date": "2017-04-24T06:23:43Z",
+      "preview_url": "https://b.ppy.sh/preview/596704.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/596704/covers/cover@2x.jpg?1650648964"
+      },
+      "beatmap": {
+        "id": 1262832,
+        "mode": "osu",
+        "version": "Soliloquy",
+        "bpm": 165,
+        "max_combo": 476
+      }
+    },
+    {
+      "id": 399358,
+      "title": "Silhouette",
+      "artist": "KANA-BOON",
+      "creator": "Kagetsu",
+      "user_id": 6203841,
+      "ranked_date": "2016-03-29T15:01:23Z",
+      "preview_url": "https://b.ppy.sh/preview/399358.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/399358/covers/cover@2x.jpg?1650636640"
+      },
+      "beatmap": {
+        "id": 869197,
+        "mode": "osu",
+        "version": "Kage",
+        "bpm": 183,
+        "max_combo": 458
+      }
+    },
+    {
+      "id": 163112,
+      "title": "My Love",
+      "artist": "Kuba Oms",
+      "creator": "W h i t e",
+      "user_id": 685229,
+      "ranked_date": "2014-05-05T12:02:30Z",
+      "preview_url": "https://b.ppy.sh/preview/163112.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/163112/covers/cover@2x.jpg?1631509131"
+      },
+      "beatmap": {
+        "id": 397535,
+        "mode": "osu",
+        "version": "Insane",
+        "bpm": 128,
+        "max_combo": 941
+      }
+    },
+    {
+      "id": 332532,
+      "title": "Highscore",
+      "artist": "Panda Eyes & Teminite",
+      "creator": "Fort",
+      "user_id": 2805457,
+      "ranked_date": "2015-09-13T12:02:05Z",
+      "preview_url": "https://b.ppy.sh/preview/332532.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844"
+      },
+      "beatmap": {
+        "id": 736215,
+        "mode": "osu",
+        "version": "Game Over",
+        "bpm": 110,
+        "max_combo": 1337
+      }
+    },
+    {
+      "id": 158023,
+      "title": "Everything will freeze",
+      "artist": "UNDEAD CORPORATION",
+      "creator": "Ekoro",
+      "user_id": 284905,
+      "ranked_date": "2015-03-24T22:40:14Z",
+      "preview_url": "https://b.ppy.sh/preview/158023.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/158023/covers/cover@2x.jpg?1645787427"
+      },
+      "beatmap": {
+        "id": 555797,
+        "mode": "osu",
+        "version": "Time Freeze",
+        "bpm": 240,
+        "max_combo": 2045
+      }
+    },
+    {
+      "id": 593620,
+      "title": "Shinzou o Sasageyo! [TV Size]",
+      "artist": "Linked Horizon",
+      "creator": "Monstrata",
+      "user_id": 2706438,
+      "ranked_date": "2017-04-12T04:23:36Z",
+      "preview_url": "https://b.ppy.sh/preview/593620.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/593620/covers/cover@2x.jpg?1650648613"
+      },
+      "beatmap": {
+        "id": 1255789,
+        "mode": "osu",
+        "version": "Titan",
+        "bpm": 160,
+        "max_combo": 587
+      }
+    },
+    {
+      "id": 952409,
+      "title": "Ai no Sukima",
+      "artist": "MIMI feat. Hatsune Miku",
+      "creator": "Log Off Now",
+      "user_id": 4378277,
+      "ranked_date": "2019-04-27T21:20:30Z",
+      "preview_url": "https://b.ppy.sh/preview/952409.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/952409/covers/cover@2x.jpg?1645787548"
+      },
+      "beatmap": {
+        "id": 1988753,
+        "mode": "osu",
+        "version": "Radiance",
+        "bpm": 204,
+        "max_combo": 346
+      }
+    },
+    {
+      "id": 527431,
+      "title": "Gravity Falls Theme Song",
+      "artist": "Brad Breeck",
+      "creator": "Alphabet",
+      "user_id": 4879380,
+      "ranked_date": "2016-12-31T08:20:43Z",
+      "preview_url": "https://b.ppy.sh/preview/527431.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302"
+      },
+      "beatmap": {
+        "id": 1119026,
+        "mode": "osu",
+        "version": "Mystery",
+        "bpm": 165.8,
+        "max_combo": 212
+      }
+    }
+  ],
+  "taiko": [
+    {
+      "id": 842412,
+      "title": "Harumachi Clover (Swing Arrangement) [Dictate Edit]",
+      "artist": "Will Stetson",
+      "creator": "Sotarks",
+      "user_id": 4452992,
+      "ranked_date": "2018-09-18T14:06:02Z",
+      "preview_url": "https://b.ppy.sh/preview/842412.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/842412/covers/cover@2x.jpg?1650668705"
+      },
+      "beatmap": {
+        "id": 1763479,
+        "mode": "taiko",
+        "version": "Ayyri's Oni",
+        "bpm": 170,
+        "max_combo": 155
+      }
+    },
+    {
+      "id": 542081,
+      "title": "Cookie-Butter-Choco-Cookie",
+      "artist": "Elmo and Cookie Monster",
+      "creator": "Monstrata",
+      "user_id": 2706438,
+      "ranked_date": "2017-08-14T16:46:34Z",
+      "preview_url": "https://b.ppy.sh/preview/542081.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/542081/covers/cover@2x.jpg?1650647147"
+      },
+      "beatmap": {
+        "id": 1205930,
+        "mode": "taiko",
+        "version": "Ozzy's Oni",
+        "bpm": 136,
+        "max_combo": 140
+      }
+    },
+    {
+      "id": 87630,
+      "title": "Guren no Yumiya (TV Size)",
+      "artist": "Linked Horizon",
+      "creator": "Kuria",
+      "user_id": 870067,
+      "ranked_date": "2013-04-27T11:43:14Z",
+      "preview_url": "https://b.ppy.sh/preview/87630.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/87630/covers/cover@2x.jpg?1650616252"
+      },
+      "beatmap": {
+        "id": 240260,
+        "mode": "taiko",
+        "version": "qoot8123's Oni",
+        "bpm": 180.68,
+        "max_combo": 596
+      }
+    },
+    {
+      "id": 705423,
+      "title": "Miniministop Hitoyasumi no Uta[Mokuyoubi]Gakusei no Uta",
+      "artist": "Unknown Artist",
+      "creator": "Chromoxx",
+      "user_id": 1881639,
+      "ranked_date": "2018-04-12T22:00:26Z",
+      "preview_url": "https://b.ppy.sh/preview/705423.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/705423/covers/cover@2x.jpg?1645788448"
+      },
+      "beatmap": {
+        "id": 1492016,
+        "mode": "taiko",
+        "version": "Chromstrata's Oni",
+        "bpm": 125,
+        "max_combo": 109
+      }
+    },
+    {
+      "id": 241526,
+      "title": "Renatus",
+      "artist": "Soleily",
+      "creator": "Multiple Creators",
+      "user_id": 3,
+      "ranked_date": "2015-02-25T17:20:15Z",
+      "preview_url": "https://b.ppy.sh/preview/241526.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+      },
+      "beatmap": {
+        "id": 557818,
+        "mode": "taiko",
+        "version": "Oni",
+        "bpm": 182,
+        "max_combo": 1314
+      }
+    },
+    {
+      "id": 134151,
+      "title": "Airman ga Taosenai (SOUND HOLIC Ver.)",
+      "artist": "Hanatan",
+      "creator": "Natsu",
+      "user_id": 1953876,
+      "ranked_date": "2014-04-25T23:02:17Z",
+      "preview_url": "https://b.ppy.sh/preview/134151.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
+      },
+      "beatmap": {
+        "id": 365129,
+        "mode": "taiko",
+        "version": "aabc's Taiko Oni",
+        "bpm": 175,
+        "max_combo": 1229
+      }
+    },
+    {
+      "id": 12431,
+      "title": "Blue Bird (TV Size)",
+      "artist": "Ikimono Gakari",
+      "creator": "arien666",
+      "user_id": 113646,
+      "ranked_date": "2010-05-05T13:26:07Z",
+      "preview_url": "https://b.ppy.sh/preview/12431.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/12431/covers/cover@2x.jpg?1650603408"
+      },
+      "beatmap": {
+        "id": 46805,
+        "mode": "taiko",
+        "version": "lepido's Taiko Oni",
+        "bpm": 151.93,
+        "max_combo": 342
+      }
+    },
+    {
+      "id": 372851,
+      "title": "Blade Dance",
+      "artist": "Ni-Sokkususu",
+      "creator": "Bearizm",
+      "user_id": 3495259,
+      "ranked_date": "2015-11-27T02:40:37Z",
+      "preview_url": "https://b.ppy.sh/preview/372851.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/372851/covers/cover@2x.jpg?1650634157"
+      },
+      "beatmap": {
+        "id": 819316,
+        "mode": "taiko",
+        "version": "Nardo's Oni",
+        "bpm": 187,
+        "max_combo": 517
+      }
+    },
+    {
+      "id": 53857,
+      "title": "Remote Control",
+      "artist": "Saiya",
+      "creator": "Garven",
+      "user_id": 244216,
+      "ranked_date": "2012-12-18T18:10:55Z",
+      "preview_url": "https://b.ppy.sh/preview/53857.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/53857/covers/cover@2x.jpg?1650613297"
+      },
+      "beatmap": {
+        "id": 173361,
+        "mode": "taiko",
+        "version": "inaba's Taiko Oni",
+        "bpm": 165,
+        "max_combo": 732
+      }
+    },
+    {
+      "id": 18260,
+      "title": "Bad Apple!!",
+      "artist": "Masayoshi Minoshima feat. nomico",
+      "creator": "ouranhshc",
+      "user_id": 139493,
+      "ranked_date": "2010-07-30T03:40:47Z",
+      "preview_url": "https://b.ppy.sh/preview/18260.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/18260/covers/cover@2x.jpg?1622037998"
+      },
+      "beatmap": {
+        "id": 65313,
+        "mode": "taiko",
+        "version": "lepidon! - Taiko Oni",
+        "bpm": 138,
+        "max_combo": 1284
+      }
+    }
+  ],
+  "fruits": [
+    {
+      "id": 765778,
+      "title": "Make a Move (Speed Up Ver.)",
+      "artist": "Icon For Hire",
+      "creator": "Sotarks",
+      "user_id": 4452992,
+      "ranked_date": "2018-05-05T04:22:20Z",
+      "preview_url": "https://b.ppy.sh/preview/765778.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123"
+      },
+      "beatmap": {
+        "id": 1612604,
+        "mode": "fruits",
+        "version": "Ascendance's Overdose",
+        "bpm": 202.54,
+        "max_combo": 262
+      }
+    },
+    {
+      "id": 542081,
+      "title": "Cookie-Butter-Choco-Cookie",
+      "artist": "Elmo and Cookie Monster",
+      "creator": "Monstrata",
+      "user_id": 2706438,
+      "ranked_date": "2017-08-14T16:46:34Z",
+      "preview_url": "https://b.ppy.sh/preview/542081.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/542081/covers/cover@2x.jpg?1650647147"
+      },
+      "beatmap": {
+        "id": 1207082,
+        "mode": "fruits",
+        "version": "Ascendance's Rain",
+        "bpm": 136,
+        "max_combo": 186
+      }
+    },
+    {
+      "id": 241526,
+      "title": "Renatus",
+      "artist": "Soleily",
+      "creator": "Multiple Creators",
+      "user_id": 3,
+      "ranked_date": "2015-02-25T17:20:15Z",
+      "preview_url": "https://b.ppy.sh/preview/241526.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+      },
+      "beatmap": {
+        "id": 557811,
+        "mode": "fruits",
+        "version": "Rain",
+        "bpm": 182,
+        "max_combo": 1566
+      }
+    },
+    {
+      "id": 134151,
+      "title": "Airman ga Taosenai (SOUND HOLIC Ver.)",
+      "artist": "Hanatan",
+      "creator": "Natsu",
+      "user_id": 1953876,
+      "ranked_date": "2014-04-25T23:02:17Z",
+      "preview_url": "https://b.ppy.sh/preview/134151.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
+      },
+      "beatmap": {
+        "id": 341072,
+        "mode": "fruits",
+        "version": "Zero's Overdose",
+        "bpm": 175,
+        "max_combo": 983
+      }
+    },
+    {
+      "id": 769917,
+      "title": "BUBBLE TEA (feat. juu & cinders)",
+      "artist": "dark cat",
+      "creator": "Hobbes2",
+      "user_id": 8157492,
+      "ranked_date": "2018-05-24T12:40:34Z",
+      "preview_url": "https://b.ppy.sh/preview/769917.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/769917/covers/cover@2x.jpg?1650663270"
+      },
+      "beatmap": {
+        "id": 1628559,
+        "mode": "fruits",
+        "version": "Ascendance's Rain",
+        "bpm": 160,
+        "max_combo": 684
+      }
+    },
+    {
+      "id": 332623,
+      "title": "Kakushinteki*Metamaruphose!",
+      "artist": "Doma Umaru [CV.Tanaka Aimi]",
+      "creator": "Crystal",
+      "user_id": 1646397,
+      "ranked_date": "2015-10-29T07:22:38Z",
+      "preview_url": "https://b.ppy.sh/preview/332623.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573"
+      },
+      "beatmap": {
+        "id": 773257,
+        "mode": "fruits",
+        "version": "CrystalSeed's UmaruDosE!!",
+        "bpm": 278,
+        "max_combo": 805
+      }
+    },
+    {
+      "id": 295480,
+      "title": "wh",
+      "artist": "yes we cant",
+      "creator": "Nhawak",
+      "user_id": 1572385,
+      "ranked_date": "2015-07-09T15:20:14Z",
+      "preview_url": "https://b.ppy.sh/preview/295480.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/295480/covers/cover@2x.jpg?1650630064"
+      },
+      "beatmap": {
+        "id": 710863,
+        "mode": "fruits",
+        "version": "Spec's Overdose",
+        "bpm": 130,
+        "max_combo": 209
+      }
+    },
+    {
+      "id": 139525,
+      "title": "Crack Traxxxx",
+      "artist": "Lite Show Magic (t+pazolite vs C-Show)",
+      "creator": "Fatfan Kolek",
+      "user_id": 2308676,
+      "ranked_date": "2015-08-22T23:20:14Z",
+      "preview_url": "https://b.ppy.sh/preview/139525.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/139525/covers/cover@2x.jpg?1650630208"
+      },
+      "beatmap": {
+        "id": 481938,
+        "mode": "fruits",
+        "version": "Spec's Hi-Speed Overdose",
+        "bpm": 220,
+        "max_combo": 944
+      }
+    },
+    {
+      "id": 788905,
+      "title": "Let Me Hit It (Audiostalkers Original Mix)",
+      "artist": "Sporty-O",
+      "creator": "eiri-",
+      "user_id": 3388410,
+      "ranked_date": "2018-08-14T01:21:06Z",
+      "preview_url": "https://b.ppy.sh/preview/788905.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/788905/covers/cover@2x.jpg?1650664492"
+      },
+      "beatmap": {
+        "id": 1656676,
+        "mode": "fruits",
+        "version": "Benny's Rain",
+        "bpm": 128,
+        "max_combo": 153
+      }
+    },
+    {
+      "id": 157896,
+      "title": "Monster (DotEXE Remix)",
+      "artist": "Meg & Dia",
+      "creator": "nold_1702",
+      "user_id": 515967,
+      "ranked_date": "2014-07-24T22:02:32Z",
+      "preview_url": "https://b.ppy.sh/preview/157896.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904"
+      },
+      "beatmap": {
+        "id": 393174,
+        "mode": "fruits",
+        "version": "ursa's OverdoZe",
+        "bpm": 140,
+        "max_combo": 704
+      }
+    }
+  ],
+  "mania": [
+    {
+      "id": 241526,
+      "title": "Renatus",
+      "artist": "Soleily",
+      "creator": "Multiple Creators",
+      "user_id": 3,
+      "ranked_date": "2015-02-25T17:20:15Z",
+      "preview_url": "https://b.ppy.sh/preview/241526.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+      },
+      "beatmap": {
+        "id": 557819,
+        "mode": "mania",
+        "version": "[7K] Another",
+        "bpm": 182,
+        "max_combo": 4800
+      }
+    },
+    {
+      "id": 134151,
+      "title": "Airman ga Taosenai (SOUND HOLIC Ver.)",
+      "artist": "Hanatan",
+      "creator": "Natsu",
+      "user_id": 1953876,
+      "ranked_date": "2014-04-25T23:02:17Z",
+      "preview_url": "https://b.ppy.sh/preview/134151.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
+      },
+      "beatmap": {
+        "id": 350863,
+        "mode": "mania",
+        "version": "[7K] Rumi's Insane",
+        "bpm": 175,
+        "max_combo": 3908
+      }
+    },
+    {
+      "id": 971561,
+      "title": "Runengon",
+      "artist": "antiPLUR",
+      "creator": "Raveille",
+      "user_id": 1388767,
+      "ranked_date": "2019-05-29T16:00:28Z",
+      "preview_url": "https://b.ppy.sh/preview/971561.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/971561/covers/cover@2x.jpg?1650680268"
+      },
+      "beatmap": {
+        "id": 2039384,
+        "mode": "mania",
+        "version": "[4K] Lenfried's Insane",
+        "bpm": 320,
+        "max_combo": 3327
+      }
+    },
+    {
+      "id": 476691,
+      "title": "Flower Dance",
+      "artist": "DJ OKAWARI",
+      "creator": "Narcissu",
+      "user_id": 1826598,
+      "ranked_date": "2016-09-14T11:41:04Z",
+      "preview_url": "https://b.ppy.sh/preview/476691.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/476691/covers/cover@2x.jpg?1650642192"
+      },
+      "beatmap": {
+        "id": 1024701,
+        "mode": "mania",
+        "version": "[4K] CS' Hard",
+        "bpm": 100,
+        "max_combo": 2621
+      }
+    },
+    {
+      "id": 332623,
+      "title": "Kakushinteki*Metamaruphose!",
+      "artist": "Doma Umaru [CV.Tanaka Aimi]",
+      "creator": "Crystal",
+      "user_id": 1646397,
+      "ranked_date": "2015-10-29T07:22:38Z",
+      "preview_url": "https://b.ppy.sh/preview/332623.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573"
+      },
+      "beatmap": {
+        "id": 748488,
+        "mode": "mania",
+        "version": "[4K] victorica's Lv.13",
+        "bpm": 278,
+        "max_combo": 1257
+      }
+    },
+    {
+      "id": 444632,
+      "title": "STYX HELIX",
+      "artist": "MYTH & ROID",
+      "creator": "Tsukuyomi",
+      "user_id": 1867171,
+      "ranked_date": "2016-05-22T17:22:17Z",
+      "preview_url": "https://b.ppy.sh/preview/444632.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/444632/covers/cover@2x.jpg?1650639095"
+      },
+      "beatmap": {
+        "id": 957836,
+        "mode": "mania",
+        "version": "[4K] victorica's Hard",
+        "bpm": 123,
+        "max_combo": 1087
+      }
+    },
+    {
+      "id": 157896,
+      "title": "Monster (DotEXE Remix)",
+      "artist": "Meg & Dia",
+      "creator": "nold_1702",
+      "user_id": 515967,
+      "ranked_date": "2014-07-24T22:02:32Z",
+      "preview_url": "https://b.ppy.sh/preview/157896.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904"
+      },
+      "beatmap": {
+        "id": 392004,
+        "mode": "mania",
+        "version": "Zillah's 7K Insane",
+        "bpm": 140,
+        "max_combo": 1780
+      }
+    },
+    {
+      "id": 206887,
+      "title": "unravel (TV edit)",
+      "artist": "TK from Ling tosite sigure",
+      "creator": "Desperate-kun",
+      "user_id": 2202645,
+      "ranked_date": "2015-02-02T15:41:18Z",
+      "preview_url": "https://b.ppy.sh/preview/206887.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/206887/covers/cover@2x.jpg?1650626369"
+      },
+      "beatmap": {
+        "id": 494094,
+        "mode": "mania",
+        "version": "[4K] Marirose's Insane",
+        "bpm": 135,
+        "max_combo": 851
+      }
+    },
+    {
+      "id": 313718,
+      "title": "Marble Soda",
+      "artist": "Shawn Wasabi",
+      "creator": "Exa",
+      "user_id": 5572371,
+      "ranked_date": "2016-06-22T05:01:48Z",
+      "preview_url": "https://b.ppy.sh/preview/313718.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/313718/covers/cover@2x.jpg?1650630607"
+      },
+      "beatmap": {
+        "id": 703759,
+        "mode": "mania",
+        "version": "[5K] Frim's HD",
+        "bpm": 168,
+        "max_combo": 1695
+      }
+    },
+    {
+      "id": 409025,
+      "title": "If You Can't Hang",
+      "artist": "Sleeping With Sirens",
+      "creator": "pishifat",
+      "user_id": 3178418,
+      "ranked_date": "2016-04-22T06:21:29Z",
+      "preview_url": "https://b.ppy.sh/preview/409025.mp3",
+      "covers": {
+        "cover@2x": "https://assets.ppy.sh/beatmaps/409025/covers/cover@2x.jpg?1650636399"
+      },
+      "beatmap": {
+        "id": 888023,
+        "mode": "mania",
+        "version": "[4K] puxtu's MX",
+        "bpm": 192,
+        "max_combo": 3002
+      }
+    }
+  ]
+}
