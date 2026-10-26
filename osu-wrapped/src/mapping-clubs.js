@@ -44,7 +44,7 @@ export function mappingClubMarkup(mapping,{legend=false}={}){
 }
 export function mappingLegendMarkup(mapping){
  const matches=mappingClubMatches(mapping),primary=matches[0];
- return '<div class="mapping-club-grid">'+MAPPING_CLUBS.map(c=>'<article class="mapping-club-'+c.id+'"><h4><span class="mapping-club-legend-icon">'+mappingClubIcon(c.id)+'</span>'+c.name+'</h4><p>'+c.motto+'</p><small>'+c.rule+'</small><b>'+(matches.includes(c)?(c===primary?'Your mapping club':'Also qualifies'):'Not yet qualified')+'</b>'+mappingCommunityMarkup(mapping,c.id)+'</article>').join('')+'</div>';
+ return '<div class="mapping-club-grid">'+MAPPING_CLUBS.map(c=>'<article class="mapping-club-'+c.id+'"><h4><span class="mapping-club-legend-icon">'+mappingClubIcon(c.id)+'</span>'+c.name+'</h4><p>'+c.motto+'</p><small>'+c.rule+'</small><b'+(c===primary?' class="mapping-club-current"':'')+'>'+(matches.includes(c)?(c===primary?'Your mapping club':'Also qualifies'):'Not yet qualified')+'</b>'+mappingCommunityMarkup(mapping,c.id)+'</article>').join('')+'</div>';
 }
 export function openMappingLegend(mapping){
  if(document.querySelector('.mapping-legend-dialog'))return;
