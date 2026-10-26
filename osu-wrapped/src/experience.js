@@ -1,3 +1,4 @@
+import {createQuizSounds} from './quiz-sounds.js';
 import {canViewWrapped,mappingOnly} from './eligibility.js';
 export {canViewWrapped} from './eligibility.js';
 import {mappingClubMarkup} from './mapping-clubs.js';
@@ -80,6 +81,8 @@ export function openExperience(data,{onSave,onReview}={}){
  if(!canViewWrapped(data))return;
  if(document.querySelector('.story-dialog'))return;
  const slides=experienceSlides(data);const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;const mobile=matchMedia('(max-width:720px)').matches;
+ // Decode the mobile peak thumbnail ahead of its delayed entrance.
+ if(mobile){const src=slides.find(slide=>slide.layout==='global-peak')?.body.match(/<img src="([^"]+)"/)?.[1];if(src){const image=new Image();image.decoding='async';image.src=src;image.decode?.().catch(()=>{});}}
  const dialog=document.createElement('dialog');dialog.className='story-dialog'+(mobile?' story-mobile':'');dialog.setAttribute('aria-label','Your osu! Wrapped experience');
  dialog.innerHTML='<div class="story-shell"><div class="story-orb story-orb-one"></div><div class="story-orb story-orb-two"></div><div class="story-progress" aria-label="Story slides">'+slides.map((s,i)=>'<button type="button" data-story-step="'+i+'" aria-label="Go to slide '+(i+1)+'"><progress max="1000" value="0"></progress></button>').join('')+'</div><div class="story-top"><span>osu! wrapped / 2026'+(data.demo?' · DEMO':'')+'</span><div><button type="button" data-story-mute aria-label="Mute slide audio" title="Mute audio" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4Z"/><g class="story-speaker-waves"><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></g><path class="story-speaker-muted" d="m16 9 6 6m0-6-6 6"/></svg></button><button type="button" data-story-pause aria-label="Pause experience">Pause Ⅱ</button><button type="button" data-story-close aria-label="Close experience">Close ×</button></div></div><div class="story-stage"></div><div class="story-bottom"><button type="button" data-story-prev aria-label="Previous slide">← Back</button><span class="story-counter" role="status" aria-live="polite"></span><button type="button" data-story-next>Next →</button></div></div>';
  document.body.append(dialog);
@@ -144,13 +147,14 @@ export function openExperience(data,{onSave,onReview}={}){
  function syncPreview(){syncClubSound();if(paused||document.hidden||closing)impactAudio.pause();else if(impactPlayed&&!impactAudio.ended)impactAudio.play().catch(()=>{});if(paused||document.hidden||closing)swooshAudio.pause();else if(swooshStarted&&!swooshAudio.ended)swooshAudio.play().catch(()=>{swooshFallback=true;});if(paused||document.hidden||closing)stopTally();if(closing||!previewAudio)return;const audio=previewAudio;if(document.hidden){clearInterval(previewFades.get(audio));previewFades.delete(audio);audio.pause();audio.volume=0;}else if(paused)fadePreview(audio,0,350);else{audio.play().catch(error=>{if(error.name!=='AbortError'&&previewAudio===audio&&!document.hidden&&!closing&&!paused){paused=true;pauseLabel();}});fadePreview(audio,audio===ambientAudio?.22:.35);}}
  const visibilityChanged=()=>{last=performance.now();syncPreview();};
  document.addEventListener("visibilitychange",visibilityChanged);
- let quizAudio=null;
+ const quizSounds=createQuizSounds(['/osu-wrapped/sounds/pass.mp3','/osu-wrapped/sounds/miss.mp3']);
+ dialog.addEventListener('pointerdown',quizSounds.unlock,{once:true});
  const impactAudio=new Audio('/osu-wrapped/sounds/impact.mp3');impactAudio.preload='auto';impactAudio.volume=.55;let impactPlayed=false;
  const swooshAudio=new Audio('/osu-wrapped/sounds/swoosh.mp3');swooshAudio.preload='auto';swooshAudio.volume=.5;let peakMotion=null,swooshStarted=false,swooshFallback=false;
  const tallySounds=Array.from({length:4},()=>{const audio=new Audio('/osu-wrapped/sounds/tick.mp3');audio.preload='auto';audio.volume=.3;return audio;});let tallyIndex=0,lastTally=0;
  function stopTally(){for(const audio of tallySounds){audio.pause();audio.currentTime=0;}}
  const stampAudio=new Audio("/osu-wrapped/sounds/hit.mp3");stampAudio.preload="auto";stampAudio.volume=.65;let stampPlayed=false;
- function playQuizSound(correct){if(quizAudio){quizAudio.pause();quizAudio.currentTime=0;}quizAudio=new Audio('/osu-wrapped/sounds/'+(correct?'pass':'miss')+'.mp3');quizAudio.volume=.65;quizAudio.muted=muted;quizAudio.play().catch(()=>{});}
+ function playQuizSound(correct){quizSounds.play(correct,muted);}
  let recapPreview=null;
  const answers=new Map();
  const progress=[...dialog.querySelectorAll('progress')];let counters=[],ppGrade=null,gradeBeatTime=null,clubRevealed=false;
@@ -185,7 +189,11 @@ export function openExperience(data,{onSave,onReview}={}){
    });
   }
   if(slide.layout==='club'&&clubRevealed)lockClubSelection(stage.querySelector('.story-slide'));
-  if(slide.layout==='global-peak'&&!reduced){const panel=stage.querySelector('.global-peak-story');peakMotion=panel.animate([{opacity:0,transform:'translateX(100px) rotate(4deg)'},{opacity:1,transform:'translateX(0) rotate(0)'}],{duration:648,fill:'both',easing:'cubic-bezier(.16,1,.3,1)'});peakMotion.pause();peakMotion.currentTime=0;}
+  if(slide.layout==='global-peak'&&!reduced){const panel=stage.querySelector('.global-peak-story');
+   if(mobile)panel.classList.add('peak-mobile-entering');
+   peakMotion=panel.animate(mobile?[{opacity:0,transform:'translate3d(24px,0,0)'},{opacity:1,transform:'translate3d(0,0,0)'}]:[{opacity:0,transform:'translateX(100px) rotate(4deg)'},{opacity:1,transform:'translateX(0) rotate(0)'}],{duration:648,fill:'both',easing:'cubic-bezier(.16,1,.3,1)'});
+   if(mobile)peakMotion.onfinish=()=>panel.classList.remove('peak-mobile-entering');
+   peakMotion.pause();peakMotion.currentTime=0;}
   if(slide.layout==='final'){
    const container=stage.querySelector('.story-slide');container.classList.add('story-slide-final');
    const content=document.createElement('div');while(container.firstChild)content.append(container.firstChild);container.append(content);
@@ -201,7 +209,7 @@ export function openExperience(data,{onSave,onReview}={}){
   dialog.querySelectorAll('[data-story-step]').forEach((button,n)=>button.setAttribute('aria-current',n===index?'step':'false'));
   dialog.querySelector('[data-story-prev]').disabled=index===0;next.textContent=slide.quiz?(answers.has(index)?'See my '+slide.quiz.kind+'s →':'Skip & reveal →'):index===slides.length-1?'Done ✓':'Next →';
   dialog.querySelector('.story-counter').textContent=(index+1)+' / '+slides.length;
-  if(slide.quiz){stage.querySelectorAll('[data-quiz-choice]').forEach(button=>button.addEventListener('click',()=>{if(answers.has(index))return;const choice=Number(button.dataset.quizChoice);answers.set(index,choice);elapsed=0;last=performance.now();renderAnswer();button.classList.add('quiz-selected-blink');playQuizSound(slide.quiz.options[choice].count===slide.quiz.topCount);}));renderAnswer();}
+  if(slide.quiz){stage.querySelectorAll('[data-quiz-choice]').forEach(button=>button.addEventListener('click',()=>{if(answers.has(index))return;const choice=Number(button.dataset.quizChoice);answers.set(index,choice);elapsed=0;last=performance.now();playQuizSound(slide.quiz.options[choice].count===slide.quiz.topCount);renderAnswer();button.classList.add('quiz-selected-blink');}));renderAnswer();}
   const audioSource=slide.layout==='final'?finaleSong:(index<4||slide.eyebrow==='A LITTLE RECOGNITION')?openingSong:['mapping','global-score','global-plays','global-highlight','global-popular'].includes(slide.layout)?(slide.preview||ambientSong):(slide.quiz||slide.title==='Your mappers.'||slide.layout==='personal-mods'||slide.layout==='club'||slide.layout==='mapping'||slide.layout==='global-intro'||slide.layout==='global-plays'||slide.layout==='global-players'||slide.layout==='global-popular'||slide.layout==='global-mappers'||slide.layout==='global-popular-mappers'||slide.layout==='global-highlight'||slide.layout==='global-score'||slide.layout==='global-community'||slide.layout==='global-peak'||slide.layout==='global-mods'||slide.layout==='global-genres')?ambientSong:slide.preview;
   if(previewAudio?.src!==new URL(audioSource||"",location.href).href){if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;if(audioSource){previewAudio=audioSource===openingSong?(openingAudio??=new Audio(openingSong)):audioSource===ambientSong?(ambientAudio??=new Audio(ambientSong)):new Audio(audioSource);previewAudio.loop=true;previewAudio.volume=0;previewAudio.muted=muted;}}
   if(slide.syncToPreview&&previewAudio){previewAudio.currentTime=0;previewAudio.loop=false;}
@@ -325,7 +333,7 @@ export function openExperience(data,{onSave,onReview}={}){
  function closeExperience(afterClose){
   if(closing)return;stopClubSound();closing=true;paused=true;cancelAnimationFrame(raf);introMotion.forEach(animation=>animation.pause());
   for(const audio of new Set([previewAudio,openingAudio,ambientAudio,...previewFades.keys()]))if(audio)fadePreview(audio,0,400);
-  impactAudio.pause();swooshAudio.pause();stopTally();stampAudio.pause();quizAudio?.pause();closeAudio.muted=muted;closeAudio.volume=.65;closeAudio.currentTime=0;
+  impactAudio.pause();swooshAudio.pause();stopTally();stampAudio.pause();quizSounds.stop();closeAudio.muted=muted;closeAudio.volume=.65;closeAudio.currentTime=0;
   dialog.classList.add('story-closing');dialog.querySelectorAll('button').forEach(button=>button.disabled=true);
   const finish=()=>{if(!dialog.open)return;closeAudio.pause();dialog.close();afterClose?.();};
   const animation=shell.animate([{opacity:1,transform:'scale(1)'},{opacity:.75,transform:'scale(.99)',offset:.35},{opacity:0,transform:'scale(.96)'}],{duration:2847,easing:'ease-in-out',fill:'forwards'});
@@ -334,7 +342,7 @@ export function openExperience(data,{onSave,onReview}={}){
  dialog.addEventListener('cancel',event=>{event.preventDefault();closeExperience();});
  document.addEventListener('keydown',keyboard);
  const mute=dialog.querySelector('[data-story-mute]');
- mute.onclick=()=>{muted=!muted;clubCharge.muted=muted;clubArrival.muted=muted;for(const audio of new Set([previewAudio,openingAudio,ambientAudio,stampAudio,quizAudio,closeAudio,swooshAudio,impactAudio,...tallySounds,...previewFades.keys()]))if(audio)audio.muted=muted;mute.title=muted?'Unmute audio':'Mute audio';mute.setAttribute('aria-pressed',String(muted));mute.setAttribute('aria-label',muted?'Unmute slide audio':'Mute slide audio');};
+ mute.onclick=()=>{muted=!muted;quizSounds.setMuted(muted);clubCharge.muted=muted;clubArrival.muted=muted;for(const audio of new Set([previewAudio,openingAudio,ambientAudio,stampAudio,closeAudio,swooshAudio,impactAudio,...tallySounds,...previewFades.keys()]))if(audio)audio.muted=muted;mute.title=muted?'Unmute audio':'Mute audio';mute.setAttribute('aria-pressed',String(muted));mute.setAttribute('aria-label',muted?'Unmute slide audio':'Mute slide audio');};
  dialog.querySelector('[data-story-close]').onclick=()=>closeExperience();pause.onclick=toggle;
  dialog.querySelector('[data-story-prev]').onclick=()=>show(index-1);next.onclick=advance;
  dialog.querySelectorAll('[data-story-step]').forEach(button=>button.onclick=()=>show(Number(button.dataset.storyStep)));
@@ -348,7 +356,14 @@ export function openExperience(data,{onSave,onReview}={}){
    const tally=slides[index].tallySound,precision=el.dataset.countDecimals==='1'?10:1,fraction=(slideAnimationsSkipped||(paused&&!tally))?1:Math.min(1,elapsed/1100),current=Math.round(value*fraction*precision);el.textContent=precision===10?(current/10).toFixed(1):number(current);
    if(tally&&!slideAnimationsSkipped&&current!==lastTally){lastTally=current;if(!paused&&!document.hidden&&!muted){const audio=tallySounds[tallyIndex++%tallySounds.length];audio.pause();audio.preservesPitch=false;audio.mozPreservesPitch=false;audio.webkitPreservesPitch=false;audio.playbackRate=.5+Math.min(1,current/Math.max(1,value*precision))*1.1;audio.currentTime=0;audio.muted=muted;audio.play().catch(()=>{});}}
   }
-  if(peakMotion&&!slideAnimationsSkipped&&!paused&&!document.hidden&&elapsed>=1500){if(!swooshStarted){swooshStarted=true;swooshAudio.muted=muted;swooshAudio.play().catch(()=>{swooshFallback=true;});}peakMotion.currentTime=swooshFallback||swooshAudio.error?Math.min(648,elapsed-1500):swooshAudio.currentTime*1000;}
+  if(mobile&&peakMotion&&!slideAnimationsSkipped){
+   if(paused||document.hidden){if(peakMotion.playState==='running')peakMotion.pause();}
+   else if(elapsed>=1500){
+    if(!swooshStarted){swooshStarted=true;swooshAudio.muted=muted;swooshAudio.play().catch(()=>{});peakMotion.play();}
+    else if(peakMotion.playState==='paused')peakMotion.play();
+   }
+  }
+  if(!mobile&&peakMotion&&!slideAnimationsSkipped&&!paused&&!document.hidden&&elapsed>=1500){if(!swooshStarted){swooshStarted=true;swooshAudio.muted=muted;swooshAudio.play().catch(()=>{swooshFallback=true;});}peakMotion.currentTime=swooshFallback||swooshAudio.error?Math.min(648,elapsed-1500):swooshAudio.currentTime*1000;}
   if(!slideAnimationsSkipped&&slides[index].countImpact&&!impactPlayed&&!paused&&!document.hidden&&elapsed>=1100&&counters.length){impactPlayed=true;impactAudio.muted=muted;impactAudio.play().catch(()=>{});if(!reduced)for(const {el} of counters)el.classList.add('story-count-impact');}
   const beatBpm=slides[index].beatBpm;
   const beatTimed=Number.isFinite(beatBpm)&&beatBpm>0&&previewAudio&&!previewAudio.error;
@@ -361,7 +376,7 @@ export function openExperience(data,{onSave,onReview}={}){
   raf=requestAnimationFrame(tick);
  }
  const focusBefore=document.activeElement;const overflowBefore=document.body.style.overflow;
- dialog.addEventListener('close',()=>{document.removeEventListener('keydown',keyboard);stopClubSound();cancelAnimationFrame(raf);impactAudio.pause();swooshAudio.pause();peakMotion?.cancel();stopTally();expandedRecap?.close();closeAudio.pause();stageSize.disconnect();slideContentSize.disconnect();cancelAnimationFrame(fitFrame);introMotion.forEach(animation=>animation.cancel());if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;document.removeEventListener("visibilitychange",visibilityChanged);stampAudio.pause();quizAudio?.pause();quizAudio=null;document.body.style.overflow=overflowBefore;dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});
+ dialog.addEventListener('close',()=>{document.removeEventListener('keydown',keyboard);stopClubSound();cancelAnimationFrame(raf);impactAudio.pause();swooshAudio.pause();peakMotion?.cancel();stopTally();expandedRecap?.close();closeAudio.pause();stageSize.disconnect();slideContentSize.disconnect();cancelAnimationFrame(fitFrame);introMotion.forEach(animation=>animation.cancel());if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;document.removeEventListener("visibilitychange",visibilityChanged);stampAudio.pause();quizSounds.dispose();document.body.style.overflow=overflowBefore;dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});
  dialog.showModal();document.body.style.overflow='hidden';show(0);stage.tabIndex=0;stage.focus();pauseLabel();raf=requestAnimationFrame(tick);
 }
 

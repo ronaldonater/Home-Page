@@ -95,3 +95,8 @@ test('Replay Society uses received views and logarithmic activity strength with 
  assert.equal(signal(500).baseStrength,55);assert.equal(signal(5000).baseStrength,67.5);assert.equal(signal(50000).baseStrength,80);assert.equal(signal(500000).baseStrength,80);
  assert.ok(signal(500,1).strength<signal(500,6).strength);assert.equal(signal(500,6).evidenceCount,6);
 });
+
+test('playstyle legend uses CSP-safe color classes without inline style attributes',()=>{
+ const html=clubLegendMarkup({});assert.doesNotMatch(html,/\sstyle=/);
+ for(const id of Object.keys(CLUBS))assert.ok(html.includes('club-legend-card club-'+id+'"'));
+});
