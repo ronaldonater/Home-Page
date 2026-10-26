@@ -41,11 +41,18 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.27**
+**Version 1.1.28**
 
 Supports all four modes, up to 28 slides (including the optional mapping slide), 21 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score or hosted mapset first submitted in 2026. Community percentages optionally use Neon.
 
 See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md), and [club ranking guide](docs/CLUB-RANKING.md). Public routes are `/osu-wrapped/` and `/api/osu-wrapped/`; use the private `WRAPPED_` environment variables documented in setup. Run `node --test tests/*.test.mjs` from the website root.
+
+## v1.1.28 updates
+
+- Added the hidden `secret()` browser-console Easter egg with supplied WYSI audio and falling pointing emojis / 727 text.
+- Optimized the effect with cached sprites, a 30 FPS cap, lower-resolution rendering and a limited particle count.
+- Added an automatic fade-out, Escape cancellation, tab-visibility cleanup, and clean restarts.
+- Added playful console messages and credited Aireu under Music & sound.
 
 ## v1.1.27 updates
 
@@ -200,3 +207,11 @@ Users with no eligible 2026 scores in the selected mode can still participate wh
 Link arrows request Unicode text presentation to avoid iOS emoji substitution. The decorative landing-page asterisk uses SVG. Mobile quiz answer labels shrink from 15px toward 11px to fit approximately three lines; exceptionally long names can increase button height instead of overflowing. Fitting updates when the stage resizes or fonts finish loading. All-Rounder uses the same left-aligned legend layout as other clubs at widths up to 600px; its desktop card remains centered.
 
 The footer displays the app version directly from its package.json, so version bumps automatically update the visible indicator.
+
+## Console Easter egg
+
+Running `secret()` in the browser console plays the bundled `wysi.mp3` clip and rains down pointing emojis and 727 text. The command returns `WYSI!`; page load and activation also display playful console messages. The credits panel attributes the Easter egg to Aireu.
+
+The effect uses cached canvas sprites, a 30 FPS cap and at most 40 particles (12 with reduced motion). It ignores pointer input so the page stays usable. Audio ending or the 30-second safety limit triggers a 0.8-second fade before cleanup. Escape or hiding the tab stops it immediately; invoking the command again restarts it without stacking effects. Browser autoplay rules may require clicking the page before running the command. Reduced-motion settings reduce density, size variation and speed.
+
+Sources: `src/secret.js` in the standalone app and `osu-wrapped/src/secret.js` in the website copy. Audio: `public/sounds/wysi.mp3` (standalone) and `osu-wrapped/sounds/wysi.mp3` (website). No new environment variables, external services, or SQL changes are needed. The footer version badge reads the app's package version automatically.

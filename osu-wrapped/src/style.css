@@ -679,3 +679,7 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 @media(max-width:720px){.story-slide .ui-external-arrow{font-size:.8em}}
 
 .footer-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.app-version{font-size:10px;line-height:1.4;color:#aaa3b4;border:1px solid #ffffff18;border-radius:5px;padding:3px 6px;white-space:nowrap;font-variant-numeric:tabular-nums}
+
+.secret-727-rain{position:fixed;inset:0;width:100vw;height:100dvh;z-index:2147483647;pointer-events:none}
+
+.secret-727-rain{opacity:1;transition:opacity .8s ease-out}.secret-727-rain.secret-727-fading{opacity:0}

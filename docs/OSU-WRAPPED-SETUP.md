@@ -1,6 +1,6 @@
 # osu! Wrapped 2026 subpage
 
-**Version 1.1.27**
+**Version 1.1.28**
 
 Public URL: https://ronaldonater.com/osu-wrapped/ (use your actual canonical host if different). Its Dev-page entry is managed manually. Wrapped is a self-contained static ES-module app; no build step or Vite installation is needed for the personal site. All existing pages and integrations remain in place. No credentials were copied from the standalone app.
 
@@ -51,7 +51,7 @@ Rarest 2026 medal: profile achievement timestamps are filtered using UTC, then m
 
 ## Current features and data scope
 
-The current release is v1.1.27. See the root README for the complete feature guide: 21 playstyle clubs, six separate mapping clubs, up to 28 slides including the conditional personal-mapping slide, and recap cards with primary/secondary clubs and mapping details. Without eligible scores, hosted 2026 submissions unlock a mapping-only Wrapped; users with neither remain blocked; users without 2026 uploads have no personal mapping slide or recap section. Genre rankings cover all currently ranked 2026 mapsets in the selected native mode, not just the most-played 25.
+The current release is v1.1.28. See the root README for the complete feature guide: 21 playstyle clubs, six separate mapping clubs, up to 28 slides including the conditional personal-mapping slide, and recap cards with primary/secondary clubs and mapping details. Without eligible scores, hosted 2026 submissions unlock a mapping-only Wrapped; users with neither remain blocked; users without 2026 uploads have no personal mapping slide or recap section. Genre rankings cover all currently ranked 2026 mapsets in the selected native mode, not just the most-played 25.
 
 Global catalogue snapshots refresh through `.github/workflows/ranked-mappers.yml` daily at 08:23 UTC or by manual dispatch. Configure Actions secrets `OSU_CLIENT_ID` and `OSU_CLIENT_SECRET` and repository write permission. These Actions secrets are separate from Netlify's website-prefixed variables. A successful refreshed snapshot must be deployed to appear live.
 
@@ -70,3 +70,7 @@ The public Wrapped landing page has a canonical URL, descriptive search/social m
 After deployment, verify `/robots.txt`, `/sitemap.xml`, and `/osu-wrapped/` on the production domain. In Google Search Console, verify the `ronaldonater.com` property, submit `https://ronaldonater.com/sitemap.xml`, then inspect `https://ronaldonater.com/osu-wrapped/` and request indexing. These account actions have not been performed automatically. Indexing and ranking are decided by Google and are not guaranteed.
 
 
+
+## Console Easter egg deployment
+
+Deploy `osu-wrapped/src/secret.js`, the updated app entrypoint and stylesheet, and `osu-wrapped/sounds/wysi.mp3` together. The console command is `secret()`. Audio is same-origin under the existing media policy; no CSP relaxation, SQL migration or additional environment variables are needed. Confirm playback after a user gesture, falling particles, the final fade, and Escape cancellation on the deployed site. Aireu is credited in Music & sound.

@@ -1,3 +1,5 @@
+import {installSecret} from './secret.js';
+installSecret({audioUrl:'/osu-wrapped/sounds/wysi.mp3'});
 import packageInfo from '../package.json' with {type:'json'};
 import {mappingOnly} from './eligibility.js';
 import {openMappingLegend} from './mapping-clubs.js';
