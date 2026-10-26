@@ -1,3 +1,4 @@
+import {mappingOnly} from './eligibility.js';
 import {assignMappingClub,mappingClubArtwork} from './mapping-clubs.js';
 import {CLUBS,CLUB_COLORS} from './clubs.js';
 import {modIconUrl} from './mod-icons.js';
@@ -18,6 +19,7 @@ function avatarImage(userId){
  });
 }
 export async function createRecap(data){
+ if(mappingOnly(data))return createMappingRecap(data);
  const topPlays=data.top.slice(0,5);
  const [avatar,covers,mapperAvatars,artistAvatars,medalArt,modArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(async artist=>(await artistImage(artist.name))||await coverImage(artist.cover))),recapMedalImage(data.rarestMedal),Promise.all((data.favoriteMod?.mods||[]).slice(0,3).map(mod=>recapModImage(mod)))]);
  const hasMapping=data.mapping?.status==='ready'&&Number.isSafeInteger(data.mapping.created)&&data.mapping.created>0;
@@ -199,3 +201,34 @@ function artistImage(name){return new Promise(resolve=>{const img=new Image();co
 function recapMedalImage(medal){const url=medalImageUrl(medal);if(!url)return Promise.resolve(null);return new Promise(resolve=>{const image=new Image();const timer=setTimeout(()=>{image.src='';resolve(null);},7000);image.onload=()=>{clearTimeout(timer);resolve(image);};image.onerror=()=>{clearTimeout(timer);resolve(null);};image.src=url;});}
 
 function recapModImage(mod){const url=modIconUrl(mod);if(!url)return Promise.resolve(null);return new Promise(resolve=>{const image=new Image();const timer=setTimeout(()=>resolve(null),5000);image.onload=()=>{clearTimeout(timer);resolve(image);};image.onerror=()=>{clearTimeout(timer);resolve(null);};image.src=url;});}
+
+async function createMappingRecap(data){
+ const mapping=data.mapping,club=assignMappingClub(mapping),popular=mapping.mostPopular;
+ const [avatar,cover]=await Promise.all([avatarImage(data.user.id),coverImage(popular?.cover)]);
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=1022;
+ const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
+ const text=(value,x,y,size=20,color=white,weight=400,width=1000)=>{ctx.font=weight+' '+size+'px "Segoe UI",sans-serif';ctx.fillStyle=color;let label=String(value??'');while(label.length>1&&ctx.measureText(label).width>width)label=label.slice(0,-2)+'…';ctx.fillText(label,x,y);};
+ const box=(x,y,w,h,color)=>{ctx.fillStyle=color;ctx.beginPath();ctx.roundRect(x,y,w,h,18);ctx.fill();};
+ const image=(img,x,y,w,h)=>{if(!img)return;ctx.save();ctx.beginPath();ctx.roundRect(x,y,w,h,12);ctx.clip();const scale=Math.max(w/img.naturalWidth,h/img.naturalHeight),iw=img.naturalWidth*scale,ih=img.naturalHeight*scale;ctx.drawImage(img,x+(w-iw)/2,y+(h-ih)/2,iw,ih);ctx.restore();};
+ ctx.fillStyle='#15131b';ctx.fillRect(0,0,1200,1060);
+ text('osu! wrapped / 2026',64,78,27,pink,700);
+ text('YOUR YEAR BEHIND THE PATTERNS',64,117,14,'#8edcff',700);
+ image(avatar,64,156,106,106);text(data.user.username+'’s 2026',avatar?196:64,211,46,white,700,940);
+ text('Mapping recap - January 1 - December 31, 2026 (UTC)',avatar?196:64,249,18,muted,400,940);
+ box(64,304,1072,170,'#202934');
+ const metrics=[[mapping.created,'mapsets submitted in 2026','#8edcff'],[mapping.ranked,'of those currently ranked','#b7e58b'],[mapping.totalPlays,'all-time plays on these mapsets','#ffd46b']];
+ metrics.forEach(([value,label,color],i)=>{const x=88+i*356;text(number(value),x,385,48,color,700,320);text(label,x,423,16,white,400,320);});
+ text('Hosted mapsets across all modes. Ranked status is current.',88,454,13,muted,400);
+ if(club){
+  box(64,494,1072,146,'#202934');const art=mappingClubArtwork(club.id);
+  ctx.save();ctx.strokeStyle=club.color;ctx.lineWidth=1;ctx.beginPath();ctx.roundRect(88,527,88,88,20);ctx.stroke();ctx.translate(108,547);ctx.scale(48/24,48/24);ctx.translate(art.x,art.y);ctx.strokeStyle=club.color;ctx.lineWidth=1.8;ctx.lineCap='round';ctx.lineJoin='round';ctx.stroke(new Path2D(art.path));ctx.restore();
+  text('YOUR MAPPING CLUB',196,528,12,club.color,700);text(club.name,196,565,29,club.color,700,910);text(club.motto,196,594,18,white,400,910);text(club.rule,196,624,14,muted,400,910);
+ }
+ box(64,660,1072,190,'#202934');text('YOUR MOST-PLAYED 2026 UPLOAD',88,694,13,'#8edcff',700);
+ if(popular){image(cover,88,718,180,120);const x=cover?292:88;text(popular.title,x,755,27,white,700,1112-x);text(popular.artist,x,791,18,muted,400,1112-x);text(number(popular.plays)+' all-time plays',x,826,20,'#8edcff',700,1112-x);}else{text('Upload artwork and details unavailable',88,760,22,muted);}
+ text('MAPPING COVERAGE',64,896,13,'#8edcff',700);
+ text('Unique hosted mapsets first submitted in 2026 (UTC); guest, deleted and local-only maps excluded.',64,925,15,muted,400,1072);
+ text('No eligible scores in the selected mode. Score-based statistics and playstyle clubs are omitted.',64,953,15,muted,400,1072);
+ text('Independent fan project - Not affiliated with ppy / osu!',64,987,14,muted,400,1072);
+ return new Promise((resolve,reject)=>{try{canvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG export failed')),'image/png');}catch(error){reject(error);}});
+}

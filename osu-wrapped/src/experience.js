@@ -1,3 +1,5 @@
+import {canViewWrapped,mappingOnly} from './eligibility.js';
+export {canViewWrapped} from './eligibility.js';
 import {mappingClubMarkup} from './mapping-clubs.js';
 import {artistCover,bindArtistFallback} from './artist-fallback.js';
 import {slideFitScale} from './slide-fit.js';
@@ -15,7 +17,6 @@ const number=value=>value==null?'—':new Intl.NumberFormat('en-US',{maximumFrac
 const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const seen=new Set();
 export const experienceKey=data=>'osu-wrapped:experience:'+data.year+':'+data.user.id;
-export const canViewWrapped=data=>Number.isInteger(data?.sampleCount)&&data.sampleCount>0;
 export function firstExperience(data,storage){
  if(!canViewWrapped(data) || data.demo)return false;
  const key=experienceKey(data);if(seen.has(key))return false;
@@ -65,6 +66,14 @@ export function experienceSlides(data){
   slides.splice(beforeCommunity,0,{theme:'lime',layout:'mapping',preview:storyPreview(data.mapping.mostPopular),syncToPreview:Boolean(storyPreview(data.mapping.mostPopular)),eyebrow:'YOUR IDEAS. THEIR NEXT FAVORITE.',title:'You made<br>new patterns.',body:storyBlueprint()+'<div class="story-duo mapping-story-counts"><div>'+count(data.mapping.created)+'<span>mapsets first submitted in 2026</span></div><div>'+count(data.mapping.ranked)+'<span>of those are currently ranked</span></div><div>'+count(data.mapping.totalPlays)+'<span>all-time plays on these mapsets</span></div></div>'+mappingClubMarkup(data.mapping)+showcase,note:(data.demo?'Demo: fictional mapping counts and playcounts. The featured real mapset belongs to its original mapper. ':'')+'Hosted mapsets first submitted in 2026 (UTC), across all modes. Each set counts once. Excludes guest difficulties hosted by others, deleted sets, and local-only maps. Ranked status is current.',duration:7000});
  }
  for(const [kind,title,rows] of [['mapper','Your mappers.',data.mappers],['artist','Your artists.',data.artists]]){const quiz=makeQuiz(rows,kind);if(quiz){const reveal=slides.findIndex(slide=>slide.title===title);slides.splice(reveal,0,quiz);}}
+ if(mappingOnly(data)){
+  const communityStart=slides.findIndex(slide=>slide.layout==='global-intro');
+  const mappingSlide=slides.find(slide=>slide.layout==='mapping');
+  const finale=slides.find(slide=>slide.layout==='final');
+  finale.note='Your 2026 hosted uploads across all modes. No eligible scores in this mode; score-based sections are omitted. Year to date until 2027. · Music: nekodex - circles!';
+  finale.body=finale.body.replace('Every new best starts<br>with one more try.','Every new pattern starts<br>with one idea.');
+  return [slides[0],mappingSlide,...slides.slice(communityStart)].filter(Boolean);
+ }
  return slides;
 }
 export function openExperience(data,{onSave,onReview}={}){
