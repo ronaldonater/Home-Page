@@ -31,3 +31,11 @@ test('Ranked Debut requires a ranked submission and replaces Genre Architects',(
  assert.ok(!MAPPING_CLUBS.some(club=>club.id==='genres'));
  assert.ok(mappingClubMatches(mapping({ranked:3})).some(club=>club.id==='breakthrough'));
 });
+
+test('mapping club colors use CSP-safe CSS classes rather than inline styles',()=>{
+ const legend=mappingLegendMarkup(mapping({created:1}));
+ assert.doesNotMatch(legend,/style=/);
+ for(const club of MAPPING_CLUBS)assert.ok(legend.includes('class="mapping-club-'+club.id+'"'));
+ const badge=mappingClubMarkup(mapping({created:1}));
+ assert.match(badge,/mapping-club-badge mapping-club-draft/);assert.doesNotMatch(badge,/style=/);
+});

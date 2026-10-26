@@ -37,14 +37,14 @@ export function mappingCommunityMarkup(mapping,clubId){
 export function mappingClubMarkup(mapping,{legend=false}={}){
  if(mapping?.status!=='ready'||!mapping.created)return '';
  const matches=mappingClubMatches(mapping),club=matches[0];
- const badge=club?'<div class="mapping-club-badge" style="--mapping-club-color:'+club.color+'"><span class="mapping-club-symbol" aria-hidden="true">'+mappingClubIcon(club.id)+'</span><div><small>YOUR MAPPING CLUB</small><strong>'+club.name+'</strong><p>'+club.motto+'</p><p class="mapping-club-criteria">'+club.rule+'</p></div></div>':'<div class="mapping-club-badge"><div><small>YOUR MAPPING CLUB</small><strong>Your mapping identity is taking shape.</strong><p>None of the six club requirements are met yet. Keep creating!</p></div></div>';
+ const badge=club?'<div class="mapping-club-badge mapping-club-'+club.id+'"><span class="mapping-club-symbol" aria-hidden="true">'+mappingClubIcon(club.id)+'</span><div><small>YOUR MAPPING CLUB</small><strong>'+club.name+'</strong><p>'+club.motto+'</p><p class="mapping-club-criteria">'+club.rule+'</p></div></div>':'<div class="mapping-club-badge"><div><small>YOUR MAPPING CLUB</small><strong>Your mapping identity is taking shape.</strong><p>None of the six club requirements are met yet. Keep creating!</p></div></div>';
  const button=legend?'<button type="button" class="club-legend-trigger mapping-legend-trigger" data-mapping-legend aria-haspopup="dialog">How your club was chosen ↗</button>':'';
  const community=mappingCommunityMarkup(mapping,club?.id);
  return badge.replace('</div></div>',button+'</div>'+(community?'<div class="mapping-club-community-side">'+community+'</div>':'')+'</div>');
 }
 export function mappingLegendMarkup(mapping){
  const matches=mappingClubMatches(mapping),primary=matches[0];
- return '<div class="mapping-club-grid">'+MAPPING_CLUBS.map(c=>'<article style="--mapping-club-color:'+c.color+'"><h4><span class="mapping-club-legend-icon">'+mappingClubIcon(c.id)+'</span>'+c.name+'</h4><p>'+c.motto+'</p><small>'+c.rule+'</small><b>'+(matches.includes(c)?(c===primary?'Your mapping club':'Also qualifies'):'Not yet qualified')+'</b>'+mappingCommunityMarkup(mapping,c.id)+'</article>').join('')+'</div>';
+ return '<div class="mapping-club-grid">'+MAPPING_CLUBS.map(c=>'<article class="mapping-club-'+c.id+'"><h4><span class="mapping-club-legend-icon">'+mappingClubIcon(c.id)+'</span>'+c.name+'</h4><p>'+c.motto+'</p><small>'+c.rule+'</small><b>'+(matches.includes(c)?(c===primary?'Your mapping club':'Also qualifies'):'Not yet qualified')+'</b>'+mappingCommunityMarkup(mapping,c.id)+'</article>').join('')+'</div>';
 }
 export function openMappingLegend(mapping){
  if(document.querySelector('.mapping-legend-dialog'))return;
@@ -61,7 +61,7 @@ export function openMappingLegend(mapping){
  const community=document.createElement('div');community.className='mapping-legend-community';
  const primary=assignMappingClub(mapping),stats=mapping?.community,row=stats?.clubs?.find(entry=>entry.id===primary?.id);
  if(primary&&stats?.status==='ready'&&row&&Number.isFinite(row.percentage)&&Number.isSafeInteger(stats.total)&&stats.total>0){
-  community.style.setProperty('--mapping-club-color',primary.color);
+  community.classList.add('mapping-club-'+primary.id);
   const message=document.createElement('p');message.append('You’re among ');const percentage=document.createElement('strong');percentage.textContent=row.percentage.toFixed(1)+'%';message.append(percentage,' of participating mappers with this primary club.');
   const detail=document.createElement('small');detail.textContent='Based on '+stats.total.toLocaleString('en-US')+' mapper'+(stats.total===1?'':'s')+' - all modes - 2026 - updates may take a minute';community.append(message,detail);
  }else{community.innerHTML=mappingCommunityMarkup(mapping,primary?.id);}

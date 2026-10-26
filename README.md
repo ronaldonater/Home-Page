@@ -41,11 +41,16 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.19**
+**Version 1.1.20**
 
 Supports all four modes, up to 28 slides (including the optional mapping slide), 21 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score. Community percentages optionally use Neon.
 
 See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md), and [club ranking guide](docs/CLUB-RANKING.md). Public routes are `/osu-wrapped/` and `/api/osu-wrapped/`; use the private `WRAPPED_` environment variables documented in setup. Run `node --test tests/*.test.mjs` from the website root.
+
+## v1.1.20 updates
+
+- Fixed mapping club colors on the live website by replacing inline styles with CSP-safe CSS classes.
+- Badges, legend entries, and community percentages now use consistent club accent colors without changing the security policy.
 
 ## v1.1.19 updates
 

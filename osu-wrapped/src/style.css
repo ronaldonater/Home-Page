@@ -638,3 +638,12 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .club-replay{--club-color:#ffffff}
 
 .mapping-legend-community{font-size:12px;line-height:1.6;margin:0 0 16px;color:#c4b9ce}.mapping-legend-community:empty{display:none}.mapping-legend-community p{margin:0 0 4px}.mapping-legend-community strong{color:var(--mapping-club-color,#8edcff)}.mapping-legend-community>small{display:block;font-size:10px;opacity:.75}
+
+/* Production CSP allows external CSS, not inline style attributes. */
+.mapping-club-soundtrack{--mapping-club-color:#ffd46b}
+.mapping-club-ranked{--mapping-club-color:#b7e58b}
+.mapping-club-breakthrough{--mapping-club-color:#c4a3ff}
+.mapping-club-factory{--mapping-club-color:#ffad76}
+.mapping-club-gems{--mapping-club-color:#67ded0}
+.mapping-club-draft{--mapping-club-color:#8edcff}
+.mapping-community>strong{color:var(--mapping-club-color,inherit)}
