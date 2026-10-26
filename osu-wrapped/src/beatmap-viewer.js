@@ -6,7 +6,7 @@ export function openBeatmap(score){
  const title=document.createElement('h2');title.textContent='Watch beatmap · '+score.title;
  const close=document.createElement('button');close.type='button';close.textContent='Close ×';close.setAttribute('aria-label','Close beatmap viewer');close.onclick=()=>dialog.close();header.append(title,close);
  const note=document.createElement('p');note.className='replay-note';note.textContent='Previewing the most-played difficulty in the selected gamemode. Powered by JoSu! Beatmap Viewer.';
- const fallback=document.createElement('a');fallback.className='replay-score-link';fallback.href=source;fallback.target='_blank';fallback.rel='noopener noreferrer';fallback.textContent='Open viewer in a new tab ↗';
+ const fallback=document.createElement('a');fallback.className='replay-score-link';fallback.href=source;fallback.target='_blank';fallback.rel='noopener noreferrer';fallback.textContent='Open viewer in a new tab ↗︎';
  const frame=document.createElement('iframe');frame.title='Beatmap preview · '+score.title;frame.referrerPolicy='no-referrer';frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-pointer-lock');frame.allow='autoplay; fullscreen';frame.allowFullscreen=true;
  dialog.append(header,note,fallback,frame);document.body.append(dialog);
  dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});

@@ -38,7 +38,7 @@ export function mappingClubMarkup(mapping,{legend=false}={}){
  if(mapping?.status!=='ready'||!mapping.created)return '';
  const matches=mappingClubMatches(mapping),club=matches[0];
  const badge=club?'<div class="mapping-club-badge mapping-club-'+club.id+'"><span class="mapping-club-symbol" aria-hidden="true">'+mappingClubIcon(club.id)+'</span><div><small>YOUR MAPPING CLUB</small><strong>'+club.name+'</strong><p>'+club.motto+'</p><p class="mapping-club-criteria">'+club.rule+'</p></div></div>':'<div class="mapping-club-badge"><div><small>YOUR MAPPING CLUB</small><strong>Your mapping identity is taking shape.</strong><p>None of the six club requirements are met yet. Keep creating!</p></div></div>';
- const button=legend?'<button type="button" class="club-legend-trigger mapping-legend-trigger" data-mapping-legend aria-haspopup="dialog">How your club was chosen ↗</button>':'';
+ const button=legend?'<button type="button" class="club-legend-trigger mapping-legend-trigger" data-mapping-legend aria-haspopup="dialog">How your club was chosen ↗︎</button>':'';
  const community=mappingCommunityMarkup(mapping,club?.id);
  return badge.replace('</div></div>',button+'</div>'+(community?'<div class="mapping-club-community-side">'+community+'</div>':'')+'</div>');
 }

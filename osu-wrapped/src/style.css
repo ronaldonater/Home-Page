@@ -655,3 +655,19 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .mapping-club-grid .mapping-club-current{background:linear-gradient(#211d29,#211d29) padding-box,conic-gradient(from var(--club-outline-angle),#80c7ff,#a99aff,#f49bce,#ffd28b,#8ce6cf,#80c7ff) border-box;animation:club-outline-drift 9s linear infinite}
 @keyframes club-outline-drift{to{--club-outline-angle:360deg}}
 @media(prefers-reduced-motion:reduce){.mapping-club-grid .mapping-club-current{animation:none}}
+
+/* Vector decoration avoids Apple Color Emoji substitution on iOS. */
+.art-star{display:block;width:45px;height:45px;line-height:0}.art-star svg{display:block;width:100%;height:100%}
+
+@media(max-width:720px){
+ .story-quiz-options{align-items:stretch}
+ .story-quiz-options button{height:auto;min-height:80px;align-items:center;overflow:visible}
+ .story-quiz-options button>b{display:block;flex:1 1 0;min-width:0;max-width:100%;line-height:1.25;white-space:normal;overflow-wrap:anywhere;word-break:normal}
+ .story-quiz-options button>span{flex-shrink:0}
+}
+
+@media(max-width:600px){
+ .club-legend-card.club-allrounder:last-child:nth-child(odd){grid-column:auto;text-align:left}
+ .club-legend-card.club-allrounder:last-child:nth-child(odd) .club-legend-heading{justify-content:flex-start;padding-left:0;padding-right:82px}
+ .club-legend-card.club-allrounder:last-child:nth-child(odd)>p{max-width:none;margin-left:0;margin-right:0}
+}

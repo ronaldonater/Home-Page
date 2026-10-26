@@ -7,7 +7,7 @@ export function openReplay(score,apiBase='/api',{globalMode=null}={}){
  header.append(title,close);
  const note=document.createElement('p');note.className='replay-note';note.textContent='Powered by ReplayViewer. The selected replay file is shared with this third-party viewer; your osu! login token stays on our server. Lazer-specific mods may not be supported.';
  const status=document.createElement('p');status.className='replay-status';status.setAttribute('role','status');status.textContent='Downloading replay…';
- const fallback=document.createElement('a');fallback.href='https://osu.ppy.sh/scores/'+encodeURIComponent(score.id);fallback.target='_blank';fallback.rel='noopener noreferrer';fallback.textContent='Open original score ↗';fallback.className='replay-score-link';
+ const fallback=document.createElement('a');fallback.href='https://osu.ppy.sh/scores/'+encodeURIComponent(score.id);fallback.target='_blank';fallback.rel='noopener noreferrer';fallback.textContent='Open original score ↗︎';fallback.className='replay-score-link';
  const frame=document.createElement('iframe');frame.title='ReplayViewer for '+score.title;frame.referrerPolicy='no-referrer';frame.setAttribute('sandbox','allow-scripts allow-same-origin allow-downloads allow-pointer-lock');frame.allow='autoplay; fullscreen';
  dialog.append(header,note,status,fallback,frame);document.body.append(dialog);
  const controller=new AbortController();let ready=false,bytes=null,sent=false;

@@ -1,6 +1,6 @@
 # osu! Wrapped 2026 subpage
 
-**Version 1.1.24**
+**Version 1.1.25**
 
 Public URL: https://ronaldonater.com/osu-wrapped/ (use your actual canonical host if different). Its Dev-page entry is managed manually. Wrapped is a self-contained static ES-module app; no build step or Vite installation is needed for the personal site. All existing pages and integrations remain in place. No credentials were copied from the standalone app.
 
@@ -40,7 +40,7 @@ Top-score Watch replay buttons open a sandboxed ReplayViewer panel. The backend 
 
 ## Wrapped experience
 
-Successful first-login data loading opens a nine-slide animated story. Seen state is localStorage keyed by player ID and year, so changing game mode does not replay it automatically. The Replay Experience button opens it anytime, including in the demo. Closing/skipping counts as seen; different browsers/devices or cleared storage may show it again. If storage is blocked, seen state lasts only for the current page. This is an animated web experience, not an exported video, and uses no autoplay audio. Controls support pause/play, previous/next, slide selection, swipe and Escape. Reduced-motion starts paused and disables entrance/counting animations. Hiding the browser tab pauses progress. No OAuth or environment-variable change is required.
+Successful first-login data loading opens the animated story, with up to 28 slides depending on eligible data and quiz candidates. Seen state is localStorage keyed by player ID and year, so changing game mode does not replay it automatically. The Replay Experience button opens it anytime, including in the demo. Closing/skipping counts as seen; different browsers/devices or cleared storage may show it again. If storage is blocked, seen state lasts only for the current page. This is an animated web experience, not an exported video, with opening/finale music, beatmap previews, and sound effects; browser autoplay policy may require a user gesture before audio plays. Controls support pause/play, previous/next, slide selection, swipe and Escape. Reduced-motion starts paused and disables entrance/counting animations. Hiding the browser tab pauses progress. No OAuth or environment-variable change is required.
 
 
 Artist pictures use TheAudioDB v1 shared free key 123; no additional environment variables are required. The /artist-image endpoint validates exact artist names and approved artwork URLs, limits downloads to 512 KiB, coalesces identical in-flight requests, and caches up to 64 results in each warm function instance (24 hours for pictures, 1 hour for missing results). Successful images also use browser/CDN cache headers. A 25-lookups-per-minute guard applies per function instance, not globally across Netlify; upstream limits can still cause initials to display during traffic spikes. Missing or ambiguous artists use initials. Artwork attribution appears in the artist section and exported card.
@@ -51,7 +51,7 @@ Rarest 2026 medal: profile achievement timestamps are filtered using UTC, then m
 
 ## Current features and data scope
 
-The current release is v1.1.24. See the root README for the complete feature guide: 21 playstyle clubs, six separate mapping clubs, up to 28 slides including the conditional personal-mapping slide, and recap cards with primary/secondary clubs and mapping details. Without eligible scores, hosted 2026 submissions unlock a mapping-only Wrapped; users with neither remain blocked; users without 2026 uploads have no personal mapping slide or recap section. Genre rankings cover all currently ranked 2026 mapsets in the selected native mode, not just the most-played 25.
+The current release is v1.1.25. See the root README for the complete feature guide: 21 playstyle clubs, six separate mapping clubs, up to 28 slides including the conditional personal-mapping slide, and recap cards with primary/secondary clubs and mapping details. Without eligible scores, hosted 2026 submissions unlock a mapping-only Wrapped; users with neither remain blocked; users without 2026 uploads have no personal mapping slide or recap section. Genre rankings cover all currently ranked 2026 mapsets in the selected native mode, not just the most-played 25.
 
 Global catalogue snapshots refresh through `.github/workflows/ranked-mappers.yml` daily at 08:23 UTC or by manual dispatch. Configure Actions secrets `OSU_CLIENT_ID` and `OSU_CLIENT_SECRET` and repository write permission. These Actions secrets are separate from Netlify's website-prefixed variables. A successful refreshed snapshot must be deployed to appear live.
 
