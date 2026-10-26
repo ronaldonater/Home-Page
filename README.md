@@ -41,11 +41,18 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.23**
+**Version 1.1.24**
 
 Supports all four modes, up to 28 slides (including the optional mapping slide), 21 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score or hosted mapset first submitted in 2026. Community percentages optionally use Neon.
 
 See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md), and [club ranking guide](docs/CLUB-RANKING.md). Public routes are `/osu-wrapped/` and `/api/osu-wrapped/`; use the private `WRAPPED_` environment variables documented in setup. Run `node --test tests/*.test.mjs` from the website root.
+
+## v1.1.24 updates
+
+- Renamed HR Headquarters to Hardrock Headquarters and added a rock-hand logo.
+- Refreshed Lazer Pioneers, Close Enough Club, Class of 2026, Crowd Favorites, Choke Artists, and Ranked Debut icons.
+- Renamed Community Soundtrack to Crowd Pleasers with a cheering-crowd logo.
+- Shared artwork updates apply across the dashboard, legend, slideshow, and recap. No SQL changes are required.
 
 ## v1.1.23 updates
 
@@ -114,7 +121,7 @@ One available 2026 score is enough to receive a club. The 21 clubs are:
 | Club | Qualifying signal |
 | --- | --- |
 | Overdrive | DT or NC on at least 40% of selected scores. |
-| HR Headquarters | HR on at least 40%; excluded as a defining club for mania. |
+| Hardrock Headquarters | HR on at least 40%; excluded as a defining club for mania. |
 | Afterdark | HD or FL on at least 50%. |
 | No Mod, No Problem | Unmodified scores on at least 60%. |
 | Precision Society | At least ten passed scores averaging 99% in osu!/taiko, 99.5% in catch, or 98% in mania. |
@@ -145,7 +152,7 @@ Recap PNGs include the club emblem, color, name, motto, and assignment reason. W
 
 Mapping clubs have separate assignments and community percentages from playstyle clubs. The mapping panel includes a six-club legend; the mapping slide and recap feature the first qualifying club in this order:
 
-1. Community Soundtrack: at least 100,000 combined lifetime plays on 2026 submissions.
+1. Crowd Pleasers: at least 100,000 combined lifetime plays on 2026 submissions.
 2. Ranked & Recognized: at least 3 currently ranked 2026 submissions.
 3. Ranked Debut: at least 1 currently ranked 2026 submission, regardless of earlier ranked mapsets.
 4. Pattern Factory: at least 10 mapsets submitted in 2026.

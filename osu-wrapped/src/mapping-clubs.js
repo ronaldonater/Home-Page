@@ -1,6 +1,6 @@
 // Mapping clubs describe hosted 2026 submissions, independently of playstyle clubs.
 export const MAPPING_CLUBS=[
- {id:'soundtrack',name:'Community Soundtrack',motto:'Someone’s next favorite started in your editor.',rule:'At least 100,000 combined all-time plays on your 2026 submissions.',color:'#ffd46b',symbol:'♫',matches:m=>Number.isSafeInteger(m.totalPlays)&&m.totalPlays>=100000},
+ {id:'soundtrack',name:'Crowd Pleasers',motto:'Someone’s next favorite started in your editor.',rule:'At least 100,000 combined all-time plays on your 2026 submissions.',color:'#ffd46b',symbol:'♫',matches:m=>Number.isSafeInteger(m.totalPlays)&&m.totalPlays>=100000},
  {id:'ranked',name:'Ranked & Recognized',motto:'Your patterns earned their place.',rule:'At least 3 of your 2026 submissions are currently ranked.',color:'#b7e58b',symbol:'★',matches:m=>m.ranked>=3},
  {id:'breakthrough',name:'Ranked Debut',motto:'Your ideas made the ranked list.',rule:'At least 1 of your 2026 submissions is currently ranked. Earlier ranked mapsets do not affect eligibility.',color:'#c4a3ff',symbol:'◇',matches:m=>m.ranked>=1},
  {id:'factory',name:'Pattern Factory',motto:'The editor barely had time to close.',rule:'At least 10 mapsets first submitted in 2026.',color:'#ffad76',symbol:'▦',matches:m=>m.created>=10},
@@ -11,15 +11,15 @@ export const MAPPING_CLUBS=[
 // New mapping logos should use this renderer rather than font/emoji glyphs.
 const mappingIconPaths={
  ranked:'M12 3L14.8 8.7L21 9.6L16.5 14L17.6 20.2L12 17.3L6.4 20.2L7.5 14L3 9.6L9.2 8.7Z',
- soundtrack:'M9 17V6L19 4V15M9 9L19 7M9 17C9 19 4 21 4 18.5C4 16 9 15 9 17ZM19 15C19 17 14 19 14 16.5C14 14 19 13 19 15Z',
- breakthrough:'M12 3L20 7V12C20 17 16 20 12 21C8 20 4 17 4 12V7ZM8 12L11 15L16 9',
+ soundtrack:'M10 10A2 2 0 1 0 14 10A2 2 0 1 0 10 10M9 21V16L5 11M15 21V16L19 11M9 16Q12 13 15 16M3 8A1.5 1.5 0 1 0 6 8A1.5 1.5 0 1 0 3 8M18 8A1.5 1.5 0 1 0 21 8A1.5 1.5 0 1 0 18 8M4 20V14L2 11M20 20V14L22 11M12 3V5M7 3L8 5M17 3L16 5',
+ breakthrough:'M6 9A6 6 0 1 0 18 9A6 6 0 1 0 6 9M9 9L11 11L15 7M8 14L6 21L12 18L18 21L16 14',
  factory:'M4 20V10L10 6V10L16 6V20ZM16 10H20V20H4M7 14H8M11 14H12M7 17H8M11 17H12',
  gems:'M7 4H17L21 10L12 21L3 10ZM3 10H21M7 4L9 10L12 21L15 10L17 4',
  draft:'M5 15L16 4L20 8L9 19L4 20ZM14 6L18 10M5 15L9 19'
 };
-export function mappingClubArtwork(id){return {path:mappingIconPaths[id]||mappingIconPaths.draft,x:id==='soundtrack'?.5:0,y:id==='ranked'?.4:id==='factory'?-1:0};}
+export function mappingClubArtwork(id){return {path:mappingIconPaths[id]||mappingIconPaths.draft,x:0,y:id==='ranked'?.4:id==='factory'?-1:0};}
 export function mappingClubIcon(id){
- return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path transform="'+(id==='ranked'?'translate(0 .4)':id==='soundtrack'?'translate(.5 0)':id==='factory'?'translate(0 -1)':'translate(0 0)')+'" d="'+(mappingIconPaths[id]||mappingIconPaths.draft)+'"/></svg>';
+ return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path transform="'+(id==='ranked'?'translate(0 .4)':id==='soundtrack'?'translate(0 0)':id==='factory'?'translate(0 -1)':'translate(0 0)')+'" d="'+(mappingIconPaths[id]||mappingIconPaths.draft)+'"/></svg>';
 }
 export function mappingClubMatches(mapping){
  if(mapping?.status!=='ready'||!Number.isSafeInteger(mapping.created)||mapping.created<1)return [];

@@ -92,6 +92,8 @@ Overall, I highly recommend catching their show if they come to your city. You w
         videoUrl: "https://www.youtube.com/watch?v=QT86KgzxB8I",
         review: `I’ve known about Ricky Montgomery since the pandemic, but I only really took a deep dive into his discography a year prior to this show. It didn't take long for me to fall completely in love with his sound. So, when he announced a limited three-show run to celebrate his 10th anniversary, I knew I had to be there.
 
+Bella Kay opened for him, and she was great! She had such a nice vibe to her and was super funny. At one point, she introduced a song by saying, "my mom used to sing this for me a lot before I went to bed," only to launch into a cover of "Hotline Bling" by Drake. That completely caught me off guard and was such a funny moment!
+
 This turned out to be one of my all-time favorite shows. Ricky is an incredible live performer; his vocals, guitar playing, and energy are top-tier, but his fan service is what really sets him apart. You can tell he genuinely wants everyone in the room to feel included. He even brought a fan on stage to play acoustic guitar alongside him for a rendition of "Mr. Loverman."
 
 **A Rare Setlist**
@@ -129,6 +131,8 @@ Overall, this night at Brooklyn Steel was completely unforgettable. I will absol
         stars: "★★★★★",
         videoUrl: "https://www.youtube.com/watch?v=u8-_dt4uckc",
         review: `This was one of the earliest concerts I ever attended, and it set the bar incredibly high, in fact, it held the title of my all-time favorite show for five solid years!
+
+Dixie D'Amelio opened for them, and I'll admit I wasn't expecting anything special. I knew her primarily from TikTok dance challenges and similar content rather than singing, so I wasn't sure what to expect from her live. She was honestly pretty solid, though! Her set wasn't particularly memorable to me, but that's just my personal take, and I'm not speaking for everyone else in the crowd.
 
 Big Time Rush has an unbeatable stage presence, breaking up the setlist with fun, creative segments between songs. Their live vocals and signature harmonies are exactly as amazing as you’d hope, and they definitely still have the choreography down.
 
@@ -210,6 +214,8 @@ This was such an incredibly fun concert. I think it speaks volumes that this is 
 
 Linkin Park is one of my all-time favorite bands. Unfortunately, I never got the opportunity to see them perform with Chester Bennington or Rob Bourdon. Despite that, I've remained fiercely loyal to the group. I didn't align with the crowds pushing back against the new direction, claiming they didn't like female vocalists or that Emily was trying to "replace" Chester.
 
+grandson opened for them, and his set was really good! I don't normally listen to rap or hip-hop, but I loved his energy. He was clearly a huge Linkin Park fan just like the rest of us, and he made his excitement for their return known. It was great to see the opener sharing that excitement with the crowd!
+
 **Tempered Expectations and a Euphoric Reality**
 
 With absolutely no offense to Emily, I headed into this show with tempered expectations for her vocals. She was brand new to the lineup and had the monumental task of taking legacy songs and adjusting them to her own style and tone. I didn't expect her to be comfortable straight away, and that initial adjustment period showed a bit on their reveal stream. Looking back on this tour now, she has definitely found her stride and settled into the band perfectly. They’ve figured out exactly which classic tracks work for her, which ones don’t, and how to tailor the arrangements to her strengths.
@@ -273,6 +279,8 @@ Overall, this was a fantastic first world tour. I only expect bigger and better 
         stars: "★★★★☆",
         videoUrl: "https://www.youtube.com/watch?v=1cAvptJ0qU0",
         review: `Just a heads up: this review is definitely going to be more BABYMETAL-focused, as that’s who I specifically came to see. Though, in all fairness, Dethklok was great, and it seemed like a majority of the crowd was actually there for them and left more than satisfied with their heavy-hitting performance.
+
+Jason Richardson opened for them, and I was actually already familiar with some of his music through collaborations he'd done that have maps on osu! It was really cool getting to see him live after discovering his music that way. He was an overall vibe, and his witty, funny personality made his set even more enjoyable!
 
 As for BABYMETAL, they were absolutely amazing live! They bring exactly the kind of crazy, infectious energy you’d expect from them, and it felt completely surreal being able to see it all happen from practically the front row. However, if you're planning on getting that close, prepare for your body to be sore and knocked around due to the mosh pits. It's definitely not for the weak! Not to mention, Su-Metal's live vocals were stellar; she really holds her own amidst all that heavy instrumentation.
 

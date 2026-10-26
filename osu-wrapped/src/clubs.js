@@ -2,7 +2,7 @@ const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&
 export const CLUBS={
  overdrive:{name:'Overdrive',motto:'The song wasn’t fast enough.',icon:'M31 36L49 50L31 64ZM51 36L69 50L51 64Z'},
  precision:{name:'Precision Society',motto:'Every hit has to count.',icon:'M50 20V34M50 66V80M20 50H34M66 50H80M35 50A15 15 0 1 0 65 50A15 15 0 1 0 35 50'},
- hardmode:{name:'HR Headquarters',motto:'Comfort zones are overrated.',icon:'M26.5 67L43.5 47L54.5 58L73.5 33M58.5 33H73.5V48'},
+ hardmode:{name:'Hardrock Headquarters',motto:'Comfort zones are overrated.',icon:'M35 47V25Q35 19 40 19Q45 19 45 25V45Q45 39 50 39Q55 39 55 45Q55 39 60 39Q65 39 65 45V25Q65 19 70 19Q75 19 75 25V59Q75 79 56 81Q42 81 36 69L26 52Q23 46 28 43Q32 41 35 47L43 59M45 45V54Q45 60 50 60Q55 60 55 54V45M55 54Q55 60 60 60Q65 60 65 54V45'},
  afterdark:{name:'Afterdark',motto:'You know the notes before they disappear.',icon:'M65 25A30 30 0 1 0 75 68A31 31 0 0 1 65 25Z'},
  loyalist:{name:'Mapper Loyalists',motto:'You know who makes your favorite patterns.',icon:'M30 27.5H70V72.5H30ZM40 39.5H60M40 50.5H60M40 61.5H53'},
  wanderer:{name:'The Wanderers',motto:'Your next favorite could be anywhere.',icon:'M62 35L54 56L34 66L43 45ZM50 20V26M50 74V80M20 50H26M74 50H80'},
@@ -10,16 +10,16 @@ export const CLUBS={
  replay:{name:'Replay Society',motto:'Your plays deserve another look.',icon:'M22 50Q50 18 78 50Q50 82 22 50ZM43 38L62 50L43 62Z'},
  repeat:{name:'The Repeat Offenders',motto:'One more try became a lifestyle.',icon:'M72 40A24 24 0 0 0 30 32L23 41M23 25V41H39M28 60A24 24 0 0 0 70 68L77 59M61 59H77V75'},
  easy:{name:'EZ Does It',motto:'Smaller score. Bigger mind games.',icon:'M28 34H72L42 66H72M28 50H58'},
- closeenough:{name:'Close Enough Club',motto:'Not every hit was perfect. The story still counts.',icon:'M29 50A21 21 0 1 0 71 50A21 21 0 1 0 29 50M37 51L47 61L64 40M31 24L25 18M69 24L75 18'},
- choke:{name:'Choke Artists',motto:'One note away. Every time.',icon:'M47 30C35 13 15 25 20 43C24 57 39 69 50 78C61 69 76 57 80 43C85 25 65 13 53 30M51 25L44 43L56 49L45 63L50 78'},
+ closeenough:{name:'Close Enough Club',motto:'Not every hit was perfect. The story still counts.',icon:'M22 50A28 28 0 1 0 78 50A28 28 0 1 0 22 50M34 50A16 16 0 1 0 66 50A16 16 0 1 0 34 50M47 50A3 3 0 1 0 53 50A3 3 0 1 0 47 50M58 34L68 44M58 44L68 34'},
+ choke:{name:'Choke Artists',motto:'One note away. Every time.',icon:'M47 30C35 13 15 25 20 43C24 57 39 69 50 78C61 69 76 57 80 43C85 25 65 13 53 30M51 32L45 43L55 49L46 62L50 78'},
  oneshot:{name:'One Shot Society',motto:'One miss. Back to the beginning.',icon:'M30 50A20 20 0 1 0 70 50A20 20 0 1 0 30 50M50 23V35M50 65V77M23 50H35M65 50H77M43 50L49 56L60 43'},
  safetynet:{name:'Safety Net Society',motto:'A little backup. Another chance to play.',icon:'M50 22L73 31V49Q73 67 50 78Q27 67 27 49V31ZM38 49L47 58L63 40'},
  quality:{name:'Quality Over Quantity',motto:'A few plays. A lasting impression.',icon:'M50 22L58 40L78 43L63 57L67 78L50 68L33 78L37 57L22 43L42 40ZM40 50L48 58L61 43'},
  timecapsule:{name:'Time Capsule',motto:'Great patterns never get old.',icon:'M29 27H71M29 73H71M34 27Q34 42 50 50Q66 58 66 73M66 27Q66 42 50 50Q34 58 34 73'},
- class2026:{name:'Class of 2026',motto:'Freshly ranked. Already unforgettable.',icon:'M27 30H73V75H27ZM37 23V37M63 23V37M27 43H73M39 56L47 64L62 51'},
- crowdfavorites:{name:'Crowd Favorites',motto:'The community hits different. You agree.',icon:'M35 53A15 15 0 1 0 65 53A15 15 0 1 0 35 53M50 29V21M71 35L77 29M79 53H87M29 35L23 29M21 53H13M39 54L47 62L62 45'},
+ class2026:{name:'Class of 2026',motto:'Freshly ranked. Already unforgettable.',icon:'M18 40L50 25L82 40L50 55ZM30 46V64Q50 79 70 64V46M82 40V64M78 72L82 62L86 72Z'},
+ crowdfavorites:{name:'Crowd Favorites',motto:'The community hits different. You agree.',icon:'M50 35L39 24C30 14 41 8 50 18C59 8 70 14 61 24ZM42 51A8 8 0 1 0 58 51A8 8 0 1 0 42 51M36 79V74C36 59 64 59 64 74V79ZM23 55A6 6 0 1 0 35 55A6 6 0 1 0 23 55M65 55A6 6 0 1 0 77 55A6 6 0 1 0 65 55M29 79H18V74Q18 64 29 64M71 79H82V74Q82 64 71 64'},
  stable:{name:'Stable Loyalists',motto:'A classic client. Your kind of rhythm.',icon:'M27 35H73V65H27ZM38 44H62M38 54H54M39 74H61M50 65V74'},
- lazer:{name:'Lazer Pioneers',motto:'The next chapter is already yours.',icon:'M56 21L29 55H47L42 79L72 42H53Z'},
+ lazer:{name:'Lazer Pioneers',motto:'The next chapter is already yours.',icon:'M50 20V80M20 50H80M29 29L71 71M29 71L71 29'},
  allrounder:{name:'All-Rounder',motto:'A little of everything. A style all your own.',icon:'M50 22.5L58 41.5L79 42.5L63 55.5L69 77.5L50 65.5L31 77.5L37 55.5L21 42.5L42 41.5Z'}
 };
 export const CLUB_COLORS={overdrive:'#ff9a66',precision:'#8edcff',hardmode:'#ff777f',afterdark:'#bd9aff',loyalist:'#b7e58b',wanderer:'#71dfcb',nomod:'#ffd46b',replay:'#ffffff',repeat:'#f6ac69',allrounder:'#fa82b5',easy:'#87d89a',closeenough:'#f2bf78',safetynet:'#9db7ff',oneshot:'#d4e579',choke:'#e8a6b2',quality:'#f5d88a',timecapsule:'#dcb995',class2026:'#83e5cf',crowdfavorites:'#e0a0ef',stable:'#e9c38a',lazer:'#ff95c8'};
