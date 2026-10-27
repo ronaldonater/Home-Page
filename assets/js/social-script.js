@@ -365,7 +365,7 @@ The BABYMETAL set itself was great. If you were in the front row at Terminal 5, 
 
 When it came to the vocals, I honestly couldn't tell if Su-Metal was lip-syncing or relying heavily on a backing track this time around. I know there was a lot of online criticism about this at other tour stops. During the BABYKLOK tour, it was incredibly easy to tell she was singing 100% live, whereas this time, the line was much blurrier.
 
-My only real qualm with the show was the runtime. The set was only an hour long, which feels a little short for a headline concert. That being said, I completely get it—it is incredibly hard to execute that level of enduring, high-speed choreography while managing vocals for that long.
+My only real qualm with the show was the runtime. The set was only an hour long, which feels a little short for a headline concert. That being said, I completely get it, it is incredibly hard to execute that level of enduring, high-speed choreography while managing vocals for that long.
 
 **The Verdict**
 
