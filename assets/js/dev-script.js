@@ -26,6 +26,7 @@ class MatrixAnimation {
         this.canvas.height = window.innerHeight;
         this.columns = Math.floor(this.canvas.width / this.fontSize);
         this.drops = Array(this.columns).fill(1);
+        this.intro = true;
         this.alignControl();
     }
     
@@ -54,8 +55,10 @@ class MatrixAnimation {
     animate(now = 0) {
         if (this.paused) return;
         this.frame = requestAnimationFrame(time => this.animate(time));
-        if (now - this.lastFrame < 1000 / 30) return;
+        // The opening sweep uses the original per-frame motion; later rain stays slow.
+        if (!this.intro && now - this.lastFrame < 1000 / 30) return;
         this.lastFrame = now;
+        const dropStep = this.intro ? 0.5 : 0.6;
         // Semi-transparent black background for fade effect
         this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -68,6 +71,7 @@ class MatrixAnimation {
             const text = this.characters[Math.floor(Math.random() * this.characters.length)];
             const x = i * this.fontSize;
             const y = this.drops[i] * this.fontSize;
+            if (y >= this.canvas.height) this.intro = false;
             
             this.ctx.fillText(text, x, y);
             
@@ -76,7 +80,7 @@ class MatrixAnimation {
                 this.drops[i] = 0;
             }
             
-            this.drops[i] += 0.6;
+            this.drops[i] += dropStep;
         }
         
 
@@ -251,7 +255,12 @@ document.head.appendChild(style);
   display.querySelector('.tech-scroll-prev').addEventListener('click',()=>navigate(-1));
   display.querySelector('.tech-scroll-next').addEventListener('click',()=>navigate(1));
   display.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();navigate(event.key==='ArrowLeft'?-1:1);}});
-  toggle.addEventListener('click',()=>{display.classList.toggle('tech-scroll-paused');sync();});
+  const togglePaused=()=>{display.classList.toggle('tech-scroll-paused');sync();};
+  toggle.addEventListener('click',togglePaused);
+  display.addEventListener('click',event=>{
+   if(event.target.closest('button,a'))return;
+   togglePaused();
+  });
   display.addEventListener('mouseenter',()=>{hovered=true;sync();});
   display.addEventListener('mouseleave',()=>{hovered=false;sync();});
   display.addEventListener('focusin',sync);

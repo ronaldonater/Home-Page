@@ -1,3 +1,4 @@
+import {artistImageSource} from './artist-preload.js';
 import {createQuizSounds} from './quiz-sounds.js';
 import {canViewWrapped,mappingOnly} from './eligibility.js';
 export {canViewWrapped} from './eligibility.js';
@@ -411,7 +412,7 @@ function storyPreview(score){if(!score)return null;try{const url=new URL(score.p
 
 function storyUserAvatar(user){let source=null;try{const url=new URL(user.avatar);if(url.protocol==="https:"&&url.hostname==="a.ppy.sh"&&!url.username&&!url.password&&!url.port)source=url.href;}catch{}if(!source&&Number.isSafeInteger(user.id)&&user.id>0)source="https://a.ppy.sh/"+user.id;return '<span class="story-user-avatar" aria-hidden="true"><span>'+escape([...user.username][0]||'?')+'</span>'+(source?'<img src="'+escape(source)+'" alt="" decoding="async" referrerpolicy="no-referrer"/>':'')+'</span>';}
 
-function storyArtistAvatar(artist){return '<span class="story-mapper-avatar story-artist-avatar" aria-hidden="true">'+escape([...artist.name][0]||'?')+'<img src="/api/osu-wrapped/artist-image?name='+encodeURIComponent(artist.name)+'" data-artist-cover="'+escape(artistCover(artist.cover))+'" alt="" width="40" height="40" referrerpolicy="no-referrer"/></span>';}
+function storyArtistAvatar(artist){const source=artistImageSource(artist,'/api/osu-wrapped');return '<span class="story-mapper-avatar story-artist-avatar" aria-hidden="true">'+escape([...artist.name][0]||'?')+(source?'<img src="'+escape(source)+'" data-artist-cover="'+escape(artistCover(artist.cover))+'" alt="" width="40" height="40" decoding="async" referrerpolicy="no-referrer"/>':'')+'</span>';}
 
 function storyComboScore(data){
  const score=data.comboScore||data.top.find(row=>row.id===data.comboScoreId);if(!score)return '';

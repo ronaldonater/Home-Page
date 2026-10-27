@@ -309,8 +309,7 @@ Overall, this show was incredibly fun, and getting to see BABYMETAL up close was
         date: "February 20, 2026",
         stars: "★★★★☆",
         videoUrl: "https://www.youtube.com/watch?v=v8BsXEO7q9E",
-        review: `
-        To preface, I'm definitely a fan of TWICE, but over time, their releases have started to stand out a bit less to me compared to some of the new-generation groups. However, I consider TWICE a definitive part of the "Big 3" when it comes to modern K-Pop acts (right alongside BLACKPINK and BTS), so I felt like I had to attend at least one of their shows, it would just feel wrong not to.
+        review: `To preface, I'm definitely a fan of TWICE, but over time, their releases have started to stand out a bit less to me compared to some of the new-generation groups. However, I consider TWICE a definitive part of the "Big 3" when it comes to modern K-Pop acts (right alongside BLACKPINK and BTS), so I felt like I had to attend at least one of their shows, it would just feel wrong not to.
 
 The tickets were surprisingly reasonably priced considering their massive global status. Compared to a group like BLACKPINK, you don't have to give up an arm and a leg to go see TWICE, which is awesome for the fans.
 
@@ -336,7 +335,41 @@ The concert was great! However, compared to almost every other show I've been to
         date: "November 18, 2024",
         stars: "★★★★☆",
         videoUrl: "https://www.youtube.com/watch?v=659Xnb1tYt4",
-        review: "", // Add your written review here.
+        review: `This was my second BABYMETAL show, and since this was a pure headlining tour rather than a co-headliner like the BABYKLOK run, I made sure to get the absolute highest tier of VIP. It ended up being my most expensive VIP ticket purchase ever, easily landing in the low $300 range.
+
+**Redeeming the VIP Merch**
+
+For that premium price tag, the package included:
+
+First Entry / Early Access to Merch
+
+A BABYMETAL fanny pack
+
+A BABYMETAL beanie
+
+A BABYMETAL American flag-branded pin
+
+A VIP Lanyard
+
+Compared to the BABYKLOK tour, I ended up liking the physical gifts for this run much better. I actually find myself bringing the fanny pack with me to a lot of concerts now, and the beanie gets plenty of use during the winter. I couldn't care less about the pin, honestly, but the rest of the package felt much more practical.
+
+**Scene Queen: The Best Opener Yet**
+
+The opener for this show was Scene Queen. I'm aware that a lot of her songs lean heavily into a misandrist/anti-men gimmick, but I figured it was just that, a gimmick, and didn't take it personally. She actually confirmed this during her set, clarifying that it’s all in good fun and she doesn't actually hate men (especially considering her entire backing band consisted of guys).
+
+She was such a vibe. Her live vocals were incredibly powerful, and she even came down to the barricade to high-five the entire front row (which I was a part of!). When her band was leaving the stage, the drummer threw his shredded drumstick into the crowd. I managed to catch it, posted a picture on my alt Twitter/X account, and [actually got noticed by Scene Queen herself](https://x.com/scenequeenrocks/status/1858736835729526830?s=20)! Overall, she was easily one of the most fun openers I've ever experienced at a concert—I'd even go as far as saying the best.
+
+**Front Row at Terminal 5 & The Vocal Debate**
+
+The BABYMETAL set itself was great. If you were in the front row at Terminal 5, you were noticeably closer to the girls than you were at the Hammerstein Ballroom. It felt completely surreal! They performed a great mix of new songs and classics that hadn't made the cut for the previous BABYKLOK setlist.
+
+When it came to the vocals, I honestly couldn't tell if Su-Metal was lip-syncing or relying heavily on a backing track this time around. I know there was a lot of online criticism about this at other tour stops. During the BABYKLOK tour, it was incredibly easy to tell she was singing 100% live, whereas this time, the line was much blurrier.
+
+My only real qualm with the show was the runtime. The set was only an hour long, which feels a little short for a headline concert. That being said, I completely get it—it is incredibly hard to execute that level of enduring, high-speed choreography while managing vocals for that long.
+
+**The Verdict**
+
+Overall, BABYMETAL brought the exact same chaotic, infectious energy you'd expect from them, and despite the short runtime and the vocal debate, it was a super fun show!`, // Add your written review here.
         score: "4/5"
     },
     {
