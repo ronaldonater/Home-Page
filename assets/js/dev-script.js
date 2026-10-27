@@ -218,7 +218,9 @@ document.head.appendChild(style);
   const sync=()=>{
    const paused=display.classList.contains('tech-scroll-paused');
    toggle.setAttribute('aria-pressed',String(paused));toggle.textContent=paused?'Resume scrolling':'Pause scrolling';
-   if(motion){if(navigation||paused||hovered||display.contains(document.activeElement)||document.hidden)motion.pause();else motion.play();}
+   // Pointer clicks leave focus behind; only keyboard focus should hold the ticker.
+   const keyboardFocused=display.contains(document.activeElement)&&document.activeElement.matches(':focus-visible');
+   if(motion){if(navigation||paused||hovered||keyboardFocused||document.hidden)motion.pause();else motion.play();}
   };
   const setup=()=>{
    navigationQueue.length=0;

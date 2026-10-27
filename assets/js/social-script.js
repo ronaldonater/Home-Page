@@ -341,15 +341,15 @@ The concert was great! However, compared to almost every other show I've been to
 
 For that premium price tag, the package included:
 
-First Entry / Early Access to Merch
+• First Entry / Early Access to Merch
 
-A BABYMETAL fanny pack
+• A BABYMETAL fanny pack
 
-A BABYMETAL beanie
+• A BABYMETAL beanie
 
-A BABYMETAL American flag-branded pin
+• A BABYMETAL American flag-branded pin
 
-A VIP Lanyard
+• A VIP Lanyard
 
 Compared to the BABYKLOK tour, I ended up liking the physical gifts for this run much better. I actually find myself bringing the fanny pack with me to a lot of concerts now, and the beanie gets plenty of use during the winter. I couldn't care less about the pin, honestly, but the rest of the package felt much more practical.
 
