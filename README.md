@@ -41,11 +41,18 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.33**
+**Version 1.1.34**
 
 Supports all four modes, up to 29 slides (including the optional mapping slide), 21 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score or hosted mapset first submitted in 2026. Community percentages optionally use Neon.
 
 See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md), and [club ranking guide](docs/CLUB-RANKING.md). Public routes are `/osu-wrapped/` and `/api/osu-wrapped/`; use the private `WRAPPED_` environment variables documented in setup. Run `node --test tests/*.test.mjs` from the website root.
+
+## v1.1.34 updates
+
+- Fixed live recap previews by permitting generated blob image URLs in the production image security policy.
+- Wait for preview images to decode before enabling image actions or reporting that a card is ready.
+- Clean up unused preview URLs when formats change or panels close, and show an error if the image cannot load.
+- Added a production-policy regression check; no SQL or environment-variable changes required.
 
 ## v1.1.33 updates
 
@@ -56,6 +63,7 @@ See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](d
 - Added inline accuracy/combo displays and full-combo color highlights, with consistent global/personal list typography.
 - Promoted the console easter egg above dialogs and automatically pause/resume a playing slideshow during the effect.
 - Made the closing song loop consistently on the final slide.
+- Allowed generated blob image previews in the production image security policy and wait for preview decoding before enabling image actions.
 - No SQL migration or additional environment variables required.
 
 ## v1.1.32 updates
