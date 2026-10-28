@@ -785,3 +785,16 @@ footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:7
 
 /* Center an unpaired average metric on the mobile stats page. */
 @media(max-width:600px){.beatmap-averages:not(.story-slide .beatmap-averages) .beatmap-average-grid>article:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;box-sizing:border-box;width:calc((100% - 12px)/2)}}
+
+/* Keep zoom sizing and scroll positioning atomic, including classic scrollbars. */
+.recap-zoom-viewport{overflow:scroll;scrollbar-gutter:stable;overflow-anchor:none;scroll-behavior:auto}
+.recap-zoom-canvas,.recap-zoom-canvas img{overflow-anchor:none;transition:none}
+.recap-zoom-toolbar button[aria-label="Reset zoom to fit"]{min-width:112px;font-variant-numeric:tabular-nums}
+
+/* Recap viewer scrollbars match the surrounding dark panels. */
+.recap-zoom-viewport{color-scheme:dark;scrollbar-width:thin;scrollbar-color:#79576f #211b29}
+.recap-zoom-viewport::-webkit-scrollbar{width:10px;height:10px}
+.recap-zoom-viewport::-webkit-scrollbar-track,.recap-zoom-viewport::-webkit-scrollbar-corner{background:#211b29}
+.recap-zoom-viewport::-webkit-scrollbar-thumb{background:#79576f;border:2px solid #211b29;border-radius:10px}
+.recap-zoom-viewport::-webkit-scrollbar-thumb:hover{background:#b37899}
+.recap-zoom-viewport::-webkit-scrollbar-thumb:active{background:#fa82b5}

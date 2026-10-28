@@ -85,7 +85,10 @@ export async function createLandscapeRecap(data,assets){
   const peak=(data.months||[]).filter(month=>month.available).reduce((a,b)=>!a||b.count>a.count?b:a,null),month=peak?months[peak.month]:'Unavailable';
   box(64,526,720,110,'#282231');ctx.save();ctx.beginPath();ctx.roundRect(64,526,720,110,18);ctx.clip();ctx.fillStyle=pink;ctx.fillRect(64,526,5,110);ctx.restore();
   text('MOST ACTIVE MONTH',88,556,14,pink,700,430);text(month,88,595,32,white,700,430);text('Monthly profile history · all modes',88,624,14,muted,400,430);
-  vertical(548,548,66);right(peak?num(peak.count):'Unavailable',760,593,33,'#c5eda7',700,190);right(peak?'plays in '+month:'No history returned',760,622,14,muted,400,190);
+  vertical(548,548,66);ctx.save();ctx.textAlign='center';
+  text(peak?num(peak.count):'Unavailable',654,580,33,'#c5eda7',700,190);
+  text(peak?'plays in '+month:'No history returned',654,609,14,muted,400,190);
+  ctx.restore();
   box(64,652,720,94,'#282231');text('FAVORITE MOD',88,680,14,pink,700,660);
   let modX=88;for(const art of modArt){if(!art)continue;image(art,modX,696,52,36,{contain:true});modX+=58;}
   text(favoriteModLabel(data.favoriteMod),modX,725,28,white,700,Math.max(120,440-modX));

@@ -11,10 +11,19 @@ export function openRecapViewer(source,{alt='Recap card',trigger,onClose}={}){
   zoomOut.textContent='−';zoomOut.setAttribute('aria-label','Zoom out');zoomIn.textContent='+';zoomIn.setAttribute('aria-label','Zoom in');reset.setAttribute('aria-label','Reset zoom to fit');
   function drawZoom(){const w=baseWidth*zoom,h=baseHeight*zoom;image.style.width=w+'px';image.style.height=h+'px';canvas.style.width=Math.max(viewport.clientWidth,w)+'px';canvas.style.height=Math.max(viewport.clientHeight,h)+'px';reset.textContent=Math.round(zoom*100)+'% · Fit';zoomOut.disabled=zoom<=1;zoomIn.disabled=zoom>=5;viewport.classList.toggle('is-zoomed',zoom>1);}
   function setZoom(value,x=viewport.clientWidth/2,y=viewport.clientHeight/2){const old=zoom;zoom=Math.max(1,Math.min(5,value));if(!baseWidth)return;const px=(viewport.scrollLeft+x-Math.max(0,(viewport.clientWidth-baseWidth*old)/2))/(baseWidth*old),py=(viewport.scrollTop+y-Math.max(0,(viewport.clientHeight-baseHeight*old)/2))/(baseHeight*old);drawZoom();viewport.scrollLeft=px*baseWidth*zoom+Math.max(0,(viewport.clientWidth-baseWidth*zoom)/2)-x;viewport.scrollTop=py*baseHeight*zoom+Math.max(0,(viewport.clientHeight-baseHeight*zoom)/2)-y;}
-  function fit(){if(!image.naturalWidth)return;const scale=Math.min(viewport.clientWidth/image.naturalWidth,viewport.clientHeight/image.naturalHeight);baseWidth=image.naturalWidth*scale;baseHeight=image.naturalHeight*scale;drawZoom();}
+  let fittedWidth=0,fittedHeight=0;
+  function fit(){
+    if(!image.naturalWidth)return;
+    // Observe the outer viewport, not scrollbar-driven changes to its content box.
+    const {width,height}=viewport.getBoundingClientRect();
+    if(width===fittedWidth&&height===fittedHeight&&baseWidth)return;
+    fittedWidth=width;fittedHeight=height;
+    const scale=Math.min(viewport.clientWidth/image.naturalWidth,viewport.clientHeight/image.naturalHeight);
+    baseWidth=image.naturalWidth*scale;baseHeight=image.naturalHeight*scale;drawZoom();
+  }
   zoomOut.onclick=()=>setZoom(zoom/1.25);zoomIn.onclick=()=>setZoom(zoom*1.25);reset.onclick=()=>setZoom(1);
   toolbar.append(zoomOut,reset,zoomIn,close);viewer.append(toolbar,viewport);
-  image.addEventListener('load',fit);const resize=new ResizeObserver(fit);resize.observe(viewport);
+  image.addEventListener('load',fit);const resize=new ResizeObserver(fit);resize.observe(viewport,{box:'border-box'});
   viewport.addEventListener('wheel',event=>{event.preventDefault();const rect=viewport.getBoundingClientRect();setZoom(zoom*Math.exp(-event.deltaY*.002),event.clientX-rect.left,event.clientY-rect.top);},{passive:false});
   viewport.addEventListener('dblclick',event=>{const rect=viewport.getBoundingClientRect();setZoom(zoom>1?1:2,event.clientX-rect.left,event.clientY-rect.top);});
   viewer.addEventListener('keydown',event=>{if(['+','=','-','0'].includes(event.key)){event.preventDefault();event.stopPropagation();setZoom(event.key==='0'?1:event.key==='-'?zoom/1.25:zoom*1.25);}else if(event.key!=='Escape')event.stopPropagation();});

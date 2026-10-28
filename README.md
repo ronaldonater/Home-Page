@@ -41,11 +41,17 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.36**
+**Version 1.1.37**
 
 Supports all four modes, up to 29 slides (including the optional mapping slide), 21 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score or hosted mapset first submitted in 2026. Community percentages optionally use Neon.
 
 See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md), and [club ranking guide](docs/CLUB-RANKING.md). Public routes are `/osu-wrapped/` and `/api/osu-wrapped/`; use the private `WRAPPED_` environment variables documented in setup. Run `node --test tests/*.test.mjs` from the website root.
+
+## v1.1.37 updates
+
+- Stabilized recap zoom sizing to prevent scrollbar-related jumps, especially with landscape cards.
+- Themed the recap viewer's horizontal and vertical scrollbars to match the dark panels.
+- Centered the landscape most-active-month count and caption together within the right-hand section.
 
 ## v1.1.36 updates
 
@@ -298,7 +304,7 @@ The finale has arrow controls to switch its preview between formats. Its Save an
 
 The finale reserves a fixed preview area, keeps the current image visible while the next variant loads, and crossfades after decoding. Switching formats keeps the heading, buttons, and decorative heart in place. The format arrows and label animate to sit beneath the visible card. Reduced-motion skips these transitions.
 
-Landscape cards share the portrait design details: pink header glow and playcount tile, accuracy grade, source descriptors, month accent, mod artwork, framed primary/secondary club logos and reasons, shaded score-grade overlays, mapper/artist portraits with fallbacks, medal metadata, and an aligned mapping club/upload showcase. Both layouts use compact spacing and aligned PP, accuracy/combo, and date rows. The landscape footer includes a SCORE COVERAGE heading and the fan-project credit centered within its right-hand area.
+Landscape cards share the portrait design details: pink header glow and playcount tile, accuracy grade, source descriptors, month accent, mod artwork, framed primary/secondary club logos and reasons, shaded score-grade overlays, mapper/artist portraits with fallbacks, medal metadata, and an aligned mapping club/upload showcase. Both layouts use compact spacing and aligned PP, accuracy/combo, and date rows. The landscape footer includes a SCORE COVERAGE heading and a right-aligned fan-project credit. Single-club landscape panels use an enlarged, left-aligned primary trait; unpaired average-beatmap metrics are centered on the mobile stats page.
 
 ## Slideshow audio controls
 
