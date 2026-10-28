@@ -378,7 +378,27 @@ Overall, BABYMETAL brought the exact same chaotic, infectious energy you'd expec
         date: "December 18, 2021",
         stars: "★★★★☆",
         videoUrl: "https://www.youtube.com/watch?v=KXSfsf4z9b4",
-        review: "", // Add your written review here.
+        review: `This was actually my first concert ever, so I may be a little bit biased, but this night was truly special.
+
+Tickets for this reunion show were extremely hard to get. Ticketmaster completely messed up the presale, which allowed anyone to grab tickets. As a result, the show sold out immediately, and $70 face-value tickets were being resold for upwards of $600.
+
+Thankfully, the day before the show, I had an early morning final exam. Right after, I did my usual routine of checking ticket prices across multiple platforms to see if they had dropped at all. I say "thankfully" because there it was on SeatGeek: a floor seat for $170. It was an extreme outlier considering the rest of the market was still hovering around $500. I bought it in an absolute heartbeat!
+
+**A Three-Piece Reunion**
+
+Unfortunately, since this took place during the pandemic era, Kendall contracted COVID and couldn't perform at the New York show. However, James, Logan, and Carlos all tested negative and were good to go!
+
+The night opened with Stephen Kramer Glickman (the actor who played Gustavo Rocque) hyping up the crowd and getting totally into character. It did its job wonderfully and was such a nice, nostalgic touch to kick off the show.
+
+**The Performance & Setlist**
+
+Despite missing a member, the dogs were great! Kendall's presence was definitely missed during songs like "No Idea," which unfortunately meant cutting his iconic, belting high note. But the rest of the members still put on an amazing show, held down the fort, and harmonized incredibly well.
+
+They performed all of their classic hits, along with their newly released comeback single "Call It Like I See It" and the (at-the-time unreleased) song "Not Giving You Up".
+
+**The Verdict**
+
+This was truly an unforgettable experience. It filled such a hole in my heart and made me feel like a kid again, completely distracting me from the horrors of navigating my first college semester during a global pandemic. This was such an excellent, nostalgia-driven first concert experience, and honestly, I couldn't have asked for anything better. :)`, // Add your written review here.
         score: "4/5"
     },
     {
