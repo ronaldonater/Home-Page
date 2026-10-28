@@ -16,7 +16,27 @@
         "mode": "osu",
         "version": "jieusieu's Lemur",
         "bpm": 200,
-        "max_combo": 371
+        "max_combo": 371,
+        "difficulty_rating": 6.61334,
+        "ar": 9.6,
+        "drain": 6,
+        "accuracy": 9,
+        "total_length": 70,
+        "hit_length": 59,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 9.782730102539062,
+          "max_combo": 371,
+          "aim_difficulty": 5.461030006408691,
+          "aim_difficult_slider_count": 54.63349914550781,
+          "speed_difficulty": 2.8413798809051514,
+          "speed_note_count": 155.0290069580078,
+          "slider_factor": 0.9946500062942505,
+          "aim_difficult_strain_count": 114.55999755859375,
+          "speed_difficult_strain_count": 63.42259979248047
+        }
       }
     },
     {
@@ -35,7 +55,27 @@
         "mode": "osu",
         "version": "Endless Fear",
         "bpm": 202.54,
-        "max_combo": 261
+        "max_combo": 261,
+        "difficulty_rating": 6.09773,
+        "ar": 9.5,
+        "drain": 5.2,
+        "accuracy": 9.4,
+        "total_length": 49,
+        "hit_length": 38,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 8.885709762573242,
+          "max_combo": 261,
+          "aim_difficulty": 4.971570014953613,
+          "aim_difficult_slider_count": 39.97869873046875,
+          "speed_difficulty": 2.7695300579071045,
+          "speed_note_count": 88.68910217285156,
+          "slider_factor": 0.98089599609375,
+          "aim_difficult_strain_count": 82.3634033203125,
+          "speed_difficult_strain_count": 44.03150177001953
+        }
       }
     },
     {
@@ -54,7 +94,27 @@
         "mode": "osu",
         "version": "Soliloquy",
         "bpm": 165,
-        "max_combo": 476
+        "max_combo": 476,
+        "difficulty_rating": 4.95234,
+        "ar": 9,
+        "drain": 6,
+        "accuracy": 8.5,
+        "total_length": 87,
+        "hit_length": 86,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 7.217480182647705,
+          "max_combo": 476,
+          "aim_difficulty": 4.061220169067383,
+          "aim_difficult_slider_count": 71.3290023803711,
+          "speed_difficulty": 2.407949924468994,
+          "speed_note_count": 109.01499938964844,
+          "slider_factor": 0.9939360022544861,
+          "aim_difficult_strain_count": 90.84940338134766,
+          "speed_difficult_strain_count": 56.19889831542969
+        }
       }
     },
     {
@@ -73,7 +133,27 @@
         "mode": "osu",
         "version": "Kage",
         "bpm": 183,
-        "max_combo": 458
+        "max_combo": 458,
+        "difficulty_rating": 5.19287,
+        "ar": 9.3,
+        "drain": 7,
+        "accuracy": 8.5,
+        "total_length": 88,
+        "hit_length": 87,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 7.553229808807373,
+          "max_combo": 458,
+          "aim_difficulty": 4.127600193023682,
+          "aim_difficult_slider_count": 68.86519622802734,
+          "speed_difficulty": 2.7139899730682373,
+          "speed_note_count": 62.230098724365234,
+          "slider_factor": 0.9739360213279724,
+          "aim_difficult_strain_count": 102.41300201416016,
+          "speed_difficult_strain_count": 37.9468994140625
+        }
       }
     },
     {
@@ -92,7 +172,27 @@
         "mode": "osu",
         "version": "Insane",
         "bpm": 128,
-        "max_combo": 941
+        "max_combo": 941,
+        "difficulty_rating": 3.88694,
+        "ar": 8,
+        "drain": 6,
+        "accuracy": 7,
+        "total_length": 224,
+        "hit_length": 201,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 5.607059955596924,
+          "max_combo": 941,
+          "aim_difficulty": 2.9993300437927246,
+          "aim_difficult_slider_count": 130.4720001220703,
+          "speed_difficulty": 2.126889944076538,
+          "speed_note_count": 121.14199829101562,
+          "slider_factor": 0.965349018573761,
+          "aim_difficult_strain_count": 83.38529968261719,
+          "speed_difficult_strain_count": 65.0291976928711
+        }
       }
     },
     {
@@ -111,7 +211,27 @@
         "mode": "osu",
         "version": "Game Over",
         "bpm": 110,
-        "max_combo": 1337
+        "max_combo": 1337,
+        "difficulty_rating": 7.08268,
+        "ar": 9.5,
+        "drain": 4,
+        "accuracy": 8.5,
+        "total_length": 257,
+        "hit_length": 232,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 10.685199737548828,
+          "max_combo": 1337,
+          "aim_difficulty": 5.930580139160156,
+          "aim_difficult_slider_count": 121.9520034790039,
+          "speed_difficulty": 2.9165799617767334,
+          "speed_note_count": 490.77099609375,
+          "slider_factor": 0.9894729852676392,
+          "aim_difficult_strain_count": 154.7209930419922,
+          "speed_difficult_strain_count": 252.74099731445312
+        }
       }
     },
     {
@@ -130,7 +250,27 @@
         "mode": "osu",
         "version": "Time Freeze",
         "bpm": 240,
-        "max_combo": 2045
+        "max_combo": 2045,
+        "difficulty_rating": 8.30725,
+        "ar": 10,
+        "drain": 6,
+        "accuracy": 9.4,
+        "total_length": 194,
+        "hit_length": 188,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 14.390299797058105,
+          "max_combo": 2045,
+          "aim_difficulty": 6.03400993347168,
+          "aim_difficult_slider_count": 203.23599243164062,
+          "speed_difficulty": 7.175899982452393,
+          "speed_note_count": 718.3419799804688,
+          "slider_factor": 0.9971969723701477,
+          "aim_difficult_strain_count": 285.9289855957031,
+          "speed_difficult_strain_count": 314.8349914550781
+        }
       }
     },
     {
@@ -149,7 +289,27 @@
         "mode": "osu",
         "version": "Titan",
         "bpm": 160,
-        "max_combo": 587
+        "max_combo": 587,
+        "difficulty_rating": 5.81771,
+        "ar": 9.3,
+        "drain": 6,
+        "accuracy": 8,
+        "total_length": 87,
+        "hit_length": 86,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 8.448269844055176,
+          "max_combo": 587,
+          "aim_difficulty": 4.664669990539551,
+          "aim_difficult_slider_count": 66.88590240478516,
+          "speed_difficulty": 3.072230100631714,
+          "speed_note_count": 176.30599975585938,
+          "slider_factor": 0.9787780046463013,
+          "aim_difficult_strain_count": 65.56839752197266,
+          "speed_difficult_strain_count": 80.1426010131836
+        }
       }
     },
     {
@@ -168,7 +328,27 @@
         "mode": "osu",
         "version": "Radiance",
         "bpm": 204,
-        "max_combo": 346
+        "max_combo": 346,
+        "difficulty_rating": 5.30513,
+        "ar": 9.4,
+        "drain": 5.2,
+        "accuracy": 9,
+        "total_length": 67,
+        "hit_length": 66,
+        "cs": 3.8
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 7.629720211029053,
+          "max_combo": 346,
+          "aim_difficulty": 4.361999988555908,
+          "aim_difficult_slider_count": 45.28419876098633,
+          "speed_difficulty": 2.136810064315796,
+          "speed_note_count": 141.80799865722656,
+          "slider_factor": 0.9972090125083923,
+          "aim_difficult_strain_count": 59.70940017700195,
+          "speed_difficult_strain_count": 76.63780212402344
+        }
       }
     },
     {
@@ -187,7 +367,27 @@
         "mode": "osu",
         "version": "Mystery",
         "bpm": 165.8,
-        "max_combo": 212
+        "max_combo": 212,
+        "difficulty_rating": 4.23563,
+        "ar": 8.8,
+        "drain": 6,
+        "accuracy": 8,
+        "total_length": 39,
+        "hit_length": 39,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 6.126399993896484,
+          "max_combo": 212,
+          "aim_difficulty": 3.3489599227905273,
+          "aim_difficult_slider_count": 38.285499572753906,
+          "speed_difficulty": 2.376660108566284,
+          "speed_note_count": 73.26719665527344,
+          "slider_factor": 0.976468026638031,
+          "aim_difficult_strain_count": 68.37870025634766,
+          "speed_difficult_strain_count": 38.34080123901367
+        }
       }
     }
   ],
@@ -208,7 +408,21 @@
         "mode": "taiko",
         "version": "Ayyri's Oni",
         "bpm": 170,
-        "max_combo": 155
+        "max_combo": 155,
+        "difficulty_rating": 3.31692,
+        "ar": 10,
+        "drain": 6,
+        "accuracy": 6,
+        "total_length": 30,
+        "hit_length": 30,
+        "cs": 2
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 4.610980033874512,
+          "max_combo": 155,
+          "mono_stamina_factor": 7.917039801519365e-10
+        }
       }
     },
     {
@@ -227,7 +441,21 @@
         "mode": "taiko",
         "version": "Ozzy's Oni",
         "bpm": 136,
-        "max_combo": 140
+        "max_combo": 140,
+        "difficulty_rating": 2.81453,
+        "ar": 5,
+        "drain": 5,
+        "accuracy": 5,
+        "total_length": 41,
+        "hit_length": 39,
+        "cs": 5
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 3.778140068054199,
+          "max_combo": 140,
+          "mono_stamina_factor": 1.1571900104812016e-9
+        }
       }
     },
     {
@@ -246,7 +474,21 @@
         "mode": "taiko",
         "version": "qoot8123's Oni",
         "bpm": 180.68,
-        "max_combo": 596
+        "max_combo": 596,
+        "difficulty_rating": 4.48447,
+        "ar": 5,
+        "drain": 5,
+        "accuracy": 5,
+        "total_length": 88,
+        "hit_length": 88,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 6.2609100341796875,
+          "max_combo": 596,
+          "mono_stamina_factor": 8.493650227592298e-9
+        }
       }
     },
     {
@@ -265,7 +507,21 @@
         "mode": "taiko",
         "version": "Chromstrata's Oni",
         "bpm": 125,
-        "max_combo": 109
+        "max_combo": 109,
+        "difficulty_rating": 2.4033,
+        "ar": 10,
+        "drain": 7,
+        "accuracy": 5,
+        "total_length": 32,
+        "hit_length": 31,
+        "cs": 4.5
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 3.2462100982666016,
+          "max_combo": 109,
+          "mono_stamina_factor": 1.0660899940617696e-9
+        }
       }
     },
     {
@@ -284,7 +540,21 @@
         "mode": "taiko",
         "version": "Oni",
         "bpm": 182,
-        "max_combo": 1314
+        "max_combo": 1314,
+        "difficulty_rating": 5.77594,
+        "ar": 5,
+        "drain": 6,
+        "accuracy": 6,
+        "total_length": 228,
+        "hit_length": 227,
+        "cs": 5
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 8.005599975585938,
+          "max_combo": 1314,
+          "mono_stamina_factor": 7.372740196132099e-9
+        }
       }
     },
     {
@@ -303,7 +573,21 @@
         "mode": "taiko",
         "version": "aabc's Taiko Oni",
         "bpm": 175,
-        "max_combo": 1229
+        "max_combo": 1229,
+        "difficulty_rating": 4.35253,
+        "ar": 7,
+        "drain": 4,
+        "accuracy": 5,
+        "total_length": 226,
+        "hit_length": 226,
+        "cs": 6
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 6.051469802856445,
+          "max_combo": 1229,
+          "mono_stamina_factor": 0.000008456850082438905
+        }
       }
     },
     {
@@ -322,7 +606,21 @@
         "mode": "taiko",
         "version": "lepido's Taiko Oni",
         "bpm": 151.93,
-        "max_combo": 342
+        "max_combo": 342,
+        "difficulty_rating": 2.98042,
+        "ar": 5,
+        "drain": 7,
+        "accuracy": 5,
+        "total_length": 85,
+        "hit_length": 84,
+        "cs": 6
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 4.189630031585693,
+          "max_combo": 342,
+          "mono_stamina_factor": 0.0006048980285413563
+        }
       }
     },
     {
@@ -341,7 +639,21 @@
         "mode": "taiko",
         "version": "Nardo's Oni",
         "bpm": 187,
-        "max_combo": 517
+        "max_combo": 517,
+        "difficulty_rating": 4.19484,
+        "ar": 7,
+        "drain": 5,
+        "accuracy": 5,
+        "total_length": 88,
+        "hit_length": 87,
+        "cs": 5
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 5.812180042266846,
+          "max_combo": 517,
+          "mono_stamina_factor": 5.446980200218832e-9
+        }
       }
     },
     {
@@ -360,7 +672,21 @@
         "mode": "taiko",
         "version": "inaba's Taiko Oni",
         "bpm": 165,
-        "max_combo": 732
+        "max_combo": 732,
+        "difficulty_rating": 4.28885,
+        "ar": 5,
+        "drain": 5,
+        "accuracy": 5,
+        "total_length": 134,
+        "hit_length": 130,
+        "cs": 5
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 5.934909820556641,
+          "max_combo": 732,
+          "mono_stamina_factor": 0.00025016700965352356
+        }
       }
     },
     {
@@ -379,7 +705,21 @@
         "mode": "taiko",
         "version": "lepidon! - Taiko Oni",
         "bpm": 138,
-        "max_combo": 1284
+        "max_combo": 1284,
+        "difficulty_rating": 4.14782,
+        "ar": 5,
+        "drain": 4,
+        "accuracy": 5,
+        "total_length": 211,
+        "hit_length": 209,
+        "cs": 5
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 5.808080196380615,
+          "max_combo": 1284,
+          "mono_stamina_factor": 0.016797799617052078
+        }
       }
     }
   ],
@@ -400,7 +740,20 @@
         "mode": "fruits",
         "version": "Ascendance's Overdose",
         "bpm": 202.54,
-        "max_combo": 262
+        "max_combo": 262,
+        "difficulty_rating": 4.60958,
+        "ar": 9.2,
+        "drain": 7,
+        "accuracy": 9.2,
+        "total_length": 49,
+        "hit_length": 41,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 6.47307014465332,
+          "max_combo": 262
+        }
       }
     },
     {
@@ -419,7 +772,20 @@
         "mode": "fruits",
         "version": "Ascendance's Rain",
         "bpm": 136,
-        "max_combo": 186
+        "max_combo": 186,
+        "difficulty_rating": 3.26838,
+        "ar": 9,
+        "drain": 6,
+        "accuracy": 9,
+        "total_length": 41,
+        "hit_length": 39,
+        "cs": 3
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 4.493319988250732,
+          "max_combo": 186
+        }
       }
     },
     {
@@ -438,7 +804,20 @@
         "mode": "fruits",
         "version": "Rain",
         "bpm": 182,
-        "max_combo": 1566
+        "max_combo": 1566,
+        "difficulty_rating": 4.65027,
+        "ar": 9,
+        "drain": 6,
+        "accuracy": 9,
+        "total_length": 228,
+        "hit_length": 218,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 6.686319828033447,
+          "max_combo": 1566
+        }
       }
     },
     {
@@ -457,7 +836,20 @@
         "mode": "fruits",
         "version": "Zero's Overdose",
         "bpm": 175,
-        "max_combo": 983
+        "max_combo": 983,
+        "difficulty_rating": 5.27284,
+        "ar": 9,
+        "drain": 7,
+        "accuracy": 9,
+        "total_length": 226,
+        "hit_length": 187,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 7.418879985809326,
+          "max_combo": 983
+        }
       }
     },
     {
@@ -476,7 +868,20 @@
         "mode": "fruits",
         "version": "Ascendance's Rain",
         "bpm": 160,
-        "max_combo": 684
+        "max_combo": 684,
+        "difficulty_rating": 3.58148,
+        "ar": 8.7,
+        "drain": 6,
+        "accuracy": 8.7,
+        "total_length": 145,
+        "hit_length": 133,
+        "cs": 3.8
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 5.038219928741455,
+          "max_combo": 684
+        }
       }
     },
     {
@@ -495,7 +900,20 @@
         "mode": "fruits",
         "version": "CrystalSeed's UmaruDosE!!",
         "bpm": 278,
-        "max_combo": 805
+        "max_combo": 805,
+        "difficulty_rating": 6.26652,
+        "ar": 9.8,
+        "drain": 5,
+        "accuracy": 9.8,
+        "total_length": 89,
+        "hit_length": 88,
+        "cs": 3.8
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 8.949040412902832,
+          "max_combo": 805
+        }
       }
     },
     {
@@ -514,7 +932,20 @@
         "mode": "fruits",
         "version": "Spec's Overdose",
         "bpm": 130,
-        "max_combo": 209
+        "max_combo": 209,
+        "difficulty_rating": 4.13049,
+        "ar": 9.3,
+        "drain": 6,
+        "accuracy": 9.3,
+        "total_length": 37,
+        "hit_length": 36,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 5.531559944152832,
+          "max_combo": 209
+        }
       }
     },
     {
@@ -533,7 +964,20 @@
         "mode": "fruits",
         "version": "Spec's Hi-Speed Overdose",
         "bpm": 220,
-        "max_combo": 944
+        "max_combo": 944,
+        "difficulty_rating": 5.53037,
+        "ar": 9.3,
+        "drain": 5.7,
+        "accuracy": 9.3,
+        "total_length": 116,
+        "hit_length": 109,
+        "cs": 3.8
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 7.765130043029785,
+          "max_combo": 944
+        }
       }
     },
     {
@@ -552,7 +996,20 @@
         "mode": "fruits",
         "version": "Benny's Rain",
         "bpm": 128,
-        "max_combo": 153
+        "max_combo": 153,
+        "difficulty_rating": 3.12946,
+        "ar": 8.6,
+        "drain": 6,
+        "accuracy": 8.6,
+        "total_length": 31,
+        "hit_length": 30,
+        "cs": 4.2
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 4.2926201820373535,
+          "max_combo": 153
+        }
       }
     },
     {
@@ -571,7 +1028,20 @@
         "mode": "fruits",
         "version": "ursa's OverdoZe",
         "bpm": 140,
-        "max_combo": 704
+        "max_combo": 704,
+        "difficulty_rating": 4.69836,
+        "ar": 9,
+        "drain": 7,
+        "accuracy": 9,
+        "total_length": 122,
+        "hit_length": 122,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 6.5435099601745605,
+          "max_combo": 704
+        }
       }
     }
   ],
@@ -592,7 +1062,20 @@
         "mode": "mania",
         "version": "[7K] Another",
         "bpm": 182,
-        "max_combo": 4800
+        "max_combo": 4800,
+        "difficulty_rating": 4.73393,
+        "ar": 5,
+        "drain": 8,
+        "accuracy": 8,
+        "total_length": 228,
+        "hit_length": 227,
+        "cs": 7
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 6.443319797515869,
+          "max_combo": 4800
+        }
       }
     },
     {
@@ -611,7 +1094,20 @@
         "mode": "mania",
         "version": "[7K] Rumi's Insane",
         "bpm": 175,
-        "max_combo": 3908
+        "max_combo": 3908,
+        "difficulty_rating": 4.04769,
+        "ar": 9,
+        "drain": 8,
+        "accuracy": 8,
+        "total_length": 253,
+        "hit_length": 253,
+        "cs": 7
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 5.29118013381958,
+          "max_combo": 3908
+        }
       }
     },
     {
@@ -630,7 +1126,20 @@
         "mode": "mania",
         "version": "[4K] Lenfried's Insane",
         "bpm": 320,
-        "max_combo": 3327
+        "max_combo": 3327,
+        "difficulty_rating": 4.2927,
+        "ar": 5,
+        "drain": 8.5,
+        "accuracy": 8.5,
+        "total_length": 196,
+        "hit_length": 189,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 6.105979919433594,
+          "max_combo": 3327
+        }
       }
     },
     {
@@ -649,7 +1158,20 @@
         "mode": "mania",
         "version": "[4K] CS' Hard",
         "bpm": 100,
-        "max_combo": 2621
+        "max_combo": 2621,
+        "difficulty_rating": 2.50372,
+        "ar": 5.5,
+        "drain": 8,
+        "accuracy": 8,
+        "total_length": 241,
+        "hit_length": 214,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 3.3811800479888916,
+          "max_combo": 2621
+        }
       }
     },
     {
@@ -668,7 +1190,20 @@
         "mode": "mania",
         "version": "[4K] victorica's Lv.13",
         "bpm": 278,
-        "max_combo": 1257
+        "max_combo": 1257,
+        "difficulty_rating": 4.23169,
+        "ar": 10,
+        "drain": 8,
+        "accuracy": 8,
+        "total_length": 89,
+        "hit_length": 88,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 5.786059856414795,
+          "max_combo": 1257
+        }
       }
     },
     {
@@ -687,7 +1222,20 @@
         "mode": "mania",
         "version": "[4K] victorica's Hard",
         "bpm": 123,
-        "max_combo": 1087
+        "max_combo": 1087,
+        "difficulty_rating": 2.95107,
+        "ar": 8.3,
+        "drain": 7,
+        "accuracy": 8,
+        "total_length": 98,
+        "hit_length": 98,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 4.1026201248168945,
+          "max_combo": 1087
+        }
       }
     },
     {
@@ -706,7 +1254,20 @@
         "mode": "mania",
         "version": "Zillah's 7K Insane",
         "bpm": 140,
-        "max_combo": 1780
+        "max_combo": 1780,
+        "difficulty_rating": 2.99145,
+        "ar": 5,
+        "drain": 8,
+        "accuracy": 8,
+        "total_length": 124,
+        "hit_length": 110,
+        "cs": 7
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 3.935149908065796,
+          "max_combo": 1780
+        }
       }
     },
     {
@@ -725,7 +1286,20 @@
         "mode": "mania",
         "version": "[4K] Marirose's Insane",
         "bpm": 135,
-        "max_combo": 851
+        "max_combo": 851,
+        "difficulty_rating": 3.65825,
+        "ar": 5,
+        "drain": 8,
+        "accuracy": 8,
+        "total_length": 86,
+        "hit_length": 77,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 4.977389812469482,
+          "max_combo": 851
+        }
       }
     },
     {
@@ -744,7 +1318,20 @@
         "mode": "mania",
         "version": "[5K] Frim's HD",
         "bpm": 168,
-        "max_combo": 1695
+        "max_combo": 1695,
+        "difficulty_rating": 2.93807,
+        "ar": 9,
+        "drain": 8,
+        "accuracy": 8,
+        "total_length": 160,
+        "hit_length": 159,
+        "cs": 5
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 3.9006199836730957,
+          "max_combo": 1695
+        }
       }
     },
     {
@@ -763,7 +1350,20 @@
         "mode": "mania",
         "version": "[4K] puxtu's MX",
         "bpm": 192,
-        "max_combo": 3002
+        "max_combo": 3002,
+        "difficulty_rating": 3.96847,
+        "ar": 9.5,
+        "drain": 8.5,
+        "accuracy": 8.5,
+        "total_length": 247,
+        "hit_length": 247,
+        "cs": 4
+      },
+      "modAttributes": {
+        "HDDT": {
+          "star_rating": 5.376309871673584,
+          "max_combo": 3002
+        }
       }
     }
   ]

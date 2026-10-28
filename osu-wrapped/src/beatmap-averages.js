@@ -55,13 +55,13 @@ export function beatmapAveragesMarkup(data){
  const stats=data?.beatmapAverages;if(!stats?.total)return '';
  const labels={stars:'Star rating',length:'Map length',bpm:'BPM',ar:'Approach rate',od:'Overall difficulty',cs:data.mode==='mania'?'Key count':'Circle size',hp:'HP drain'};
  const fields=Object.keys(labels).filter(field=>!(field==='ar'&&!['osu','fruits'].includes(data.mode))&&!(field==='cs'&&data.mode==='taiko')&&!(field==='od'&&data.mode==='fruits'));
- const format=(value,field)=>value===null?'Unavailable':field==='length'?Math.floor(Math.round(value)/60)+':'+String(Math.round(value)%60).padStart(2,'0'):value.toLocaleString('en-US',{minimumFractionDigits:field==='bpm'?1:2,maximumFractionDigits:field==='bpm'?1:2})+(field==='stars'?' ★':'');
+ const format=(value,field)=>!finite(value)?'—':field==='length'?Math.floor(Math.round(value)/60)+':'+String(Math.round(value)%60).padStart(2,'0'):value.toLocaleString('en-US',{minimumFractionDigits:field==='bpm'?1:2,maximumFractionDigits:field==='bpm'?1:2})+(field==='stars'?' ★':'');
  return '<section class="panel beatmap-averages"><div class="panel-heading"><div><span class="eyebrow">THE PATTERNS YOU PLAYED</span><h3>Your average beatmap.</h3></div><span class="pill">'+stats.total+' selected scores</span></div><div class="beatmap-average-grid">'+fields.map(field=>{const metric=stats.metrics[field];return '<article><span>'+labels[field]+'</span><strong>'+format(metric.adjusted.value,field)+'</strong><small>Mod-adjusted · '+metric.adjusted.count+' scores</small><p>Base: <b>'+format(metric.base.value,field)+'</b> <span>('+metric.base.count+' scores)</span></p></article>';}).join('')+'</div><p class="muted">Unweighted averages across eligible 2026 scores in your current top 200. Length includes breaks and is adjusted for playback speed. Star ratings use current difficulty attributes, not historical ratings at score time.</p></section>';
 }
 
 export function beatmapAverageRows(data){
  const stats=data?.beatmapAverages;if(!stats?.total)return [];
  const labels={stars:'Star rating',length:'Map length',bpm:'BPM',ar:'Approach rate',od:'Overall difficulty',cs:data.mode==='mania'?'Key count':'Circle size',hp:'HP drain'};
- const format=(value,field)=>value==null?'Unavailable':field==='length'?Math.floor(Math.round(value)/60)+':'+String(Math.round(value)%60).padStart(2,'0'):value.toLocaleString('en-US',{minimumFractionDigits:field==='bpm'?1:2,maximumFractionDigits:field==='bpm'?1:2})+(field==='stars'?' ★':'');
+ const format=(value,field)=>!finite(value)?'—':field==='length'?Math.floor(Math.round(value)/60)+':'+String(Math.round(value)%60).padStart(2,'0'):value.toLocaleString('en-US',{minimumFractionDigits:field==='bpm'?1:2,maximumFractionDigits:field==='bpm'?1:2})+(field==='stars'?' ★':'');
  return Object.keys(labels).filter(field=>!(field==='ar'&&!['osu','fruits'].includes(data.mode))&&!(field==='cs'&&data.mode==='taiko')&&!(field==='od'&&data.mode==='fruits')).map(field=>({label:labels[field],adjusted:format(stats.metrics[field].adjusted.value,field),base:format(stats.metrics[field].base.value,field),count:stats.metrics[field].adjusted.count}));
 }

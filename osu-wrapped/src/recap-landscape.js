@@ -150,13 +150,14 @@ export async function createLandscapeRecap(data,assets){
    const titleSize=onlyMapping?31:24,heading=data.demo?'EXAMPLE UPLOADED MAPSET':'MOST-PLAYED 2026 UPLOAD',plays=num(popular.plays)+' all-time plays';
    const available=1082-(upload?imgW+24:0);
    const w=Math.min(available,Math.max(...[[heading,12,700],[popular.title,titleSize,700],[popular.artist,16,400],[plays,17,600]].map(([label,size,weight])=>{ctx.font=weight+' '+size+'px "Segoe UI",sans-serif';return ctx.measureText(String(label||'')).width;})));
-   if(upload)image(upload,2312-w-24-imgW,mapY,imgW,imgH);
-   right(heading,2312,mapY+10,12,blue,700,w);right(popular.title,2312,mapY+41,titleSize,white,700,w);right(popular.artist,2312,mapY+67,16,muted,400,w);right(plays,2312,mapY+92,17,blue,600,w);
+   const textRight=upload?2312-imgW-24:2312;
+   if(upload)image(upload,2312-imgW,mapY,imgW,imgH);
+   right(heading,textRight,mapY+10,12,blue,700,w);right(popular.title,textRight,mapY+41,titleSize,white,700,w);right(popular.artist,textRight,mapY+67,16,muted,400,w);right(plays,textRight,mapY+92,17,blue,600,w);
   }
  }
  const footer=canvas.height-48;line(64,footer-(onlyMapping?24:56),2272);if(!onlyMapping)text('SCORE COVERAGE',64,footer-22,14,pink,700,1450);
  text(onlyMapping?'Hosted mapsets first submitted in 2026 (UTC); ranked status and playcounts are current.':num(data.sampleCount)+' scores dated in 2026 from your current top 200; not a full annual archive.',64,footer,17,muted,400,1450);
  if(!onlyMapping)text('Mapper credits use mapset creators. Profile history may be incomplete. Year to date until 2027.',64,footer+25,15,muted,400,1450);
- ctx.save();ctx.textAlign='center';text('Independent fan project - Not affiliated with ppy / osu!',1968,footer+(onlyMapping?0:4),16,muted,400,736);ctx.restore();
+ right('Independent fan project - Not affiliated with ppy / osu!',2336,footer+(onlyMapping?0:4),16,muted,400,736);
  return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG export failed')),'image/png'));
 }

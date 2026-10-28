@@ -780,3 +780,5 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .global-dashboard .popular-play-count .watch-beatmap{align-self:center}
 
 .card-share-dialog .recap-preview-expand{display:flex;align-items:center;justify-content:center;width:100%;max-width:100%;padding:0;border:0;border-radius:8px;background:transparent;cursor:zoom-in}
+
+footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:700;font-size:18px;letter-spacing:0;line-height:1;display:inline-block}
