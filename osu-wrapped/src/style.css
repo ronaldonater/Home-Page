@@ -782,3 +782,6 @@ a.rewind-avatar:hover{border-color:var(--pink);box-shadow:0 0 0 3px #fa82b51f}
 .card-share-dialog .recap-preview-expand{display:flex;align-items:center;justify-content:center;width:100%;max-width:100%;padding:0;border:0;border-radius:8px;background:transparent;cursor:zoom-in}
 
 footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:700;font-size:18px;letter-spacing:0;line-height:1;display:inline-block}
+
+/* Center an unpaired average metric on the mobile stats page. */
+@media(max-width:600px){.beatmap-averages:not(.story-slide .beatmap-averages) .beatmap-average-grid>article:last-child:nth-child(odd){grid-column:1 / -1;justify-self:center;box-sizing:border-box;width:calc((100% - 12px)/2)}}

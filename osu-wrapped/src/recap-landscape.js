@@ -93,7 +93,18 @@ export async function createLandscapeRecap(data,assets){
   box(64,762,720,224,'#282231');
   const club=CLUBS[data.club?.id],secondary=CLUBS[data.club?.secondary?.id];
   const drawTrait=(trait,result,label,y)=>{const color=CLUB_COLORS[result.id]||pink;clubIcon(trait,80,y+2,88,color);text(label,184,y+13,12,color,700,576);text(trait.name,184,y+42,27,color,700,576);text(trait.motto,184,y+67,17,white,500,576);wrap(result.reason,184,y+88,576,12,muted,1,16);};
-  if(club){drawTrait(club,data.club,'YOUR PLAYSTYLE CLUB',774);if(secondary){line(88,874,672);drawTrait(secondary,data.club.secondary,'SECONDARY ARCHETYPE',880);}}
+  if(club){
+   if(secondary){drawTrait(club,data.club,'YOUR PLAYSTYLE CLUB',774);line(88,874,672);drawTrait(secondary,data.club.secondary,'SECONDARY ARCHETYPE',880);}
+   else{
+    const color=CLUB_COLORS[data.club.id]||pink;
+    const labelX=264,contentWidth=496;
+    clubIcon(club,80,786,176,color);
+    text('YOUR PLAYSTYLE CLUB',labelX,810,14,color,700,contentWidth);
+    text(club.name,labelX,854,33,color,700,contentWidth);
+    text(club.motto,labelX,892,21,white,500,contentWidth);
+    wrap(data.club.reason,labelX,924,contentWidth,15,muted,2,21);
+   }
+  }
   else{text('YOUR PLAYSTYLE CLUB',88,853,14,pink,700);text('Your club is taking shape.',88,899,29,white,700);}
 
   box(812,252,760,734);text('YOUR TOP 5 PLAYS',836,287,22,pink,700,700);text('2026 scores in your current top 200 · '+mode,836,312,14,muted,400,700);

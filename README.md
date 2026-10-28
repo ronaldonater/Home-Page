@@ -41,11 +41,16 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.35**
+**Version 1.1.36**
 
 Supports all four modes, up to 29 slides (including the optional mapping slide), 21 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score or hosted mapset first submitted in 2026. Community percentages optionally use Neon.
 
 See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md), and [club ranking guide](docs/CLUB-RANKING.md). Public routes are `/osu-wrapped/` and `/api/osu-wrapped/`; use the private `WRAPPED_` environment variables documented in setup. Run `node --test tests/*.test.mjs` from the website root.
+
+## v1.1.36 updates
+
+- Enlarged the primary playstyle club in landscape recap cards when no secondary archetype is available, with a left-aligned layout.
+- Centered the final unpaired average-beatmap metric on the mobile stats page.
 
 ## v1.1.35 updates
 
@@ -304,3 +309,5 @@ Hover over the speaker button or focus/tap it to reveal a volume slider aligned 
 Personal and global top-play lists show accuracy and combo together, such as `99.55% · 418×`, on stats pages and slides. Portrait and landscape recap cards also include personal play combos. Combo text matches the accuracy typography. Confirmed full combos use lime green without a visible FC suffix; light slides use a darker green for contrast, while featured personal/global score slides retain lime green over their artwork. Full-combo status follows explicit API flags, not accuracy or rank; missing combo data remains unavailable.
 
 The global dashboard top-play list matches personal-list typography. Global PP/accuracy/combo and popular-map play counts are centered above their respective Watch buttons.
+
+Counter ticks use a predecoded low-latency Web Audio sample with leading-silence trimming, short fade envelopes, bounded overlapping voices, and tick-rate limiting. Suspended mobile audio never queues stale ticks; the fallback reuses idle preloaded players instead of cutting off a playing sample. Pause, mute, volume changes, slide navigation, and closure stop or update the counter audio appropriately.
