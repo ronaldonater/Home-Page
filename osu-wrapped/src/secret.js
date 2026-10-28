@@ -2,9 +2,16 @@
 export function installSecret({audioUrl='/sounds/wysi.mp3'}={}){
  let stop=null;
  function secret(){
-  stop?.();
   const canvas=document.createElement('canvas');canvas.className='secret-727-rain';canvas.setAttribute('aria-hidden','true');
   document.body.append(canvas);const ctx=canvas.getContext('2d');if(!ctx){canvas.remove();return;}
+  stop?.({restart:true});
+  // A manual popover enters the browser top layer above modal panels/dialogs.
+  const topLayer=typeof canvas.showPopover==='function';
+  if(topLayer)canvas.setAttribute('popover','manual');
+  let lastDialog=null;
+  const bringForward=()=>{const dialog=[...document.querySelectorAll('dialog[open]')].at(-1)||null;if(topLayer){if(lastDialog!==dialog||!canvas.matches(':popover-open')){if(canvas.matches(':popover-open'))canvas.hidePopover();canvas.showPopover();}}else{const parent=dialog||document.body;if(canvas.parentElement!==parent)parent.append(canvas);}lastDialog=dialog;};
+  bringForward();
+  const layers=new MutationObserver(bringForward);layers.observe(document.body,{childList:true,subtree:true,attributes:true,attributeFilter:['open']});
   const audio=new Audio(audioUrl);audio.volume=.7;
   const particles=[],colors=['#fa82b5','#8edcff','#ffd46b','#b7e58b','#ffffff'];
   // Rasterize emoji/text once; frame rendering only copies small cached sprites.
@@ -16,10 +23,10 @@ export function installSecret({audioUrl='/sounds/wysi.mp3'}={}){
   }
   let frame=0,last=0,spawn=0,ended=false,fadeTimer=0;
   const resize=()=>{const ratio=1;canvas.width=Math.round(innerWidth*ratio);canvas.height=Math.round(innerHeight*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);};
-  const cleanup=()=>{if(ended)return;ended=true;cancelAnimationFrame(frame);clearTimeout(timeout);clearTimeout(fadeTimer);audio.pause();audio.removeAttribute('src');audio.load();canvas.remove();window.removeEventListener('resize',resize);document.removeEventListener('visibilitychange',hidden);document.removeEventListener('keydown',escape);if(stop===cleanup)stop=null;};
+  const cleanup=({restart=false}={})=>{if(ended)return;ended=true;cancelAnimationFrame(frame);clearTimeout(timeout);clearTimeout(fadeTimer);audio.pause();audio.removeAttribute('src');audio.load();layers.disconnect();if(topLayer&&canvas.matches(':popover-open'))canvas.hidePopover();canvas.remove();if(!restart)window.dispatchEvent(new Event('osu-wrapped:secret-end'));window.removeEventListener('resize',resize);document.removeEventListener('visibilitychange',hidden);document.removeEventListener('keydown',escape,true);if(stop===cleanup)stop=null;};
   const fade=()=>{if(ended||fadeTimer)return;canvas.classList.add('secret-727-fading');fadeTimer=setTimeout(cleanup,850);};
   const hidden=()=>{if(document.hidden)cleanup();};
-  const escape=event=>{if(event.key==='Escape')cleanup();};
+  const escape=event=>{if(event.key==='Escape'){event.preventDefault();event.stopImmediatePropagation();cleanup();}};
   const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   function tick(time){
    if(last&&time-last<1000/30){frame=requestAnimationFrame(tick);return;}
@@ -30,7 +37,7 @@ export function installSecret({audioUrl='/sounds/wysi.mp3'}={}){
    for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.y+=p.speed*dt;if(p.y>innerHeight+64){particles.splice(i,1);continue;}ctx.drawImage(p.sprite,p.x-50*p.scale,p.y,100*p.scale,64*p.scale);}
    frame=requestAnimationFrame(tick);
   }
-  const timeout=setTimeout(fade,30000);stop=cleanup;resize();window.addEventListener('resize',resize);document.addEventListener('visibilitychange',hidden);document.addEventListener('keydown',escape);
+  const timeout=setTimeout(fade,30000);stop=cleanup;resize();window.addEventListener('resize',resize);document.addEventListener('visibilitychange',hidden);document.addEventListener('keydown',escape,true);window.dispatchEvent(new Event('osu-wrapped:secret-start'));
   audio.addEventListener('ended',fade,{once:true});audio.addEventListener('error',cleanup,{once:true});
   audio.play().catch(()=>{cleanup();console.info('Click the page once, then run secret() again to allow audio.');});
   frame=requestAnimationFrame(tick);

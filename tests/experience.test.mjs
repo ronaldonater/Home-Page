@@ -1,10 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {canViewWrapped,openExperience,experienceSlides,experienceKey,firstExperience,markExperience,quizOptions} from '../osu-wrapped/src/experience.js';
+import {usesOpeningMusic,canViewWrapped,openExperience,experienceSlides,experienceKey,firstExperience,markExperience,quizOptions} from '../osu-wrapped/src/experience.js';
 import {demo} from '../osu-wrapped/src/demo.js';
 const player=id=>({...demo(),demo:false,user:{...demo().user,id,username:'<script>alert(1)</script>'}});
-test('story has twenty-eight slides with two interactive quizzes and escapes user-supplied names',()=>{
- const slides=experienceSlides(player(101));assert.equal(slides.length,28);assert.equal(slides.filter(s=>s.quiz).length,2);assert.ok(slides.filter(s=>!s.quiz).every(s=>s.duration>=5000));assert.ok(!slides[0].title.includes('<script>'));assert.ok(slides[0].title.includes('&lt;script&gt;'));assert.ok(slides.some(s=>s.note.includes('top 200')));
+test('story has twenty-nine slides with two interactive quizzes and escapes user-supplied names',()=>{
+ const slides=experienceSlides(player(101));assert.equal(slides.length,29);assert.ok(slides.findIndex(s=>s.layout==='beatmap-averages')<slides.findIndex(s=>s.layout==='personal-mods'));assert.ok(slides.find(s=>s.layout==='beatmap-averages').body.includes('Mod-adjusted'));assert.equal(slides.filter(s=>s.quiz).length,2);assert.ok(slides.filter(s=>!s.quiz).every(s=>s.duration>=5000));assert.ok(!slides[0].title.includes('<script>'));assert.ok(slides[0].title.includes('&lt;script&gt;'));assert.ok(slides.some(s=>s.note.includes('top 200')));
 });
 test('first experience is recorded per account and year, not repeated on another mode',()=>{
  const values=new Map();const storage={getItem:key=>values.get(key),setItem:(key,value)=>values.set(key,value)};
@@ -56,4 +56,15 @@ test('mapping-only users can open Wrapped without score-based slides or consumin
  assert.ok(!slides.some(slide=>slide.eyebrow==='THE ONE TO REMEMBER'));
  assert.match(slides.at(-1).note,/score-based sections are omitted/);
  for(const mapping of [{status:'unavailable'},{status:'ready',created:0},{status:'ready',created:-1},{status:'ready',created:'2'}])assert.equal(canViewWrapped({...data,mapping}),false);
+});
+
+test('opening music follows the personal mods boundary when slides are inserted',()=>{
+ const slides=experienceSlides(player(107));
+ const mods=slides.findIndex(slide=>slide.layout==='personal-mods');
+ assert.ok(mods>=4);
+ for(let i=0;i<=mods;i++)assert.equal(usesOpeningMusic(slides,i),true);
+ assert.equal(usesOpeningMusic(slides,mods+1),slides[mods+1].eyebrow==='A LITTLE RECOGNITION');
+ const shifted=[slides[0],{layout:'extra'},...slides.slice(1)];
+ assert.equal(usesOpeningMusic(shifted,mods+1),true);
+ assert.equal(usesOpeningMusic([{layout:'opening'},{layout:'mapping'}],1),false);
 });

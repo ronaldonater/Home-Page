@@ -1,3 +1,6 @@
+import {comboInfo,comboLabel} from './score-combo.js';
+import {createLandscapeRecap} from './recap-landscape.js';
+import {beatmapAverageRows} from './beatmap-averages.js';
 import {mappingOnly} from './eligibility.js';
 import {assignMappingClub,mappingClubArtwork} from './mapping-clubs.js';
 import {CLUBS,CLUB_COLORS} from './clubs.js';
@@ -18,13 +21,14 @@ function avatarImage(userId){
   img.src='/api/osu-wrapped/avatar?id='+encodeURIComponent(userId);
  });
 }
-export async function createRecap(data){
+export async function createRecap(data,{layout='portrait'}={}){
+ if(layout==='landscape')return createLandscapeRecap(data,{avatarImage,coverImage,artistImage,recapMedalImage,recapModImage});
  if(mappingOnly(data))return createMappingRecap(data);
  const topPlays=data.top.slice(0,5);
  const [avatar,covers,mapperAvatars,artistAvatars,medalArt,modArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(async artist=>(await artistImage(artist.name))||await coverImage(artist.cover))),recapMedalImage(data.rarestMedal),Promise.all((data.favoriteMod?.mods||[]).slice(0,3).map(mod=>recapModImage(mod)))]);
  const hasMapping=data.mapping?.status==='ready'&&Number.isSafeInteger(data.mapping.created)&&data.mapping.created>0;
  const mappingCover=hasMapping?await coverImage(data.mapping?.mostPopular?.cover):null;
- const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2446+(hasMapping?290:0);
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2434+(hasMapping?290:0)+(data.beatmapAverages?.total?270:0);
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
  const text=(value,x,y,size=24,color=white,weight=400,maxWidth=1000)=>{
   ctx.font=weight+' '+size+'px "Segoe UI", sans-serif';ctx.fillStyle=color;
@@ -87,7 +91,7 @@ export async function createRecap(data){
  }
  ctx.save();ctx.translate(0,290);
  text('YOUR TOP 5 PLAYS',64,831,23,pink,700);text('2026 scores found in your current top 200 · '+(modeNames[data.mode]||data.mode),64,863,17,muted);
- box(64,884,1072,449);
+ box(64,884,1072,437);
  if(!data.top.length)text('No 2026 PP scores found in your current top 200.',88,946,22,muted);
  topPlays.forEach((score,i)=>{
   const y=892+i*87;
@@ -106,10 +110,10 @@ export async function createRecap(data){
   text('Mapped by '+score.creator+' · '+score.mods,246,y+68,15,muted,400,662);
   const date=new Date(score.date);
   const dateLabel=score.date && !Number.isNaN(date.getTime())?new Intl.DateTimeFormat('en-US',{month:'short',day:'numeric',year:'numeric',timeZone:'UTC'}).format(date)+' · UTC':'Date unavailable';
-  ctx.save();ctx.textAlign='right';text(Math.round(score.pp)+' pp',1112,y+31,26,pink,700,174);text(formatScoreAccuracy(score.accuracy)+' accuracy',1112,y+52,15,white,500,174);text(dateLabel,1112,y+72,13,muted,400,174);ctx.restore();
+  ctx.save();ctx.textAlign='right';text(Math.round(score.pp)+' pp',1112,y+24,26,pink,700,174);text(comboLabel(score),1112,y+47,15,comboInfo(score).fullCombo?'#b7e58b':white,500,174);const comboWidth=ctx.measureText(comboLabel(score)).width;text(formatScoreAccuracy(score.accuracy)+' ·',1112-comboWidth-8,y+47,15,white,500,174-comboWidth-8);text(dateLabel,1112,y+68,13,muted,400,174);ctx.restore();
   if(i<4)line(88,y+82,1024);
  });
- ctx.translate(0,-12);
+ ctx.translate(0,-24);
  const rankings=(title,rows,x,avatars=null)=>{
   text(title,x,1416,22,pink,700,510);box(x,1440,524,344);
   if(!rows.length)text('No 2026 scores to rank.',x+24,1500,20,muted,400,476);
@@ -177,6 +181,26 @@ export async function createRecap(data){
    text(number(popular.plays)+' all-time plays',mapX,2100,14,'#8edcff',600,mapWidth);
   }
   ctx.translate(0,290);
+ }
+ if(data.beatmapAverages?.total){
+  box(64,1848,1072,250,'#202934');
+  text('YOUR AVERAGE BEATMAP',88,1878,16,'#8edcff',700,760);
+  ctx.save();ctx.textAlign='right';text(data.beatmapAverages.total+' selected scores',1112,1878,15,muted,400,280);ctx.restore();
+  beatmapAverageRows(data).forEach((row,i)=>{const x=88+(i%4)*258,y=1910+Math.floor(i/4)*95;
+   text(row.label,x,y,14,muted,500,240);
+   text(row.adjusted,x,y+30,26,'#8edcff',700,240);
+   text('Base: '+row.base,x,y+51,13,muted,400,240);
+   text(row.count+' scores',x,y+69,12,muted,400,240);
+  });
+  const averageRows=beatmapAverageRows(data),noteColumn=averageRows.length%4;
+  if(noteColumn){
+   const noteX=88+noteColumn*258,noteY=1910+Math.floor(averageRows.length/4)*95;
+   text('Mod-adjusted values',noteX,noteY+10,13,muted,500,240);
+   text('Unweighted means',noteX,noteY+32,13,muted,400,240);
+   text('Coverage varies',noteX,noteY+54,13,muted,400,240);
+   text('by metric',noteX,noteY+72,13,muted,400,240);
+  }else{text('Mod-adjusted values / unweighted means / coverage varies by metric',88,2080,13,muted,400,1024);}
+  ctx.translate(0,270);
  }
  line(64,1848,1072);
  text('SCORE COVERAGE',64,1883,14,pink,700);

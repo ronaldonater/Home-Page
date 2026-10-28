@@ -41,11 +41,38 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.31**
+**Version 1.1.33**
 
-Supports all four modes, up to 28 slides (including the optional mapping slide), 21 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score or hosted mapset first submitted in 2026. Community percentages optionally use Neon.
+Supports all four modes, up to 29 slides (including the optional mapping slide), 21 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score or hosted mapset first submitted in 2026. Community percentages optionally use Neon.
 
 See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md), and [club ranking guide](docs/CLUB-RANKING.md). Public routes are `/osu-wrapped/` and `/api/osu-wrapped/`; use the private `WRAPPED_` environment variables documented in setup. Run `node --test tests/*.test.mjs` from the website root.
+
+## v1.1.33 updates
+
+- Added portrait/landscape recap selection, expandable zoomable previews, and click-outside dismissal for Share and Save panels.
+- Refined landscape styling, card spacing, grade alignment, mapping showcase placement, and score-coverage footer.
+- Added stable finale preview transitions with format controls that follow the card; both panels allow changing formats.
+- Added a speaker-hover volume slider for slideshow music and sound effects, preserving mute state and relative audio levels.
+- Added inline accuracy/combo displays and full-combo color highlights, with consistent global/personal list typography.
+- Promoted the console easter egg above dialogs and automatically pause/resume a playing slideshow during the effect.
+- Made the closing song loop consistently on the final slide.
+- No SQL migration or additional environment variables required.
+
+## v1.1.32 updates
+
+- Added average beatmap statistics to the stats page, a dedicated slideshow slide, and recap cards, with base and supported mod-adjusted values.
+- Ordered metrics as star rating, length, BPM, AR, OD, circle size/key count, and HP, with concise score counts and mode-appropriate fields.
+- Balanced incomplete slide rows, aligned the slide note beneath the final row, and added a subtle chart decoration.
+- Compacted the recap averages grid and placed its explanatory note in the unused bottom-right space.
+- Fixed opening music continuity through the personal mods slide after inserting the averages slide.
+- Updated the Crowd Pleasers motto to "Someone's favorite started in your editor."
+- Added portrait/landscape recap selection, expandable zoomable previews, and click-outside dismissal for Share and Save panels.
+- Matched landscape card styling and metadata to portrait cards; refined spacing, alignment, footer coverage, and mapping presentation.
+- Added stable crossfades and moving format controls on the finale, plus a speaker-hover volume slider for music and sound effects.
+- Added combo counts and full-combo color highlights across personal/global stats and slides and personal recap cards.
+- Allowed the console easter egg to overlay dialogs and automatically pause/resume a playing slideshow.
+- Matched global list typography to the personal list and centered result stacks over Watch buttons.
+- No SQL migration or additional environment variables required.
 
 ## v1.1.31 updates
 
@@ -231,4 +258,36 @@ Running `secret()` in the browser console plays the bundled `wysi.mp3` clip and 
 
 The effect uses cached canvas sprites, a 30 FPS cap and at most 40 particles (12 with reduced motion). It ignores pointer input so the page stays usable. Audio ending or the 30-second safety limit triggers a 0.8-second fade before cleanup. Escape or hiding the tab stops it immediately; invoking the command again restarts it without stacking effects. Browser autoplay rules may require clicking the page before running the command. Reduced-motion settings reduce density, size variation and speed.
 
+The console easter egg uses the browser top layer above panels and the slideshow. A playing slideshow pauses until the effect finishes fading or is dismissed; an already paused slideshow stays paused. Re-running the effect keeps the slideshow paused until the replacement finishes. Escape dismisses the effect without closing the underlying panel.
+
 Sources: `src/secret.js` in the standalone app and `osu-wrapped/src/secret.js` in the website copy. Audio: `public/sounds/wysi.mp3` (standalone) and `osu-wrapped/sounds/wysi.mp3` (website). No new environment variables, external services, or SQL changes are needed. The footer version badge reads the app's package version automatically.
+
+## Average beatmap statistics
+
+The personal dashboard includes unweighted mean star rating, total map duration (including breaks), BPM, AR, OD, CS/key count, and HP across all deduplicated eligible 2026 scores in the current top 200. Each metric shows base and mod-adjusted values with independent coverage counts. Missing or unsupported values are excluded, never replaced with zero. AR appears only for standard/catch, OD is omitted for catch, CS is omitted for taiko, and mania displays key count instead of circle size. Mapping-only users do not receive score averages.
+
+Supported fixed-rate DT/NC/HT/DC settings adjust BPM and duration. HR/EZ and Difficulty Adjust modify supported difficulty settings; standard OD and standard/catch AR include rate effects. Current mod-specific star ratings and available AR/OD attributes come from the official difficulty-attributes endpoint. No historical difficulty reconstruction is claimed. Variable-rate or unsupported mod settings can reduce adjusted coverage. Base and adjusted averages may cover different score subsets.
+
+Attribute enrichment is server-side, with four concurrent requests, a 3.5-second request budget, at most 24 uncached beatmap/mode/mod combinations per review, shared in-flight requests, and a 24-hour warm-instance success cache. Failures briefly cache and remain nonfatal; rate limiting stops further queued lookups in that batch. Further combinations can populate on later reviews. No database migration or new secrets are required. Demo metadata can have incomplete coverage; absent fields remain unavailable.
+
+Beatmap averages also appear in a dedicated personal slideshow slide and a compact recap card grid. Metric coverage labels show the number of included scores. Mapping-only reviews omit these score-based sections.
+
+## Recap card layouts and sharing
+
+Recap cards support portrait and landscape PNG exports, including mapping-only reviews. Dashboard Save recap card and Share actions open a preview panel with a portrait/landscape choice. Click the preview to expand it with zoom-in/out, fit reset, mouse-wheel zoom, dragging, double-click zoom, keyboard controls, and touch pinch/pan. Close the viewer to return to the chooser. Clicking outside the Share or Save panel closes it; clicks and drags inside do not.
+
+The finale has arrow controls to switch its preview between formats. Its Save and Share actions start with the selected format, and both panels allow changing it again. Cached previews are reused within each open panel; image actions wait for the selected card to finish rendering.
+
+The finale reserves a fixed preview area, keeps the current image visible while the next variant loads, and crossfades after decoding. Switching formats keeps the heading, buttons, and decorative heart in place. The format arrows and label animate to sit beneath the visible card. Reduced-motion skips these transitions.
+
+Landscape cards share the portrait design details: pink header glow and playcount tile, accuracy grade, source descriptors, month accent, mod artwork, framed primary/secondary club logos and reasons, shaded score-grade overlays, mapper/artist portraits with fallbacks, medal metadata, and an aligned mapping club/upload showcase. Both layouts use compact spacing and aligned PP, accuracy/combo, and date rows. The landscape footer includes a SCORE COVERAGE heading and the fan-project credit centered within its right-hand area.
+
+## Slideshow audio controls
+
+Hover over the speaker button or focus/tap it to reveal a volume slider aligned beneath the control-button group. It adjusts music and sound effects together while preserving their relative levels, including quiz sounds and fades. Click-to-mute remains available; unmuting restores the last nonzero volume.
+
+## Top-play combos and presentation
+
+Personal and global top-play lists show accuracy and combo together, such as `99.55% · 418×`, on stats pages and slides. Portrait and landscape recap cards also include personal play combos. Combo text matches the accuracy typography. Confirmed full combos use lime green without a visible FC suffix; light slides use a darker green for contrast, while featured personal/global score slides retain lime green over their artwork. Full-combo status follows explicit API flags, not accuracy or rank; missing combo data remains unavailable.
+
+The global dashboard top-play list matches personal-list typography. Global PP/accuracy/combo and popular-map play counts are centered above their respective Watch buttons.

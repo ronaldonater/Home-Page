@@ -1,6 +1,6 @@
 # osu! Wrapped 2026 subpage
 
-**Version 1.1.31**
+**Version 1.1.33**
 
 Public URL: https://ronaldonater.com/osu-wrapped/ (use your actual canonical host if different). Its Dev-page entry is managed manually. Wrapped is a self-contained static ES-module app; no build step or Vite installation is needed for the personal site. All existing pages and integrations remain in place. No credentials were copied from the standalone app.
 
@@ -40,10 +40,10 @@ Top-score Watch replay buttons open a sandboxed ReplayViewer panel. The backend 
 
 ## Wrapped experience
 
-Successful first-login data loading opens the animated story, with up to 28 slides depending on eligible data and quiz candidates. Seen state is localStorage keyed by player ID and year, so changing game mode does not replay it automatically. The Replay Experience button opens it anytime, including in the demo. Closing/skipping counts as seen; different browsers/devices or cleared storage may show it again. If storage is blocked, seen state lasts only for the current page. This is an animated web experience, not an exported video, with opening/finale music, beatmap previews, and sound effects; browser autoplay policy may require a user gesture before audio plays. Controls support pause/play, previous/next, slide selection, swipe and Escape. Reduced-motion starts paused and disables entrance/counting animations. Hiding the browser tab pauses progress. No OAuth or environment-variable change is required.
+Successful first-login data loading opens the animated story, with up to 29 slides depending on eligible data and quiz candidates. Seen state is localStorage keyed by player ID and year, so changing game mode does not replay it automatically. The Replay Experience button opens it anytime, including in the demo. Closing/skipping counts as seen; different browsers/devices or cleared storage may show it again. If storage is blocked, seen state lasts only for the current page. This is an animated web experience, not an exported video, with opening/finale music, beatmap previews, and sound effects; browser autoplay policy may require a user gesture before audio plays. Controls support pause/play, previous/next, slide selection, swipe and Escape. Reduced-motion starts paused and disables entrance/counting animations. Hiding the browser tab pauses progress. No OAuth or environment-variable change is required.
 
 
-Artist pictures use TheAudioDB v1 shared free key 123; no additional environment variables are required. The /artist-image endpoint validates exact artist names and approved artwork URLs, limits downloads to 512 KiB, coalesces identical in-flight requests, and caches up to 64 results in each warm function instance (24 hours for pictures, 1 hour for missing results). Successful images also use browser/CDN cache headers. A 25-lookups-per-minute guard applies per function instance, not globally across Netlify; upstream limits can still cause initials to display during traffic spikes. Missing or ambiguous artists use initials. Artwork attribution appears in the artist section and exported card.
+Artist pictures use TheAudioDB v1 shared free key 123; no additional environment variables are required. The /artist-image endpoint validates exact artist names and approved artwork URLs, limits downloads to 512 KiB, coalesces identical in-flight requests, and caches up to 64 results in each warm function instance (24 hours for pictures, 1 hour for missing results). Successful images also use browser/CDN cache headers. A 25-lookups-per-minute guard applies per function instance, not globally across Netlify; upstream limits can still prevent artist portraits from loading during traffic spikes. Missing, ambiguous, or rate-limited artist portraits fall back to the associated beatmap cover, then initials if neither image loads. Artwork attribution appears in the artist section and exported card.
 
 
 Rarest 2026 medal: profile achievement timestamps are filtered using UTC, then matched by achievement ID to Osekai public medal data (https://osekai.net/medals/api/medals.php). Rarity percentages are current Osekai estimates, not the rarity at award time or an official global osu statistic. Data is cached for 24 hours per warm function instance; failures show unavailable, and incomplete matches are labeled Rarest matched medal. No API key or environment variables are required. Medal images use a validated same-origin proxy. Restart the local backend or redeploy after updating.
@@ -51,7 +51,7 @@ Rarest 2026 medal: profile achievement timestamps are filtered using UTC, then m
 
 ## Current features and data scope
 
-The current release is v1.1.31. See the root README for the complete feature guide: 21 playstyle clubs, six separate mapping clubs, up to 28 slides including the conditional personal-mapping slide, and recap cards with primary/secondary clubs and mapping details. Without eligible scores, hosted 2026 submissions unlock a mapping-only Wrapped; users with neither remain blocked; users without 2026 uploads have no personal mapping slide or recap section. Genre rankings cover all currently ranked 2026 mapsets in the selected native mode, not just the most-played 25.
+The current release is v1.1.33. See the root README for the complete feature guide: 21 playstyle clubs, six separate mapping clubs, up to 29 slides including the conditional personal-mapping slide, and recap cards with primary/secondary clubs and mapping details. Without eligible scores, hosted 2026 submissions unlock a mapping-only Wrapped; users with neither remain blocked; users without 2026 uploads have no personal mapping slide or recap section. Genre rankings cover all currently ranked 2026 mapsets in the selected native mode, not just the most-played 25.
 
 Global catalogue snapshots refresh through `.github/workflows/ranked-mappers.yml` daily at 08:23 UTC or by manual dispatch. Configure Actions secrets `OSU_CLIENT_ID` and `OSU_CLIENT_SECRET` and repository write permission. These Actions secrets are separate from Netlify's website-prefixed variables. A successful refreshed snapshot must be deployed to appear live.
 
@@ -74,3 +74,5 @@ After deployment, verify `/robots.txt`, `/sitemap.xml`, and `/osu-wrapped/` on t
 ## Console Easter egg deployment
 
 Deploy `osu-wrapped/src/secret.js`, the updated app entrypoint and stylesheet, and `osu-wrapped/sounds/wysi.mp3` together. The console command is `secret()`. Audio is same-origin under the existing media policy; no CSP relaxation, SQL migration or additional environment variables are needed. Confirm playback after a user gesture, falling particles, the final fade, and Escape cancellation on the deployed site. Aireu is credited in Music & sound.
+
+Average beatmap statistics appear on the personal stats page, in a dedicated slide, and on recap cards. Supported mod adjustments and cached difficulty-attribute lookups need no additional secrets or SQL migration.

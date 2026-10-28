@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import {canViewWrapped,openExperience,experienceSlides,experienceKey,firstExperience,markExperience,quizOptions} from '../osu-wrapped/src/experience.js';
 import {demo} from '../osu-wrapped/src/demo.js';
 const player=id=>({...demo(),demo:false,user:{...demo().user,id,username:'<script>alert(1)</script>'}});
-test('story has twenty-eight slides with two interactive quizzes and escapes user-supplied names',()=>{
- const slides=experienceSlides(player(101));assert.equal(slides.length,28);assert.equal(slides.filter(s=>s.quiz).length,2);assert.ok(slides.filter(s=>!s.quiz).every(s=>s.duration>=5000));assert.ok(!slides[0].title.includes('<script>'));assert.ok(slides[0].title.includes('&lt;script&gt;'));assert.ok(slides.some(s=>s.note.includes('top 200')));
+test('story has twenty-nine slides with two interactive quizzes and escapes user-supplied names',()=>{
+ const slides=experienceSlides(player(101));assert.equal(slides.length,29);assert.equal(slides.filter(s=>s.quiz).length,2);assert.ok(slides.filter(s=>!s.quiz).every(s=>s.duration>=5000));assert.ok(!slides[0].title.includes('<script>'));assert.ok(slides[0].title.includes('&lt;script&gt;'));assert.ok(slides.some(s=>s.note.includes('top 200')));
 });
 test('first experience is recorded per account and year, not repeated on another mode',()=>{
  const values=new Map();const storage={getItem:key=>values.get(key),setItem:(key,value)=>values.set(key,value)};
@@ -31,8 +31,8 @@ test('quizzes immediately precede reveals and support ties without inventing ext
 
 test('genre slide follows the ranked mapset total and shows at most five genres with its source explained',()=>{const data=player(555);data.globalStats={rankedGenres:{totalSets:12,rows:[2,3,4,5,6,7,9,10,11,12,13,14].map(id=>({id,count:1}))}};const slides=experienceSlides(data);const index=slides.findIndex(s=>s.layout==='global-genres');assert.ok(index>0);assert.equal(slides[index-1].title,'New patterns.<br>More ways to play.');assert.equal((slides[index].body.match(/<li>/g)||[]).length,5);assert.ok(slides[index].note.includes('Each mapset counts once'));});
 
-test('zero eligible scores block the personal experience',()=>{
- const empty={...player(98765),sampleCount:0};
+test('zero eligible scores and uploads block the personal experience',()=>{
+ const empty={...player(98765),sampleCount:0,mapping:{status:'ready',created:0}};
  assert.equal(canViewWrapped(empty),false);
  assert.equal(firstExperience(empty),false);
  assert.equal(openExperience(empty),undefined);

@@ -1,3 +1,7 @@
+import {openRecapViewer} from './recap-viewer.js';
+import {createSecretPlayback} from './secret-playback.js';
+import {comboMarkup} from './score-combo.js';
+import {beatmapAveragesMarkup} from './beatmap-averages.js';
 import {artistImageSource} from './artist-preload.js';
 import {createQuizSounds} from './quiz-sounds.js';
 import {canViewWrapped,mappingOnly} from './eligibility.js';
@@ -38,7 +42,7 @@ export function experienceSlides(data){
  {theme:'lavender',layout:'flow',eyebrow:'FINDING YOUR FLOW',title:'Precision.<br>Persistence.',body:'<div class="story-crosshair-decoration" aria-hidden="true"><svg viewBox="0 0 200 200" fill="none" stroke="currentColor"><circle cx="100" cy="100" r="70" stroke-width="3"/><circle cx="100" cy="100" r="44" stroke-width="8"/><path d="M100 8V64M100 136V192M8 100H64M136 100H192" stroke-width="5"/><circle cx="100" cy="100" r="7" fill="currentColor" stroke="none"/></svg></div><div class="story-duo"><div><strong>'+ (data.accuracy==null?'—':data.accuracy.toFixed(2)+'%')+'</strong><span class="story-accuracy-label">average accuracy'+(Number.isFinite(data.accuracy)?storyGrade(accuracyRank(data.accuracy)):'')+'</span><div class="story-favorite-mod"><span>FAVORITE MOD</span><b>'+favoriteModIcons(data.favoriteMod)+escape(favoriteModLabel(data.favoriteMod))+'</b><small><span class="favorite-mod-count" tabindex="0" title="'+favoriteModPercentage(data.favoriteMod)+'">'+escape(favoriteModNote(data.favoriteMod))+'</span> · 2026 selection</small></div></div><div><strong>'+number(data.combo)+'×</strong><span>highest combo</span>'+storyComboScore(data)+'</div></div>',note:'Passed 2026 scores in your current top 200 · selected mode',duration:6500},
  {theme:'lavender',layout:'personal-mods',eyebrow:'YOUR WAY TO PLAY',title:'Your mods.<br>Your rules.',body:'<div class="story-book-decoration" aria-hidden="true"><svg viewBox="0 0 240 190" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M120 48Q79 18 24 34V150Q77 133 120 163Q163 133 216 150V34Q161 18 120 48V163"/><path d="M14 48V164Q74 147 120 176Q166 147 226 164V48M43 62Q75 56 99 71M43 86Q75 80 99 95M43 110Q75 104 99 119M141 71Q165 56 197 62M141 95Q165 80 197 86M141 119Q165 104 197 110" stroke-width="3"/></svg></div>'+personalModsMarkup(data,{story:true}),note:'Most-used individual mods in your 2026 selection from the current top 200. CL excluded; unmodified scores count as No Mod. Percentages use all selected scores, and tied counts share a rank.',duration:8000},
  {theme:'night',eyebrow:'A LITTLE RECOGNITION',title:'You made<br>your mark.',body:'<div class="story-detective-decoration" aria-hidden="true"><svg viewBox="0 0 200 200" fill="none" stroke="currentColor" stroke-linecap="round"><circle cx="81" cy="80" r="55" stroke-width="10"/><circle cx="81" cy="80" r="40" stroke-width="2"/><path d="M121 121L176 176" stroke-width="22"/><path d="M53 72A30 30 0 0 1 75 51" stroke-width="5"/></svg></div><div class="story-duo"><div>'+count(data.medals)+'<span>medals unlocked</span></div><div>'+count(data.replayViews)+'<span>replay watches</span></div></div>'+rarestMedalMarkup(data),note:'Dated achievements and monthly replay history · all modes',duration:6000},
- {theme:'pink',beatBpm:best?.bpm,preview:storyPreview(best),artwork:storyCover(best?.cover),eyebrow:'THE ONE TO REMEMBER',title:best?escape(best.title):'Your next best<br>is waiting.',body:best?storyCrown()+'<div class="story-score-heading">'+count(Math.round(best.pp),'pp')+storyGrade(best.rank)+'</div><p><b>'+escape(best.artist)+'</b><br>'+escape(best.version)+'<br>Mapped by '+escape(best.creator)+'</p><div class="story-tags">'+escape(best.mods)+' · '+best.accuracy.toFixed(2)+'% · '+number(best.combo)+'×</div><p class="story-score-date">'+storyDate(best.date)+'</p>':'<p>No 2026 PP scores were found in your current top 200.</p>',note:'Highest 2026 PP found in your current top 200 · selected mode',duration:7000},
+ {theme:'pink',beatBpm:best?.bpm,preview:storyPreview(best),artwork:storyCover(best?.cover),eyebrow:'THE ONE TO REMEMBER',title:best?escape(best.title):'Your next best<br>is waiting.',body:best?storyCrown()+'<div class="story-score-heading">'+count(Math.round(best.pp),'pp')+storyGrade(best.rank)+'</div><p><b>'+escape(best.artist)+'</b><br>'+escape(best.version)+'<br>Mapped by '+escape(best.creator)+'</p><div class="story-tags">'+escape(best.mods)+' · '+best.accuracy.toFixed(2)+'% · '+comboMarkup(best)+'</div><p class="story-score-date">'+storyDate(best.date)+'</p>':'<p>No 2026 PP scores were found in your current top 200.</p>',note:'Highest 2026 PP found in your current top 200 · selected mode',duration:7000},
  {theme:'night',preview:storyPreview(best),layout:'plays',eyebrow:'PERSONAL BEST MATERIAL',title:'Your top five.',body:'<div class="story-person-decoration" aria-hidden="true"><svg viewBox="0 0 200 200" fill="currentColor"><circle cx="100" cy="59" r="37"/><path d="M25 181V166C25 130 56 110 100 110S175 130 175 166V181Z"/></svg></div>'+storyPlays(data.top,!data.demo)+(!data.top.length?'<p>No 2026 PP scores available.</p>':''),note:'2026 scores in your current top 200 · selected mode',duration:8000},
  {theme:'lime',eyebrow:'BEHIND THE PATTERNS',title:'Your mappers.',body:storyBlueprint()+ranking(data.mappers,'scores',true)+(!data.mappers.length?'<p>No mapper rankings available.</p>':''),note:'2026 score counts in your current top 200 · mapset creator credits',duration:8000},
  {theme:'lavender',preview:storyPreview(data.artists[0])||storyPreview(data.top.find(score=>score.artist===data.artists[0]?.name)),eyebrow:'THE SOUNDTRACK TO YOUR YEAR',title:'Your artists.',syncToPreview:true,body:'<div class="story-microphone-decoration" aria-hidden="true"><svg viewBox="0 0 200 220" fill="none" stroke="currentColor" stroke-linecap="round"><rect x="66" y="16" width="68" height="119" rx="34" stroke-width="8"/><path d="M46 103V110C46 145 69 163 100 163S154 145 154 110V103M100 164V198M70 202H130" stroke-width="8"/><path d="M68 62H89M111 62H132M68 82H89M111 82H132M68 102H89M111 102H132" stroke-width="4"/></svg></div>'+ranking(data.artists,'scores')+(!data.artists.length?'<p>No artist rankings available.</p>':''),note:'2026 score counts in your current top 200 · not total song plays · Artist images: TheAudioDB.com',duration:8000},
@@ -61,6 +65,7 @@ export function experienceSlides(data){
  {theme:'global',layout:'global-community',countImpact:true,eyebrow:'A YEAR BUILT BY MAPPERS · '+escape(globalMode),title:'New patterns.<br>More ways to play.',body:storyBlueprint()+count(data.globalStats?.rankedMappers?.totalSets,'mapsets ranked in 2026'),note:'Unique currently ranked mapsets with a 2026 ranked date (UTC), containing the selected native gamemode. Each set counts once.'+(data.globalStats?.rankedMappers?.updatedAt?' Snapshot: '+new Date(data.globalStats.rankedMappers.updatedAt).toLocaleDateString('en-US',{timeZone:'UTC'})+'.':''),duration:6500},
  {theme:'global',layout:'global-genres',eyebrow:'THE SOUND OF THE COMMUNITY · '+escape(globalMode),title:'Different genres.<br>One shared rhythm.',body:'<div class="story-music-note-decoration" aria-hidden="true"><svg viewBox="0 0 220 240" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"><path d="M73 185V57L179 30V159M73 89L179 62"/><ellipse cx="49" cy="188" rx="25" ry="18" transform="rotate(-20 49 188)" fill="currentColor" stroke="none"/><ellipse cx="155" cy="162" rx="25" ry="18" transform="rotate(-20 155 162)" fill="currentColor" stroke="none"/></svg></div>'+popularGenresMarkup(data.globalStats,{story:true}),note:'Top five genres across all currently ranked mapsets with a 2026 ranked date in the selected native mode. Each mapset counts once; percentages use the included mapsets. osu! genre labels; missing metadata appears as Unknown genre. Tied counts share a rank.',duration:8500},
  {theme:'global',layout:'global-mappers',eyebrow:'THE CREATORS BEHIND THE PATTERNS · '+escape(globalMode),title:'Mapping their<br>way to the top.',body:storyBlueprint()+rankedMappersMarkup(data.globalStats,{story:true}),note:'Unique mapsets ranked in 2026, counted under their hosts for the selected native gamemode. Guest difficulties excluded. Tied counts share a rank.',duration:8000});
+ if(data.beatmapAverages?.total&&!mappingOnly(data)){const position=slides.findIndex(slide=>slide.layout==='personal-mods');slides.splice(position,0,{theme:'night',layout:'beatmap-averages',eyebrow:'THE PATTERNS YOU PLAYED',title:'Your average beatmap.',body:'<div class="story-chart-decoration" aria-hidden="true"><svg viewBox="0 0 220 200" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M24 22V176H202" stroke-width="4"/><path d="M54 150V116M96 150V87M138 150V105M180 150V57" stroke-width="16"/><path d="M45 87L88 55L130 70L185 24" stroke-width="5"/><circle cx="45" cy="87" r="5" fill="currentColor"/><circle cx="88" cy="55" r="5" fill="currentColor"/><circle cx="130" cy="70" r="5" fill="currentColor"/><circle cx="185" cy="24" r="5" fill="currentColor"/></svg></div>'+beatmapAveragesMarkup(data),note:'Base and mod-adjusted averages across selected 2026 scores.',duration:10000});}
  if(data.mapping?.status==='ready'&&data.mapping.created>0){
   const beforeCommunity=slides.findIndex(slide=>slide.layout==='global-intro');
   const popular=data.mapping.mostPopular,cover=storyCover(popular?.cover);
@@ -78,6 +83,9 @@ export function experienceSlides(data){
  }
  return slides;
 }
+export function usesOpeningMusic(slides,index){
+ return index<=Math.max(0,slides.findIndex(slide=>slide.layout==='personal-mods'))||slides[index]?.eyebrow==='A LITTLE RECOGNITION';
+}
 export function openExperience(data,{onSave,onReview}={}){
  if(!canViewWrapped(data))return;
  if(document.querySelector('.story-dialog'))return;
@@ -85,11 +93,18 @@ export function openExperience(data,{onSave,onReview}={}){
  // Decode the mobile peak thumbnail ahead of its delayed entrance.
  if(mobile){const src=slides.find(slide=>slide.layout==='global-peak')?.body.match(/<img src="([^"]+)"/)?.[1];if(src){const image=new Image();image.decoding='async';image.src=src;image.decode?.().catch(()=>{});}}
  const dialog=document.createElement('dialog');dialog.className='story-dialog'+(mobile?' story-mobile':'');dialog.setAttribute('aria-label','Your osu! Wrapped experience');
- dialog.innerHTML='<div class="story-shell"><div class="story-orb story-orb-one"></div><div class="story-orb story-orb-two"></div><div class="story-progress" aria-label="Story slides">'+slides.map((s,i)=>'<button type="button" data-story-step="'+i+'" aria-label="Go to slide '+(i+1)+'"><progress max="1000" value="0"></progress></button>').join('')+'</div><div class="story-top"><span>osu! wrapped / 2026'+(data.demo?' · DEMO':'')+'</span><div><button type="button" data-story-mute aria-label="Mute slide audio" title="Mute audio" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4Z"/><g class="story-speaker-waves"><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></g><path class="story-speaker-muted" d="m16 9 6 6m0-6-6 6"/></svg></button><button type="button" data-story-pause aria-label="Pause experience">Pause Ⅱ</button><button type="button" data-story-close aria-label="Close experience">Close ×</button></div></div><div class="story-stage"></div><div class="story-bottom"><button type="button" data-story-prev aria-label="Previous slide">← Back</button><span class="story-counter" role="status" aria-live="polite"></span><button type="button" data-story-next>Next →</button></div></div>';
+ dialog.innerHTML='<div class="story-shell"><div class="story-orb story-orb-one"></div><div class="story-orb story-orb-two"></div><div class="story-progress" aria-label="Story slides">'+slides.map((s,i)=>'<button type="button" data-story-step="'+i+'" aria-label="Go to slide '+(i+1)+'"><progress max="1000" value="0"></progress></button>').join('')+'</div><div class="story-top"><span>osu! wrapped / 2026'+(data.demo?' · DEMO':'')+'</span><div><div class="story-volume-control"><button type="button" data-story-mute aria-label="Mute slide audio" title="Mute audio" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4Z"/><g class="story-speaker-waves"><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></g><path class="story-speaker-muted" d="m16 9 6 6m0-6-6 6"/></svg></button><div class="story-volume-popup"><input type="range" min="0" max="100" step="1" value="100" data-story-volume aria-label="Slide volume"/><output data-story-volume-value aria-hidden="true">100%</output></div></div><button type="button" data-story-pause aria-label="Pause experience">Pause Ⅱ</button><button type="button" data-story-close aria-label="Close experience">Close ×</button></div></div><div class="story-stage"></div><div class="story-bottom"><button type="button" data-story-prev aria-label="Previous slide">← Back</button><span class="story-counter" role="status" aria-live="polite"></span><button type="button" data-story-next>Next →</button></div></div>';
  document.body.append(dialog);
  const stage=dialog.querySelector('.story-stage'),shell=dialog.querySelector('.story-shell'),pause=dialog.querySelector('[data-story-pause]'),next=dialog.querySelector('[data-story-next]');
  let fitFrame=0;
  function scheduleSlideFit(){if(!fitFrame)fitFrame=requestAnimationFrame(()=>{fitFrame=0;fitCurrentSlide();});}
+ function positionRecapNavigation(){
+  const artwork=stage.querySelector('.story-recap-artwork'),navigation=stage.querySelector('.story-recap-navigation');
+  const image=artwork?.querySelector('.story-recap-expand:not([aria-hidden="true"]) img');
+  if(!artwork||!navigation||!image)return;
+  const inset=Math.max(0,(artwork.clientHeight-image.offsetHeight)/2);
+  navigation.style.transform='translateY('+(-inset)+'px)';
+ }
  function fitCurrentSlide(){
   const frame=stage.querySelector('.story-fit-frame'),content=stage.querySelector('.story-fit-content');
   if(!frame||!content||!stage.clientWidth||!stage.clientHeight)return;
@@ -103,6 +118,7 @@ export function openExperience(data,{onSave,onReview}={}){
     size-=.5;label.style.fontSize=size+'px';
    }
   }
+  positionRecapNavigation();
   const naturalHeight=content.offsetHeight;
   const scale=slideFitScale(naturalWidth,naturalHeight,stage.clientWidth,stage.clientHeight);
   frame.style.width=(naturalWidth*scale)+'px';frame.style.height=(naturalHeight*scale)+'px';
@@ -125,7 +141,7 @@ export function openExperience(data,{onSave,onReview}={}){
  let ambientAudio=null;
  const finaleSong="/osu-wrapped/sounds/circles.mp3";
  let introActive=false,introMotion=[],introEnd=4200;
- let muted=false,closing=false;
+ let muted=false,closing=false,volume=1,lastVolume=1;
  const clubCharge=new Audio('/osu-wrapped/sounds/club-charge.wav'),clubArrival=new Audio('/osu-wrapped/sounds/club-reveal.wav');
  for(const audio of [clubCharge,clubArrival]){audio.preload='auto';audio.volume=.6;}
  let clubSoundActive=null;
@@ -138,14 +154,14 @@ export function openExperience(data,{onSave,onReview}={}){
 
  const closeAudio=new Audio("/osu-wrapped/sounds/close.mp3");closeAudio.preload="auto";
  let previewAudio=null,openingAudio=null;
- const previewFades=new Map();
+ const previewFades=new Map(),previewLevels=new WeakMap();
  function fadePreview(audio,target,duration=650){
   clearInterval(previewFades.get(audio));previewFades.delete(audio);
-  const start=audio.volume,began=performance.now();
-  const timer=setInterval(()=>{const fraction=Math.min(1,(performance.now()-began)/duration);const eased=fraction*fraction*(3-2*fraction);audio.volume=start+(target-start)*eased;if(fraction===1){clearInterval(timer);previewFades.delete(audio);if(target===0)audio.pause();}},20);
+  const start=previewLevels.get(audio)??audio.volume/Math.max(volume,.001),began=performance.now();
+  const timer=setInterval(()=>{const fraction=Math.min(1,(performance.now()-began)/duration);const eased=fraction*fraction*(3-2*fraction);const level=start+(target-start)*eased;previewLevels.set(audio,level);audio.volume=level*volume;if(fraction===1){clearInterval(timer);previewFades.delete(audio);if(target===0)audio.pause();}},20);
   previewFades.set(audio,timer);
  }
- function syncPreview(){syncClubSound();if(paused||document.hidden||closing)impactAudio.pause();else if(impactPlayed&&!impactAudio.ended)impactAudio.play().catch(()=>{});if(paused||document.hidden||closing)swooshAudio.pause();else if(swooshStarted&&!swooshAudio.ended)swooshAudio.play().catch(()=>{swooshFallback=true;});if(paused||document.hidden||closing)stopTally();if(closing||!previewAudio)return;const audio=previewAudio;if(document.hidden){clearInterval(previewFades.get(audio));previewFades.delete(audio);audio.pause();audio.volume=0;}else if(paused)fadePreview(audio,0,350);else{audio.play().catch(error=>{if(error.name!=='AbortError'&&previewAudio===audio&&!document.hidden&&!closing&&!paused){paused=true;pauseLabel();}});fadePreview(audio,audio===ambientAudio?.22:.35);}}
+ function syncPreview(){syncClubSound();if(paused||document.hidden||closing)impactAudio.pause();else if(impactPlayed&&!impactAudio.ended)impactAudio.play().catch(()=>{});if(paused||document.hidden||closing)swooshAudio.pause();else if(swooshStarted&&!swooshAudio.ended)swooshAudio.play().catch(()=>{swooshFallback=true;});if(paused||document.hidden||closing)stopTally();if(closing||!previewAudio)return;const audio=previewAudio;if(document.hidden){clearInterval(previewFades.get(audio));previewFades.delete(audio);audio.pause();audio.volume=0;previewLevels.set(audio,0);}else if(paused)fadePreview(audio,0,350);else{audio.play().catch(error=>{if(error.name!=='AbortError'&&previewAudio===audio&&!document.hidden&&!closing&&!paused){paused=true;pauseLabel();}});fadePreview(audio,audio===ambientAudio?.22:.35);}}
  const visibilityChanged=()=>{last=performance.now();syncPreview();};
  document.addEventListener("visibilitychange",visibilityChanged);
  const quizSounds=createQuizSounds(['/osu-wrapped/sounds/pass.mp3','/osu-wrapped/sounds/miss.mp3']);
@@ -156,7 +172,7 @@ export function openExperience(data,{onSave,onReview}={}){
  function stopTally(){for(const audio of tallySounds){audio.pause();audio.currentTime=0;}}
  const stampAudio=new Audio("/osu-wrapped/sounds/hit.mp3");stampAudio.preload="auto";stampAudio.volume=.65;let stampPlayed=false;
  function playQuizSound(correct){quizSounds.play(correct,muted);}
- let recapPreview=null;
+ const recapPreviews=new Map();let recapLayout='portrait';
  const answers=new Map();
  const progress=[...dialog.querySelectorAll('progress')];let counters=[],ppGrade=null,gradeBeatTime=null,clubRevealed=false;
  function lockClubSelection(slide){
@@ -168,7 +184,7 @@ export function openExperience(data,{onSave,onReview}={}){
  function show(i){if(closing)return;const focusedBeforeSlide=document.activeElement;const replacingFocusedContent=stage.contains(focusedBeforeSlide);stopClubSound();impactAudio.pause();impactAudio.currentTime=0;impactPlayed=false;swooshAudio.pause();swooshAudio.currentTime=0;swooshStarted=false;swooshFallback=false;peakMotion?.cancel();peakMotion=null;stopTally();tallyIndex=0;lastTally=0;introMotion.forEach(animation=>animation.cancel());introMotion=[];shell.querySelector(".story-intro")?.remove();introActive=false;introEnd=4200;stampAudio.pause();stampAudio.currentTime=0;stampPlayed=false;gradeBeatTime=null;index=Math.max(0,Math.min(slides.length-1,i));slideAnimationsSkipped=paused;elapsed=0;last=performance.now();const slide=slides[index];if(slideAnimationsSkipped&&slide.layout==='club'&&data.club)clubRevealed=true;shell.className='story-shell story-theme-'+slide.theme;
   shell.querySelector('.story-backdrop')?.remove();
   if(slide.artwork){const image=document.createElement('img');image.className='story-backdrop';image.src=slide.artwork;image.alt='';image.referrerPolicy='no-referrer';image.addEventListener('error',()=>{if(image.parentElement){image.remove();shell.classList.remove('story-has-artwork');}},{once:true});shell.prepend(image);shell.classList.add('story-has-artwork');}
-  stage.innerHTML='<div class="story-slide'+(slide.layout==='club'?' story-slide-club':slide.layout==='personal-mods'?' story-slide-personal-mods':slide.layout==='flow'?' story-slide-flow':slide.layout==='plays'?' story-slide-plays':slide.layout==='global-intro'?' story-slide-global-intro':slide.layout==='global-plays'?' story-slide-global-plays':['global-players','global-mappers','global-popular','global-popular-mappers','global-highlight','global-score','global-community','global-peak','global-mods','global-genres'].includes(slide.layout)?' story-slide-global-players story-slide-'+slide.layout:slide.quiz?' story-slide-quiz':'')+'"><span class="story-eyebrow">'+slide.eyebrow+'</span><h2>'+slide.title+'</h2><div class="story-body">'+slide.body+'</div><p class="story-footnote">'+escape(slide.note)+'</p></div>';
+  stage.innerHTML='<div class="story-slide'+(slide.layout==='beatmap-averages'?' story-slide-beatmap-averages':slide.layout==='club'?' story-slide-club':slide.layout==='personal-mods'?' story-slide-personal-mods':slide.layout==='flow'?' story-slide-flow':slide.layout==='plays'?' story-slide-plays':slide.layout==='global-intro'?' story-slide-global-intro':slide.layout==='global-plays'?' story-slide-global-plays':['global-players','global-mappers','global-popular','global-popular-mappers','global-highlight','global-score','global-community','global-peak','global-mods','global-genres'].includes(slide.layout)?' story-slide-global-players story-slide-'+slide.layout:slide.quiz?' story-slide-quiz':'')+'"><span class="story-eyebrow">'+slide.eyebrow+'</span><h2>'+slide.title+'</h2><div class="story-body">'+slide.body+'</div><p class="story-footnote">'+escape(slide.note)+'</p></div>';
   if(slide.layout==='club'&&data.club&&!clubRevealed){
    const content=stage.querySelector('.story-body'),heading=stage.querySelector('h2');heading.innerHTML='Your club<br>is waiting.';content.innerHTML="<div class=\"club-sealed\"><button type=\"button\" class=\"club-reveal-trigger\" data-club-reveal><span class=\"club-seal-visual\" aria-hidden=\"true\"><span class=\"club-seal-orbit\"></span><span class=\"club-seal-icon\" aria-hidden=\"true\"><svg viewBox=\"0 0 100 100\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"><path d=\"M50 8L83 26V66L50 90L17 66V26Z\"/><path d=\"M40 38C40 22 65 22 65 39C65 49 51 47 51 60\" stroke-linecap=\"round\"/><circle cx=\"51\" cy=\"71\" r=\"2\" fill=\"currentColor\"/></svg></span></span><b>Reveal my club</b><small>There’s a place for your kind of play.</small></button></div>";content.setAttribute('aria-live','polite');
    const revealButton=stage.querySelector('[data-club-reveal]');
@@ -199,8 +215,38 @@ export function openExperience(data,{onSave,onReview}={}){
    const container=stage.querySelector('.story-slide');container.classList.add('story-slide-final');
    const content=document.createElement('div');while(container.firstChild)content.append(container.firstChild);container.append(content);
    const preview=document.createElement('div');preview.className='story-recap-preview';preview.setAttribute('aria-live','polite');preview.textContent='Preparing your card…';container.append(preview);
-   recapPreview??=createRecap(data).then(blob=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(blob);})).catch(()=>{recapPreview=null;return null;});
-   recapPreview.then(source=>{if(!preview.isConnected)return;if(!source){preview.textContent='Use Save recap card to try generating your card again.';return;}const image=document.createElement('img');image.src=source;image.alt=data.user.username+'’s '+data.year+' recap card preview';const expand=document.createElement('button');expand.type='button';expand.className='story-recap-expand';expand.setAttribute('aria-label','Expand recap card');expand.disabled=introActive;expand.title=introActive?'Available after the ending animation':'Click to expand';expand.append(image);expand.addEventListener('click',()=>expandRecap(source,expand));preview.replaceChildren(expand);});
+   const navigation=document.createElement('div');navigation.className='story-recap-navigation';
+   navigation.innerHTML='<button type="button" data-recap-prev aria-label="Previous recap layout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 5-7 7 7 7"/></svg></button><span data-recap-label></span><button type="button" data-recap-next aria-label="Next recap layout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 5 7 7-7 7"/></svg></button>';
+   const artwork=document.createElement('div');artwork.className='story-recap-artwork';preview.replaceChildren(artwork,navigation);
+   let recapRequest=0;
+   function updateRecap(){
+    const request=++recapRequest,variant=recapLayout;
+    navigation.querySelector('[data-recap-label]').textContent=variant==='portrait'?'Portrait':'Landscape';artwork.setAttribute('aria-busy','true');
+    if(!artwork.querySelector('img'))artwork.textContent='Preparing your card…';
+    if(!recapPreviews.has(variant))recapPreviews.set(variant,createRecap(data,{layout:variant}).then(blob=>new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=reject;reader.readAsDataURL(blob);})).catch(()=>{recapPreviews.delete(variant);return null;}));
+    recapPreviews.get(variant).then(async source=>{
+     if(!preview.isConnected||request!==recapRequest)return;
+     if(!source){artwork.setAttribute('aria-busy','false');if(!artwork.querySelector('img'))artwork.textContent='Use Save recap card to try generating your card again.';return;}
+     const image=document.createElement('img');image.src=source;image.alt=data.user.username+'’s '+data.year+' '+variant+' recap card preview';
+     try{await image.decode();}catch{}
+     if(!preview.isConnected||request!==recapRequest)return;
+     const expand=document.createElement('button');expand.type='button';expand.className='story-recap-expand';expand.setAttribute('aria-label','Expand '+variant+' recap card');expand.disabled=introActive;expand.title=introActive?'Available after the ending animation':'Click to expand';expand.append(image);expand.addEventListener('click',()=>expandRecap(source,expand));
+     const previous=artwork.querySelector('.story-recap-expand:not([aria-hidden="true"])');
+     if(previous&&!reduced){
+      previous.disabled=true;previous.setAttribute('aria-hidden','true');previous.style.pointerEvents='none';
+      artwork.append(expand);
+      const outgoing=previous.animate([{opacity:1},{opacity:0}],{duration:220,easing:'ease-out',fill:'forwards'});
+      image.animate([{opacity:0,transform:'scale(.97)'},{opacity:1,transform:'scale(1)'}],{duration:280,easing:'cubic-bezier(.2,.7,.2,1)'});
+      outgoing.finished.then(()=>previous.remove()).catch(()=>previous.remove());
+     }else artwork.replaceChildren(expand);
+     artwork.setAttribute('aria-busy','false');
+     requestAnimationFrame(positionRecapNavigation);
+    });
+   }
+   const flipRecap=()=>{recapLayout=recapLayout==='portrait'?'landscape':'portrait';updateRecap();};
+   navigation.querySelector('[data-recap-prev]').onclick=flipRecap;navigation.querySelector('[data-recap-next]').onclick=flipRecap;
+   navigation.addEventListener('keydown',event=>{if(event.key==='ArrowLeft'||event.key==='ArrowRight'){event.preventDefault();event.stopPropagation();flipRecap();}});
+   updateRecap();
   }
   stage.querySelectorAll('.story-mapper-avatar:not(.story-artist-avatar) img,.story-user-avatar img,.rarest-medal>img').forEach(image=>{image.addEventListener('error',()=>image.remove(),{once:true});if(image.complete&&image.naturalWidth===0)image.remove();});
   stage.querySelectorAll('.story-artist-avatar img').forEach(bindArtistFallback);
@@ -211,8 +257,8 @@ export function openExperience(data,{onSave,onReview}={}){
   dialog.querySelector('[data-story-prev]').disabled=index===0;next.textContent=slide.quiz?(answers.has(index)?'See my '+slide.quiz.kind+'s →':'Skip & reveal →'):index===slides.length-1?'Done ✓':'Next →';
   dialog.querySelector('.story-counter').textContent=(index+1)+' / '+slides.length;
   if(slide.quiz){stage.querySelectorAll('[data-quiz-choice]').forEach(button=>button.addEventListener('click',()=>{if(answers.has(index))return;const choice=Number(button.dataset.quizChoice);answers.set(index,choice);elapsed=0;last=performance.now();playQuizSound(slide.quiz.options[choice].count===slide.quiz.topCount);renderAnswer();button.classList.add('quiz-selected-blink');}));renderAnswer();}
-  const audioSource=slide.layout==='final'?finaleSong:(index<4||slide.eyebrow==='A LITTLE RECOGNITION')?openingSong:['mapping','global-score','global-plays','global-highlight','global-popular'].includes(slide.layout)?(slide.preview||ambientSong):(slide.quiz||slide.title==='Your mappers.'||slide.layout==='personal-mods'||slide.layout==='club'||slide.layout==='mapping'||slide.layout==='global-intro'||slide.layout==='global-plays'||slide.layout==='global-players'||slide.layout==='global-popular'||slide.layout==='global-mappers'||slide.layout==='global-popular-mappers'||slide.layout==='global-highlight'||slide.layout==='global-score'||slide.layout==='global-community'||slide.layout==='global-peak'||slide.layout==='global-mods'||slide.layout==='global-genres')?ambientSong:slide.preview;
-  if(previewAudio?.src!==new URL(audioSource||"",location.href).href){if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;if(audioSource){previewAudio=audioSource===openingSong?(openingAudio??=new Audio(openingSong)):audioSource===ambientSong?(ambientAudio??=new Audio(ambientSong)):new Audio(audioSource);previewAudio.loop=true;previewAudio.volume=0;previewAudio.muted=muted;}}
+  const audioSource=slide.layout==='final'?finaleSong:usesOpeningMusic(slides,index)?openingSong:['mapping','global-score','global-plays','global-highlight','global-popular'].includes(slide.layout)?(slide.preview||ambientSong):(slide.quiz||slide.title==='Your mappers.'||slide.layout==='personal-mods'||slide.layout==='club'||slide.layout==='mapping'||slide.layout==='global-intro'||slide.layout==='global-plays'||slide.layout==='global-players'||slide.layout==='global-popular'||slide.layout==='global-mappers'||slide.layout==='global-popular-mappers'||slide.layout==='global-highlight'||slide.layout==='global-score'||slide.layout==='global-community'||slide.layout==='global-peak'||slide.layout==='global-mods'||slide.layout==='global-genres')?ambientSong:slide.preview;
+  if(previewAudio?.src!==new URL(audioSource||"",location.href).href){if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;if(audioSource){previewAudio=audioSource===openingSong?(openingAudio??=new Audio(openingSong)):audioSource===ambientSong?(ambientAudio??=new Audio(ambientSong)):new Audio(audioSource);previewAudio.loop=true;previewAudio.volume=0;previewLevels.set(previewAudio,0);previewAudio.muted=muted;}}
   if(slide.syncToPreview&&previewAudio){previewAudio.currentTime=0;previewAudio.loop=false;}
   if(index===0&&previewAudio)previewAudio.currentTime=0;
   if(index===0&&!reduced&&!paused){
@@ -242,7 +288,7 @@ export function openExperience(data,{onSave,onReview}={}){
    introMotion.forEach(animation=>animation.pause());
   }
   if(slide.layout==='final'&&!reduced&&!paused){
-   introActive=true;shell.classList.add('story-animation-active');introEnd=13000;if(previewAudio){previewAudio.currentTime=0;previewAudio.loop=false;}
+   introActive=true;shell.classList.add('story-animation-active');introEnd=13000;if(previewAudio){previewAudio.currentTime=0;previewAudio.loop=true;}
    const finale=document.createElement('div');finale.className='story-intro story-finale';finale.innerHTML='<div class="story-finale-aura"></div><div class="story-finale-copy"><span>ONE MORE TRY.</span><strong>ONE UNFORGETTABLE YEAR.</strong><b>2026</b></div><div class="story-finale-curtain"></div>';shell.append(finale);
    const animate=(element,frames)=>introMotion.push(element.animate(frames,{duration:13000,fill:'both'}));
    animate(finale,[{opacity:1},{opacity:1,offset:.975},{opacity:0}]);
@@ -284,43 +330,16 @@ export function openExperience(data,{onSave,onReview}={}){
    }
    stage.querySelector('.club-reveal-animating')?.classList.remove('club-reveal-animating');
   }
-  stage.querySelector('[data-story-share]')?.addEventListener('click',()=>{const resumeOnClose=!paused;if(resumeOnClose)toggle();openCardShare(data,{onClose:()=>{if(resumeOnClose&&dialog.open&&!closing&&paused)toggle();}});});
+  stage.querySelector('[data-story-share]')?.addEventListener('click',()=>{const resumeOnClose=!paused;if(resumeOnClose)toggle();openCardShare(data,{layout:recapLayout,chooseLayout:true,onClose:()=>{if(resumeOnClose&&dialog.open&&!closing&&paused)toggle();}});});
   stage.querySelector('[data-story-review]')?.addEventListener('click',()=>closeExperience(onReview));
-  stage.querySelector('[data-story-save]')?.addEventListener('click',()=>onSave?.());
+  stage.querySelector('[data-story-save]')?.addEventListener('click',()=>onSave?.(recapLayout));
  }
  let expandedRecap=null;
  function expandRecap(source,trigger){
   if(expandedRecap||closing||introActive)return;const resume=!paused;if(resume)toggle();
-  const viewer=document.createElement('dialog');expandedRecap=viewer;viewer.className='recap-image-viewer';viewer.setAttribute('aria-label','Expanded recap card');
-  const close=document.createElement('button');close.type='button';close.textContent='Close ×';close.setAttribute('aria-label','Close expanded recap card');close.onclick=()=>viewer.close();
-  const image=document.createElement('img');image.src=source;image.alt=data.user.username+'’s '+data.year+' recap card';image.draggable=false;
-  const toolbar=document.createElement('div');toolbar.className='recap-zoom-toolbar';toolbar.setAttribute('role','group');toolbar.setAttribute('aria-label','Recap zoom controls');
-  const viewport=document.createElement('div');viewport.className='recap-zoom-viewport';viewport.tabIndex=0;viewport.setAttribute('aria-label','Recap card. Use plus and minus to zoom, or drag to move.');
-  const canvas=document.createElement('div');canvas.className='recap-zoom-canvas';canvas.append(image);viewport.append(canvas);
-  let zoom=1,baseWidth=0,baseHeight=0;
-  const zoomOut=document.createElement('button'),zoomIn=document.createElement('button'),reset=document.createElement('button');
-  for(const button of [zoomOut,zoomIn,reset])button.type='button';
-  zoomOut.textContent='−';zoomOut.setAttribute('aria-label','Zoom out');zoomIn.textContent='+';zoomIn.setAttribute('aria-label','Zoom in');reset.setAttribute('aria-label','Reset zoom to fit');
-  function drawZoom(){const w=baseWidth*zoom,h=baseHeight*zoom;image.style.width=w+'px';image.style.height=h+'px';canvas.style.width=Math.max(viewport.clientWidth,w)+'px';canvas.style.height=Math.max(viewport.clientHeight,h)+'px';reset.textContent=Math.round(zoom*100)+'% · Fit';zoomOut.disabled=zoom<=1;zoomIn.disabled=zoom>=5;viewport.classList.toggle('is-zoomed',zoom>1);}
-  function setZoom(value,x=viewport.clientWidth/2,y=viewport.clientHeight/2){const old=zoom;zoom=Math.max(1,Math.min(5,value));if(!baseWidth)return;const px=(viewport.scrollLeft+x-Math.max(0,(viewport.clientWidth-baseWidth*old)/2))/(baseWidth*old),py=(viewport.scrollTop+y-Math.max(0,(viewport.clientHeight-baseHeight*old)/2))/(baseHeight*old);drawZoom();viewport.scrollLeft=px*baseWidth*zoom+Math.max(0,(viewport.clientWidth-baseWidth*zoom)/2)-x;viewport.scrollTop=py*baseHeight*zoom+Math.max(0,(viewport.clientHeight-baseHeight*zoom)/2)-y;}
-  function fit(){if(!image.naturalWidth)return;const scale=Math.min(viewport.clientWidth/image.naturalWidth,viewport.clientHeight/image.naturalHeight);baseWidth=image.naturalWidth*scale;baseHeight=image.naturalHeight*scale;drawZoom();}
-  zoomOut.onclick=()=>setZoom(zoom/1.25);zoomIn.onclick=()=>setZoom(zoom*1.25);reset.onclick=()=>setZoom(1);
-  toolbar.append(zoomOut,reset,zoomIn,close);viewer.append(toolbar,viewport);
-  image.addEventListener('load',fit);const resize=new ResizeObserver(fit);resize.observe(viewport);
-  viewport.addEventListener('wheel',event=>{event.preventDefault();const rect=viewport.getBoundingClientRect();setZoom(zoom*Math.exp(-event.deltaY*.002),event.clientX-rect.left,event.clientY-rect.top);},{passive:false});
-  viewport.addEventListener('dblclick',event=>{const rect=viewport.getBoundingClientRect();setZoom(zoom>1?1:2,event.clientX-rect.left,event.clientY-rect.top);});
-  viewer.addEventListener('keydown',event=>{if(['+','=','-','0'].includes(event.key)){event.preventDefault();event.stopPropagation();setZoom(event.key==='0'?1:event.key==='-'?zoom/1.25:zoom*1.25);}else if(event.key!=='Escape')event.stopPropagation();});
-  const pointers=new Map();let previous=null;
-  function gesture(){const points=[...pointers.values()];return points.length>1?{x:(points[0].x+points[1].x)/2,y:(points[0].y+points[1].y)/2,d:Math.hypot(points[0].x-points[1].x,points[0].y-points[1].y)}:points.length?{...points[0],d:0}:null;}
-  viewport.addEventListener('pointerdown',event=>{if(event.button!==0)return;viewport.setPointerCapture(event.pointerId);pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});previous=gesture();});
-  viewport.addEventListener('pointermove',event=>{if(!pointers.has(event.pointerId))return;pointers.set(event.pointerId,{x:event.clientX,y:event.clientY});const current=gesture();if(previous){if(current.d&&previous.d){const rect=viewport.getBoundingClientRect();setZoom(zoom*current.d/previous.d,current.x-rect.left,current.y-rect.top);}viewport.scrollLeft-=current.x-previous.x;viewport.scrollTop-=current.y-previous.y;}previous=current;});
-  const release=event=>{pointers.delete(event.pointerId);previous=gesture();};viewport.addEventListener('pointerup',release);viewport.addEventListener('pointercancel',release);viewport.addEventListener('lostpointercapture',release);
-  viewer.addEventListener('close',()=>resize.disconnect(),{once:true});
-
-  viewer.addEventListener('click',event=>{if(event.target===viewer)viewer.close();});
-  viewer.addEventListener('close',()=>{viewer.remove();expandedRecap=null;if(trigger.isConnected)trigger.focus();if(resume&&dialog.open&&!closing&&paused)toggle();},{once:true});
-  document.body.append(viewer);viewer.showModal();close.focus();
+  expandedRecap=openRecapViewer(source,{alt:data.user.username+'’s '+data.year+' recap card',trigger,onClose:()=>{expandedRecap=null;if(resume&&dialog.open&&!closing&&paused)toggle();}});
  }
+
  function advance(){if(index<slides.length-1)show(index+1);else closeExperience();}
  function renderAnswer(){const quiz=slides[index].quiz;if(!quiz||!answers.has(index))return;const chosen=answers.get(index),correct=quiz.options[chosen].count===quiz.topCount;
   stage.querySelectorAll('[data-quiz-choice]').forEach((button,i)=>{button.disabled=true;button.setAttribute('aria-pressed',String(i===chosen));button.classList.toggle('quiz-correct',quiz.options[i].count===quiz.topCount);button.classList.toggle('quiz-wrong',quiz.options[i].count!==quiz.topCount);});
@@ -328,13 +347,17 @@ export function openExperience(data,{onSave,onReview}={}){
   result.textContent=(correct?'You got it! ':'Good guess! ')+(quiz.tied?'There’s a tie for first. ':winner.name+' is your top '+quiz.kind+'. ')+number(quiz.topCount)+' '+(quiz.topCount===1?'score':'scores')+' in your 2026 selection.';
   next.textContent='See my '+quiz.kind+'s →';pauseLabel();
  }
- function pauseLabel(){shell.classList.toggle('story-paused',paused);const waiting=(slides[index].quiz&&!answers.has(index))||(slides[index].layout==='club'&&data.club&&!clubRevealed);pause.disabled=Boolean(waiting);pause.textContent=waiting?'Your turn':paused?'Play ▷':'Pause Ⅱ';pause.setAttribute('aria-label',waiting?(slides[index].layout==='club'?'Reveal your club or skip':'Choose an answer or skip'):paused?'Play experience':'Pause experience');}
- function toggle(){if(closing)return;paused=!paused;last=performance.now();pauseLabel();syncPreview();}
+ function pauseLabel(){shell.classList.toggle('story-paused',paused);const waiting=(slides[index].quiz&&!answers.has(index))||(slides[index].layout==='club'&&data.club&&!clubRevealed);pause.disabled=Boolean(waiting||secretPlayback.active);pause.textContent=waiting?'Your turn':paused?'Play ▷':'Pause Ⅱ';pause.setAttribute('aria-label',waiting?(slides[index].layout==='club'?'Reveal your club or skip':'Choose an answer or skip'):paused?'Play experience':'Pause experience');}
+ function toggle(){if(closing||(secretPlayback.active&&paused))return;paused=!paused;last=performance.now();pauseLabel();syncPreview();}
+ const secretPlayback=createSecretPlayback({isPaused:()=>paused,pause:()=>{toggle();quizSounds.stop();stampAudio.pause();},resume:()=>toggle(),isOpen:()=>dialog.open&&!closing});
+ const secretStarted=()=>{secretPlayback.start();pauseLabel();};
+ const secretFinished=()=>{secretPlayback.finish();pauseLabel();};
+ window.addEventListener('osu-wrapped:secret-start',secretStarted);window.addEventListener('osu-wrapped:secret-end',secretFinished);
  const keyboard=event=>{if(!dialog.open||expandedRecap?.open||[...document.querySelectorAll('dialog[open]')].at(-1)!==dialog)return;if(closing){event.preventDefault();return;}if(event.target.closest('input,textarea,select,[contenteditable]:not([contenteditable="false"])'))return;if(event.code==='Space' && event.target.closest('button,a'))return;if(event.key==='ArrowRight'){event.preventDefault();advance();}if(event.key==='ArrowLeft'){event.preventDefault();show(index-1);}if(event.code==='Space'){event.preventDefault();toggle();}};
  function closeExperience(afterClose){
   if(closing)return;stopClubSound();closing=true;paused=true;cancelAnimationFrame(raf);introMotion.forEach(animation=>animation.pause());
   for(const audio of new Set([previewAudio,openingAudio,ambientAudio,...previewFades.keys()]))if(audio)fadePreview(audio,0,400);
-  impactAudio.pause();swooshAudio.pause();stopTally();stampAudio.pause();quizSounds.stop();closeAudio.muted=muted;closeAudio.volume=.65;closeAudio.currentTime=0;
+  impactAudio.pause();swooshAudio.pause();stopTally();stampAudio.pause();quizSounds.stop();closeAudio.muted=muted;closeAudio.volume=.65*volume;closeAudio.currentTime=0;
   dialog.classList.add('story-closing');dialog.querySelectorAll('button').forEach(button=>button.disabled=true);
   const finish=()=>{if(!dialog.open)return;closeAudio.pause();dialog.close();afterClose?.();};
   const animation=shell.animate([{opacity:1,transform:'scale(1)'},{opacity:.75,transform:'scale(.99)',offset:.35},{opacity:0,transform:'scale(.96)'}],{duration:2847,easing:'ease-in-out',fill:'forwards'});
@@ -342,8 +365,17 @@ export function openExperience(data,{onSave,onReview}={}){
  }
  dialog.addEventListener('cancel',event=>{event.preventDefault();closeExperience();});
  document.addEventListener('keydown',keyboard);
- const mute=dialog.querySelector('[data-story-mute]');
- mute.onclick=()=>{muted=!muted;quizSounds.setMuted(muted);clubCharge.muted=muted;clubArrival.muted=muted;for(const audio of new Set([previewAudio,openingAudio,ambientAudio,stampAudio,closeAudio,swooshAudio,impactAudio,...tallySounds,...previewFades.keys()]))if(audio)audio.muted=muted;mute.title=muted?'Unmute audio':'Mute audio';mute.setAttribute('aria-pressed',String(muted));mute.setAttribute('aria-label',muted?'Unmute slide audio':'Mute slide audio');};
+ const mute=dialog.querySelector('[data-story-mute]'),volumeSlider=dialog.querySelector('[data-story-volume]'),volumeValue=dialog.querySelector('[data-story-volume-value]');
+ function applyVolume(){
+  quizSounds.setVolume(volume);quizSounds.setMuted(muted);
+  for(const [audio,base] of [[clubCharge,.6],[clubArrival,.6],[stampAudio,.65],[closeAudio,.65],[swooshAudio,.5],[impactAudio,.55],...tallySounds.map(audio=>[audio,.3])]){audio.volume=base*volume;audio.muted=muted;}
+  for(const audio of new Set([previewAudio,openingAudio,ambientAudio,...previewFades.keys()]))if(audio){audio.volume=(previewLevels.get(audio)??0)*volume;audio.muted=muted;}
+  const effective=muted?0:Math.round(volume*100);volumeSlider.value=String(effective);volumeValue.textContent=effective+'%';volumeSlider.setAttribute('aria-valuetext',effective+' percent');
+  mute.title=muted?'Unmute audio':'Mute audio';mute.setAttribute('aria-pressed',String(muted));mute.setAttribute('aria-label',muted?'Unmute slide audio':'Mute slide audio');
+ }
+ mute.onclick=()=>{muted=!muted;if(!muted&&volume===0)volume=lastVolume;applyVolume();};
+ volumeSlider.addEventListener('input',()=>{volume=Number(volumeSlider.value)/100;if(volume>0)lastVolume=volume;muted=volume===0;applyVolume();});
+ applyVolume();
  dialog.querySelector('[data-story-close]').onclick=()=>closeExperience();pause.onclick=toggle;
  dialog.querySelector('[data-story-prev]').onclick=()=>show(index-1);next.onclick=advance;
  dialog.querySelectorAll('[data-story-step]').forEach(button=>button.onclick=()=>show(Number(button.dataset.storyStep)));
@@ -377,7 +409,7 @@ export function openExperience(data,{onSave,onReview}={}){
   raf=requestAnimationFrame(tick);
  }
  const focusBefore=document.activeElement;const overflowBefore=document.body.style.overflow;
- dialog.addEventListener('close',()=>{document.removeEventListener('keydown',keyboard);stopClubSound();cancelAnimationFrame(raf);impactAudio.pause();swooshAudio.pause();peakMotion?.cancel();stopTally();expandedRecap?.close();closeAudio.pause();stageSize.disconnect();slideContentSize.disconnect();cancelAnimationFrame(fitFrame);introMotion.forEach(animation=>animation.cancel());if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;document.removeEventListener("visibilitychange",visibilityChanged);stampAudio.pause();quizSounds.dispose();document.body.style.overflow=overflowBefore;dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});
+ dialog.addEventListener('close',()=>{window.removeEventListener('osu-wrapped:secret-start',secretStarted);window.removeEventListener('osu-wrapped:secret-end',secretFinished);document.removeEventListener('keydown',keyboard);stopClubSound();cancelAnimationFrame(raf);impactAudio.pause();swooshAudio.pause();peakMotion?.cancel();stopTally();expandedRecap?.close();closeAudio.pause();stageSize.disconnect();slideContentSize.disconnect();cancelAnimationFrame(fitFrame);introMotion.forEach(animation=>animation.cancel());if(previewAudio)fadePreview(previewAudio,0);previewAudio=null;document.removeEventListener("visibilitychange",visibilityChanged);stampAudio.pause();quizSounds.dispose();document.body.style.overflow=overflowBefore;dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});
  dialog.showModal();document.body.style.overflow='hidden';show(0);stage.tabIndex=0;stage.focus();pauseLabel();raf=requestAnimationFrame(tick);
 }
 
@@ -389,7 +421,7 @@ function storyPlays(scores,linkScores=true){
  return '<ol class="story-plays">'+scores.slice(0,5).map((score,i)=>{
   const cover=storyCover(score.cover);
   const link=linkScores&&/^[1-9]\d*$/.test(String(score.id))?'<a class="story-play-link" href="https://osu.ppy.sh/scores/'+encodeURIComponent(score.id)+'" target="_blank" rel="noopener noreferrer">':'';
-  return '<li>'+link+'<span class="story-place">0'+(i+1)+'</span><span class="story-map-thumb">'+(cover?'<img src="'+escape(cover)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"/>':'')+storyGrade(score.rank)+'</span><div class="story-map-info"><b>'+escape(score.title)+'</b><span>'+escape(score.artist)+' · <span class="story-map-mods">'+escape(score.mods||'NM')+'</span></span><span>'+escape(score.version||'Unknown difficulty')+' · Mapped by '+escape(score.creator)+'</span></div><div class="story-map-result"><strong class="story-map-pp" title="'+escape(score.pp)+' pp">'+number(Math.round(score.pp))+' <small>pp</small></strong><span class="play-accuracy">'+formatScoreAccuracy(score.accuracy)+' accuracy</span><span class="story-map-date">'+storyDate(score.date)+'</span></div>'+(link?'</a>':'')+'</li>';
+  return '<li>'+link+'<span class="story-place">0'+(i+1)+'</span><span class="story-map-thumb">'+(cover?'<img src="'+escape(cover)+'" alt="" loading="lazy" decoding="async" referrerpolicy="no-referrer"/>':'')+storyGrade(score.rank)+'</span><div class="story-map-info"><b>'+escape(score.title)+'</b><span>'+escape(score.artist)+' · <span class="story-map-mods">'+escape(score.mods||'NM')+'</span></span><span>'+escape(score.version||'Unknown difficulty')+' · Mapped by '+escape(score.creator)+'</span></div><div class="story-map-result"><strong class="story-map-pp" title="'+escape(score.pp)+' pp">'+number(Math.round(score.pp))+' <small>pp</small></strong><span class="play-accuracy">'+formatScoreAccuracy(score.accuracy)+' · '+comboMarkup(score)+'</span>'+'<span class="story-map-date">'+storyDate(score.date)+'</span></div>'+(link?'</a>':'')+'</li>';
  }).join('')+'</ol>';
 }
 
@@ -423,7 +455,7 @@ function storyComboScore(data){
 
 function globalFeaturedPlay(data){
  const score=data?.top?.[0];if(!score)return '<p>Global plays are temporarily unavailable.</p>';
- return '<div class="story-score-heading"><strong class="story-number" data-count="'+Math.round(score.pp)+'" title="'+escape(score.pp)+' pp">'+number(Math.round(score.pp))+'</strong><span class="story-unit">pp</span>'+storyGrade(score.rank)+'</div><a class="global-featured-player" href="https://osu.ppy.sh/users/'+encodeURIComponent(score.userId)+'" target="_blank" rel="noopener noreferrer">'+storyUserAvatar({id:score.userId,username:score.username})+'<b>'+escape(score.username)+'</b></a><a class="global-featured-score-link" href="https://osu.ppy.sh/scores/'+encodeURIComponent(score.scoreId)+'" target="_blank" rel="noopener noreferrer"><b>'+escape(score.title)+'</b><span>'+escape(score.artist)+'</span><span>'+escape(score.version)+' · Mapped by '+escape(score.creator)+'</span></a><div class="story-tags">'+escape(score.mods)+' · '+formatScoreAccuracy(score.accuracy)+' accuracy</div><p class="story-score-date">'+storyDate(score.date)+' · Click the play to view score</p>';
+ return '<div class="story-score-heading"><strong class="story-number" data-count="'+Math.round(score.pp)+'" title="'+escape(score.pp)+' pp">'+number(Math.round(score.pp))+'</strong><span class="story-unit">pp</span>'+storyGrade(score.rank)+'</div><a class="global-featured-player" href="https://osu.ppy.sh/users/'+encodeURIComponent(score.userId)+'" target="_blank" rel="noopener noreferrer">'+storyUserAvatar({id:score.userId,username:score.username})+'<b>'+escape(score.username)+'</b></a><a class="global-featured-score-link" href="https://osu.ppy.sh/scores/'+encodeURIComponent(score.scoreId)+'" target="_blank" rel="noopener noreferrer"><b>'+escape(score.title)+'</b><span>'+escape(score.artist)+'</span><span>'+escape(score.version)+' · Mapped by '+escape(score.creator)+'</span></a><div class="story-tags">'+escape(score.mods)+' · '+formatScoreAccuracy(score.accuracy)+' · '+comboMarkup(score)+'</div><p class="story-score-date">'+storyDate(score.date)+' · Click the play to view score</p>';
 }
 
 function globalFeaturedMap(data){
