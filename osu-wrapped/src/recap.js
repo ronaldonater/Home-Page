@@ -1,3 +1,5 @@
+import {savedBeatmapCover} from './beatmap-cover.js';
+import {demoAsset} from './demo-images.js';
 import {comboInfo,comboLabel} from './score-combo.js';
 import {createLandscapeRecap} from './recap-landscape.js';
 import {beatmapAverageRows} from './beatmap-averages.js';
@@ -11,23 +13,23 @@ import {accuracyRank,formatScoreAccuracy} from './accuracy.js';
 const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const number=value=>value==null?'—':new Intl.NumberFormat('en-US',{maximumFractionDigits:0}).format(value);
 const pink='#fa82b5',muted='#b6a9c2',white='#f6f0fa';
-function avatarImage(userId){
+function avatarImage(userId,demo=false){
  return new Promise(resolve=>{
   if(!Number.isSafeInteger(userId)||userId<=0)return resolve(null);
   const img=new Image();
   const timer=setTimeout(()=>{img.src='';resolve(null);},12000);
   img.onload=()=>{clearTimeout(timer);resolve(img);};
   img.onerror=()=>{clearTimeout(timer);resolve(null);};
-  img.src='/api/osu-wrapped/avatar?id='+encodeURIComponent(userId);
+  const source='/api/osu-wrapped/avatar?id='+encodeURIComponent(userId);img.src=demo?demoAsset(source):source;
  });
 }
 export async function createRecap(data,{layout='portrait'}={}){
- if(layout==='landscape')return createLandscapeRecap(data,{avatarImage,coverImage,artistImage,recapMedalImage,recapModImage});
+ if(layout==='landscape')return createLandscapeRecap(data,{avatarImage:id=>avatarImage(id,data.demo),coverImage:url=>coverImage(url,data.demo),artistImage:data.demo?name=>coverImage(data.artists.find(artist=>artist.name===name)?.demoImage,true):artistImage,recapMedalImage:medal=>recapMedalImage(medal,data.demo),recapModImage});
  if(mappingOnly(data))return createMappingRecap(data);
  const topPlays=data.top.slice(0,5);
- const [avatar,covers,mapperAvatars,artistAvatars,medalArt,modArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(async artist=>(await artistImage(artist.name))||await coverImage(artist.cover))),recapMedalImage(data.rarestMedal),Promise.all((data.favoriteMod?.mods||[]).slice(0,3).map(mod=>recapModImage(mod)))]);
+ const [avatar,covers,mapperAvatars,artistAvatars,medalArt,modArt]=await Promise.all([avatarImage(data.user.id,data.demo),Promise.all(topPlays.map(score=>coverImage(score.cover,data.demo))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId,data.demo))),Promise.all(data.artists.slice(0,5).map(async artist=>(data.demo?null:await artistImage(artist.name))||await coverImage(artist.demoImage||artist.cover,data.demo))),recapMedalImage(data.rarestMedal,data.demo),Promise.all((data.favoriteMod?.mods||[]).slice(0,3).map(mod=>recapModImage(mod)))]);
  const hasMapping=data.mapping?.status==='ready'&&Number.isSafeInteger(data.mapping.created)&&data.mapping.created>0;
- const mappingCover=hasMapping?await coverImage(data.mapping?.mostPopular?.cover):null;
+ const mappingCover=hasMapping?await coverImage(data.mapping?.mostPopular?.cover,data.demo):null;
  const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2434+(hasMapping?290:0)+(data.beatmapAverages?.total?270:0)+(data.skillsets?.rows?.length?210:0);
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
  const text=(value,x,y,size=24,color=white,weight=400,maxWidth=1000)=>{
@@ -217,24 +219,24 @@ export async function createRecap(data,{layout='portrait'}={}){
  return new Promise((resolve,reject)=>{try{canvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG export failed')),'image/png');}catch(error){reject(error);}});
 }
 
-function coverImage(value){
+function coverImage(value,demo=false){
  if(!value)return Promise.resolve(null);
  return new Promise(resolve=>{
   const img=new Image();const timer=setTimeout(()=>{img.src='';resolve(null);},12000);
   img.onload=()=>{clearTimeout(timer);resolve(img);};img.onerror=()=>{clearTimeout(timer);resolve(null);};
-  img.src='/api/osu-wrapped/cover?url='+encodeURIComponent(value);
+  const saved=savedBeatmapCover(value),source=saved!==value?saved:'/api/osu-wrapped/cover?url='+encodeURIComponent(value);img.src=demo?demoAsset(source):source;
  });
 }
 
 function artistImage(name){return new Promise(resolve=>{const img=new Image();const timer=setTimeout(()=>{img.src='';resolve(null);},10000);img.onload=()=>{clearTimeout(timer);resolve(img);};img.onerror=()=>{clearTimeout(timer);resolve(null);};img.src='/api/osu-wrapped/artist-image?name='+encodeURIComponent(name);});}
 
-function recapMedalImage(medal){const url=medalImageUrl(medal);if(!url)return Promise.resolve(null);return new Promise(resolve=>{const image=new Image();const timer=setTimeout(()=>{image.src='';resolve(null);},7000);image.onload=()=>{clearTimeout(timer);resolve(image);};image.onerror=()=>{clearTimeout(timer);resolve(null);};image.src=url;});}
+function recapMedalImage(medal,demo=false){const source=medalImageUrl(medal),url=demo?demoAsset(source):source;if(!url)return Promise.resolve(null);return new Promise(resolve=>{const image=new Image();const timer=setTimeout(()=>{image.src='';resolve(null);},7000);image.onload=()=>{clearTimeout(timer);resolve(image);};image.onerror=()=>{clearTimeout(timer);resolve(null);};image.src=url;});}
 
 function recapModImage(mod){const url=modIconUrl(mod);if(!url)return Promise.resolve(null);return new Promise(resolve=>{const image=new Image();const timer=setTimeout(()=>resolve(null),5000);image.onload=()=>{clearTimeout(timer);resolve(image);};image.onerror=()=>{clearTimeout(timer);resolve(null);};image.src=url;});}
 
 async function createMappingRecap(data){
  const mapping=data.mapping,club=assignMappingClub(mapping),popular=mapping.mostPopular;
- const [avatar,cover]=await Promise.all([avatarImage(data.user.id),coverImage(popular?.cover)]);
+ const [avatar,cover]=await Promise.all([avatarImage(data.user.id,data.demo),coverImage(popular?.cover,data.demo)]);
  const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=1022;
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
  const text=(value,x,y,size=20,color=white,weight=400,width=1000)=>{ctx.font=weight+' '+size+'px "Segoe UI",sans-serif';ctx.fillStyle=color;let label=String(value??'');while(label.length>1&&ctx.measureText(label).width>width)label=label.slice(0,-2)+'…';ctx.fillText(label,x,y);};

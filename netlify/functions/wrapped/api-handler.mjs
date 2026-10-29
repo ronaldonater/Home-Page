@@ -1,3 +1,6 @@
+import {reviewQueue} from './review-queue.mjs';
+import {reviewCore} from './review-core.mjs';
+import {osuFetch} from './osu-api.mjs';
 import {enrichSkillsetTags} from './skillset-tags.mjs';
 import {adminAllowlist} from './admin-allowlist.mjs';
 import {RELEASE_AT,releaseOpen,isReleaseAdmin} from './release-gate.mjs';
@@ -15,7 +18,7 @@ import {seal,unseal,cookie,cookies} from './security.mjs';
 import {summarize} from '../../../osu-wrapped/src/summary.js';
 const json=(statusCode,body,extra={})=>({statusCode,headers:{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',...extra},body:JSON.stringify(body)});
 const redirect=(to,setCookies=[])=>({statusCode:302,headers:{Location:to,'Cache-Control':'no-store','Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff'},multiValueHeaders:{'Set-Cookie':setCookies},body:''});
-async function osu(path,token){const res=await fetch(`https://osu.ppy.sh/api/v2${path}`,{headers:{Authorization:`Bearer ${token}`,Accept:'application/json','x-api-version':'20220705'},signal:AbortSignal.timeout(12000)});if(!res.ok){const error=new Error(res.status===429?'osu! is busy. Please wait a minute and try again.':'Unable to retrieve osu! data. Please try signing in again.');error.status=res.status===401?401:502;throw error;}return res.json();}
+async function osu(path,token){const res=await osuFetch(`https://osu.ppy.sh/api/v2${path}`,{headers:{Authorization:`Bearer ${token}`,Accept:'application/json','x-api-version':'20220705'},signal:AbortSignal.timeout(12000)});if(!res.ok){const error=new Error((res.status===429||res.status===503)?'osu! is busy. Please wait a minute and try again.':'Unable to retrieve osu! data. Please try signing in again.');error.status=res.status===401?401:res.status===429?429:res.status===503?503:502;throw error;}return res.json();}
 export async function handler(event,{now=Date.now}={}){
  const result=await handleRequest(event,now);
  if(!releaseOpen(now()))result.headers={...result.headers,'Cache-Control':'no-store','Netlify-CDN-Cache-Control':'no-store'};
@@ -80,7 +83,7 @@ async function handleRequest(event,now){
    if(score.user_id!==user.id)return json(403,{error:'Only your own replays can be loaded here.'});
   }
   if(score.has_replay===false)return json(404,{error:'osu! has no replay available for this score.'});
-  const response=await fetch('https://osu.ppy.sh/api/v2/scores/'+id+'/download',{headers:{Authorization:'Bearer '+session.token},redirect:'error',signal:AbortSignal.timeout(15000)});
+  const response=await osuFetch('https://osu.ppy.sh/api/v2/scores/'+id+'/download',{headers:{Authorization:'Bearer '+session.token},redirect:'error',signal:AbortSignal.timeout(15000)});
   if(!response.ok)return json(response.status===429?429:404,{error:response.status===429?'osu! replay downloads are rate limited. Please try later.':'This replay cannot be downloaded from osu!.'});
   const type=(response.headers.get('content-type')||'').split(';')[0].trim().toLowerCase();
   if(!['application/octet-stream','application/x-osu-replay'].includes(type))return json(502,{error:'osu! returned an unexpected replay format.'});
@@ -130,7 +133,7 @@ async function handleRequest(event,now){
   const q=event.queryStringParameters||{};const saved=unseal(jar.wrapped_state||'');
   if(!stateValid(saved,q.state)||!timingSafeEqual(Buffer.from(q.state),Buffer.from(saved.state))||typeof q.code!=='string'||q.code.length===0||q.code.length>4096)return redirect('/osu-wrapped/?error=login',[cookie('wrapped_state','',0)]);
   callbackUrl(process.env.WRAPPED_OSU_REDIRECT_URI);
-  const res=await fetch('https://osu.ppy.sh/oauth/token',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({client_id:process.env.WRAPPED_OSU_CLIENT_ID,client_secret:process.env.WRAPPED_OSU_CLIENT_SECRET,code:q.code,grant_type:'authorization_code',redirect_uri:process.env.WRAPPED_OSU_REDIRECT_URI}),signal:AbortSignal.timeout(12000)});
+  const res=await osuFetch('https://osu.ppy.sh/oauth/token',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},body:JSON.stringify({client_id:process.env.WRAPPED_OSU_CLIENT_ID,client_secret:process.env.WRAPPED_OSU_CLIENT_SECRET,code:q.code,grant_type:'authorization_code',redirect_uri:process.env.WRAPPED_OSU_REDIRECT_URI}),signal:AbortSignal.timeout(12000)});
   if(!res.ok)return redirect('/osu-wrapped/?error=login',[cookie('wrapped_state','',0)]);
   const token=await res.json();
   if(!sessionValid({kind:'session',token:token.access_token})||!Number.isFinite(token.expires_in)||token.expires_in<=0)return redirect('/osu-wrapped/?error=login',[cookie('wrapped_state','',0)]);
@@ -140,7 +143,7 @@ async function handleRequest(event,now){
    if(!released&&!await adminAllowlist.has(adminIdentity.id,process.env.WRAPPED_DATABASE_URL))return redirect('/osu-wrapped/?error=admin',[cookie('wrapped_session','',0),cookie('wrapped_state','',0)]);
   }
   const age=Math.min(Math.floor(token.expires_in),86400);
-  return redirect('/osu-wrapped/?connected=1',[cookie('wrapped_session',seal({kind:'session',token:token.access_token,...(adminIdentity?{userId:adminIdentity.id}:{}),exp:Date.now()+age*1000}),age),cookie('wrapped_state','',0)]);
+  return redirect('/osu-wrapped/?connected=1',[cookie('wrapped_session',seal({kind:'session',token:token.access_token,...(adminIdentity?{userId:adminIdentity.id,playmode:adminIdentity.playmode}:{}),exp:Date.now()+age*1000}),age),cookie('wrapped_state','',0)]);
  }
  if(path==='/api/auth/logout'){
   if(event.httpMethod!=='POST')return json(405,{error:'Method not allowed'});
@@ -151,19 +154,49 @@ async function handleRequest(event,now){
  if(path==='/api/wrapped'){
   const session=unseal(jar.wrapped_session||'');if(!sessionValid(session))return json(401,{error:'Sign in with osu! to generate your Wrapped.'});
   const requestedMode=event.queryStringParameters?.mode;const validModes=['osu','taiko','fruits','mania'];if(requestedMode!==undefined&&!validModes.includes(requestedMode))return json(400,{error:'Invalid game mode'});
-  const user=await osu(requestedMode?`/me/${requestedMode}`:'/me',session.token);
-  const mode=requestedMode||(validModes.includes(user.playmode)?user.playmode:'osu');
-  const pages=await Promise.all(Array.from({length:2},(_,page)=>osu(`/users/${user.id}/scores/best?mode=${mode}&limit=100&offset=${page*100}&legacy_only=0`,session.token)));
-  const best=pages.flat();
+  const stage=event.queryStringParameters?.stage;if(stage!==undefined&&!['core','tags','full'].includes(stage))return json(400,{error:'Invalid loading stage'});
+  let ticket={status:'disabled'};
+  if(process.env.WRAPPED_DATABASE_URL){
+   const identity=Number.isSafeInteger(session.userId)&&(requestedMode||session.playmode)?{id:session.userId,playmode:session.playmode}:await osu('/me',session.token);
+   ticket=await reviewQueue.claim(identity.id,requestedMode||identity.playmode||'osu');
+   // An unavailable queue falls back to the existing paced, staged loader.
+   if(ticket.status==='queued'||ticket.status==='processing')return json(202,{queue:{status:ticket.status,position:ticket.position,retryAfter:ticket.retryAfter}},{'Retry-After':String(ticket.retryAfter)});
+   if(ticket.status==='complete')return json(200,ticket.data);
+  }
+  const generate=async()=>{
+  const {user,mode,best}=await reviewCore(session.token,requestedMode,osu);
+  if(stage==='core'||stage==='tags'){
+   const selected=stage==='tags'?await enrichSkillsetTags(best,mode,session.token):best;
+   const summary=summarize(user,selected,mode);
+   const mapping=summary.sampleCount===0?await mappingStats(user.id,session.token):{status:'pending'};
+   return json(200,{...summary,mapping,loadStage:stage});
+  }
   const [enriched,popularBeatmapsets,taggedScores]=await Promise.all([enrichMapDates(best,session.token),globalStats.popularBeatmapsets(mode,{clientId:process.env.WRAPPED_OSU_CLIENT_ID,clientSecret:process.env.WRAPPED_OSU_CLIENT_SECRET}),enrichSkillsetTags(best,mode,session.token)]);
   const withAttributes=await enrichBeatmapAttributes(enriched.map((score,index)=>({...score,wrappedSkillsets:taggedScores[index]?.wrappedSkillsets})),mode,session.token);
   const summary=summarize(user,withAttributes,mode,{popularBeatmapsets});
   const [mapping,medal,clubCommunity]=await Promise.all([mappingStats(user.id,session.token),rarestMedal(user.user_achievements),recordClubCommunity(summary,{databaseUrl:process.env.WRAPPED_DATABASE_URL,trackingSecret:process.env.WRAPPED_CLUB_TRACKING_SECRET})]);
   const mappingCommunity=await recordMappingClubCommunity(summary,mapping,{databaseUrl:process.env.WRAPPED_DATABASE_URL,trackingSecret:process.env.WRAPPED_CLUB_TRACKING_SECRET});
-  return json(200,{...summary,mapping:{...mapping,...(mappingCommunity?{community:mappingCommunity}:{})},...medal,...(clubCommunity?{clubCommunity}:{})});
+  const medalComplete=!Array.isArray(user.user_achievements)||!user.user_achievements.some(row=>new Date(row.achieved_at).getUTCFullYear()===2026)||Boolean(medal.medalRarityUpdatedAt);
+  const checks=[
+   {name:'Ranked dates',complete:enriched.complete!==false,...enriched.progress},
+   {name:'Mod-adjusted attributes',complete:withAttributes.complete!==false,...withAttributes.progress},
+   {name:'Mapping catalogue',complete:mapping.status==='ready',checked:mapping.checkedPages,unit:'pages',retryAfterMs:1100},
+   {name:'Medal rarity',complete:medalComplete,retryAfterMs:60000},
+   {name:'Playstyle community',complete:true,unavailable:clubCommunity?.status==='unavailable'},
+   {name:'Mapping community',complete:true,unavailable:mappingCommunity?.status==='unavailable'},
+   {name:'Community user tags',complete:summary.skillsets.checked===summary.sampleCount,checked:summary.skillsets.checked,total:summary.sampleCount,retryAfterMs:1100}
+  ];
+  const unfinished=checks.filter(check=>!check.complete);
+  const loadingStatus={complete:!unfinished.length,checks,retryAfterMs:unfinished.length?Math.min(...unfinished.map(check=>check.retryAfterMs||1100)):0};
+  return json(200,{...summary,loadingStatus,mapping:{...mapping,...(mappingCommunity?{community:mappingCommunity}:{})},...medal,...(clubCommunity?{clubCommunity}:{})});
+  };
+  let response;
+  try{response=await generate();return response;}
+  finally{await reviewQueue.release(ticket,response?.statusCode===200?JSON.parse(response.body):null);}
+
  }
  return json(404,{error:'Not found'});
- }catch(error){console.error('Wrapped request failed:',error.name);return json(error.status||500,{error:error.status?error.message:'Could not generate your Wrapped. Check deployment configuration or try again shortly.'});}
+ }catch(error){console.error('Wrapped request failed:',error.name);return json(error.status||500,{error:error.status?error.message:'Could not generate your Wrapped. Check deployment configuration or try again shortly.'},[429,503].includes(error.status)?{'Retry-After':'60'}:{});}
 }
 
 

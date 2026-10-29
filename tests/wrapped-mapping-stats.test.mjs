@@ -15,7 +15,7 @@ test('mapping service paginates all hosted categories and shares cache across mo
  assert.deepEqual(await service(42,'new-token'),result);assert.equal(calls,5);assert.ok(!JSON.stringify(result).includes('token'));
 });
 test('failed or incomplete catalogue never becomes a zero count',async()=>{
- const failed=createMappingStats({fetchImpl:async()=>({ok:false})});assert.deepEqual(await failed(42,'token'),{status:'unavailable'});
+ const failed=createMappingStats({fetchImpl:async()=>({ok:false})});assert.deepEqual(await failed(42,'token'),{status:'unavailable',checkedPages:0});
  const repeated=createMappingStats({fetchImpl:async()=>({ok:true,json:async()=>Array.from({length:100},(_,i)=>row(i+1))})});assert.equal((await repeated(42,'token')).status,'unavailable');
  const empty=createMappingStats({fetchImpl:async()=>({ok:true,json:async()=>[]})});assert.equal((await empty(42,'token')).created,0);
 });

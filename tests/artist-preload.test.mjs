@@ -17,3 +17,9 @@ test('preload stops waiting for stalled images at its deadline',async()=>{
  const original=globalThis.Image;globalThis.Image=class{set src(value){}};
  try{const row={name:'Stalled Test'};await preloadArtistImages([row],{base:'/timeout-api',timeout:15});assert.equal(artistImageSource(row,'/timeout-api'),'');}finally{globalThis.Image=original;}
 });
+
+
+test('saved demo art uses its validated image directly without artist lookup or preload waits',async()=>{
+ const original=globalThis.Image;globalThis.Image=class{constructor(){throw Error('No demo preload expected');}};
+ try{const artist={name:'Saved Demo',demoImage:'https://assets.ppy.sh/beatmaps/1/covers/cover.jpg'};assert.equal(artistImageSource(artist),artist.demoImage);await preloadArtistImages([artist]);assert.equal(artistImageSource({...artist,demoImage:'javascript:alert(1)'}),'');}finally{globalThis.Image=original;}
+});

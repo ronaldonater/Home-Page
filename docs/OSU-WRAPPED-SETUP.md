@@ -57,9 +57,9 @@ Global catalogue snapshots refresh through `.github/workflows/ranked-mappers.yml
 
 ## Community database deployment
 
-Use the same Neon database and branch for both community tables. For a fresh playstyle installation run `scripts/sql/club-community.sql`; for any existing earlier schema run `scripts/sql/club-community-v12.sql`. Additionally run `scripts/sql/mapping-community.sql` for mapping percentages. Existing rows are retained. Earlier migration files are not prerequisites.
+Use the same Neon database and branch for both community tables. For a fresh playstyle installation run `scripts/sql/club-community.sql`; for any existing earlier schema run `scripts/sql/club-community-v13.sql`. Additionally run `scripts/sql/mapping-community.sql` for mapping percentages. Existing rows are retained. Earlier migration files are not prerequisites.
 
-Both server services reuse `WRAPPED_DATABASE_URL` and `WRAPPED_CLUB_TRACKING_SECRET`, private Netlify Functions variables. No new connection or secret is required. Playstyle rules are `2026-v26`, counting one assignment per participant/year/mode. Mapping rules are `mapping-2026-v1`, counting one per mapper/year across modes. Percentages unlock after one participant, cache for a minute, and include current-rule assignments. Demos are excluded. Without configuration, tracking is disabled; failures do not block Wrapped.
+Both server services reuse `WRAPPED_DATABASE_URL` and `WRAPPED_CLUB_TRACKING_SECRET`, private Netlify Functions variables. No new connection or secret is required. Playstyle rules are `2026-v27`, counting one assignment per participant/year/mode. Mapping rules are `mapping-2026-v1`, counting one per mapper/year across modes. Percentages unlock after one participant, cache for a minute, and include current-rule assignments. Demos are excluded. Without configuration, tracking is disabled; failures do not block Wrapped.
 
 See [community setup](CLUB-COMMUNITY.md) and [ranking guide](CLUB-RANKING.md). Redeploy after environment variable changes.
 
@@ -79,6 +79,6 @@ Average beatmap statistics appear on the personal stats page, in a dedicated sli
 
 ## Release countdown
 
-The Wrapped subpage is locked until November 29, 2026 at 00:00 UTC. Its release-status endpoint controls access using server time. The authenticated owner account 7933825 (ronaldonater) and users added to the owner-managed admin list get early access via the countdown's sign-in link. Normal public access resumes automatically at release; personal routes still require authentication. Pre-release API responses are not cached. Test locally with Netlify Dev rather than a static server, because the release-status endpoint must be available. No additional secrets or SQL are needed for this gate. For the new clubs, apply the cumulative `scripts/sql/club-community-v12.sql` migration before deployment.
+The Wrapped subpage is locked until November 29, 2026 at 00:00 UTC. Its release-status endpoint controls access using server time. The authenticated owner account 7933825 (ronaldonater) and users added to the owner-managed admin list get early access via the countdown's sign-in link. Normal public access resumes automatically at release; personal routes still require authentication. Pre-release API responses are not cached. Test locally with Netlify Dev rather than a static server, because the release-status endpoint must be available. No additional secrets or SQL are needed for this gate. For the new clubs, apply the cumulative `scripts/sql/club-community-v13.sql` migration before deployment.
 
 For owner-managed early access, run `scripts/sql/admin-allowlist.sql` in the same Neon database. The Admin navbar panel is visible only to the owner; added admins cannot manage users. The existing `WRAPPED_DATABASE_URL` is reused.

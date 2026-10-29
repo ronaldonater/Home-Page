@@ -41,11 +41,24 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.38**
+**Version 1.1.39**
 
 Supports all four modes, up to 29 slides (including the optional mapping slide), 26 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score or hosted mapset first submitted in 2026. Community percentages optionally use Neon.
 
 See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md), and [club ranking guide](docs/CLUB-RANKING.md). Public routes are `/osu-wrapped/` and `/api/osu-wrapped/`; use the private `WRAPPED_` environment variables documented in setup. Run `node --test tests/*.test.mjs` from the website root.
+
+## v1.1.39 updates
+
+- Added a persistent, duplicate-protected user/game-mode queue with a visible queue position, one active profile per client budget, resumable batches, fair batch yielding, and abandoned-job recovery.
+- Added encrypted cross-instance response caching and short-lived completed-review caching to reduce repeated upstream work. OAuth tokens and replay downloads are not saved.
+- Profile loading keeps required data hidden until ready, with detailed progress, automatic retries, and prompt continuation after successful enrichment batches instead of a fixed 60-second pause.
+- Neon outages fall back to the previous staged loader with local request pacing and osu! rate-limit cooldowns. Unavailable community percentages do not block Wrapped; global queue coordination resumes when storage recovers.
+- Bundled an October 29, 2026 demo snapshot for all four modes, including skillsets and global statistics, so demo opening, mode switching, and slideshow startup need no live data lookups or image preload waits.
+- Saved 336 demo image references locally for covers, avatars, and medal artwork, including slideshow and portrait/landscape recap exports. Added maintainer scripts to refresh demo data and images deliberately.
+- Live reviews reuse bundled beatmap backgrounds on an exact cover-URL match only. Unmatched covers, live avatars, artist portraits, and medals retain their normal loading paths; audio-preview fallback is preserved.
+- Skillset entries now link to their corresponding osu! beatmap search in a new tab.
+- Added mobile spacing between the selected-score badge and the average-beatmap cards.
+- Deployment: apply `scripts/sql/api-budget.sql` if not already installed and `scripts/sql/review-queue.sql` in the existing Neon database. Both are safe to rerun. No new secrets or community-table migrations are required for these queue changes.
 
 ## v1.1.38 updates
 
@@ -63,7 +76,7 @@ See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](d
 - Length clubs use mod-adjusted durations: 60% at <=1:30 for Short & Sweet or >=3:30 for Long Haul Club, with at least five selected scores.
 - Sorted the legend by general strength ranges while keeping All-Rounder last, and refreshed the mapper, mapset, and long-map artwork.
 - Existing Neon databases must apply `scripts/sql/club-community-v13.sql` before deployment. This cumulative migration preserves existing rows. Current assignment rules: `2026-v27`. The countdown itself requires no new SQL or environment variables.
-- Validation: 171 standalone tests and 193 website tests pass; the standalone production build passes.
+- Validation: 188 standalone tests and 210 website tests pass; the standalone production build passes.
 
 ## v1.1.37 updates
 
@@ -316,7 +329,7 @@ The personal dashboard includes unweighted mean star rating, total map duration 
 
 Supported fixed-rate DT/NC/HT/DC settings adjust BPM and duration. HR/EZ and Difficulty Adjust modify supported difficulty settings; standard OD and standard/catch AR include rate effects. Current mod-specific star ratings and available AR/OD attributes come from the official difficulty-attributes endpoint. No historical difficulty reconstruction is claimed. Variable-rate or unsupported mod settings can reduce adjusted coverage. Base and adjusted averages may cover different score subsets.
 
-Attribute enrichment is server-side, with four concurrent requests, a 3.5-second request budget, at most 24 uncached beatmap/mode/mod combinations per review, shared in-flight requests, and a 24-hour warm-instance success cache. Failures briefly cache and remain nonfatal; rate limiting stops further queued lookups in that batch. Further combinations can populate on later reviews. No database migration or new secrets are required. The demo includes real base difficulty/length metadata and cached official HD/DT attributes for its existing maps; demo scores and profile activity remain fictional. Missing values in live reviews display an em dash (-).
+Attribute enrichment is server-side, with four concurrent requests, a 3.5-second request budget, at most 24 uncached beatmap/mode/mod combinations per review, shared in-flight requests, and a 24-hour warm-instance success cache. Failures briefly cache and keep required attribute checks pending; rate limiting stops further lookups in that batch. Subsequent loading batches continue until those checks finish. Shared persistence uses the queue migration described below; no new secrets are required. The demo includes real base difficulty/length metadata and cached official HD/DT attributes for its existing maps; demo scores and profile activity remain fictional. Missing values in live reviews display an em dash (-).
 
 Beatmap averages also appear in a dedicated personal slideshow slide and a compact recap card grid. Metric coverage labels show the number of included scores. Mapping-only reviews omit these score-based sections.
 
@@ -378,7 +391,7 @@ The Admin navbar button is pre-release only. It is hidden once the release becom
 
 The stats page ranks all available community skillset tags from the exact difficulties in selected 2026 scores. Five entries are initially visible; additional entries are accessible through a themed, keyboard-focusable scrolling list. A conditional skillset slide and both recap card formats show the top five when tags are available. Alternate is displayed as Alt. The slide includes a decorative pie chart icon. Each skillset counts once per selected score; percentages use all selected scores and can overlap. Coverage shows how many scores were checked and tagged. These describe map patterns, not measured player proficiency. Ordinary mapper tags are not used as substitutes.
 
-Tag enrichment uses the osu! beatmapset API with at most 24 uncached mapsets per review, four concurrent requests, a four-second request budget, and a six-hour in-memory success cache. Missing tags or API failures leave partial coverage and never block the review. Subsequent reviews can fill remaining coverage. No database migration or new environment variables are needed.
+Tag enrichment uses the osu! beatmapset API with at most 24 uncached mapsets per review, four concurrent requests, a four-second request budget, and a six-hour in-memory success cache. Difficulties with no tags count as successfully checked. Failed tag lookups keep the profile hidden until a retry completes coverage. Cancelled tag batches are not negatively cached, allowing the next batch to continue. No database migration or new environment variables are needed.
 
 ### Easy Tempo and expanded mod families
 
@@ -387,3 +400,43 @@ Easy Tempo: "Good music deserves a little more time." HT or DC must appear on at
 Afterdark retains its 50% threshold and includes HD/FL across supported modes plus FI/CO in osu!mania. One Shot Society retains its 40% threshold and now includes AC alongside SD/PF. These mod families retain their 40-55 base strength range.
 
 Existing Neon databases must run `scripts/sql/club-community-v13.sql` before deploying Easy Tempo. The migration extends the allowed club IDs without deleting participant rows. Fresh installations use `scripts/sql/club-community.sql`. Assignments use `2026-v27`; returning participants update their existing records. No additional environment variables are required.
+
+## osu! API request budget
+
+Before deploying API throttling, run `scripts/sql/api-budget.sql` in the existing Neon database. This creates a separate RLS-enabled budget table and does not modify club records. The existing database URL and osu! client ID are reused. If Neon is unavailable, API requests continue with local request pacing and a 60-second database retry backoff. Cross-instance coordination resumes when the database recovers; it cannot be guaranteed during an outage. Community percentages show as temporarily unavailable and do not block Wrapped. All other required review data must still finish loading.
+
+Runtime osu! API and OAuth requests share request-start pacing of at least 1.1 seconds. With Neon configured, an atomic database admission check coordinates separate Netlify instances using the same client ID and database. HTTP 429 responses trigger a cooldown using Retry-After (60 seconds if missing), propagated through the shared budget. Requests cancelled before admission never contact osu!. There are no automatic upstream retries.
+
+Exact beatmapset lookups share six-hour in-memory cached responses bounded to 128 entries / 32 MiB and coalesce concurrent requests, so ranked-date and skillset enrichment reuse one upstream lookup. Existing enrichment deadlines remain in place; unfinished required enrichment batches continue through the loading screen rather than issuing a burst. Core profile loads may wait longer under load. Asset/CDN images and third-party APIs are outside this osu! API budget.
+
+Without a database, pacing is local to each warm function instance and does not guarantee a shared deployment-wide limit. Local caches do not persist across cold starts. Other applications and the separately scheduled catalogue refresh are not covered by the runtime budget; their traffic must also be considered when sharing an osu! OAuth client.
+
+## Complete-data loading
+
+Wrapped remains hidden until profile and score data, exact-difficulty user-tag checks, required enrichment services, global statistics, and artwork preparation have completed. Community percentages may be temporarily unavailable without blocking the review. Loading progress retains the profile/scores, user tags, additional details, and artwork stages. Transient failures automatically retry with bounded exponential backoff and Retry-After cooldowns; there is no manual retry button or partial-profile fallback. Permanent authentication failures stop loading and require signing in again.
+
+Successfully checked maps without tags, unsupported attributes confirmed by the API, absent medal metadata in a successfully retrieved snapshot, and existing image fallbacks are completed results rather than pending requests. Failed required services keep the loading screen visible; community-percentage failures do not. Completed mapping catalogue pages and cancelled enrichment batches can be reused by subsequent attempts. The persistent queue also requires `scripts/sql/review-queue.sql`; it reuses the existing database and session-secret variables.
+
+
+## Persistent profile queue and shared cache
+
+**Before deploying, run `scripts/sql/review-queue.sql` in the Neon SQL Editor**, in the same database as `api-budget.sql`. Run it once per database; the script is safe to rerun and leaves club/admin tables unchanged. No new secrets are needed: standalone uses `DATABASE_URL`, `SESSION_SECRET`, and `OSU_CLIENT_ID`; the integrated website uses `WRAPPED_DATABASE_URL`, `WRAPPED_SESSION_SECRET`, and `WRAPPED_OSU_CLIENT_ID`.
+
+With a database configured, authenticated profile requests join one durable job per user and game mode. The database admits one active job per osu! client budget, with a separate 60-second work lock preventing duplicate tabs or server instances from processing the same batch. Queue position appears on the loading screen; polling slows from 10 to 30 seconds farther back in the queue. Long jobs yield between batches after 90 seconds when others are waiting. Abandoned jobs stop holding the slot after two minutes without a heartbeat, once their work lock has expired. Processing resumes as browsers poll; this is not an unattended background worker.
+
+Successful osu! JSON responses are encrypted using a key derived from the existing session secret, so completed batches survive refreshes and server-instance changes. Public mapset metadata and difficulty attributes can be reused across users; personal profile/score/mapping responses use token-isolated hashed cache keys. OAuth exchanges, replay downloads, and failed responses are not cached. Tokens are not stored in queue records or cache payloads. Completed reviews expire after 15 minutes, profile/score responses after five minutes, mapping pages after 15 minutes, mapset responses after six hours, and attributes after 24 hours. Expired data is ignored immediately and physically removed incrementally by subsequent queue activity; cleanup is not a separate scheduled task. Browser-facing responses remain private/no-store.
+
+The existing global API pacing and HTTP 429 cooldowns still apply. If Neon or the queue schema is unavailable, profile requests fall back to the previous staged loader with local API pacing and 429 cooldowns. Queue storage is checked again after a short backoff, and shared caching backs off for 60 seconds on database errors. Global queue admission and cross-instance request coordination cannot be guaranteed during this fallback. Failure to save queue progress does not discard an otherwise completed review. Authentication and release restrictions remain unchanged. Community-only failures remain nonblocking. Without any database configured, local development retains its original unqueued behavior and the demo works normally. Queue admission does not bypass the release gate or authentication. No profile is displayed before the required data and artwork preparation finish.
+
+
+## Instant saved demo
+
+The demo profile, skillset tags, global rankings, popular mapsets, genre totals, and average-beatmap values for all four modes are bundled in `demo-snapshot.json`, captured on October 29, 2026 (UTC). Demo opening, mode changes, the global dashboard, and slideshow startup do not call the profile API, enter the queue, wait for Neon, or wait for artist/mod image preloading. The demo uses saved beatmap-cover fallbacks instead of live TheAudioDB lookups. Images and audio still load normally as media; optional replay/viewer actions and recap image exports can request their media separately. Demo scores, profile activity, and mapping totals remain fictional; real map metadata and global rankings are dated snapshot data. Each call returns a fresh copy so preview edits cannot alter the bundled snapshot.
+
+To intentionally refresh the snapshot, run `node scripts/snapshot-demo.mjs` locally with the existing osu! app credentials available. It uses paced public API lookups, saves only completed snapshots, and never writes access tokens or credentials to the output. It is not run for visitors or as part of the deployment build. Existing demo-map/attribute refresh scripts update the source fixtures; run the snapshot command afterward to publish those changes into the saved demo.
+
+
+Demo artwork is also bundled locally: `demo-images.json` maps the frozen snapshot's remote image references to saved covers, mapper/player avatars, and medal artwork. Dashboard, slideshow, and both recap layouts use these static assets for demo data. Live profiles also reuse exact matching beatmap backgrounds as described below; their avatars and medal images retain their existing paths. Mod icons and the OhnePixel thumbnail were already bundled. Audio previews remain streamed. To recapture images after changing the demo snapshot, run `node scripts/snapshot-demo-images.mjs` and commit the generated manifest and image directory. Missing images use a bundled placeholder rather than a visitor-time external lookup.
+
+
+Live reviews also reuse bundled demo beatmap backgrounds when the full osu! cover URL matches a successfully saved image exactly. This applies to profile/global covers, slideshow artwork, beatmap-cover fallbacks, mapping showcases, and recap exports. Unmatched URLs retain their normal loading path. Avatars, artist portraits, and medal images are not reused from the demo for live profiles. This avoids image downloads/proxy calls, not score/tag/attribute API requests. Saved artwork stays frozen until recaptured; a changed cover URL automatically uses the normal live path.

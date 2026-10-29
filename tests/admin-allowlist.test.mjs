@@ -1,3 +1,4 @@
+import {apiBudget} from '../netlify/functions/wrapped/osu-api.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createAdminAllowlist,adminAllowlist} from '../netlify/functions/wrapped/admin-allowlist.mjs';
@@ -16,6 +17,7 @@ test('persistent allowlist applies changes immediately and owner access is perma
 });
 test('only owner can list or change admins; origin and session checks protect mutations',async()=>{
  process.env.WRAPPED_SESSION_SECRET='admin-panel-tests-at-least-32-characters';process.env.WRAPPED_OSU_REDIRECT_URI='https://example.com/api/osu-wrapped/auth/callback';process.env.WRAPPED_DATABASE_URL='test-db';
+ const realBudgetQuery=apiBudget.query;apiBudget.query=async()=>[{}];
  const db=store(),original={...adminAllowlist},realFetch=globalThis.fetch;Object.assign(adminAllowlist,db.service);
  const event=(path,extra={})=>({path,httpMethod:'GET',headers:{},...extra});const headers=id=>({cookie:'wrapped_session='+seal({kind:'session',token:'secret-token',userId:id,exp:Date.now()+60000})});
  const run=(path,extra={},released=false)=>handler(event('/api/osu-wrapped'+path,extra),{now:()=>Date.parse(released?'2026-12-01T00:00:00Z':'2026-10-28T00:00:00Z')});
@@ -33,5 +35,5 @@ test('only owner can list or change admins; origin and session checks protect mu
   assert.equal(JSON.parse((await run('/release',{headers:headers(123)})).body).allowed,false);
   assert.equal((await run('/admin/users',{...request,queryStringParameters:{action:'remove',user:String(ADMIN_USER_ID)}})).statusCode,400);
   assert.equal(JSON.parse((await run('/release',{headers:owner},true)).body).owner,true);
- }finally{Object.assign(adminAllowlist,original);globalThis.fetch=realFetch;}
+ }finally{apiBudget.query=realBudgetQuery;Object.assign(adminAllowlist,original);globalThis.fetch=realFetch;}
 });

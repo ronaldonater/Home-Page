@@ -861,3 +861,11 @@ footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:7
 .personal-patterns-grid .beatmap-averages>p{text-align:center}
 
 .personal-patterns-grid .skillset-explanation{margin-top:auto;padding-top:16px;font-size:11px;line-height:1.7}
+
+.review-loading strong{display:block;font-size:18px;color:#f4f0f6}.review-loading ol{list-style:none;margin:22px auto;padding:0;width:fit-content;text-align:left}.review-loading li{padding:8px 0;font-size:12px;color:#8d8298}.review-loading li.active{color:#fa82b5}.review-loading li.complete{color:#b7e58b}.review-loading>small{font-size:11px;color:#aaa3b4}
+
+.loading-details{list-style:none;padding:0;margin:0 auto 20px;max-width:360px;text-align:left}.loading-details li{font-size:11px;padding:5px 0;color:#aaa3b4}
+
+.skillset-list strong a{color:inherit;text-decoration:none}.skillset-list strong a:hover,.skillset-list strong a:focus-visible{text-decoration:underline;text-underline-offset:3px}
+
+@media(max-width:600px){.beatmap-averages>.panel-heading{margin-bottom:16px}}

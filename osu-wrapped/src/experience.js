@@ -1,3 +1,5 @@
+import {savedBeatmapCover} from './beatmap-cover.js';
+import {demoAsset,demoMarkup} from './demo-images.js';
 import {skillsetsMarkup} from './skillsets.js';
 import {createCounterSounds} from './counter-sounds.js';
 import {openRecapViewer} from './recap-viewer.js';
@@ -84,7 +86,7 @@ export function experienceSlides(data){
   finale.body=finale.body.replace('Every new best starts<br>with one more try.','Every new pattern starts<br>with one idea.');
   return [slides[0],mappingSlide,...slides.slice(communityStart)].filter(Boolean);
  }
- return slides;
+ return data.demo?slides.map(slide=>({...slide,body:demoMarkup(slide.body||''),artwork:demoAsset(slide.artwork)})):slides;
 }
 export function usesOpeningMusic(slides,index){
  return index<=Math.max(0,slides.findIndex(slide=>slide.layout==='personal-mods'))||slides[index]?.eyebrow==='A LITTLE RECOGNITION';
@@ -417,7 +419,7 @@ export function openExperience(data,{onSave,onReview}={}){
  dialog.showModal();document.body.style.overflow='hidden';show(0);stage.tabIndex=0;stage.focus();pauseLabel();raf=requestAnimationFrame(tick);
 }
 
-function storyCover(value){try{const url=new URL(value);return url.protocol==='https:'&&url.hostname==='assets.ppy.sh'?url.href:'';}catch{return '';}}
+function storyCover(value){try{const url=new URL(value);return url.protocol==='https:'&&url.hostname==='assets.ppy.sh'?savedBeatmapCover(url.href):'';}catch{return '';}}
 function storyDate(value){const date=new Date(value);if(!value||Number.isNaN(date.getTime()))return 'Date unavailable';return 'Set <time datetime="'+date.toISOString()+'">'+new Intl.DateTimeFormat('en-US',{month:'long',day:'numeric',year:'numeric',timeZone:'UTC'}).format(date)+'</time> · UTC';}
 function storyGrade(rank){const label=({X:'SS',XH:'SS',SSH:'SS',SH:'S'})[rank]||rank||'—';const color=({X:'gold',SS:'gold',S:'gold',XH:'silver',SSH:'silver',SH:'silver',A:'green',B:'blue',C:'purple',D:'red'})[rank]||'silver';return '<span class="story-score-grade story-grade-'+color+'" aria-label="Grade '+escape(label)+'">'+escape(label)+'</span>';}
 
@@ -444,7 +446,7 @@ function makeQuiz(rows,kind){
  body:'<div class="story-thought-decoration" aria-hidden="true"><svg viewBox="0 0 220 200" fill="none" stroke="currentColor" stroke-width="5"><path d="M52 126C22 126 10 97 25 76C15 48 40 24 65 29C80 7 111 9 128 25C157 10 186 29 185 52C215 61 215 99 192 110C187 138 154 147 133 132C108 151 75 145 65 128Z"/><circle cx="61" cy="163" r="13"/><circle cx="34" cy="188" r="7"/><circle cx="77" cy="80" r="5" fill="currentColor" stroke="none"/><circle cx="112" cy="80" r="5" fill="currentColor" stroke="none"/><circle cx="147" cy="80" r="5" fill="currentColor" stroke="none"/></svg></div><p class="story-quiz-prompt">Who appears most in your 2026 score selection?'+(tied?' There’s a tie - any first-place answer counts.':'')+'</p><div class="story-quiz-options">'+options.map((row,i)=>'<button type="button" data-quiz-choice="'+i+'" aria-pressed="false"><span>'+String.fromCharCode(65+i)+'</span><b>'+escape(row.name)+'</b></button>').join('')+'</div><p class="story-quiz-feedback" role="status" aria-live="polite">Take your time. The story waits for you.</p>',note:'Based on 2026 scores in your current top 200 · choose an answer or skip to the rankings.'};
 }
 
-function storyPreview(score){if(!score)return null;try{const url=new URL(score.previewUrl||"", "https://b.ppy.sh");if(url.protocol==="https:"&&url.hostname==="b.ppy.sh"&&/^\/preview\/\d+\.mp3$/.test(url.pathname)&&!url.username&&!url.password&&!url.port)return url.origin+url.pathname;}catch{}const id=storyCover(score.cover)?.match(/\/beatmaps\/(\d+)\//)?.[1];return id?"https://b.ppy.sh/preview/"+id+".mp3":null;}
+function storyPreview(score){if(!score)return null;try{const url=new URL(score.previewUrl||"", "https://b.ppy.sh");if(url.protocol==="https:"&&url.hostname==="b.ppy.sh"&&/^\/preview\/\d+\.mp3$/.test(url.pathname)&&!url.username&&!url.password&&!url.port)return url.origin+url.pathname;}catch{}const id=(()=>{try{const url=new URL(score.cover);return url.origin==="https://assets.ppy.sh"&&!url.username&&!url.password?url.pathname.match(/^\/beatmaps\/([1-9]\d*)\//)?.[1]:null;}catch{return null;}})();return id?"https://b.ppy.sh/preview/"+id+".mp3":null;}
 
 function storyUserAvatar(user){let source=null;try{const url=new URL(user.avatar);if(url.protocol==="https:"&&url.hostname==="a.ppy.sh"&&!url.username&&!url.password&&!url.port)source=url.href;}catch{}if(!source&&Number.isSafeInteger(user.id)&&user.id>0)source="https://a.ppy.sh/"+user.id;return '<span class="story-user-avatar" aria-hidden="true"><span>'+escape([...user.username][0]||'?')+'</span>'+(source?'<img src="'+escape(source)+'" alt="" decoding="async" referrerpolicy="no-referrer"/>':'')+'</span>';}
 

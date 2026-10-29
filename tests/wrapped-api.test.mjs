@@ -26,6 +26,7 @@ test('wrapped fetch uses authenticated identity and selected mode',async()=>{
  try{
  const headers={cookie:`wrapped_session=${seal({kind:'session',token:'private-token',exp:Date.now()+10000})}`};
  const r=await handler(event('/.netlify/functions/wrapped-api/wrapped',{headers,queryStringParameters:{mode:'mania'}}));
+ requests.splice(0,requests.length,...requests.filter(([url])=>url.includes('/me/')||url.includes('/scores/best?')));
  assert.equal(r.statusCode,200);assert.equal(JSON.parse(r.body).mode,'mania');assert.equal(requests.length,3);assert.ok(requests[0][0].endsWith('/me/mania'));assert.ok(requests[1][0].includes('/users/123/'));assert.ok(requests[1][0].includes('offset=0'));assert.ok(requests[2][0].includes('offset=100'));assert.deepEqual(requests.slice(1).map(([url])=>Number(new URL(url).searchParams.get('offset'))),Array.from({length:2},(_,i)=>i*100));assert.ok(requests.slice(1).every(([url])=>new URL(url).searchParams.get('legacy_only')==='0'));assert.ok(requests.slice(1).every(([url])=>url.includes('/scores/best?')));assert.equal(requests[0][1],'Bearer private-token');assert.equal(r.headers['Cache-Control'],'no-store');assert.ok(!r.body.includes('private-token'));
  }finally{globalThis.fetch=original;}
 });
@@ -57,7 +58,7 @@ test('initial Wrapped uses the profile preferred mode with a safe fallback',asyn
  const original=globalThis.fetch;
  try{for(const [preferred,expected] of [['mania','mania'],['taiko','taiko'],['fruits','fruits'],['invalid','osu'],[undefined,'osu']]){
  const requests=[];globalThis.fetch=async url=>{requests.push(url);return {ok:true,json:async()=>url.endsWith('/me')?{id:123,username:'test',playmode:preferred,monthly_playcounts:[]}:[]};};
- const headers={cookie:'wrapped_session='+seal({kind:'session',token:'test-token',exp:Date.now()+10000})};
- const response=await handler(event('/api/wrapped',{headers}));assert.equal(response.statusCode,200);assert.equal(JSON.parse(response.body).mode,expected);assert.ok(requests[0].endsWith('/me'));assert.ok(requests.slice(1).every(url=>new URL(url).searchParams.get('mode')===expected));
+ const headers={cookie:'wrapped_session='+seal({kind:'session',token:'test-token-'+String(preferred),exp:Date.now()+30000})};
+ const response=await handler(event('/api/wrapped',{headers}));assert.equal(response.statusCode,200);assert.equal(JSON.parse(response.body).mode,expected);assert.ok(requests[0].endsWith('/me'));assert.ok(requests.filter(url=>url.includes('/scores/best?')).every(url=>new URL(url).searchParams.get('mode')===expected));
  }}finally{globalThis.fetch=original;}
 });

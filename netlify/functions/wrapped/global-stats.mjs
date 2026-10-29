@@ -1,3 +1,4 @@
+import {osuFetch} from './osu-api.mjs';
 import {comboInfo} from '../../../osu-wrapped/src/score-combo.js';
 import mapperSnapshot from './data/ranked-mappers.json' with {type:'json'};
 import {imageBytes} from './hardening.mjs';
@@ -18,7 +19,7 @@ export function normalizeGlobalScores(rows,mode='osu'){
  const names=(row.mods||[]).map(mod=>mod.acronym).filter(name=>typeof name==='string'&&name!=='CL');
  return {scoreId:row.id,bpm:Number.isFinite(row.beatmap?.bpm)?row.beatmap.bpm:Number.isFinite(row.beatmapset?.bpm)?row.beatmapset.bpm:null,replayAvailable:row.has_replay!==false,previewUrl:typeof row.beatmapset?.preview_url==='string'?row.beatmapset.preview_url:null,userId:row.user_id,username:row.user?.username||'Player #'+row.user_id,beatmapId:row.beatmap_id,title:row.beatmapset?.title||'Beatmap #'+row.beatmap_id,artist:row.beatmapset?.artist||'',version:row.beatmap?.version||'',creator:row.beatmapset?.creator||'',cover,pp:row.pp,...comboInfo(row),accuracy:Number.isFinite(row.accuracy)&&row.accuracy>=0&&row.accuracy<=1?row.accuracy*100:null,mods:names.filter(name=>!(name==='DT'&&names.includes('NC'))&&!(name==='SD'&&names.includes('PF'))).join(', ')||'NM',rank:typeof row.rank==='string'?row.rank:'',date:new Date(row.ended_at).toISOString()};});
 }
-export function createGlobalService({fetchImpl=(...args)=>fetch(...args),now=()=>Date.now()}={}){
+export function createGlobalService({fetchImpl=osuFetch,now=()=>Date.now()}={}){
  const cache=new Map(),pending=new Map(),popularCache=new Map(),popularPending=new Map();let appToken=null;
  async function fetchPopular(mode,credentials){
   try{

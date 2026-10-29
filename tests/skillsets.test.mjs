@@ -17,7 +17,7 @@ test('skillset percentages use all selected scores, deduplicate tags and report 
  const stats=skillsetSummary(scores,'osu');assert.equal(stats.checked,2);assert.equal(stats.tagged,1);assert.equal(stats.status,'partial');assert.equal(stats.rows[0].percentage,25);assert.equal(stats.rows[0].count,1);
  assert.match(skillsetsMarkup({skillsets:stats}),/1 of 4 selected scores/);assert.equal(skillsetSummary([{tags:'skillset/jumps'}]).rows.length,0);
 });
-test('tag failures do not fail the review and uncached requests are bounded',async()=>{
+test('tag enrichment failures preserve score data and uncached requests are bounded',async()=>{
  let requests=0;const enrich=createSkillsetEnricher({fetchImpl:async()=>{requests++;return new Response('',{status:503});}});
  const result=await enrich(Array.from({length:40},(_,i)=>score(i+1,i+1)),'osu','token');assert.equal(requests,24);assert.ok(result.every(s=>s.wrappedSkillsets.status==='unavailable'));
  const malformed=createSkillsetEnricher({fetchImpl:async()=>Response.json({id:1,beatmaps:fixture.beatmaps})});assert.equal((await malformed([score()],'osu','token'))[0].wrappedSkillsets.status,'unavailable');

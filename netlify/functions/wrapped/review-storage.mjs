@@ -1,0 +1,5 @@
+import {createHash,randomBytes,createCipheriv,createDecipheriv} from 'node:crypto';
+export const reviewStorage={async query(url,text,params){const {neon}=await import('@neondatabase/serverless');return neon(url).query(text,params,{fetchOptions:{signal:AbortSignal.timeout(2500)}});}};
+function key(secret){if(typeof secret!=='string'||secret.length<32)throw Error('Review storage requires a session secret.');return createHash('sha256').update('wrapped-review-storage:'+secret).digest();}
+export function encryptReview(value,secret){const iv=randomBytes(12),cipher=createCipheriv('aes-256-gcm',key(secret),iv);const bytes=Buffer.concat([cipher.update(JSON.stringify(value)),cipher.final()]);return Buffer.concat([iv,cipher.getAuthTag(),bytes]).toString('base64');}
+export function decryptReview(value,secret){try{const bytes=Buffer.from(value,'base64'),cipher=createDecipheriv('aes-256-gcm',key(secret),bytes.subarray(0,12));cipher.setAuthTag(bytes.subarray(12,28));return JSON.parse(Buffer.concat([cipher.update(bytes.subarray(28)),cipher.final()]).toString());}catch{return null;}}
