@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import api,{config} from '../netlify/functions/wrapped-api.mjs';
-import {handler} from '../netlify/functions/wrapped/api-handler.mjs';
+import {handler as appHandler} from '../netlify/functions/wrapped/api-handler.mjs';
+const handler=event=>appHandler(event,{now:()=>Date.parse('2026-12-01T00:00:00Z')});
 import {seal,unseal,cookie} from '../netlify/functions/wrapped/security.mjs';
 import {imageBytes,callbackUrl} from '../netlify/functions/wrapped/hardening.mjs';
 process.env.WRAPPED_SESSION_SECRET='security-test-only-secret-at-least-32-characters';
@@ -49,6 +50,7 @@ test('avatar proxy refuses upstream redirects',async()=>{
  try{assert.equal((await handler(event('/api/avatar',{queryStringParameters:{id:'123'}}))).statusCode,200);}finally{globalThis.fetch=original;}
 });
 test('Fetch API wrapper preserves auth denial and security response headers',async()=>{
- const result=await api(new Request('https://example.com/api/wrapped'));assert.equal(result.status,401);assert.equal(result.headers.get('cache-control'),'no-store');assert.equal(result.headers.get('x-content-type-options'),'nosniff');
+ const realNow=Date.now;Date.now=()=>Date.parse('2026-12-01T00:00:00Z');
+ const result=await api(new Request('https://example.com/api/wrapped'));Date.now=realNow;assert.equal(result.status,401);assert.equal(result.headers.get('cache-control'),'no-store');assert.equal(result.headers.get('x-content-type-options'),'nosniff');
  assert.equal(config.rateLimit.windowLimit,120);assert.deepEqual(config.rateLimit.aggregateBy,['ip','domain']);
 });

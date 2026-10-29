@@ -1,3 +1,4 @@
+import {skillsetSummary} from './skillsets.js';
 import {comboInfo} from './score-combo.js';
 import {beatmapAverages} from './beatmap-averages.js';
 import {assignClub} from './clubs.js';
@@ -21,7 +22,7 @@ export function summarize(user, best, mode, clubContext={}) {
   const group = key => Object.entries(scores.reduce((all,s)=>{
     const name = s.beatmapset?.[key]; if(name) all[name]=(all[name]||0)+1; return all;
   },Object.create(null))).sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0])).slice(0,10).map(([name,count])=>({name,count}));
-  return {beatmapAverages:beatmapAverages(scores,mode),year:YEAR,mode,generatedAt:new Date().toISOString(),user:{id:user.id,username:user.username,avatar:user.avatar_url,country:user.country_code,pp:user.statistics?.pp,rank:user.statistics?.global_rank},months,
+  return {skillsets:skillsetSummary(scores,mode),beatmapAverages:beatmapAverages(scores,mode),year:YEAR,mode,generatedAt:new Date().toISOString(),user:{id:user.id,username:user.username,avatar:user.avatar_url,country:user.country_code,pp:user.statistics?.pp,rank:user.statistics?.global_rank},months,
     playcount:months.some(m=>m.available)?months.reduce((s,m)=>s+m.count,0):null,
     replayViews,
     medals:Array.isArray(user.user_achievements)?user.user_achievements.filter(a=>inYear(a.achieved_at)).length:null,

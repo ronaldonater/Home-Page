@@ -28,7 +28,7 @@ export async function createRecap(data,{layout='portrait'}={}){
  const [avatar,covers,mapperAvatars,artistAvatars,medalArt,modArt]=await Promise.all([avatarImage(data.user.id),Promise.all(topPlays.map(score=>coverImage(score.cover))),Promise.all(data.mappers.slice(0,5).map(mapper=>avatarImage(mapper.userId))),Promise.all(data.artists.slice(0,5).map(async artist=>(await artistImage(artist.name))||await coverImage(artist.cover))),recapMedalImage(data.rarestMedal),Promise.all((data.favoriteMod?.mods||[]).slice(0,3).map(mod=>recapModImage(mod)))]);
  const hasMapping=data.mapping?.status==='ready'&&Number.isSafeInteger(data.mapping.created)&&data.mapping.created>0;
  const mappingCover=hasMapping?await coverImage(data.mapping?.mostPopular?.cover):null;
- const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2434+(hasMapping?290:0)+(data.beatmapAverages?.total?270:0);
+ const canvas=document.createElement('canvas');canvas.width=1200;canvas.height=2434+(hasMapping?290:0)+(data.beatmapAverages?.total?270:0)+(data.skillsets?.rows?.length?210:0);
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
  const text=(value,x,y,size=24,color=white,weight=400,maxWidth=1000)=>{
   ctx.font=weight+' '+size+'px "Segoe UI", sans-serif';ctx.fillStyle=color;
@@ -201,6 +201,12 @@ export async function createRecap(data,{layout='portrait'}={}){
    text('by metric',noteX,noteY+72,13,muted,400,240);
   }else{text('Mod-adjusted values / unweighted means / coverage varies by metric',88,2080,13,muted,400,1024);}
   ctx.translate(0,270);
+ }
+ if(data.skillsets?.rows?.length){
+  box(64,1848,1072,190,'#282231');text('YOUR MAIN SKILLSETS',88,1879,16,'#bd9aff',700,1000);
+  const skills=data.skillsets.rows.slice(0,5),width=1024/skills.length;
+  skills.forEach((row,i)=>{const x=88+i*width;text(row.name,x,1916,18,white,700,width-16);text(row.percentage.toFixed(1)+'%',x,1954,27,'#bd9aff',700,width-16);text(row.count+' scores',x,1979,13,muted,400,width-16);});
+  text(data.skillsets.tagged+' of '+data.skillsets.total+' selected scores tagged · '+data.skillsets.checked+' checked · Community map patterns',88,2011,12,muted,400,1024);ctx.translate(0,210);
  }
  line(64,1848,1072);
  text('SCORE COVERAGE',64,1883,14,pink,700);

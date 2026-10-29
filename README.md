@@ -41,11 +41,29 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.37**
+**Version 1.1.38**
 
-Supports all four modes, up to 29 slides (including the optional mapping slide), 21 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score or hosted mapset first submitted in 2026. Community percentages optionally use Neon.
+Supports all four modes, up to 29 slides (including the optional mapping slide), 26 playstyle clubs, six separate mapping clubs, recap exports, real-map demos, global rankings, and embedded replay/beatmap viewers. Personal reviews require at least one eligible 2026 score or hosted mapset first submitted in 2026. Community percentages optionally use Neon.
 
 See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](docs/OSU-WRAPPED-SECURITY-REVIEW.md), and [club ranking guide](docs/CLUB-RANKING.md). Public routes are `/osu-wrapped/` and `/api/osu-wrapped/`; use the private `WRAPPED_` environment variables documented in setup. Run `node --test tests/*.test.mjs` from the website root.
+
+## v1.1.38 updates
+
+- Added community-voted skillset rankings for exact played difficulties to the dashboard, a conditional slideshow slide, and portrait/landscape recap cards, with score counts, percentages, and checked/tagged coverage.
+- The dashboard lists all available skillsets in a themed scroll area showing five entries initially; slides and recap cards keep the top five. Alternate displays as Alt. The skillset slide includes a subtle decorative pie chart.
+- Placed average beatmap and skillset panels side by side on desktop, aligned their split with surrounding panels and top statistic cards, compacted skillset rows, and aligned panel descriptions at the bottom. Mobile panels remain stacked.
+- Added Easy Tempo for HT/DC on at least 40% of selected scores, with 40-55 base strength, a rewind icon, and support throughout the existing club presentation and community tracking.
+- Expanded Afterdark to include FI and CO in osu!mania, and One Shot Society to include AC alongside SD/PF, retaining their existing thresholds and strength ranges.
+- Added owner-managed early-access admins with profile pictures, live add/remove controls, and automatic hiding of the Admin panel once the release is public.
+
+- Added a release countdown until November 29, 2026 at 00:00 UTC, with server-enforced pre-release restrictions and automatic public opening.
+- Added a subtle osu! admin sign-in link; early access is restricted to ronaldonater's verified account ID (7933825). Personal endpoints retain normal authentication after release.
+- Expanded playstyle clubs to 27 with Artist Loyalists, One-Map Wonders, Short & Sweet, Long Haul Club, and Modded Only; all support primary/secondary traits, the legend, slides, recap cards, and community tracking.
+- Rebalanced base strengths: mapper/artist/mapset loyalty and length clubs 55-80, Modded Only 60, accuracy clubs 65-90, and Choke Artists 70-95.
+- Length clubs use mod-adjusted durations: 60% at <=1:30 for Short & Sweet or >=3:30 for Long Haul Club, with at least five selected scores.
+- Sorted the legend by general strength ranges while keeping All-Rounder last, and refreshed the mapper, mapset, and long-map artwork.
+- Existing Neon databases must apply `scripts/sql/club-community-v13.sql` before deployment. This cumulative migration preserves existing rows. Current assignment rules: `2026-v27`. The countdown itself requires no new SQL or environment variables.
+- Validation: 171 standalone tests and 193 website tests pass; the standalone production build passes.
 
 ## v1.1.37 updates
 
@@ -174,24 +192,24 @@ See [OAuth and deployment setup](docs/OSU-WRAPPED-SETUP.md), [security review](d
 - Omit mapping sections from the slideshow and recap when no eligible 2026 uploads exist.
 - Added Replay Society as a primary or secondary playstyle club, with a logarithmic strength scale based on replay views received in 2026.
 - Improved club legend descriptions, consistent accent colors, and mapping button styling.
-- Deployment: existing databases must run `scripts/sql/club-community-v8.sql` for Replay Society and `scripts/sql/mapping-community.sql` for mapping tracking. Existing Netlify database variables are reused.
+- Deployment: existing databases must run `scripts/sql/club-community-v13.sql` for the current playstyle clubs and `scripts/sql/mapping-community.sql` for mapping tracking. Existing Netlify database variables are reused.
 
 ## Community database setup
 
 The database is optional for reviews, slides and exports. It enables community primary-club percentages after one participant. Demos are never recorded; failed tracking does not block the review. Aggregates cache for one minute.
 
 - Fresh playstyle database: run `scripts/sql/club-community.sql`.
-- Existing playstyle database: run `scripts/sql/club-community-v8.sql`. It directly upgrades earlier schemas and retains existing rows.
+- Existing playstyle database: run `scripts/sql/club-community-v13.sql`. It directly upgrades earlier schemas and retains existing rows.
 - Mapping community: additionally run `scripts/sql/mapping-community.sql` in the same database and branch. It creates `wrapped_mapping_club_assignments` independently of `wrapped_club_assignments`.
-- Earlier v6/v7 files may remain as historical migrations; they are not prerequisites for v8.
+- Superseded migrations have been removed. The v13 upgrade includes all earlier playstyle club IDs; no intermediate migrations are required.
 - Standalone Functions variables: `DATABASE_URL`, `CLUB_TRACKING_SECRET`.
 - Website Functions variables: `WRAPPED_DATABASE_URL`, `WRAPPED_CLUB_TRACKING_SECRET`.
 
-Playstyle assignments count once per participant/year/mode under `2026-v15`. Mapping assignments count once per mapper/year across modes under `mapping-2026-v1`. Only current-rule assignments enter percentages; returning users refresh existing records. Keep the secret stable. Neither table stores raw osu! IDs, usernames, tokens, full reviews, or replay files. See [community setup](docs/CLUB-COMMUNITY.md).
+Playstyle assignments count once per participant/year/mode under `2026-v27`. Mapping assignments count once per mapper/year across modes under `mapping-2026-v1`. Only current-rule assignments enter percentages; returning users refresh existing records. Keep the secret stable. Neither table stores raw osu! IDs, usernames, tokens, full reviews, or replay files. See [community setup](docs/CLUB-COMMUNITY.md).
 
 ## Evidence and ranking
 
-All 21 playstyle clubs can be primary or secondary. Strongest evidence-adjusted signal wins, followed by the next distinct match. Exact ties use supporting coverage, then definition order. Score evidence uses `0.5 + 0.5 * min(evidenceScores / 20, 1)`; accuracy uses valid passed scores. Activity evidence uses `0.75 + 0.25 * min(availableMonths / 6, 1)`, using replay-history months for Replay Society. One eligible score remains enough; fewer than 20 scores receive a provisional note. These are design weights, not probabilities. See [ranking guide](docs/CLUB-RANKING.md).
+All 26 playstyle clubs can be primary or secondary. Strongest evidence-adjusted signal wins, followed by the next distinct match. Exact ties use supporting coverage, then definition order. Score evidence uses `0.5 + 0.5 * min(evidenceScores / 20, 1)`; accuracy uses valid passed scores. Activity evidence uses `0.75 + 0.25 * min(availableMonths / 6, 1)`, using replay-history months for Replay Society. One eligible score remains enough; fewer than 20 scores receive a provisional note. These are design weights, not probabilities. See [ranking guide](docs/CLUB-RANKING.md).
 
 ## Personal mapping and recap
 
@@ -207,13 +225,14 @@ Each mode includes real public metadata for ten native-mode mapsets from at leas
 
 ### Playstyle clubs
 
-One available 2026 score is enough to receive a club. The 21 clubs are:
+One available 2026 score is enough to receive a club. The 27 clubs are:
 
 | Club | Qualifying signal |
 | --- | --- |
 | Overdrive | DT or NC on at least 40% of selected scores. |
 | Hardrock Headquarters | HR on at least 40%; excluded as a defining club for mania. |
-| Afterdark | HD or FL on at least 50%. |
+| Easy Tempo | HT or DC on at least 40% of selected scores; 40-55 base strength. |
+| Afterdark | HD or FL (also FI or CO in osu!mania) on at least 50%. |
 | No Mod, No Problem | Unmodified scores on at least 60%. |
 | Precision Society | At least ten passed scores averaging 99% in osu!/taiko, 99.5% in catch, or 98% in mania. |
 | The Repeat Offenders | At least 10,000 recorded 2026 plays and six months with at least 500 plays each. |
@@ -228,14 +247,19 @@ One available 2026 score is enough to receive a club. The 21 clubs are:
 | Crowd Favorites | At least 40% of all eligible 2026 scores in the current top 200 overlap the selected mode’s popular 2026 top 25 mapsets, spanning at least three distinct sets and five eligible scores. |
 | Stable Loyalists | 100% confirmed osu!stable scores in the eligible 2026 top-200 sample. |
 | Lazer Pioneers | 100% confirmed osu!lazer scores in the eligible 2026 top-200 sample. |
-| One Shot Society | SD/PF on at least 40% of selected scores. |
+| One Shot Society | SD, PF or AC on at least 40% of selected scores. |
 | Choke Artists | At least five selected scores, three qualifying passes and a 30% share: exactly one miss, or standard passes with no misses and exactly one reported slider combo-break event. |
 | Replay Society | At least 500 replay views received by others in available 2026 monthly history across modes. |
+| Artist Loyalists | At least 25% for one artist, with three matching scores across two distinct mapsets. |
+| One-Map Wonders | At least 25% from one mapset, across at least three distinct beatmap difficulties. |
+| Short & Sweet | At least 60% on maps <=1:30 after mods; at least five selected scores. |
+| Long Haul Club | At least 60% on maps >=3:30 after mods; at least five selected scores. |
+| Modded Only | Every selected score uses at least one gameplay mod, with zero No Mod scores. |
 | All-Rounder | At least three mod combinations, five hosts and five artists, with every mod family below 40%; also the fallback when no signal qualifies. |
 
 All qualifying signals are ranked by strength rather than by first-match priority. Every club can be primary or secondary; the top two distinct matches are selected. Client exclusivity and playcount no longer automatically override stronger playstyle signals. All-Rounder can represent a balanced mod mix and remains the fallback. See the club ranking guide for weights, thresholds, and tie-breaking. These are playful descriptions of available data, not complete play histories.
 
-Every qualifying club is eligible for either role: the strongest signal becomes primary and the next distinct match becomes secondary. The precision-only badge has been replaced by the generic secondary archetype. The dashboard opens a scrollable legend of all 21 clubs with the current club highlighted. The story uses a click-triggered evolution reveal with sound effects; text selection is disabled until the entrance animations finish. Reduced motion and mute are supported.
+Every qualifying club is eligible for either role: the strongest signal becomes primary and the next distinct match becomes secondary. The precision-only badge has been replaced by the generic secondary archetype. The dashboard opens a scrollable legend of all 27 clubs with the current club highlighted. The story uses a click-triggered evolution reveal with sound effects; text selection is disabled until the entrance animations finish. Reduced motion and mute are supported.
 
 Recap PNGs include the club emblem, color, name, motto, and assignment reason. When earned, the secondary archetype appears on the right with a central divider. Clubs are computed per review: optional Neon tracking stores pseudonymous assignments to calculate participant percentages; see the community setup guide.
 
@@ -264,7 +288,7 @@ Replay Society - "Your plays deserve another look." Requires at least 500 views 
 
 500 per year is a provisional, deliberately substantial design threshold (about 42 per month over a full year), not a verified percentile or population average. No reliable population distribution was available during implementation. Base strength is 55 + 25 * clamp(log10(views / 500) / 2, 0, 1): 55 at 500, 67.5 at 5,000, 80 at 50,000+. Apply the same activity confidence multiplier as other activity clubs: 0.75 + 0.25 * min(available replay-history months / 6, 1). No annualization of partial-year data; missing or invalid history cannot qualify. It can be a primary or secondary trait.
 
-Playstyle assignment rules are `2026-v15`. Replay Society uses the existing playstyle community table and v8 migration; mapping tracking remains independent.
+Playstyle assignment rules are `2026-v27`. Replay Society uses the existing playstyle community table and v13 migration; mapping tracking remains independent.
 
 ## Mapping-only Wrapped
 
@@ -292,7 +316,7 @@ The personal dashboard includes unweighted mean star rating, total map duration 
 
 Supported fixed-rate DT/NC/HT/DC settings adjust BPM and duration. HR/EZ and Difficulty Adjust modify supported difficulty settings; standard OD and standard/catch AR include rate effects. Current mod-specific star ratings and available AR/OD attributes come from the official difficulty-attributes endpoint. No historical difficulty reconstruction is claimed. Variable-rate or unsupported mod settings can reduce adjusted coverage. Base and adjusted averages may cover different score subsets.
 
-Attribute enrichment is server-side, with four concurrent requests, a 3.5-second request budget, at most 24 uncached beatmap/mode/mod combinations per review, shared in-flight requests, and a 24-hour warm-instance success cache. Failures briefly cache and remain nonfatal; rate limiting stops further queued lookups in that batch. Further combinations can populate on later reviews. No database migration or new secrets are required. The demo includes real base difficulty/length metadata and cached official HD/DT attributes for its existing maps; demo scores and profile activity remain fictional. Missing values in live reviews display an em dash (—).
+Attribute enrichment is server-side, with four concurrent requests, a 3.5-second request budget, at most 24 uncached beatmap/mode/mod combinations per review, shared in-flight requests, and a 24-hour warm-instance success cache. Failures briefly cache and remain nonfatal; rate limiting stops further queued lookups in that batch. Further combinations can populate on later reviews. No database migration or new secrets are required. The demo includes real base difficulty/length metadata and cached official HD/DT attributes for its existing maps; demo scores and profile activity remain fictional. Missing values in live reviews display an em dash (-).
 
 Beatmap averages also appear in a dedicated personal slideshow slide and a compact recap card grid. Metric coverage labels show the number of included scores. Mapping-only reviews omit these score-based sections.
 
@@ -317,3 +341,49 @@ Personal and global top-play lists show accuracy and combo together, such as `99
 The global dashboard top-play list matches personal-list typography. Global PP/accuracy/combo and popular-map play counts are centered above their respective Watch buttons.
 
 Counter ticks use a predecoded low-latency Web Audio sample with leading-silence trimming, short fade envelopes, bounded overlapping voices, and tick-rate limiting. Suspended mobile audio never queues stale ticks; the fallback reuses idle preloaded players instead of cutting off a playing sample. Pause, mute, volume changes, slide navigation, and closure stop or update the counter audio appropriately.
+
+### Artist Loyalists
+
+Artist Loyalists ("You know who makes your favorite songs.") mirrors Mapper Loyalists: at least 25% of selected scores must feature one artist, with at least three matching scores across two distinct mapsets. Artist credits are compared case-insensitively with whitespace normalized; collaborations remain the credited artist string rather than being split. Base strength ranges from 55 at 25% to 80 at 100%, with the normal score-evidence adjustment. It can be primary or secondary and appears throughout the dashboard, legend, slideshow and recap cards.
+
+Before deployment, run `scripts/sql/club-community-v13.sql` in the existing Neon database to allow the new club ID. No rows are deleted or new environment variables required. Returning participants refresh to assignment rules `2026-v27` when they revisit; percentages include current-rule assignments.
+
+### One-Map Wonders
+
+"Different difficulties. Same obsession." At least 25% of selected scores must come from one mapset, spanning at least three confirmed distinct beatmap difficulties. Multiple scores or mod combinations on the same difficulty do not satisfy the three-difficulty requirement. Base strength is 55-80, with the standard sample-size adjustment; eligible as primary or secondary. The legend places it beside the loyalty clubs. Existing Neon databases must run `scripts/sql/club-community-v13.sql` before deployment; existing rows are preserved. Assignment rules are `2026-v27`. No new environment variables are needed.
+
+### Map-length clubs
+
+Short & Sweet ("Straight to the good part.") requires at least 60% of selected scores on maps no longer than 1:30. Long Haul Club ("You’re here for the whole song.") requires at least 60% on maps at least 3:30 long. Both require five selected scores and use mod-adjusted total length including breaks. Missing or invalid lengths never count toward either club; percentages use the entire selected sample. TV-size/full-size titles are not inferred. Both have base strength 55-80 with standard score evidence weighting and can be primary or secondary. All-Rounder remains last in the legend.
+
+Existing Neon databases must apply `scripts/sql/club-community-v13.sql` before deployment. This cumulative migration includes the earlier loyalty and mapset clubs, preserves participant records, and requires no new environment variables. Rules version: `2026-v27`.
+
+### Modded Only
+
+"Vanilla was never on the menu." Requires zero No Mod plays across all selected scores: every selected score must use at least one gameplay mod. CL is excluded, so CL-only scores count as No Mod. One selected score remains eligible; the normal score-evidence adjustment applies to the fixed base strength of 60. It can be primary or secondary and appears throughout the dashboard, legend, slideshow and recap cards. Existing Neon databases must run `scripts/sql/club-community-v13.sql` before deployment; this cumulative migration includes all previous clubs and preserves existing records. Assignment rules: `2026-v27`.
+
+### Release countdown and admin early access
+
+Until November 29, 2026 at 00:00 UTC, viewers see a live days/hours/minutes/seconds countdown. A subtle "If you’re an admin, login here." link starts the existing osu! OAuth flow. Early access is restricted server-side to the permanent owner (osu! account ID 7933825, ronaldonater) and users on the owner-managed allowlist, matched by numeric identity rather than a user-supplied name. Accounts outside the allowlist return to the countdown without receiving an early-access session. Existing sessions are verified against osu! before granting access. Review, global, replay, and image API routes are blocked for non-admins before release; release-status and admin responses are not cached. The frontend only imports the interactive app after the server allows access. Public access opens automatically at the UTC deadline, using server time for the countdown. If the status service is unavailable, the page remains locked and retries. OAuth credentials are unchanged; no new environment variables or SQL are needed for the countdown. Use the full local Netlify server for testing; Vite alone does not provide the release-status endpoint.
+
+### Owner-managed early-access admins
+
+The navbar shows an Admin button only for ronaldonater (verified osu! account 7933825). The panel adds users by osu! username or numeric ID and removes existing entries; only the owner may list or mutate the allowlist. Added admins get pre-release access, not permission to manage other admins. IDs are resolved through osu! and stored server-side; names are display labels. Owner access is permanent and cannot be removed. Access checks read the allowlist without a permissions cache, so removals apply on the next server request, including existing signed-in sessions. Already downloaded content is not erased. The panel refreshes its list every ten seconds while open and visible.
+
+Run `scripts/sql/admin-allowlist.sql` once in Neon before deploying admin management. It creates a separate `wrapped_release_admins` table with RLS enabled and does not change club tables. Reuse the existing private `DATABASE_URL` (standalone) or `WRAPPED_DATABASE_URL` (website); no new environment variables are needed. Missing/unavailable admin storage denies additional-user early access while the permanent owner remains able to sign in. At release, public access opens normally; the admin-management endpoint remains owner-only. Mutations require POST, a matching Origin, and an authenticated owner session. Sign out reloads the release gate.
+
+The Admin navbar button is pre-release only. It is hidden once the release becomes public, and an already-open admin panel closes automatically at the server-derived release deadline without reloading. The underlying management endpoint remains authenticated and owner-only.
+
+## Community skillset tags
+
+The stats page ranks all available community skillset tags from the exact difficulties in selected 2026 scores. Five entries are initially visible; additional entries are accessible through a themed, keyboard-focusable scrolling list. A conditional skillset slide and both recap card formats show the top five when tags are available. Alternate is displayed as Alt. The slide includes a decorative pie chart icon. Each skillset counts once per selected score; percentages use all selected scores and can overlap. Coverage shows how many scores were checked and tagged. These describe map patterns, not measured player proficiency. Ordinary mapper tags are not used as substitutes.
+
+Tag enrichment uses the osu! beatmapset API with at most 24 uncached mapsets per review, four concurrent requests, a four-second request budget, and a six-hour in-memory success cache. Missing tags or API failures leave partial coverage and never block the review. Subsequent reviews can fill remaining coverage. No database migration or new environment variables are needed.
+
+### Easy Tempo and expanded mod families
+
+Easy Tempo: "Good music deserves a little more time." HT or DC must appear on at least 40% of selected scores. Its base strength grows from 40 to 55 with the qualifying share, followed by the normal score-evidence adjustment. It can be primary or secondary, uses its own colour and rewind-style icon, and appears in the legend, dashboard, slides, recap cards, and community percentages. Each score contributes once even if multiple mods from the same family are reported.
+
+Afterdark retains its 50% threshold and includes HD/FL across supported modes plus FI/CO in osu!mania. One Shot Society retains its 40% threshold and now includes AC alongside SD/PF. These mod families retain their 40-55 base strength range.
+
+Existing Neon databases must run `scripts/sql/club-community-v13.sql` before deploying Easy Tempo. The migration extends the allowed club IDs without deleting participant rows. Fresh installations use `scripts/sql/club-community.sql`. Assignments use `2026-v27`; returning participants update their existing records. No additional environment variables are required.

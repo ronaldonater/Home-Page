@@ -1,13 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
-import {handler} from '../netlify/functions/wrapped/api-handler.mjs';
+import {handler as appHandler} from '../netlify/functions/wrapped/api-handler.mjs';
+const handler=event=>appHandler(event,{now:()=>Date.parse('2026-12-01T00:00:00Z')});
 const event=(path,extra={})=>({path,httpMethod:'GET',headers:{},...extra});
 test('Wrapped subpage uses independent routes, assets, and credentials',async()=>{
  const html=await readFile(new URL('../osu-wrapped/index.html',import.meta.url),'utf8');
  const main=await readFile(new URL('../osu-wrapped/src/main.js',import.meta.url),'utf8');
  const recap=await readFile(new URL('../osu-wrapped/src/recap.js',import.meta.url),'utf8');
- assert.ok(html.includes('/osu-wrapped/src/main.js'));assert.ok(html.includes('/osu-wrapped/src/style.css'));
+ assert.ok(html.includes('/osu-wrapped/src/release-entry.js'));assert.ok(html.includes('/osu-wrapped/src/style.css'));
  assert.ok(main.includes('/api/osu-wrapped/wrapped'));assert.ok(main.includes('href="/osu-wrapped/"'));assert.ok(main.includes('href="/"'));assert.ok(recap.includes('/api/osu-wrapped/avatar'));
  assert.equal((await handler(event('/api/osu-wrapped/wrapped'))).statusCode,401);
  assert.equal((await handler(event('/.netlify/functions/wrapped-api/wrapped'))).statusCode,401);
@@ -24,7 +25,7 @@ test('new OAuth client uses namespaced callback and returns to the subpage',asyn
  assert.equal(authorize.searchParams.get('client_id'),'new-wrapped-client');assert.equal(authorize.searchParams.get('redirect_uri'),process.env.WRAPPED_OSU_REDIRECT_URI);
  const cookie=login.multiValueHeaders['Set-Cookie'][0].split(';')[0];assert.ok(cookie.startsWith('wrapped_state='));
  const original=globalThis.fetch;
- globalThis.fetch=async(url,options)=>{const body=JSON.parse(options.body);assert.equal(body.client_id,'new-wrapped-client');assert.equal(body.redirect_uri,process.env.WRAPPED_OSU_REDIRECT_URI);return new Response(JSON.stringify({access_token:'test-private-access',expires_in:3600}),{headers:{'content-type':'application/json'}});};
+ globalThis.fetch=async(url,options)=>{if(String(url).endsWith('/me')){assert.equal(options.headers.Authorization,'Bearer test-private-access');return new Response(JSON.stringify({id:123,username:'Test user'}),{headers:{'content-type':'application/json'}});}const body=JSON.parse(options.body);assert.equal(body.client_id,'new-wrapped-client');assert.equal(body.redirect_uri,process.env.WRAPPED_OSU_REDIRECT_URI);return new Response(JSON.stringify({access_token:'test-private-access',expires_in:3600}),{headers:{'content-type':'application/json'}});};
  try{
  const callback=await handler(event('/api/osu-wrapped/auth/callback',{headers:{cookie},queryStringParameters:{code:'test-code',state:authorize.searchParams.get('state')}}));
  assert.equal(callback.headers.Location,'/osu-wrapped/?connected=1');assert.ok(callback.multiValueHeaders['Set-Cookie'][0].startsWith('wrapped_session='));assert.ok(!JSON.stringify(callback).includes('test-private-access'));

@@ -1,6 +1,6 @@
 # osu! Wrapped 2026 subpage
 
-**Version 1.1.37**
+**Version 1.1.38**
 
 Public URL: https://ronaldonater.com/osu-wrapped/ (use your actual canonical host if different). Its Dev-page entry is managed manually. Wrapped is a self-contained static ES-module app; no build step or Vite installation is needed for the personal site. All existing pages and integrations remain in place. No credentials were copied from the standalone app.
 
@@ -51,15 +51,15 @@ Rarest 2026 medal: profile achievement timestamps are filtered using UTC, then m
 
 ## Current features and data scope
 
-The current release is v1.1.37. See the root README for the complete feature guide: 21 playstyle clubs, six separate mapping clubs, up to 29 slides including the conditional personal-mapping slide, and recap cards with primary/secondary clubs and mapping details. Without eligible scores, hosted 2026 submissions unlock a mapping-only Wrapped; users with neither remain blocked; users without 2026 uploads have no personal mapping slide or recap section. Genre rankings cover all currently ranked 2026 mapsets in the selected native mode, not just the most-played 25.
+The current release is v1.1.38. See the root README for the complete feature guide: 26 playstyle clubs, six separate mapping clubs, up to 29 slides including the conditional personal-mapping slide, and recap cards with primary/secondary clubs and mapping details. Without eligible scores, hosted 2026 submissions unlock a mapping-only Wrapped; users with neither remain blocked; users without 2026 uploads have no personal mapping slide or recap section. Genre rankings cover all currently ranked 2026 mapsets in the selected native mode, not just the most-played 25.
 
 Global catalogue snapshots refresh through `.github/workflows/ranked-mappers.yml` daily at 08:23 UTC or by manual dispatch. Configure Actions secrets `OSU_CLIENT_ID` and `OSU_CLIENT_SECRET` and repository write permission. These Actions secrets are separate from Netlify's website-prefixed variables. A successful refreshed snapshot must be deployed to appear live.
 
 ## Community database deployment
 
-Use the same Neon database and branch for both community tables. For a fresh playstyle installation run `scripts/sql/club-community.sql`; for any existing earlier schema run `scripts/sql/club-community-v8.sql`. Additionally run `scripts/sql/mapping-community.sql` for mapping percentages. Existing rows are retained. Earlier migration files are not prerequisites.
+Use the same Neon database and branch for both community tables. For a fresh playstyle installation run `scripts/sql/club-community.sql`; for any existing earlier schema run `scripts/sql/club-community-v12.sql`. Additionally run `scripts/sql/mapping-community.sql` for mapping percentages. Existing rows are retained. Earlier migration files are not prerequisites.
 
-Both server services reuse `WRAPPED_DATABASE_URL` and `WRAPPED_CLUB_TRACKING_SECRET`, private Netlify Functions variables. No new connection or secret is required. Playstyle rules are `2026-v15`, counting one assignment per participant/year/mode. Mapping rules are `mapping-2026-v1`, counting one per mapper/year across modes. Percentages unlock after one participant, cache for a minute, and include current-rule assignments. Demos are excluded. Without configuration, tracking is disabled; failures do not block Wrapped.
+Both server services reuse `WRAPPED_DATABASE_URL` and `WRAPPED_CLUB_TRACKING_SECRET`, private Netlify Functions variables. No new connection or secret is required. Playstyle rules are `2026-v26`, counting one assignment per participant/year/mode. Mapping rules are `mapping-2026-v1`, counting one per mapper/year across modes. Percentages unlock after one participant, cache for a minute, and include current-rule assignments. Demos are excluded. Without configuration, tracking is disabled; failures do not block Wrapped.
 
 See [community setup](CLUB-COMMUNITY.md) and [ranking guide](CLUB-RANKING.md). Redeploy after environment variable changes.
 
@@ -76,3 +76,9 @@ After deployment, verify `/robots.txt`, `/sitemap.xml`, and `/osu-wrapped/` on t
 Deploy `osu-wrapped/src/secret.js`, the updated app entrypoint and stylesheet, and `osu-wrapped/sounds/wysi.mp3` together. The console command is `secret()`. Audio is same-origin under the existing media policy; no CSP relaxation, SQL migration or additional environment variables are needed. Confirm playback after a user gesture, falling particles, the final fade, and Escape cancellation on the deployed site. Aireu is credited in Music & sound.
 
 Average beatmap statistics appear on the personal stats page, in a dedicated slide, and on recap cards. Supported mod adjustments and cached difficulty-attribute lookups need no additional secrets or SQL migration.
+
+## Release countdown
+
+The Wrapped subpage is locked until November 29, 2026 at 00:00 UTC. Its release-status endpoint controls access using server time. The authenticated owner account 7933825 (ronaldonater) and users added to the owner-managed admin list get early access via the countdown's sign-in link. Normal public access resumes automatically at release; personal routes still require authentication. Pre-release API responses are not cached. Test locally with Netlify Dev rather than a static server, because the release-status endpoint must be available. No additional secrets or SQL are needed for this gate. For the new clubs, apply the cumulative `scripts/sql/club-community-v12.sql` migration before deployment.
+
+For owner-managed early access, run `scripts/sql/admin-allowlist.sql` in the same Neon database. The Admin navbar panel is visible only to the owner; added admins cannot manage users. The existing `WRAPPED_DATABASE_URL` is reused.

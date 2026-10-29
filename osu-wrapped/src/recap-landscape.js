@@ -22,7 +22,8 @@ export async function createLandscapeRecap(data,assets){
   Promise.all(artists.map(async artist=>(await assets.artistImage(artist.name))||await assets.coverImage(artist.cover))),
   Promise.all((onlyMapping?[]:data.favoriteMod?.mods||[]).slice(0,3).map(mod=>assets.recapModImage(mod)))
  ]);
- const mappingY=1016+(rows.length?234:0);
+ const hasSkillsets=!onlyMapping&&data.skillsets?.rows?.length>0;
+ const skillsetsY=1016+(rows.length?234:0),mappingY=skillsetsY+(hasSkillsets?190:0);
  const canvas=document.createElement('canvas');canvas.width=2400;canvas.height=onlyMapping?1000:mappingY+(mapping?328:0)+96;
  const ctx=canvas.getContext('2d');if(!ctx)throw Error('Canvas unavailable');
  const num=value=>value==null?'Unavailable':Number(value).toLocaleString('en-US',{maximumFractionDigits:0});
@@ -147,6 +148,12 @@ export async function createLandscapeRecap(data,assets){
    const width=2224/rows.length;rows.forEach((row,i)=>{const x=88+i*width;text(row.label,x,1084,15,muted,500,width-20);text(row.adjusted,x,1125,32,blue,700,width-20);text('Base: '+row.base,x,1156,16,muted,400,width-20);text(row.count+' scores',x,1182,14,muted,400,width-20);});
    text('Mod-adjusted values / unweighted means / coverage varies by metric',88,1206,12,muted,400,2200);
   }
+ }
+ if(hasSkillsets){
+  const y=skillsetsY;box(64,y,2272,162,'#282231');text('YOUR MAIN SKILLSETS',88,y+33,17,'#bd9aff',700,1800);
+  const skills=data.skillsets.rows.slice(0,5),width=2224/skills.length;
+  skills.forEach((row,i)=>{const x=88+i*width;text(row.name,x,y+69,22,white,700,width-24);text(row.percentage.toFixed(1)+'%',x,y+108,32,'#bd9aff',700,width-24);text(row.count+' scores',x+120,y+108,14,muted,400,width-144);});
+  text(data.skillsets.tagged+' of '+data.skillsets.total+' selected scores tagged · '+data.skillsets.checked+' checked · Community map patterns, not measured proficiency',88,y+143,13,muted,400,2200);
  }
  if(mapping){
   const y=onlyMapping?252:mappingY,h=onlyMapping?640:300;

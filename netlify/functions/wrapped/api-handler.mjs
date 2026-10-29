@@ -1,3 +1,6 @@
+import {enrichSkillsetTags} from './skillset-tags.mjs';
+import {adminAllowlist} from './admin-allowlist.mjs';
+import {RELEASE_AT,releaseOpen,isReleaseAdmin} from './release-gate.mjs';
 import {enrichBeatmapAttributes} from './beatmap-attributes.mjs';
 import {recordMappingClubCommunity} from './mapping-community.mjs';
 import {mappingStats} from './mapping-stats.mjs';
@@ -13,11 +16,56 @@ import {summarize} from '../../../osu-wrapped/src/summary.js';
 const json=(statusCode,body,extra={})=>({statusCode,headers:{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',...extra},body:JSON.stringify(body)});
 const redirect=(to,setCookies=[])=>({statusCode:302,headers:{Location:to,'Cache-Control':'no-store','Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff'},multiValueHeaders:{'Set-Cookie':setCookies},body:''});
 async function osu(path,token){const res=await fetch(`https://osu.ppy.sh/api/v2${path}`,{headers:{Authorization:`Bearer ${token}`,Accept:'application/json','x-api-version':'20220705'},signal:AbortSignal.timeout(12000)});if(!res.ok){const error=new Error(res.status===429?'osu! is busy. Please wait a minute and try again.':'Unable to retrieve osu! data. Please try signing in again.');error.status=res.status===401?401:502;throw error;}return res.json();}
-export async function handler(event){
+export async function handler(event,{now=Date.now}={}){
+ const result=await handleRequest(event,now);
+ if(!releaseOpen(now()))result.headers={...result.headers,'Cache-Control':'no-store','Netlify-CDN-Cache-Control':'no-store'};
+ return result;
+}
+async function handleRequest(event,now){
  try{
  const path=event.path.replace(/^\/.netlify\/functions\/wrapped-api(?=\/|$)/,'/api').replace(/^\/api\/osu-wrapped(?=\/|$)/,'/api');const jar=cookies(event);
- if(event.httpMethod!==(path==='/api/auth/logout'?'POST':'GET'))return json(405,{error:'Method not allowed'},{Allow:path==='/api/auth/logout'?'POST':'GET'});
+ const allowedMethods=path==='/api/admin/users'?['GET','POST']:path==='/api/auth/logout'?['POST']:['GET'];
+ if(!allowedMethods.includes(event.httpMethod))return json(405,{error:'Method not allowed'},{Allow:allowedMethods.join(', ')});
  if(path!=='/api/auth/callback' && event.headers['sec-fetch-site']==='cross-site' && event.headers['sec-fetch-mode']!=='navigate')return json(403,{error:'Cross-site request denied'});
+ const released=releaseOpen(now());
+ const releaseSession=unseal(jar.wrapped_session||'');
+ let admin=false,verifiedId=null;
+ async function identity(){
+  if(!sessionValid(releaseSession))return null;
+  if(verifiedId!==null)return verifiedId;
+  const user=Number.isSafeInteger(releaseSession.userId)?{id:releaseSession.userId}:await osu('/me',releaseSession.token);
+  verifiedId=Number.isSafeInteger(user?.id)&&user.id>0?user.id:null;return verifiedId;
+ }
+ async function verifyAdmin(){return adminAllowlist.has(await identity(),process.env.WRAPPED_DATABASE_URL);}
+ if(path==='/api/admin/users'){
+  if(!sessionValid(releaseSession))return json(401,{error:'Sign in as ronaldonater to manage admins.'});
+  if(!isReleaseAdmin({id:await identity()}))return json(403,{error:'Only ronaldonater can manage admins.'});
+  if(event.httpMethod==='POST'){
+   const expected=callbackUrl(process.env.WRAPPED_OSU_REDIRECT_URI).origin;
+   if(event.headers.origin!==expected)return json(403,{error:'Invalid origin'});
+   const query=event.queryStringParameters||{},value=typeof query.user==='string'?query.user.trim():'';
+   if(!value||value.length>32)return json(400,{error:'Enter a valid osu! username or user ID.'});
+   if(query.action==='add'){
+    const user=await osu('/users/'+encodeURIComponent(value)+(/^[1-9]\d*$/.test(value)?'?key=id':'?key=username'),releaseSession.token);
+    await adminAllowlist.add(user,process.env.WRAPPED_DATABASE_URL);
+   }else if(query.action==='remove'){
+    if(!/^[1-9]\d*$/.test(value))return json(400,{error:'Invalid user ID.'});
+    await adminAllowlist.remove(Number(value),process.env.WRAPPED_DATABASE_URL);
+   }else return json(400,{error:'Invalid admin action.'});
+  }
+  const rows=await adminAllowlist.list(process.env.WRAPPED_DATABASE_URL);
+  return json(200,{users:[{id:7933825,username:'ronaldonater',owner:true},...rows.filter(row=>Number(row.user_id)!==7933825).map(row=>({id:Number(row.user_id),username:row.username,addedAt:row.added_at,owner:false}))]});
+ }
+ if(path==='/api/release'){
+  try{admin=await verifyAdmin();}catch(error){if(!released)throw error;}
+  const owner=admin&&isReleaseAdmin({id:verifiedId});
+  const extra=admin&&!releaseSession.userId?{'Set-Cookie':cookie('wrapped_session',seal({...releaseSession,userId:verifiedId}),Math.max(1,Math.floor((releaseSession.exp-Date.now())/1000)))}:{};
+  return json(200,{allowed:released||admin,admin,owner,releaseAt:RELEASE_AT,serverNow:now()},extra);
+ }
+ if(!released&&!['/api/auth/login','/api/auth/callback','/api/auth/logout'].includes(path)){
+  admin=await verifyAdmin();
+  if(!admin)return json(423,{error:'osu! Wrapped opens on November 29, 2026 at 00:00 UTC.',releaseAt:RELEASE_AT});
+ }
  if(path==='/api/global'){const result=await globalStats(event.queryStringParameters?.mode||'osu',{clientId:process.env.WRAPPED_OSU_CLIENT_ID,clientSecret:process.env.WRAPPED_OSU_CLIENT_SECRET});return json(result.statusCode,result.body,result.statusCode===200?{'Cache-Control':'public, max-age=300','Netlify-CDN-Cache-Control':'public, max-age=900'}:{});}
  if(path==='/api/replay'||path==='/api/global-replay'){
   const session=unseal(jar.wrapped_session||'');if(!sessionValid(session))return json(401,{error:'Sign in again to watch this replay.'});
@@ -86,8 +134,13 @@ export async function handler(event){
   if(!res.ok)return redirect('/osu-wrapped/?error=login',[cookie('wrapped_state','',0)]);
   const token=await res.json();
   if(!sessionValid({kind:'session',token:token.access_token})||!Number.isFinite(token.expires_in)||token.expires_in<=0)return redirect('/osu-wrapped/?error=login',[cookie('wrapped_state','',0)]);
+  let adminIdentity;
+  {
+   adminIdentity=await osu('/me',token.access_token);
+   if(!released&&!await adminAllowlist.has(adminIdentity.id,process.env.WRAPPED_DATABASE_URL))return redirect('/osu-wrapped/?error=admin',[cookie('wrapped_session','',0),cookie('wrapped_state','',0)]);
+  }
   const age=Math.min(Math.floor(token.expires_in),86400);
-  return redirect('/osu-wrapped/?connected=1',[cookie('wrapped_session',seal({kind:'session',token:token.access_token,exp:Date.now()+age*1000}),age),cookie('wrapped_state','',0)]);
+  return redirect('/osu-wrapped/?connected=1',[cookie('wrapped_session',seal({kind:'session',token:token.access_token,...(adminIdentity?{userId:adminIdentity.id}:{}),exp:Date.now()+age*1000}),age),cookie('wrapped_state','',0)]);
  }
  if(path==='/api/auth/logout'){
   if(event.httpMethod!=='POST')return json(405,{error:'Method not allowed'});
@@ -102,8 +155,8 @@ export async function handler(event){
   const mode=requestedMode||(validModes.includes(user.playmode)?user.playmode:'osu');
   const pages=await Promise.all(Array.from({length:2},(_,page)=>osu(`/users/${user.id}/scores/best?mode=${mode}&limit=100&offset=${page*100}&legacy_only=0`,session.token)));
   const best=pages.flat();
-  const [enriched,popularBeatmapsets]=await Promise.all([enrichMapDates(best,session.token),globalStats.popularBeatmapsets(mode,{clientId:process.env.WRAPPED_OSU_CLIENT_ID,clientSecret:process.env.WRAPPED_OSU_CLIENT_SECRET})]);
-  const withAttributes=await enrichBeatmapAttributes(enriched,mode,session.token);
+  const [enriched,popularBeatmapsets,taggedScores]=await Promise.all([enrichMapDates(best,session.token),globalStats.popularBeatmapsets(mode,{clientId:process.env.WRAPPED_OSU_CLIENT_ID,clientSecret:process.env.WRAPPED_OSU_CLIENT_SECRET}),enrichSkillsetTags(best,mode,session.token)]);
+  const withAttributes=await enrichBeatmapAttributes(enriched.map((score,index)=>({...score,wrappedSkillsets:taggedScores[index]?.wrappedSkillsets})),mode,session.token);
   const summary=summarize(user,withAttributes,mode,{popularBeatmapsets});
   const [mapping,medal,clubCommunity]=await Promise.all([mappingStats(user.id,session.token),rarestMedal(user.user_achievements),recordClubCommunity(summary,{databaseUrl:process.env.WRAPPED_DATABASE_URL,trackingSecret:process.env.WRAPPED_CLUB_TRACKING_SECRET})]);
   const mappingCommunity=await recordMappingClubCommunity(summary,mapping,{databaseUrl:process.env.WRAPPED_DATABASE_URL,trackingSecret:process.env.WRAPPED_CLUB_TRACKING_SECRET});
