@@ -2,6 +2,10 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.41 updates
+
+- Moved the portrait recap mapping section below average beatmap statistics and skillsets, immediately before score coverage.
+
 ## v1.1.40 updates
 
 - Simplified the README to focus on features, setup, deployment, data scope, privacy, and credits.
