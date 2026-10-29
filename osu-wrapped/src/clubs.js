@@ -67,9 +67,9 @@ export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null,
  const passed=scores.filter(s=>s.passed!==false&&Number.isFinite(s.accuracy)&&s.accuracy>=0&&s.accuracy<=1),accuracy=passed.length?passed.reduce((sum,s)=>sum+s.accuracy*100,0)/passed.length:null;
  const accuracyThreshold=({osu:99,taiko:99,fruits:99.5,mania:98})[mode]??99;
  const lowAccuracyThreshold=mode==='fruits'?95:90;
- const lowAccuracy=passed.length>=10&&accuracy<lowAccuracyThreshold;
- const precise=passed.length>=10&&accuracy+1e-9>=accuracyThreshold,loyalCount=Math.max(0,...[...hosts].filter(([host,count])=>count>=3&&(hostSets.get(host)?.size||0)>=2).map(([,count])=>count)),loyal=loyalCount/total>=.25,diverse=hosts.size>=10&&artists.size>=10&&hosts.size/total>=.5&&artists.size/total>=.5;
- const activity=months.filter(m=>m.available===true&&Number.isFinite(m.count)&&m.count>=0),plays=activity.reduce((sum,m)=>sum+m.count,0),regularMonths=activity.filter(m=>m.count>=500).length;
+ const lowAccuracy=passed.length>0&&passed.length/total>=.5&&accuracy<lowAccuracyThreshold;
+ const precise=passed.length>0&&passed.length/total>=.5&&accuracy+1e-9>=accuracyThreshold,loyalCount=Math.max(0,...[...hosts].filter(([host,count])=>(hostSets.get(host)?.size||0)>=2).map(([,count])=>count)),loyal=loyalCount/total>=.25,diverse=hosts.size>=10&&artists.size>=10&&hosts.size/total>=.5&&artists.size/total>=.5;
+ const activity=months.filter(m=>m.available===true&&Number.isFinite(m.count)&&m.count>=0),plays=activity.reduce((sum,m)=>sum+m.count,0);
  const eligibleMaps=scores;
  const mapId=score=>score.beatmapset?.id??score.beatmap?.beatmapset_id;
  const rankedYear=score=>typeof score.beatmapset?.ranked_date==='string'?new Date(score.beatmapset.ranked_date).getUTCFullYear():NaN;
@@ -89,25 +89,25 @@ export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null,
  for(const [id,count] of preferences){const label={slowtempo:'HT or DC',overdrive:'DT or NC',hardmode:'HR',afterdark:mode==='mania'?'HD, FL, FI or CO':'HD or FL',nomod:'No Mod',easy:'EZ',oneshot:'SD, PF or AC',safetynet:mode==='osu'?'SO or NF':'NF'}[id];add(id,shareStrength(count/total,thresholds[id],40,15),count+' of '+total+' selected scores ('+(count/total*100).toFixed(1)+'%) use '+label+'.',count/total);}
  if(families.nomod===0)add('moddedonly',60,'All '+total+' selected '+(total===1?'score uses':'scores use')+' at least one gameplay mod (0 No Mod scores).');
  const chokeCount=scores.filter(score=>isChokeScore(score,mode)).length;
- if(total>=5&&chokeCount>=3&&chokeCount/total>=.3)add('choke',shareStrength(chokeCount/total,.3,70,25),chokeCount+' of '+total+' selected scores ('+(chokeCount/total*100).toFixed(1)+'%) are one-miss passes or passes with one reported slider combo-break event.',chokeCount/total);
+ if(chokeCount/total>=.3)add('choke',shareStrength(chokeCount/total,.3,70,25),chokeCount+' of '+total+' selected scores ('+(chokeCount/total*100).toFixed(1)+'%) are one-miss passes or passes with one reported slider combo-break event.',chokeCount/total);
  if(precise)add('precision',65+25*clamp((accuracy-accuracyThreshold)/(100-accuracyThreshold)),'Your average accuracy is '+accuracy.toFixed(2)+'% across '+passed.length+' passed scores, meeting the '+accuracyThreshold+'% threshold for this mode.',passed.length/total);
  if(lowAccuracy)add('closeenough',65+25*clamp((lowAccuracyThreshold-accuracy)/15),'Your average accuracy is '+accuracy.toFixed(2)+'% across '+passed.length+' passed scores, below the '+lowAccuracyThreshold+'% threshold for this mode.',passed.length/total);
  if(Number.isSafeInteger(replayViews)&&replayViews>=500&&Number.isInteger(replayMonths)&&replayMonths>=1&&replayMonths<=12)add('replay',55+25*clamp(Math.log10(replayViews/500)/2),replayViews.toLocaleString('en-US')+' views of your replays by others in available 2026 monthly profile history (all modes). This does not count replays you watched or unique viewers.',replayMonths/12);
- if(plays>=10000&&regularMonths>=6)add('repeat',55+25*(.7*clamp((plays-10000)/40000)+.3*clamp((regularMonths-6)/6)),plays.toLocaleString('en-US')+' recorded 2026 plays, with at least 500 plays in '+regularMonths+' months.',regularMonths/12);
+ if(plays>=10000)add('repeat',55+25*clamp((plays-10000)/40000),plays.toLocaleString('en-US')+' recorded 2026 plays across available monthly profile history (all modes).',activity.length/12);
  if(activity.length&&plays>0&&plays<100)add('quality',55+25*clamp((99-plays)/98),plays.toLocaleString('en-US')+' recorded '+(plays===1?'play':'plays')+' in available 2026 monthly profile history (all modes).',activity.length/12);
  if(loyal)add('loyalist',shareStrength(loyalCount/total,.25,55,25),loyalCount+' of '+total+' selected scores ('+(loyalCount/total*100).toFixed(1)+'%) come from one mapset host.',loyalCount/total);
- const artistLoyalCount=Math.max(0,...[...artistCounts].filter(([artist,count])=>count>=3&&(artistSets.get(artist)?.size||0)>=2).map(([,count])=>count));
+ const artistLoyalCount=Math.max(0,...[...artistCounts].filter(([artist,count])=>(artistSets.get(artist)?.size||0)>=2).map(([,count])=>count));
  if(artistLoyalCount/total>=.25)add('artistloyalist',shareStrength(artistLoyalCount/total,.25,55,25),artistLoyalCount+' of '+total+' selected scores ('+(artistLoyalCount/total*100).toFixed(1)+'%) feature one song artist.',artistLoyalCount/total);
- const oneMapCount=Math.max(0,...[...mapsetScores].filter(([id])=>(mapsetDiffs.get(id)?.size||0)>=3).map(([,count])=>count));
- if(oneMapCount/total>=.25)add('onemap',shareStrength(oneMapCount/total,.25,55,25),oneMapCount+' of '+total+' selected scores ('+(oneMapCount/total*100).toFixed(1)+'%) come from one mapset, across at least three distinct difficulties.',oneMapCount/total);
+ const oneMapCount=Math.max(0,...[...mapsetScores].filter(([id])=>(mapsetDiffs.get(id)?.size||0)>=2).map(([,count])=>count));
+ if(oneMapCount/total>=.25)add('onemap',shareStrength(oneMapCount/total,.25,55,25),oneMapCount+' of '+total+' selected scores ('+(oneMapCount/total*100).toFixed(1)+'%) come from one mapset, across at least two distinct difficulties.',oneMapCount/total);
  if(diverse)add('wanderer',60+25*clamp((Math.min(hosts.size,artists.size)/total-.5)/.5),total+' selected scores span '+hosts.size+' mapper hosts and '+artists.size+' artists.',Math.min(hosts.size,artists.size)/total);
  if(exclusiveClient)add(exclusiveClient,62,'All '+total+' eligible 2026 '+(total===1?'score was':'scores were')+' set on osu!'+(exclusiveClient==='stable'?'stable':'lazer')+' (100% of your available current top-200 sample).');
- if(eligibleMaps.length>=5){
-  for(const [id,count,threshold,qualifies] of [['crowdfavorites',popularMatches.length,.4,popularUnique>=3],['timecapsule',oldCount,.6,true],['class2026',newCount,.6,true]]){
+ if(eligibleMaps.length){
+  for(const [id,count,threshold,qualifies] of [['crowdfavorites',popularMatches.length,.4,popularUnique>=2],['timecapsule',oldCount,.6,true],['class2026',newCount,.6,true]]){
    if(qualifies&&count/total>=threshold)add(id,shareStrength(count/total,threshold,68,28),count+' of '+total+' eligible 2026 scores from your current top 200 ('+(count/total*100).toFixed(1)+'%) '+(id==='crowdfavorites'?'are on '+popularUnique+' distinct mapsets in this mode’s 2026 popular top 25.':id==='timecapsule'?'are on mapsets ranked in 2016 or earlier.':'are on mapsets ranked in 2026.'),count/total);
   }
  }
- if(total>=5){
+ if(total){
   const durations=scores.map(score=>scoreBeatmapValues(score,mode).adjusted.length);
   const shortCount=durations.filter(length=>Number.isFinite(length)&&length>0&&length<=90).length;
   const longCount=durations.filter(length=>Number.isFinite(length)&&length>=210).length;
@@ -142,30 +142,30 @@ export function clubMarkup(data,{story=false}={}){
 
 const clubSignals={
  slowtempo:'HT or DC on at least 40% of selected scores.',
- choke:'At least 30% of selected scores, and at least three scores, are passes with exactly one miss, or osu!standard passes with no misses and exactly one reported slider combo-break event. Requires at least five selected scores.',
+ choke:'At least 30% of selected scores are passes with exactly one miss, or osu!standard passes with no misses and exactly one reported slider combo-break event.',
  oneshot:'SD, PF or AC on at least 40% of selected scores.',
  stable:'100% of selected scores are confirmed osu!stable scores.',
  lazer:'100% of selected scores are confirmed osu!lazer scores.',
- timecapsule:'At least 60% of selected scores are on mapsets ranked in 2016 or earlier, with at least five selected scores.',
- class2026:'At least 60% of selected scores are on mapsets ranked in 2026, with at least five selected scores.',
- crowdfavorites:'At least 40% of selected scores are on this mode’s 25 most-played mapsets ranked in 2026, spanning at least three distinct mapsets and at least five selected scores.',
+ timecapsule:'At least 60% of selected scores are on mapsets ranked in 2016 or earlier.',
+ class2026:'At least 60% of selected scores are on mapsets ranked in 2026.',
+ crowdfavorites:'At least 40% of selected scores are on this mode’s 25 most-played mapsets ranked in 2026, spanning at least two distinct mapsets.',
  quality:'1-99 recorded plays across available 2026 monthly profile counts (all modes). Unavailable or zero history does not qualify.',
  easy:'EZ on at least 40% of selected scores.',
- closeenough:'At least 10 passed selected scores averaging below 90% accuracy in osu!, taiko, or mania, or below 95% in catch.',
+ closeenough:'At least 50% of selected scores are valid passes, averaging below 90% accuracy in osu!, taiko, or mania, or below 95% in catch.',
  safetynet:'SO or NF on at least 50% of selected scores (NF only outside osu!).',
  overdrive:'DT or NC on at least 40% of selected scores.',
  hardmode:'HR on at least 40% of selected scores. This club does not apply to mania.',
  afterdark:'HD or FL (also FI or CO in osu!mania) on at least 50% of selected scores.',
  moddedonly:'Every selected score uses at least one gameplay mod, with zero No Mod scores.',
  nomod:'No Mod on at least 60% of selected scores.',
- precision:'Average accuracy of at least 99% in osu! or taiko, 99.5% in catch, or 98% in mania, across at least 10 passed selected scores.',
+ precision:'Average accuracy of at least 99% in osu! or taiko, 99.5% in catch, or 98% in mania, with valid passed scores covering at least 50% of selected scores.',
  replay:'At least 500 recorded views of your replays by others in available 2026 monthly profile history (all modes).',
- repeat:'At least 10,000 recorded 2026 plays, with 500 or more plays in at least six months.',
- loyalist:'At least 25% of selected scores belong to one mapset host, with at least three matching scores across two distinct mapsets. Guest difficulties count under the host.',
- shortmaps:'At least 60% of selected scores are on maps 1:30 or shorter, with at least five selected scores. Uses mod-adjusted total map length, including breaks.',
- longmaps:'At least 60% of selected scores are on maps 3:30 or longer, with at least five selected scores. Uses mod-adjusted total map length, including breaks.',
- onemap:'At least 25% of selected scores come from one mapset, spanning at least three distinct beatmap difficulties.',
- artistloyalist:'At least 25% of selected scores feature one song artist, with at least three matching scores across two distinct mapsets. Artist credits are matched as listed on the mapsets.',
+ repeat:'At least 10,000 recorded 2026 plays across available monthly profile counts (all modes).',
+ loyalist:'At least 25% of selected scores belong to one mapset host, across at least two distinct mapsets. Guest difficulties count under the host.',
+ shortmaps:'At least 60% of selected scores are on maps 1:30 or shorter. Uses mod-adjusted total map length, including breaks.',
+ longmaps:'At least 60% of selected scores are on maps 3:30 or longer. Uses mod-adjusted total map length, including breaks.',
+ onemap:'At least 25% of selected scores come from one mapset, spanning at least two distinct beatmap difficulties.',
+ artistloyalist:'At least 25% of selected scores feature one song artist, across at least two distinct mapsets. Artist credits are matched as listed on the mapsets.',
  wanderer:'At least 10 unique mapper hosts and 10 artists; each unique-name count must be at least half your selected score count.',
  allrounder:'Selected scores span at least three mod combinations, five mapper hosts, and five artists, with every mod family below 40%; also the fallback if no specialist signal qualifies.'
 };

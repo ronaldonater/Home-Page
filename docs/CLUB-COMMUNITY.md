@@ -31,7 +31,7 @@ The database is optional for reviews, slides and exports. It enables community p
 - Standalone Functions variables: `DATABASE_URL`, `CLUB_TRACKING_SECRET`.
 - Website Functions variables: `WRAPPED_DATABASE_URL`, `WRAPPED_CLUB_TRACKING_SECRET`.
 
-Playstyle assignments count once per participant/year/mode under `2026-v27`. Mapping assignments count once per mapper/year across modes under `mapping-2026-v1`. Only current-rule assignments enter percentages; returning users refresh existing records. Keep the secret stable. Neither table stores raw osu! IDs, usernames, tokens, full reviews, or replay files. See [community setup](CLUB-COMMUNITY.md).
+Playstyle assignments count once per participant/year/mode under `2026-v28`. Mapping assignments count once per mapper/year across modes under `mapping-2026-v1`. Only current-rule assignments enter percentages; returning users refresh existing records. Keep the secret stable. Neither table stores raw osu! IDs, usernames, tokens, full reviews, or replay files. See [community setup](CLUB-COMMUNITY.md).
 
 ## Evidence and ranking
 

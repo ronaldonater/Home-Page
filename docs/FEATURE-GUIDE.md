@@ -15,7 +15,7 @@ The database is optional for reviews, slides and exports. It enables community p
 - Standalone Functions variables: `DATABASE_URL`, `CLUB_TRACKING_SECRET`.
 - Website Functions variables: `WRAPPED_DATABASE_URL`, `WRAPPED_CLUB_TRACKING_SECRET`.
 
-Playstyle assignments count once per participant/year/mode under `2026-v27`. Mapping assignments count once per mapper/year across modes under `mapping-2026-v1`. Only current-rule assignments enter percentages; returning users refresh existing records. Keep the secret stable. Neither table stores raw osu! IDs, usernames, tokens, full reviews, or replay files. See [community setup](CLUB-COMMUNITY.md).
+Playstyle assignments count once per participant/year/mode under `2026-v28`. Mapping assignments count once per mapper/year across modes under `mapping-2026-v1`. Only current-rule assignments enter percentages; returning users refresh existing records. Keep the secret stable. Neither table stores raw osu! IDs, usernames, tokens, full reviews, or replay files. See [community setup](CLUB-COMMUNITY.md).
 
 ## Evidence and ranking
 
@@ -45,25 +45,25 @@ One available 2026 score is enough to receive a club. The 27 clubs are:
 | Afterdark | HD or FL (also FI or CO in osu!mania) on at least 50%. |
 | No Mod, No Problem | Unmodified scores on at least 60%. |
 | Precision Society | At least ten passed scores averaging 99% in osu!/taiko, 99.5% in catch, or 98% in mania. |
-| The Repeat Offenders | At least 10,000 recorded 2026 plays and six months with at least 500 plays each. |
-| Mapper Loyalists | At least 25% under one host, with three matching scores across two distinct mapsets. |
+| The Repeat Offenders | At least 10,000 recorded 2026 plays across available monthly profile history. |
+| Mapper Loyalists | At least 25% under one host, across at least two distinct mapsets. |
 | The Wanderers | At least ten distinct hosts and ten artists; each unique-name count is at least half the score count. |
 | EZ Does It | EZ on at least 40% of selected scores. |
 | Close Enough Club | At least ten passed scores below 90% mean accuracy (95% in catch); competes by strength. |
 | Safety Net Society | SO/NF on at least 50% (NF only outside osu!); no inference of deranking intent. |
 | Quality Over Quantity | 1-99 recorded 2026 profile plays across available months (all modes); competes by strength with other qualifying signals. |
-| Time Capsule | At least 60% of all eligible 2026 scores in the current top 200 are on mapsets ranked in 2016 or earlier; at least five scores. |
-| Class of 2026 | At least 60% of all eligible 2026 scores in the current top 200 are on mapsets ranked in 2026; at least five scores. |
-| Crowd Favorites | At least 40% of all eligible 2026 scores in the current top 200 overlap the selected mode’s popular 2026 top 25 mapsets, spanning at least three distinct sets and five eligible scores. |
+| Time Capsule | At least 60% of all eligible 2026 scores in the current top 200 are on mapsets ranked in 2016 or earlier. |
+| Class of 2026 | At least 60% of all eligible 2026 scores in the current top 200 are on mapsets ranked in 2026. |
+| Crowd Favorites | At least 40% of all eligible 2026 scores in the current top 200 overlap the selected mode’s popular 2026 top 25 mapsets, spanning at least two distinct sets. |
 | Stable Loyalists | 100% confirmed osu!stable scores in the eligible 2026 top-200 sample. |
 | Lazer Pioneers | 100% confirmed osu!lazer scores in the eligible 2026 top-200 sample. |
 | One Shot Society | SD, PF or AC on at least 40% of selected scores. |
-| Choke Artists | At least five selected scores, three qualifying passes and a 30% share: exactly one miss, or standard passes with no misses and exactly one reported slider combo-break event. |
+| Choke Artists | At least a 30% share of qualifying passes: exactly one miss, or standard passes with no misses and exactly one reported slider combo-break event. |
 | Replay Society | At least 500 replay views received by others in available 2026 monthly history across modes. |
-| Artist Loyalists | At least 25% for one artist, with three matching scores across two distinct mapsets. |
-| One-Map Wonders | At least 25% from one mapset, across at least three distinct beatmap difficulties. |
-| Short & Sweet | At least 60% on maps <=1:30 after mods; at least five selected scores. |
-| Long Haul Club | At least 60% on maps >=3:30 after mods; at least five selected scores. |
+| Artist Loyalists | At least 25% for one artist, across at least two distinct mapsets. |
+| One-Map Wonders | At least 25% from one mapset, across at least two distinct beatmap difficulties. |
+| Short & Sweet | At least 60% on maps <=1:30 after mods. |
+| Long Haul Club | At least 60% on maps >=3:30 after mods. |
 | Modded Only | Every selected score uses at least one gameplay mod, with zero No Mod scores. |
 | All-Rounder | At least three mod combinations, five hosts and five artists, with every mod family below 40%; also the fallback when no signal qualifies. |
 
@@ -98,7 +98,7 @@ Replay Society - "Your plays deserve another look." Requires at least 500 views 
 
 500 per year is a provisional, deliberately substantial design threshold (about 42 per month over a full year), not a verified percentile or population average. No reliable population distribution was available during implementation. Base strength is 55 + 25 * clamp(log10(views / 500) / 2, 0, 1): 55 at 500, 67.5 at 5,000, 80 at 50,000+. Apply the same activity confidence multiplier as other activity clubs: 0.75 + 0.25 * min(available replay-history months / 6, 1). No annualization of partial-year data; missing or invalid history cannot qualify. It can be a primary or secondary trait.
 
-Playstyle assignment rules are `2026-v27`. Replay Society uses the existing playstyle community table and v13 migration; mapping tracking remains independent.
+Playstyle assignment rules are `2026-v28`. Replay Society uses the existing playstyle community table and v13 migration; mapping tracking remains independent.
 
 ## Mapping-only Wrapped
 
@@ -154,23 +154,23 @@ Counter ticks use a predecoded low-latency Web Audio sample with leading-silence
 
 ### Artist Loyalists
 
-Artist Loyalists ("You know who makes your favorite songs.") mirrors Mapper Loyalists: at least 25% of selected scores must feature one artist, with at least three matching scores across two distinct mapsets. Artist credits are compared case-insensitively with whitespace normalized; collaborations remain the credited artist string rather than being split. Base strength ranges from 55 at 25% to 80 at 100%, with the normal score-evidence adjustment. It can be primary or secondary and appears throughout the dashboard, legend, slideshow and recap cards.
+Artist Loyalists ("You know who makes your favorite songs.") mirrors Mapper Loyalists: at least 25% of selected scores must feature one artist, across at least two distinct mapsets. Artist credits are compared case-insensitively with whitespace normalized; collaborations remain the credited artist string rather than being split. Base strength ranges from 55 at 25% to 80 at 100%, with the normal score-evidence adjustment. It can be primary or secondary and appears throughout the dashboard, legend, slideshow and recap cards.
 
-Before deployment, run `scripts/sql/club-community-v13.sql` in the existing Neon database to allow the new club ID. No rows are deleted or new environment variables required. Returning participants refresh to assignment rules `2026-v27` when they revisit; percentages include current-rule assignments.
+Before deployment, run `scripts/sql/club-community-v13.sql` in the existing Neon database to allow the new club ID. No rows are deleted or new environment variables required. Returning participants refresh to assignment rules `2026-v28` when they revisit; percentages include current-rule assignments.
 
 ### One-Map Wonders
 
-"Different difficulties. Same obsession." At least 25% of selected scores must come from one mapset, spanning at least three confirmed distinct beatmap difficulties. Multiple scores or mod combinations on the same difficulty do not satisfy the three-difficulty requirement. Base strength is 55-80, with the standard sample-size adjustment; eligible as primary or secondary. The legend places it beside the loyalty clubs. Existing Neon databases must run `scripts/sql/club-community-v13.sql` before deployment; existing rows are preserved. Assignment rules are `2026-v27`. No new environment variables are needed.
+"Different difficulties. Same obsession." At least 25% of selected scores must come from one mapset, spanning at least three confirmed distinct beatmap difficulties. Multiple scores or mod combinations on the same difficulty do not satisfy the three-difficulty requirement. Base strength is 55-80, with the standard sample-size adjustment; eligible as primary or secondary. The legend places it beside the loyalty clubs. Existing Neon databases must run `scripts/sql/club-community-v13.sql` before deployment; existing rows are preserved. Assignment rules are `2026-v28`. No new environment variables are needed.
 
 ### Map-length clubs
 
-Short & Sweet ("Straight to the good part.") requires at least 60% of selected scores on maps no longer than 1:30. Long Haul Club ("You’re here for the whole song.") requires at least 60% on maps at least 3:30 long. Both require five selected scores and use mod-adjusted total length including breaks. Missing or invalid lengths never count toward either club; percentages use the entire selected sample. TV-size/full-size titles are not inferred. Both have base strength 55-80 with standard score evidence weighting and can be primary or secondary. All-Rounder remains last in the legend.
+Short & Sweet ("Straight to the good part.") requires at least 60% of selected scores on maps no longer than 1:30. Long Haul Club ("You’re here for the whole song.") requires at least 60% on maps at least 3:30 long. Both use mod-adjusted total length including breaks. Missing or invalid lengths never count toward either club; percentages use the entire selected sample. TV-size/full-size titles are not inferred. Both have base strength 55-80 with standard score evidence weighting and can be primary or secondary. All-Rounder remains last in the legend.
 
-Existing Neon databases must apply `scripts/sql/club-community-v13.sql` before deployment. This cumulative migration includes the earlier loyalty and mapset clubs, preserves participant records, and requires no new environment variables. Rules version: `2026-v27`.
+Existing Neon databases must apply `scripts/sql/club-community-v13.sql` before deployment. This cumulative migration includes the earlier loyalty and mapset clubs, preserves participant records, and requires no new environment variables. Rules version: `2026-v28`.
 
 ### Modded Only
 
-"Vanilla was never on the menu." Requires zero No Mod plays across all selected scores: every selected score must use at least one gameplay mod. CL is excluded, so CL-only scores count as No Mod. One selected score remains eligible; the normal score-evidence adjustment applies to the fixed base strength of 60. It can be primary or secondary and appears throughout the dashboard, legend, slideshow and recap cards. Existing Neon databases must run `scripts/sql/club-community-v13.sql` before deployment; this cumulative migration includes all previous clubs and preserves existing records. Assignment rules: `2026-v27`.
+"Vanilla was never on the menu." Requires zero No Mod plays across all selected scores: every selected score must use at least one gameplay mod. CL is excluded, so CL-only scores count as No Mod. One selected score remains eligible; the normal score-evidence adjustment applies to the fixed base strength of 60. It can be primary or secondary and appears throughout the dashboard, legend, slideshow and recap cards. Existing Neon databases must run `scripts/sql/club-community-v13.sql` before deployment; this cumulative migration includes all previous clubs and preserves existing records. Assignment rules: `2026-v28`.
 
 ### Release countdown and admin early access
 
@@ -196,7 +196,7 @@ Easy Tempo: "Good music deserves a little more time." HT or DC must appear on at
 
 Afterdark retains its 50% threshold and includes HD/FL across supported modes plus FI/CO in osu!mania. One Shot Society retains its 40% threshold and now includes AC alongside SD/PF. These mod families retain their 40-55 base strength range.
 
-Existing Neon databases must run `scripts/sql/club-community-v13.sql` before deploying Easy Tempo. The migration extends the allowed club IDs without deleting participant rows. Fresh installations use `scripts/sql/club-community.sql`. Assignments use `2026-v27`; returning participants update their existing records. No additional environment variables are required.
+Existing Neon databases must run `scripts/sql/club-community-v13.sql` before deploying Easy Tempo. The migration extends the allowed club IDs without deleting participant rows. Fresh installations use `scripts/sql/club-community.sql`. Assignments use `2026-v28`; returning participants update their existing records. No additional environment variables are required.
 
 ## osu! API request budget
 
@@ -237,3 +237,13 @@ Demo artwork is also bundled locally: `demo-images.json` maps the frozen snapsho
 
 
 Live reviews also reuse bundled demo beatmap backgrounds when the full osu! cover URL matches a successfully saved image exactly. This applies to profile/global covers, slideshow artwork, beatmap-cover fallbacks, mapping showcases, and recap exports. Unmatched URLs retain their normal loading path. Avatars, artist portraits, and medal images are not reused from the demo for live profiles. This avoids image downloads/proxy calls, not score/tag/attribute API requests. Saved artwork stays frozen until recaptured; a changed cover URL automatically uses the normal live path.
+
+### Explore demos during generation
+
+Explore a demo remains available while a personal Wrapped is queued or generating. Live loading and queue polling continue independently in the same open page. Get my Wrapped restores the current loading progress or completed personal review without restarting it. Demo mode changes do not change the live task's game mode, and background completion does not interrupt demo panels or slides. A notice on the demo stats page reports when the personal review is ready or needs attention. Keep the page open for browser-driven generation to continue; this is not an unattended server worker.
+
+### Leaving and priority resumption
+
+Before deploying this update, rerun `scripts/sql/review-queue.sql` in Neon SQL Editor. The idempotent script adds departure/resumption columns and functions without deleting existing records. A same-origin authenticated pagehide beacon releases an idle active slot when a browser navigates away or closes. An in-flight batch retains its worker lock until it finishes or expires. Departed jobs are excluded from admission so the next waiting profile can proceed. A previously active user returning within two minutes receives priority over ordinary waiting jobs, after the current active profile yields or finishes. Returning priority is consumed on admission; leaving while merely queued does not earn it. Browser task IDs prevent an old page's departure from releasing a newer page's job. Missed browser departure signals retain the existing lease-timeout fallback. Demo switching and ordinary tab switching do not signal departure. Cached batches remain reusable; generation is still browser-driven. No new environment variables are required.
+
+A short original two-tone completion chime plays once when a viewable personal Wrapped finishes while the tab is hidden or demo stats are displayed. The chime is suppressed whenever any slideshow is open, even in a hidden tab, and is not deferred until the slideshow closes. It respects the open slideshow's mute/volume controls. Browser audio must first be unlocked by a click or key press; browser-suspended audio is skipped without queuing a stale notification. Demo-only visits and returning to already completed results do not trigger it.

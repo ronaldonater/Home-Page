@@ -1,12 +1,12 @@
 const modes=['osu','taiko','fruits','mania'];
 export function validReview(value){return value&&Number.isSafeInteger(value.user?.id)&&value.user.id>0&&typeof value.user.username==='string'&&modes.includes(value.mode)&&Number.isInteger(value.sampleCount)&&value.sampleCount>=0&&value.sampleCount<=200&&['top','months','mappers','artists'].every(key=>Array.isArray(value[key]));}
 const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
-export async function loadReview({url,fetchImpl=fetch,prepare=async()=>{},onProgress=()=>{},now=Date.now,sleep=pause}={}){
+export async function loadReview({url,queueClient=null,fetchImpl=fetch,prepare=async()=>{},onProgress=()=>{},now=Date.now,sleep=pause}={}){
  async function retry(operation,phase){let attempts=0;for(;;){try{return await operation();}catch(error){if([400,401,403,409].includes(error.status))throw error;
   const delay=Math.max(Math.min(60000,5000*2**Math.min(attempts++,4)),Number.isFinite(error.retryAt)?error.retryAt-now():0);
   onProgress('waiting',{phase,message:error.message||'Waiting for services or API allowance.',until:now()+delay});await sleep(delay);onProgress(phase);
  }}}
- async function get(stage,selectedMode){const endpoint=new URL(url,'https://wrapped.invalid');endpoint.searchParams.set('stage',stage);if(selectedMode)endpoint.searchParams.set('mode',selectedMode);
+ async function get(stage,selectedMode){const endpoint=new URL(url,'https://wrapped.invalid');endpoint.searchParams.set('stage',stage);if(queueClient)endpoint.searchParams.set('client',queueClient);if(selectedMode)endpoint.searchParams.set('mode',selectedMode);
   for(;;){
   const response=await fetchImpl(endpoint.pathname+endpoint.search,{cache:'no-store',signal:AbortSignal.timeout(30000)});let body;try{body=await response.json();}catch{throw Error('Incomplete server response.');}
   if(response.status===202&&['queued','processing'].includes(body.queue?.status)){

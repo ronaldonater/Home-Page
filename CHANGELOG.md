@@ -2,6 +2,13 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.42 updates
+
+- Hide empty skillset panels and restore the full-width average beatmap layout when no community skillset tags are found.
+- Relax playstyle club sample and distinct-map requirements, use percentage-based accuracy eligibility, and remove Repeat Offenders' monthly activity minimum.
+- Update club assignment rules to 2026-v28 while retaining small-sample strength weighting. No new SQL migration is required.
+- Clarify artist-image attribution across stats, slides, and both recap formats: TheAudioDB, with beatmap artwork as a fallback.
+
 ## v1.1.41 updates
 
 - Moved the portrait recap mapping section below average beatmap statistics and skillsets, immediately before score coverage.

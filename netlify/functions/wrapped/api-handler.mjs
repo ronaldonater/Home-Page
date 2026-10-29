@@ -27,7 +27,7 @@ export async function handler(event,{now=Date.now}={}){
 async function handleRequest(event,now){
  try{
  const path=event.path.replace(/^\/.netlify\/functions\/wrapped-api(?=\/|$)/,'/api').replace(/^\/api\/osu-wrapped(?=\/|$)/,'/api');const jar=cookies(event);
- const allowedMethods=path==='/api/admin/users'?['GET','POST']:path==='/api/auth/logout'?['POST']:['GET'];
+ const allowedMethods=path==='/api/admin/users'?['GET','POST']:['/api/auth/logout','/api/wrapped/depart'].includes(path)?['POST']:['GET'];
  if(!allowedMethods.includes(event.httpMethod))return json(405,{error:'Method not allowed'},{Allow:allowedMethods.join(', ')});
  if(path!=='/api/auth/callback' && event.headers['sec-fetch-site']==='cross-site' && event.headers['sec-fetch-mode']!=='navigate')return json(403,{error:'Cross-site request denied'});
  const released=releaseOpen(now());
@@ -151,14 +151,25 @@ async function handleRequest(event,now){
   if(event.headers.origin!==expected)return json(403,{error:'Invalid origin'});
   return json(200,{ok:true},{'Set-Cookie':cookie('wrapped_session','',0)});
  }
+ if(path==='/api/wrapped/depart'){
+  const session=unseal(jar.wrapped_session||'');if(!sessionValid(session))return json(401,{error:'Sign in with osu! first.'});
+  if(event.headers.origin!==callbackUrl(process.env.WRAPPED_OSU_REDIRECT_URI).origin)return json(403,{error:'Invalid origin'});
+  const client=event.queryStringParameters?.client;
+  if(typeof client!=='string'||!/^[a-f0-9-]{36}$/.test(client))return json(400,{error:'Invalid queue client'});
+  // Legacy sessions without a cached identity simply retain the normal timeout fallback.
+  if(Number.isSafeInteger(session.userId))await reviewQueue.depart(session.userId,client);
+  return json(200,{ok:true});
+ }
  if(path==='/api/wrapped'){
   const session=unseal(jar.wrapped_session||'');if(!sessionValid(session))return json(401,{error:'Sign in with osu! to generate your Wrapped.'});
   const requestedMode=event.queryStringParameters?.mode;const validModes=['osu','taiko','fruits','mania'];if(requestedMode!==undefined&&!validModes.includes(requestedMode))return json(400,{error:'Invalid game mode'});
   const stage=event.queryStringParameters?.stage;if(stage!==undefined&&!['core','tags','full'].includes(stage))return json(400,{error:'Invalid loading stage'});
+  const queueClient=event.queryStringParameters?.client;
+  if(queueClient!==undefined&&!/^[a-f0-9-]{36}$/.test(queueClient))return json(400,{error:'Invalid queue client'});
   let ticket={status:'disabled'};
   if(process.env.WRAPPED_DATABASE_URL){
    const identity=Number.isSafeInteger(session.userId)&&(requestedMode||session.playmode)?{id:session.userId,playmode:session.playmode}:await osu('/me',session.token);
-   ticket=await reviewQueue.claim(identity.id,requestedMode||identity.playmode||'osu');
+   ticket=await reviewQueue.claim(identity.id,requestedMode||identity.playmode||'osu',queueClient||null);
    // An unavailable queue falls back to the existing paced, staged loader.
    if(ticket.status==='queued'||ticket.status==='processing')return json(202,{queue:{status:ticket.status,position:ticket.position,retryAfter:ticket.retryAfter}},{'Retry-After':String(ticket.retryAfter)});
    if(ticket.status==='complete')return json(200,ticket.data);

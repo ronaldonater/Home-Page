@@ -36,13 +36,13 @@ test('mod preferences act as a low-weight supplemental signal',()=>{const result
 test('thresholds, mode restrictions, CL exclusion, and one-score eligibility remain intact',()=>{
  assert.equal(assignClub([]),null);assert.ok(assignClub(sample(['CL']).slice(0,1)).matches.some(row=>row.id==='nomod'));assert.ok(clubMarkup({club:null}).includes('At least one'));
  assert.ok(!assignClub(sample(['HR']),'mania').matches.some(row=>row.id==='hardmode'));assert.ok(!assignClub(sample(['SO']),'mania').matches.some(row=>row.id==='safetynet'));
- assert.ok(!assignClub(sample(mixed,.80).slice(0,9)).matches.some(row=>row.id==='closeenough'));assert.ok(!assignClub(sample(mixed,.95),'fruits').matches.some(row=>row.id==='closeenough'));assert.ok(assignClub(sample(mixed,.949),'fruits').matches.some(row=>row.id==='closeenough'));
+ assert.ok(assignClub(sample(mixed,.80).slice(0,9)).matches.some(row=>row.id==='closeenough'));assert.ok(!assignClub(sample(mixed,.95),'fruits').matches.some(row=>row.id==='closeenough'));assert.ok(assignClub(sample(mixed,.949),'fruits').matches.some(row=>row.id==='closeenough'));
  assert.ok(!assignClub(sample(),'osu',[{available:false,count:50}]).matches.some(row=>row.id==='quality'));assert.ok(!assignClub(sample(),'osu',[{available:true,count:0}]).matches.some(row=>row.id==='quality'));
 });
 test('stronger shares win within and across families with deterministic ties',()=>{const rows=sample(i=>i<16?['HR','HD']:['HD']);const result=assignClub(rows);assert.equal(result.id,'moddedonly');assert.equal(result.secondary.id,'afterdark');assert.ok(result.matches.some(row=>row.id==='hardmode'));assert.deepEqual(result,assignClub(rows));assert.deepEqual(result.matches.map(r=>r.id),assignClub([...rows].reverse()).matches.map(r=>r.id));});
 test('map matches use all eligible scores and do not infer missing dates or popularity',()=>{
  const rows=Array.from({length:100},(_,i)=>({...sample()[0],id:i+1,pp:i<25?1000-i:null,beatmapset:{id:i+1,ranked_date:(i<25?'2026':'2010')+'-01-01T00:00:00Z'}}));const result=assignClub(rows);assert.ok(result.matches.find(r=>r.id==='timecapsule').reason.includes('75 of 100'));
- assert.ok(!assignClub(maps(2017)).matches.some(r=>r.id==='timecapsule'));assert.ok(!assignClub(maps(2026).slice(0,4)).matches.some(r=>r.id==='class2026'));assert.ok(!assignClub(sample()).matches.some(r=>r.id==='class2026'||r.id==='crowdfavorites'));
+ assert.ok(!assignClub(maps(2017)).matches.some(r=>r.id==='timecapsule'));assert.ok(assignClub(maps(2026).slice(0,4)).matches.some(r=>r.id==='class2026'));assert.ok(!assignClub(sample()).matches.some(r=>r.id==='class2026'||r.id==='crowdfavorites'));
  const duplicate=maps(2026).map(s=>({...s,beatmapset:{...s.beatmapset,id:1}}));assert.ok(!assignClub(duplicate,'osu',[],{popularBeatmapsets:catalogue}).matches.some(r=>r.id==='crowdfavorites'));
 });
 test('client matching requires confirmed metadata and rejects mixed or unknown samples',()=>{
@@ -91,7 +91,7 @@ test('choke evidence uses actual misses and reported slider breaks without combo
  for(const row of [{passed:false,statistics:{miss:1}},{passed:true,statistics:{miss:0},max_combo:100},{passed:true,statistics:{miss:0,large_tick_miss:2}},{passed:true,statistics:{}},{passed:true,statistics:{miss:0,small_tick_miss:1}}])assert.equal(isChokeScore(row),false);
  assert.equal(isChokeScore({passed:true,statistics:{miss:0,large_tick_miss:1}},'mania'),false);
  const enough=decorate(sample(['HT']).slice(0,10),(_,i)=>({statistics:{miss:i<3?1:0}}));assert.ok(assignClub(enough).matches.some(row=>row.id==='choke'));
- assert.ok(!assignClub(enough.slice(0,4)).matches.some(row=>row.id==='choke'));
+ assert.ok(assignClub(enough.slice(0,4)).matches.some(row=>row.id==='choke'));
 });
 
 test('Replay Society uses received views and logarithmic activity strength with valid evidence',()=>{
@@ -110,7 +110,7 @@ test('artist loyalty needs matching credits across distinct mapsets and mirrors 
  const rows=sample().map((row,i)=>({...row,beatmapset:{...row.beatmapset,artist:i<5?(i%2?' Favorite ARTIST ':'favorite artist'):'Other '+i}}));
  const match=assignClub(rows).matches.find(row=>row.id==='artistloyalist');assert.ok(match);assert.equal(match.baseStrength,55);
  assert.ok(!assignClub(rows.map(row=>({...row,beatmapset:{...row.beatmapset,id:1}}))).matches.some(row=>row.id==='artistloyalist'));
- assert.ok(!assignClub(rows.slice(0,2)).matches.some(row=>row.id==='artistloyalist'));
+ assert.ok(assignClub(rows.slice(0,2)).matches.some(row=>row.id==='artistloyalist'));
  assert.ok(!assignClub(rows.map(row=>({...row,beatmapset:{...row.beatmapset,artist:'  '}}))).matches.some(row=>row.id==='artistloyalist'));
 });
 
@@ -128,7 +128,7 @@ test('legend lists every club once in general strength order without changing as
  assert.ok(ids.indexOf('artistloyalist')<ids.indexOf('overdrive'));assert.equal(Object.keys(CLUBS)[0],'overdrive');assert.equal(ids.at(-1),'allrounder');
 });
 
-test('One-Map Wonders requires a quarter of scores and three confirmed distinct difficulties',()=>{
+test('One-Map Wonders requires a quarter of scores and two confirmed distinct difficulties',()=>{
  const rows=sample().map((row,i)=>({...row,beatmap:{id:i+1},beatmapset:{...row.beatmapset,id:i<5?99:i+100}}));
  const find=rows=>assignClub(rows).matches.find(row=>row.id==='onemap');
  assert.equal(find(rows)?.baseStrength,55);assert.equal(find(oneMap())?.baseStrength,80);
@@ -138,14 +138,14 @@ test('One-Map Wonders requires a quarter of scores and three confirmed distinct 
  assert.ok(find(rows.map(row=>({...row,beatmap_id:row.beatmap.id,beatmap:{beatmapset_id:row.beatmapset.id},beatmapset:{...row.beatmapset,id:undefined}}))));
 });
 
-test('length clubs use inclusive mod-adjusted durations, full-sample shares, and five-score minimum',()=>{
+test('length clubs use inclusive mod-adjusted durations, full-sample shares, without a score-count minimum',()=>{
  const result=(lengths,mods=[])=>assignClub(lengths.map((length,i)=>({...sample()[i],mods,beatmap:{total_length:length}}))).matches;
  const match=(lengths,id,mods)=>result(lengths,mods).find(row=>row.id===id);
  assert.equal(match([90,90,90,180,180],'shortmaps')?.baseStrength,55);
  assert.equal(match([210,210,210,180,180],'longmaps')?.baseStrength,55);
  assert.equal(match(Array(20).fill(90),'shortmaps')?.baseStrength,80);
  assert.equal(match(Array(20).fill(600),'longmaps')?.baseStrength,80);
- assert.ok(!match([90,90,90,90],'shortmaps'));assert.ok(!match([210,210,210,210],'longmaps'));
+ assert.ok(match([90,90,90,90],'shortmaps'));assert.ok(match([210,210,210,210],'longmaps'));
  assert.ok(!match([90,90,null,undefined,NaN],'shortmaps'));
  assert.ok(!match([210,210,Infinity,undefined,null],'longmaps'));
  assert.ok(!match(Array(5).fill(91),'shortmaps'));assert.ok(!match(Array(5).fill(209),'longmaps'));
@@ -203,4 +203,26 @@ test('Afterdark includes mania Cover with the existing threshold and no double-c
  const rows=sample(i=>i<5?['CO','FI']:i<10?['CO']:[]);const match=assignClub(rows,'mania').matches.find(row=>row.id==='afterdark');assert.ok(match);assert.match(match.reason,/10 of 20/);assert.match(match.reason,/CO/);assert.equal(match.baseStrength,40);
  assert.ok(!assignClub(rows,'osu').matches.some(row=>row.id==='afterdark'));
  assert.ok(!assignClub(sample(i=>i<9?['CO']:[]),'mania').matches.some(row=>row.id==='afterdark'));
+});
+
+
+test('relaxed club criteria preserve percentage and distinct-map boundaries',()=>{
+ const has=(rows,id,months=[],options={})=>assignClub(rows,'osu',months,options).matches.some(row=>row.id===id);
+ assert.ok(has(maps(2016).slice(0,1),'timecapsule'));
+ assert.ok(has(maps(2026).slice(0,1),'class2026'));
+ assert.ok(has(crowd().slice(0,2),'crowdfavorites',[],{popularBeatmapsets:catalogue}));
+ assert.ok(!has(crowd().slice(0,1),'crowdfavorites',[],{popularBeatmapsets:catalogue}));
+ assert.ok(has(decorate(sample().slice(0,1),{statistics:{miss:1}}),'choke'));
+ for(const [id,accuracy] of [['precision',1],['closeenough',.8]]){
+  const rows=sample(mixed,accuracy).slice(0,4).map((row,i)=>({...row,passed:i<2}));
+  assert.ok(has(rows,id));assert.ok(!has(rows.map((row,i)=>({...row,passed:i<1})),id));
+  assert.ok(!has(rows.map(row=>({...row,passed:false})),id));
+ }
+ const loyalty=sample().slice(0,2).map(row=>({...row,beatmapset:{...row.beatmapset,user_id:1,artist:'Same artist'}}));
+ for(const id of ['loyalist','artistloyalist']){
+  assert.ok(has(loyalty,id));assert.ok(!has(loyalty.map(row=>({...row,beatmapset:{...row.beatmapset,id:1}})),id));
+ }
+ assert.ok(has(oneMap().slice(0,2),'onemap'));assert.ok(!has(oneMap().slice(0,1),'onemap'));
+ assert.ok(has(sample(),'repeat',[{available:true,count:10000}]));
+ assert.ok(!has(sample(),'repeat',[{available:true,count:9999}]));
 });

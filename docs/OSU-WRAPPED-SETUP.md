@@ -59,7 +59,7 @@ Global catalogue snapshots refresh through `.github/workflows/ranked-mappers.yml
 
 Use the same Neon database and branch for both community tables. For a fresh playstyle installation run `scripts/sql/club-community.sql`; for any existing earlier schema run `scripts/sql/club-community-v13.sql`. Additionally run `scripts/sql/mapping-community.sql` for mapping percentages. Existing rows are retained. Earlier migration files are not prerequisites.
 
-Both server services reuse `WRAPPED_DATABASE_URL` and `WRAPPED_CLUB_TRACKING_SECRET`, private Netlify Functions variables. No new connection or secret is required. Playstyle rules are `2026-v27`, counting one assignment per participant/year/mode. Mapping rules are `mapping-2026-v1`, counting one per mapper/year across modes. Percentages unlock after one participant, cache for a minute, and include current-rule assignments. Demos are excluded. Without configuration, tracking is disabled; failures do not block Wrapped.
+Both server services reuse `WRAPPED_DATABASE_URL` and `WRAPPED_CLUB_TRACKING_SECRET`, private Netlify Functions variables. No new connection or secret is required. Playstyle rules are `2026-v28`, counting one assignment per participant/year/mode. Mapping rules are `mapping-2026-v1`, counting one per mapper/year across modes. Percentages unlock after one participant, cache for a minute, and include current-rule assignments. Demos are excluded. Without configuration, tracking is disabled; failures do not block Wrapped.
 
 See [community setup](CLUB-COMMUNITY.md) and [ranking guide](CLUB-RANKING.md). Redeploy after environment variable changes.
 

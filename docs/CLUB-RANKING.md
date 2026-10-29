@@ -46,14 +46,16 @@ Replay Society - "Your plays deserve another look." Requires at least 500 views 
 
 500 per year is a provisional, deliberately substantial design threshold (about 42 per month over a full year), not a verified percentile or population average. No reliable population distribution was available during implementation. Base strength is 55 + 25 * clamp(log10(views / 500) / 2, 0, 1): 55 at 500, 67.5 at 5,000, 80 at 50,000+. Apply the same activity confidence multiplier as other activity clubs: 0.75 + 0.25 * min(available replay-history months / 6, 1). No annualization of partial-year data; missing or invalid history cannot qualify. It can be a primary or secondary trait.
 
-Playstyle assignment rules are `2026-v27`. Replay Society uses the existing playstyle community table and v9 migration; mapping tracking remains independent.
+Playstyle assignment rules are `2026-v28`. Replay Society uses the existing playstyle community table and v9 migration; mapping tracking remains independent.
 
 Artist Loyalists mirrors Mapper Loyalists: at least 25% of selected scores, with at least three scores across two distinct mapsets sharing the same artist credit. Base strength is 55-80, with the standard score-evidence adjustment. Artist credits use case-insensitive, whitespace-normalized matching.
 
 The legend displays clubs by descending maximum base strength, then descending minimum. Equal ranges retain a fixed display order. This is presentation only: personal evidence-adjusted scores still determine primary and secondary clubs, and assignment tie-break order remains unchanged. All-Rounder always appears last in the legend, regardless of its balanced strength range or the user’s match strength.
 
-One-Map Wonders uses a 55-80 base range: at least 25% of selected scores from one mapset across at least three distinct confirmed beatmap IDs. It uses normal score-evidence weighting and can be primary or secondary.
+One-Map Wonders uses a 55-80 base range: at least 25% of selected scores from one mapset across at least two distinct confirmed beatmap IDs. It uses normal score-evidence weighting and can be primary or secondary.
 
-Short & Sweet / Long Haul Club: base strength 55-80, increasing from a 60% share toward 100%. Both need five selected scores; mod-adjusted total lengths of <=90 seconds and >=210 seconds qualify respectively. Missing lengths stay in the denominator and never count as qualifying. Speed mods affect classification using the same duration calculation as average-beatmap stats. Both can be primary or secondary.
+Short & Sweet / Long Haul Club: base strength 55-80, increasing from a 60% share toward 100%. mod-adjusted total lengths of <=90 seconds and >=210 seconds qualify respectively. Missing lengths stay in the denominator and never count as qualifying. Speed mods affect classification using the same duration calculation as average-beatmap stats. Both can be primary or secondary.
 
 Modded Only has fixed base strength 60 when every selected score uses a gameplay mod (zero No Mod scores). CL-only scores count as No Mod. Standard score-evidence weighting applies; either primary or secondary is allowed.
+
+Current eligibility updates (2026-v28): map-age and map-length clubs have no minimum score count. Crowd Favorites requires two distinct popular mapsets. Choke Artists requires a 30% share without an absolute score minimum. Accuracy clubs require valid passes covering at least 50% of selected scores. Mapper and Artist Loyalists retain two distinct mapsets without a three-score minimum. One-Map Wonders requires two distinct difficulties. Repeat Offenders requires 10,000 recorded plays without a monthly activity minimum; its base strength scales from 55 at 10,000 to 80 at 50,000 plays. Existing evidence weighting still applies. No new SQL migration is required.
