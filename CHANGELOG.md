@@ -2,6 +2,13 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.43 updates
+
+- Allow demo exploration while personal Wrapped generation and queue polling continue in the background, with progress restoration and a View now action when ready.
+- Release departed queue slots safely and prioritize users returning within two minutes after the active profile finishes or yields. Rerun scripts/sql/review-queue.sql before deployment.
+- Add a completion chime for hidden tabs and demo browsing, suppressed while any slideshow is open.
+- Clarify loading-time expectations and remind users to keep the page open while queued or generating.
+
 ## v1.1.42 updates
 
 - Hide empty skillset panels and restore the full-width average beatmap layout when no community skillset tags are found.
