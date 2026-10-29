@@ -8,8 +8,15 @@ export function createReviewQueue({query=(...args)=>reviewStorage.query(...args)
    if(!Number.isSafeInteger(userId)||userId<=0||!['osu','taiko','fruits','mania'].includes(mode))throw Error('Invalid queue identity');
    const budget=createHash('sha256').update('osu-api:'+String(cfg.clientId||'default')).digest('hex');
    const job=createHmac('sha256',cfg.secret).update('review:'+userId+':'+mode+':v1').digest('hex'),worker=randomUUID();
-   const rows=await query(cfg.databaseUrl,'SELECT wrapped_review_claim_v2($1,$2,$3,$4) AS job',[budget,job,worker,client]);const value=rows[0]?.job;
-   if(value?.status==='complete'){const data=decryptReview(value.result,cfg.secret);if(data)return {status:'complete',data};throw Error('Invalid saved review');}
+   let value;
+   for(let attempt=0;attempt<2;attempt++){
+    const rows=await query(cfg.databaseUrl,'SELECT wrapped_review_claim_v2($1,$2,$3,$4) AS job',[budget,job,worker,client]);value=rows[0]?.job;
+    if(value?.status!=='complete')break;
+    const data=decryptReview(value.result,cfg.secret);if(!data)throw Error('Invalid saved review');
+    if(!data.skillsets?.rows?.length||data.skillsets.rows.every(row=>Array.isArray(row.maps)))return {status:'complete',data};
+    // Refresh only this obsolete completed result. Active/queued jobs and job keys are untouched.
+    await query(cfg.databaseUrl,"UPDATE wrapped_review_jobs SET state='queued',result=NULL,expires_at=NULL,queued_at=clock_timestamp(),admitted_at=NULL,lease_until=NULL,work_until=NULL,worker_id=NULL,departed_until=NULL,resume_until=NULL WHERE budget_key=$1 AND job_key=$2 AND state='complete' AND result=$3 RETURNING job_key",[budget,job,value.result]);
+   }
    if(value?.status==='active')return {status:'active',budget,job,worker};
    if(value?.status==='queued'||value?.status==='processing')return {status:value.status,position:Number(value.position)||0,retryAfter: value.status==='processing'?3:Math.min(30,10+Math.floor(Math.max(0,(Number(value.position)||1)-1)/5)*2)};
    throw Error('Invalid queue response');

@@ -2,6 +2,13 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.44 updates
+
+- Open matching selected beatmaps by clicking a skillset row, while keeping skillset names linked to searches filtered by the selected game mode.
+- Add beatmap background thumbnails and right-aligned difficulty names to compact skillset panels, with singular Jump and Stream panel titles.
+- Preserve final skillset map details and refresh obsolete completed cached reviews without changing active queue jobs or job keys.
+- Center loading steps beneath the heading while retaining left-aligned labels and fixed marker columns.
+
 ## v1.1.43 updates
 
 - Allow demo exploration while personal Wrapped generation and queue polling continue in the background, with progress restoration and a View now action when ready.

@@ -31,7 +31,7 @@ export async function loadReview({url,queueClient=null,fetchImpl=fetch,prepare=a
   value=await retry(()=>get('full',core.mode),'details');
   if(value.user.id!==core.user.id||value.sampleCount!==core.sampleCount)throw Object.assign(Error('Your score selection changed. Please reload the page.'),{status:409});
   const status=value.loadingStatus;
-  if(status?.complete===true){value={...value,skillsets:core.skillsets};break;}
+  if(status?.complete===true){value={...value,skillsets:tagsComplete(value)?value.skillsets:core.skillsets};break;}
   const checks=Array.isArray(status?.checks)?status.checks:[];
   onProgress('details',{checks});
   const progress=JSON.stringify(checks.map(check=>[check.name,check.complete,check.checked,check.total]));stalled=progress===previousProgress?stalled+1:0;previousProgress=progress;

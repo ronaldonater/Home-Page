@@ -93,3 +93,16 @@ test('shared cache outages back off while upstream profile requests continue',as
  await api('https://osu.ppy.sh/api/v2/me');await api('https://osu.ppy.sh/api/v2/me');assert.equal(queries,1);assert.equal(calls,2);
  clock=61000;await api('https://osu.ppy.sh/api/v2/me');assert.equal(queries,2);assert.equal(calls,3);
 });
+
+
+test('obsolete completed skillset caches are refreshed without changing queue keys or bypassing admission',async()=>{
+ const old={...full,skillsets:{...full.skillsets,rows:[{tag:'skillset/jumps',count:1}]}};const encrypted=encryptReview(old,secret),calls=[];let reads=0;
+ const queue=createReviewQueue({config:()=>cfg,query:async(url,sql,args)=>{calls.push({sql,args});if(sql.startsWith('SELECT'))return [{job:++reads===1?{status:'complete',result:encrypted}:{status:'queued',position:3}}];return [{job_key:'refreshed'}];}});
+ const result=await queue.claim(42,'osu');assert.equal(result.status,'queued');assert.equal(result.position,3);
+ assert.equal(calls.length,3);assert.equal(calls[0].args[1],calls[2].args[1]);assert.match(calls[1].sql,/state='complete' AND result=\$3/);assert.equal(calls[1].args[2],encrypted);
+});
+test('completed reviews already containing skillset maps remain cached',async()=>{
+ const saved={...full,skillsets:{...full.skillsets,rows:[{tag:'skillset/jumps',count:1,maps:[{id:9,setId:77,count:1}]}]}};let reads=0;
+ const queue=createReviewQueue({config:()=>cfg,query:async()=>{reads++;return [{job:{status:'complete',result:encryptReview(saved,secret)}}];}});
+ assert.deepEqual((await queue.claim(42,'osu')).data,saved);assert.equal(reads,1);
+});

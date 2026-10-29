@@ -62,3 +62,11 @@ test('unchanged detail batches back off instead of polling continuously',async()
   return Response.json(++calls<4?{...full,loadingStatus:{complete:false,retryAfterMs:1100,checks:[{name:'Mapping catalogue',complete:false,checked:1}]}}:full);
  }});assert.deepEqual(waits,[1100,2200,4400]);
 });
+
+
+test('final skillset map details are preserved instead of overwritten by an earlier cached stage',async()=>{
+ const oldTags={...core,skillsets:{total:core.sampleCount,checked:core.sampleCount,tagged:1,rows:[{tag:'skillset/jumps',name:'Jumps',count:1,percentage:50}]}};
+ const final={...full,skillsets:{...oldTags.skillsets,rows:[{...oldTags.skillsets.rows[0],maps:[{id:9,setId:77,title:'Song',cover:'https://assets.ppy.sh/beatmaps/77/covers/cover@2x.jpg',count:1}]}]}};
+ const result=await loadReview({url:'/api/wrapped',fetchImpl:async url=>Response.json(url.includes('stage=full')?final:oldTags)});
+ assert.deepEqual(result.data.skillsets.rows[0].maps,final.skillsets.rows[0].maps);
+});

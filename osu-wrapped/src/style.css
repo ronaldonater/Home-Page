@@ -875,3 +875,14 @@ footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:7
 @media(max-width:600px){.personal-patterns-grid>.beatmap-averages:only-child .beatmap-average-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 
 .background-wrapped-notice{display:flex;align-items:center;justify-content:space-between;gap:16px}.background-wrapped-notice>span{min-width:0}.background-wrapped-notice>.button{flex-shrink:0;margin:0;padding:9px 14px;white-space:nowrap}
+
+.skillset-maps-button{flex-shrink:0;border:1px solid #795f94;border-radius:6px;background:#bd9aff12;color:#d5baff;padding:6px 9px;font-size:10px}.skillset-maps-button:hover{background:#bd9aff24}.skillset-map-list{list-style:none;margin:0;padding:0;max-height:60vh;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#79576f #211b29}.skillset-map-list li{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 0;border-bottom:1px solid #ffffff14}.skillset-map-list a{min-width:0;flex:1;overflow-wrap:anywhere}.skillset-map-list a:hover strong{color:#bd9aff}.skillset-map-list a span,.skillset-map-list a small{display:block;margin-top:5px;color:#b6a9c2;font-size:12px}.skillset-map-list li>small{flex-shrink:0;color:#b6a9c2;font-size:10px}@media(max-width:600px){.personal-patterns-grid .skillset-list li{gap:8px}.skillset-maps-button{padding:6px;font-size:9px}.skillset-map-list li{align-items:flex-start}.skillset-map-list li>small{max-width:65px;text-align:right}}
+
+.skillset-map-list a{display:flex;align-items:center;gap:14px}.skillset-map-cover{display:block;flex:0 0 88px;width:88px;height:60px;object-fit:cover;border-radius:7px;background:#ffffff08}.skillset-map-copy{min-width:0}@media(max-width:600px){.skillset-map-list a{gap:10px}.skillset-map-cover{flex-basis:64px;width:64px;height:48px}}
+
+.skillset-map-entry{cursor:pointer;border-radius:6px;transition:background .15s}.skillset-map-entry:hover{background:#bd9aff0b}.skillset-map-entry:focus-visible{outline:2px solid #bd9aff;outline-offset:3px}.skillset-map-entry a{position:relative}
+
+.skillset-maps-dialog{max-width:900px}.skillset-map-list li{padding:10px 0;gap:18px}.skillset-map-list a{gap:12px}.skillset-map-list a span,.skillset-map-list a small{margin-top:3px;font-size:11px}.skillset-map-difficulty{max-width:32%;text-align:right;color:#bd9aff;font-size:12px;font-weight:600;overflow-wrap:anywhere;flex-shrink:0}@media(max-width:600px){.skillset-map-list li{gap:10px}.skillset-map-difficulty{max-width:30%;font-size:11px}}
+
+/* Center the complete step group while retaining a shared left text edge. */
+.review-loading>ol{display:grid;width:max-content;max-width:100%;margin:22px auto;padding:0;text-align:left}.review-loading>ol>li{display:grid;grid-template-columns:1.25em minmax(0,1fr);gap:6px;text-align:left}.loading-step-marker{text-align:center;font-variant-numeric:tabular-nums}

@@ -46,7 +46,33 @@ test('skillset slide is conditional and both recap formats render its rankings',
 
 test('dashboard includes every skillset in a five-row scrolling list while slides keep the top five',()=>{
  const data={skillsets:{total:10,checked:10,tagged:10,rows:Array.from({length:8},(_,i)=>({name:'Pattern '+i,count:1,percentage:10}))}};
- const dashboard=skillsetsMarkup(data);assert.equal((dashboard.match(/<li>/g)||[]).length,8);assert.match(dashboard,/skillset-list-scroll/);assert.match(dashboard,/tabindex="0"/);
+ const dashboard=skillsetsMarkup(data);assert.equal((dashboard.match(/<li[ >]/g)||[]).length,8);assert.match(dashboard,/skillset-list-scroll/);assert.match(dashboard,/tabindex="0"/);
  const slide=skillsetsMarkup(data,{story:true});assert.equal((slide.match(/<li>/g)||[]).length,5);assert.ok(!slide.includes('skillset-list-scroll'));
  assert.ok(!skillsetsMarkup({skillsets:{...data.skillsets,rows:data.skillsets.rows.slice(0,5)}}).includes('skillset-list-scroll'));
+});
+
+
+test('skillset map lists include all matching selected difficulties and group repeat scores',async()=>{
+ const {skillsetMapsMarkup}=await import('../osu-wrapped/src/skillsets.js');
+ const tagged=(id,names)=>({beatmap:{id,version:'Extra'},beatmapset:{id:77,title:'Song <one>',artist:'Artist',creator:'Mapper'},wrappedSkillsets:{status:'ready',mode:'mania',names}});
+ const stats=skillsetSummary([tagged(9,['skillset/tech','skillset/tech']),tagged(9,['skillset/tech']),tagged(10,['skillset/streams']),{...tagged(11,['skillset/tech']),wrappedSkillsets:{status:'ready',mode:'osu',names:['skillset/tech']}}],'mania');
+ const row=stats.rows.find(row=>row.tag==='skillset/tech');assert.equal(row.count,2);assert.equal(row.maps.length,1);assert.equal(row.maps[0].count,2);
+ const html=skillsetMapsMarkup(row,'mania');assert.match(html,/beatmapsets\/77#mania\/9/);assert.match(html,/Song &lt;one&gt;/);assert.ok(!html.includes('selected scores'));assert.ok(!html.includes('selected score</small>'));assert.ok(!html.includes('/10'));
+ assert.match(skillsetsMarkup({skillsets:stats}),/data-skillset-maps="skillset\/tech"/);assert.ok(!skillsetsMarkup({skillsets:stats}).includes('View maps</button>'));assert.match(skillsetsMarkup({skillsets:stats}),/class="skillset-map-entry"/);assert.ok(!skillsetsMarkup({skillsets:stats},{story:true}).includes('data-skillset-maps'));
+ assert.match(skillsetMapsMarkup({}),/not included/);
+});
+test('skillset map listings cover eligible scores beyond the top PP list',async()=>{
+ const {summarize}=await import('../osu-wrapped/src/summary.js');
+ const scores=Array.from({length:40},(_,i)=>({...score(i+1),pp:i===39?null:100-i,passed:true,accuracy:.99,wrappedSkillsets:{status:'ready',mode:'osu',names:['skillset/jumps']},beatmap:{id:i+1},beatmapset:{id:1,title:'Song'}}));
+ const result=summarize({},scores,'osu');assert.equal(result.top.length,25);assert.equal(result.skillsets.rows[0].maps.length,40);assert.equal(result.skillsets.rows[0].count,40);
+});
+
+
+test('skillset searches preserve the selected game mode on stats and slides',()=>{
+ for(const [mode,id] of [['osu',0],['taiko',1],['fruits',2],['mania',3]]){
+  const data={mode,skillsets:{total:1,checked:1,tagged:1,rows:[{tag:'skillset/streams',name:'Streams',count:1,percentage:100,maps:[]}]}};
+  for(const story of [false,true]){
+   const html=skillsetsMarkup(data,{story});assert.ok(html.includes('&amp;m='+id+'"'));assert.ok(html.includes(encodeURIComponent('tag=""skillset/streams""')));
+  }
+ }
 });
