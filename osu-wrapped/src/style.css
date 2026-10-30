@@ -886,3 +886,13 @@ footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:7
 
 /* Center the complete step group while retaining a shared left text edge. */
 .review-loading>ol{display:grid;width:max-content;max-width:100%;margin:22px auto;padding:0;text-align:left}.review-loading>ol>li{display:grid;grid-template-columns:1.25em minmax(0,1fr);gap:6px;text-align:left}.loading-step-marker{text-align:center;font-variant-numeric:tabular-nums}
+
+/* Keep the summary row equally compact for demo and connected profiles. */
+@media(min-width:1101px){
+ .stats-grid>.stat{height:158px;min-height:158px}
+ .stats-grid>.stat:last-child:has(.favorite-mod-icon ~ .favorite-mod-icon){padding:18px}
+ .stats-grid>.stat:last-child:has(.favorite-mod-icon ~ .favorite-mod-icon) strong{margin:10px 0 8px;font-size:20px;line-height:1.2}
+ .stats-grid .favorite-mod-value:has(.favorite-mod-icon ~ .favorite-mod-icon){flex-wrap:nowrap;gap:5px}
+ .stats-grid .favorite-mod-value:has(.favorite-mod-icon ~ .favorite-mod-icon) .favorite-mod-icon{width:32px;height:23px;flex-shrink:1;min-width:20px}
+ .stats-grid>.stat:last-child:has(.favorite-mod-icon ~ .favorite-mod-icon) small{font-size:8px;line-height:1.4}
+}

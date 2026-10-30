@@ -2,6 +2,11 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.48 updates
+
+- Preload and reuse bundled demo preview players and shorten their fade-in to reduce slideshow audio delays.
+- Match desktop demo and live stat card heights, with compact favorite-mod styling only for tied mods. Single favorite mods retain their original sizing.
+
 ## v1.1.47 updates
 
 - Bundle all 14 demo slideshow song previews locally, keeping live Wrapped audio unchanged.
