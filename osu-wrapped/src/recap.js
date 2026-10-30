@@ -15,7 +15,7 @@ const number=value=>value==null?'—':new Intl.NumberFormat('en-US',{maximumFrac
 const pink='#fa82b5',muted='#b6a9c2',white='#f6f0fa';
 function avatarImage(userId,demo=false){
  return new Promise(resolve=>{
-  if(!Number.isSafeInteger(userId)||userId<0||(!demo&&userId===0))return resolve(null);
+  if(!Number.isSafeInteger(userId)||userId<=0)return resolve(null);
   const img=new Image();
   const timer=setTimeout(()=>{img.src='';resolve(null);},12000);
   img.onload=()=>{clearTimeout(timer);resolve(img);};

@@ -31,11 +31,11 @@ test('portrait and landscape demo recap images use local artwork rather than API
 });
 
 
-test('frozen artist and default player images are demo-only while live identity sources remain dynamic',async()=>{
+test('demo uses an initial for its player while frozen artist images remain demo-only',async()=>{
  const {artistImageSource}=await import('../osu-wrapped/src/artist-preload.js');
  const {demoArtistAsset}=await import('../osu-wrapped/src/demo-images.js');
  for(const mode of ['osu','taiko','fruits','mania']){
-  const data=demo(mode);assert.ok(demoAsset(data.user.avatar).includes('/images/demo/'));
+  const data=demo(mode);assert.equal(data.user.avatar,undefined);
   for(const artist of data.artists){
    const frozen=demoArtistAsset(artist);assert.ok(frozen.includes('/images/demo/'));assert.equal(artistImageSource(artist),frozen);
    const {demoImage,...live}=artist;assert.ok(!artistImageSource(live).includes('/images/demo/'));

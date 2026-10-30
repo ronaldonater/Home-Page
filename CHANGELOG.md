@@ -2,6 +2,11 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.46 updates
+
+- Replace circle enjoyer's demo profile picture with their initial on the stats page, slideshow, and portrait/landscape recap cards.
+- Keep other demo artwork and live profile images unchanged.
+
 ## v1.1.45 updates
 
 - Bundle demo-only artist portraits and a default player avatar alongside existing local mod icons, mapper/player avatars, and medal artwork. Missing artist portraits use local artwork fallbacks; frozen identity images never replace live profile images.
