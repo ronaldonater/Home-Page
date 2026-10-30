@@ -2,6 +2,10 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.55 updates
+
+- Increase spacing between the accuracy percentage and grade badge while retaining the responsive single-line layout.
+
 ## v1.1.54 updates
 
 - Change the initial access-check message to Loading osu! Wrapped...
