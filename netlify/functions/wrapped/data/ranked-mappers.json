@@ -1,12 +1,12 @@
 {
   "year": 2026,
-  "totalSets": 5861,
+  "totalSets": 5880,
   "modes": {
     "osu": {
       "genres": [
         {
           "id": 4,
-          "count": 572
+          "count": 576
         },
         {
           "id": 2,
@@ -18,11 +18,11 @@
         },
         {
           "id": 10,
-          "count": 738
+          "count": 739
         },
         {
           "id": 3,
-          "count": 210
+          "count": 211
         },
         {
           "id": 11,
@@ -30,7 +30,7 @@
         },
         {
           "id": 14,
-          "count": 21
+          "count": 22
         },
         {
           "id": 9,
@@ -53,7 +53,7 @@
           "count": 21
         }
       ],
-      "totalSets": 2858,
+      "totalSets": 2865,
       "totalMappers": 1036,
       "top": [
         {
@@ -122,23 +122,23 @@
       "genres": [
         {
           "id": 10,
-          "count": 592
+          "count": 593
         },
         {
           "id": 5,
-          "count": 323
+          "count": 324
         },
         {
           "id": 11,
-          "count": 102
+          "count": 103
         },
         {
           "id": 4,
-          "count": 238
+          "count": 241
         },
         {
           "id": 3,
-          "count": 79
+          "count": 80
         },
         {
           "id": 7,
@@ -146,7 +146,7 @@
         },
         {
           "id": 2,
-          "count": 103
+          "count": 104
         },
         {
           "id": 6,
@@ -169,13 +169,13 @@
           "count": 8
         }
       ],
-      "totalSets": 1509,
-      "totalMappers": 308,
+      "totalSets": 1517,
+      "totalMappers": 309,
       "top": [
         {
           "userId": 35619347,
           "username": "yakisode",
-          "count": 63,
+          "count": 64,
           "rank": 1
         },
         {
@@ -193,13 +193,13 @@
         {
           "userId": 15823344,
           "username": "Ryxliee",
-          "count": 46,
+          "count": 47,
           "rank": 4
         },
         {
           "userId": 10415491,
           "username": "Amasugi",
-          "count": 41,
+          "count": 42,
           "rank": 5
         },
         {
@@ -254,7 +254,7 @@
         },
         {
           "id": 10,
-          "count": 186
+          "count": 187
         },
         {
           "id": 13,
@@ -285,7 +285,7 @@
           "count": 2
         }
       ],
-      "totalSets": 536,
+      "totalSets": 537,
       "totalMappers": 145,
       "top": [
         {
@@ -358,11 +358,11 @@
         },
         {
           "id": 10,
-          "count": 551
+          "count": 552
         },
         {
           "id": 5,
-          "count": 177
+          "count": 178
         },
         {
           "id": 11,
@@ -370,7 +370,7 @@
         },
         {
           "id": 3,
-          "count": 72
+          "count": 73
         },
         {
           "id": 4,
@@ -401,7 +401,7 @@
           "count": 7
         }
       ],
-      "totalSets": 1098,
+      "totalSets": 1101,
       "totalMappers": 402,
       "top": [
         {
@@ -435,6 +435,12 @@
           "rank": 4
         },
         {
+          "userId": 7418493,
+          "username": "Kibitz",
+          "count": 14,
+          "rank": 6
+        },
+        {
           "userId": 6185083,
           "username": "menphiss",
           "count": 14,
@@ -450,24 +456,18 @@
           "userId": 34587251,
           "username": "-Enma-",
           "count": 13,
-          "rank": 8
+          "rank": 9
         },
         {
           "userId": 14095291,
           "username": "AelSan",
           "count": 13,
-          "rank": 8
-        },
-        {
-          "userId": 7418493,
-          "username": "Kibitz",
-          "count": 13,
-          "rank": 8
+          "rank": 9
         }
       ]
     }
   },
-  "updatedAt": "2026-10-29T15:20:18.999Z",
+  "updatedAt": "2026-10-30T15:09:20.442Z",
   "source": "osu!",
   "sourceUrl": "https://osu.ppy.sh/beatmapsets?q=ranked%3E%3D2026-01-01%20ranked%3C2027-01-01&s=ranked",
   "coverage": "Currently ranked mapsets with a 2026 ranked date (UTC). Each unique set counts once for its host in each native gamemode it contains. Guest difficulties are not separate set credits."
