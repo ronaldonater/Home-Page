@@ -2,6 +2,12 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.52 updates
+
+- Fix countdown control requests in the website copy to use the existing WRAPPED_OSU_REDIRECT_URI environment variable.
+- Return countdown-specific configuration and storage errors instead of the generic Wrapped-generation error.
+- Add regression coverage for countdown configuration failures and public-access toggles. No additional SQL or environment variables are required for this fix.
+
 ## v1.1.51 updates
 
 - Restore the owner-only Admin navbar button in the website copy.

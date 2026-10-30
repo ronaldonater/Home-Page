@@ -46,11 +46,12 @@ async function handleRequest(event,now){
   if(!sessionValid(releaseSession))return json(401,{error:'Sign in as ronaldonater to manage release access.'});
   if(!isReleaseAdmin({id:await identity()}))return json(403,{error:'Only ronaldonater can change release access.'});
   if(event.httpMethod==='POST'){
-   if(event.headers.origin!==callbackUrl(process.env.WRAPPED_REDIRECT_URI).origin)return json(403,{error:'Invalid origin'});
+   let expectedOrigin;try{expectedOrigin=callbackUrl(process.env.WRAPPED_OSU_REDIRECT_URI).origin;}catch{return json(503,{error:'Countdown controls are not configured correctly. Check the WRAPPED_OSU_REDIRECT_URI environment variable.'});}
+   if(event.headers.origin!==expectedOrigin)return json(403,{error:'Invalid origin'});
    if(releaseOpen(now()))return json(409,{error:'The scheduled release has passed. Public access is now automatic.'});
    const action=event.queryStringParameters?.action;
    if(!['open','restore'].includes(action))return json(400,{error:'Invalid release action.'});
-   await releaseSettings.set(process.env.WRAPPED_DATABASE_URL,action==='open');
+   try{await releaseSettings.set(process.env.WRAPPED_DATABASE_URL,action==='open');}catch(error){return json(error.status||503,{error:error.status?error.message:'Unable to save countdown settings. Please try again shortly.'});}
   }
   return json(200,await releaseSettings.status(process.env.WRAPPED_DATABASE_URL,now()));
  }
