@@ -407,7 +407,19 @@ This was truly an unforgettable experience. It filled such a hole in my heart an
         date: "June 23, 2024",
         stars: "★★★☆☆",
         videoUrl: "https://www.youtube.com/watch?v=pBAgozuTa9g",
-        review: "", // Add your written review here.
+        review: `ITZY was actually my first-ever K-Pop concert. Honestly, it wouldn't be crazy to say they were my ult group during this period, even despite Lia's hiatus. I was just completely obsessed with the Born To Be era!
+
+In terms of pricing, I actually received this ticket as a gift, so I couldn't tell you firsthand whether it was reasonably priced. Based on the times I did track the market, though, I'm going to assume it was fairly standard.
+
+**Choreography vs. Live Vocals**
+
+The girls looked stunning, and their choreography was exactly as amazing as you'd expect from ITZY. However, my main reason for knocking the rating down to a 3 is that they seemed to lip-sync a huge majority of the set. I'm unsure if this was a temporary adjustment because one of their main vocalists, Lia, was on a mental health break, or if this is just how they usually operate, but I'd at least appreciate some effort on the live vocal front.
+
+The one major exception where there wasn't clear lip-syncing was during Yeji's solo, "Crown On My Head." The crowd went absolutely ear-deafening for her. As you may have seen from my other reviews, I've been to metal concerts before, which obviously get incredibly loud. To say the crowd for Yeji was on that exact same volume level is a crazy sentiment, but it is 100% true!
+
+**The Verdict**
+
+Regardless of the lip-syncing, I still had a really fun time, and I would absolutely be willing to go to another one of their shows, especially now that Lia is back. However, considering all the factors, I have to be unbiased and realistic with my 3-star rating.`, // Add your written review here.
         score: "3/5"
     },
     {
