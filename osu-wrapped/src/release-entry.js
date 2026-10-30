@@ -1,6 +1,9 @@
 import {updateReleaseAccess} from './release-state.js';
 const releaseAt=Date.parse('2026-11-29T00:00:00Z');
 const root=document.querySelector('#app');let timer,offset=0,checking=false,lastCheck=0;
+function loading(){
+ root.innerHTML='<main class="release-screen release-loading"><section class="release-card" role="status" aria-live="polite" aria-busy="true"><span class="spinner" aria-hidden="true"></span><p>Loading osu! Wrapped...</p><p class="release-message"></p></section></main>';
+}
 function countdown(){
  root.innerHTML='<main class="release-screen"><div class="release-orbit" aria-hidden="true"></div><section class="release-card"><span class="eyebrow">YOUR YEAR IN RHYTHM</span><h1><span class="release-osu">osu!</span> Wrapped <span>2026</span></h1><p class="release-intro">Your year. One more countdown.</p><div class="release-clock" role="timer" aria-label="Time until release">'+['Days','Hours','Minutes','Seconds'].map((label,i)=>'<div><strong data-count="'+i+'">00</strong><span>'+label+'</span></div>').join('')+'</div><p class="release-date">November 29, 2026 &middot; 00:00 UTC</p><p class="release-message" role="status"></p><a class="release-admin" href="/api/osu-wrapped/auth/login">If you&#39;re an admin, login here.</a></section></main>';
  if(new URLSearchParams(location.search).get('error')==='admin')message('This account does not have early access. See you at release!');
@@ -26,9 +29,10 @@ async function check(){
     const accessTimer=setInterval(async()=>{if(document.hidden)return;try{const response=await fetch('/api/osu-wrapped/release',{cache:'no-store',credentials:'same-origin'});if(!response.ok)return;const current=await response.json();if(current.allowed===false){clearInterval(accessTimer);location.reload();}else if(current.serverNow>=releaseAt)clearInterval(accessTimer);}catch{}},30000);
    }
    updateReleaseAccess(status);clearInterval(timer);document.removeEventListener('visibilitychange',visible);await import('./main.js');return;}
-  if(!root.querySelector('.release-screen'))countdown();
+  if(!root.querySelector('.release-clock'))countdown();
+  tick();
  }catch{message('Unable to check release access. Retrying shortly.');}
  finally{checking=false;}
 }
 function visible(){if(!document.hidden)check();}
-countdown();timer=setInterval(tick,1000);tick();check();document.addEventListener('visibilitychange',visible);
+loading();timer=setInterval(tick,1000);check();document.addEventListener('visibilitychange',visible);

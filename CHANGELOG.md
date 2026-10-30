@@ -2,6 +2,12 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.53 updates
+
+- Show a neutral Checking access loading screen until the server confirms whether visitors should see the countdown or the site.
+- Prevent the countdown flashing when public access is enabled, and retain automatic retries when access checks fail.
+- Add regression tests for admitted visitors, denied visitors, and failed access checks.
+
 ## v1.1.52 updates
 
 - Fix countdown control requests in the website copy to use the existing WRAPPED_OSU_REDIRECT_URI environment variable.
