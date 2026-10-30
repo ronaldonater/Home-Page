@@ -2,6 +2,11 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.54 updates
+
+- Change the initial access-check message to Loading osu! Wrapped...
+- Keep the accuracy value and grade badge on one line, scaling to the stat card width so descriptions remain inside their cards.
+
 ## v1.1.53 updates
 
 - Show a neutral Checking access loading screen until the server confirms whether visitors should see the countdown or the site.
