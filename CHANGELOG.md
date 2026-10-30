@@ -2,6 +2,12 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.49 updates
+
+- Add owner-only admin controls to disable the countdown for public early access and restore admin-only access.
+- Persist the setting in Neon and enforce it on backend routes; visible visitor pages recheck access when the countdown is restored.
+- Preserve automatic public release on November 29, 2026 at 00:00 UTC. Run scripts/sql/release-settings.sql once before using the controls.
+
 ## v1.1.48 updates
 
 - Preload and reuse bundled demo preview players and shorten their fade-in to reduce slideshow audio delays.

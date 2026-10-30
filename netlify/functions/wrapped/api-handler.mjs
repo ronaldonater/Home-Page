@@ -1,3 +1,4 @@
+import {releaseSettings} from './release-settings.mjs';
 import {reviewQueue} from './review-queue.mjs';
 import {reviewCore} from './review-core.mjs';
 import {osuFetch} from './osu-api.mjs';
@@ -27,10 +28,11 @@ export async function handler(event,{now=Date.now}={}){
 async function handleRequest(event,now){
  try{
  const path=event.path.replace(/^\/.netlify\/functions\/wrapped-api(?=\/|$)/,'/api').replace(/^\/api\/osu-wrapped(?=\/|$)/,'/api');const jar=cookies(event);
- const allowedMethods=path==='/api/admin/users'?['GET','POST']:['/api/auth/logout','/api/wrapped/depart'].includes(path)?['POST']:['GET'];
+ const allowedMethods=['/api/admin/users','/api/admin/release'].includes(path)?['GET','POST']:['/api/auth/logout','/api/wrapped/depart'].includes(path)?['POST']:['GET'];
  if(!allowedMethods.includes(event.httpMethod))return json(405,{error:'Method not allowed'},{Allow:allowedMethods.join(', ')});
  if(path!=='/api/auth/callback' && event.headers['sec-fetch-site']==='cross-site' && event.headers['sec-fetch-mode']!=='navigate')return json(403,{error:'Cross-site request denied'});
- const released=releaseOpen(now());
+ const releaseStatus=await releaseSettings.status(process.env.WRAPPED_DATABASE_URL,now());
+ const released=releaseStatus.publicAccess;
  const releaseSession=unseal(jar.wrapped_session||'');
  let admin=false,verifiedId=null;
  async function identity(){
@@ -40,6 +42,18 @@ async function handleRequest(event,now){
   verifiedId=Number.isSafeInteger(user?.id)&&user.id>0?user.id:null;return verifiedId;
  }
  async function verifyAdmin(){return adminAllowlist.has(await identity(),process.env.WRAPPED_DATABASE_URL);}
+ if(path==='/api/admin/release'){
+  if(!sessionValid(releaseSession))return json(401,{error:'Sign in as ronaldonater to manage release access.'});
+  if(!isReleaseAdmin({id:await identity()}))return json(403,{error:'Only ronaldonater can change release access.'});
+  if(event.httpMethod==='POST'){
+   if(event.headers.origin!==callbackUrl(process.env.WRAPPED_REDIRECT_URI).origin)return json(403,{error:'Invalid origin'});
+   if(releaseOpen(now()))return json(409,{error:'The scheduled release has passed. Public access is now automatic.'});
+   const action=event.queryStringParameters?.action;
+   if(!['open','restore'].includes(action))return json(400,{error:'Invalid release action.'});
+   await releaseSettings.set(process.env.WRAPPED_DATABASE_URL,action==='open');
+  }
+  return json(200,await releaseSettings.status(process.env.WRAPPED_DATABASE_URL,now()));
+ }
  if(path==='/api/admin/users'){
   if(!sessionValid(releaseSession))return json(401,{error:'Sign in as ronaldonater to manage admins.'});
   if(!isReleaseAdmin({id:await identity()}))return json(403,{error:'Only ronaldonater can manage admins.'});
@@ -63,7 +77,7 @@ async function handleRequest(event,now){
   try{admin=await verifyAdmin();}catch(error){if(!released)throw error;}
   const owner=admin&&isReleaseAdmin({id:verifiedId});
   const extra=admin&&!releaseSession.userId?{'Set-Cookie':cookie('wrapped_session',seal({...releaseSession,userId:verifiedId}),Math.max(1,Math.floor((releaseSession.exp-Date.now())/1000)))}:{};
-  return json(200,{allowed:released||admin,admin,owner,releaseAt:RELEASE_AT,serverNow:now()},extra);
+  return json(200,{allowed:released||admin,admin,owner,...releaseStatus,releaseAt:RELEASE_AT,serverNow:now()},extra);
  }
  if(!released&&!['/api/auth/login','/api/auth/callback','/api/auth/logout'].includes(path)){
   admin=await verifyAdmin();

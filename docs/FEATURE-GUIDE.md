@@ -265,3 +265,8 @@ The saved demo now includes matching map details for every displayed skillset in
 ### Bundled demo song previews
 
 All 14 distinct beatmap previews used by the four saved demo slideshows are downloaded under the demo sounds directory (about 1.4 MB total), with URLs mapped by `demo-audio.json`. Opening, ambient, finale music and sound effects were already bundled. Demo slides play local previews; live Wrapped previews keep their original sources. The capture preserves the CDN's actual audio format, using .ogg or .mp3 as appropriate. Run `node scripts/snapshot-demo-audio.mjs` after updating the demo's maps or global snapshot. Visitor-time playback does not call osu!'s preview CDN or enter the profile queue. External replay/beatmap viewers remain separate services.
+
+
+### Temporary public access before release
+
+Run `scripts/sql/release-settings.sql` once in Neon. In the owner admin panel, choose **Disable countdown and open access** to admit all visitors, or **Restore countdown** to return to admin-only early access. Only ronaldonater can change this setting. The setting is stored in Neon; other server instances refresh it within 10 seconds, and already-open public visitor pages recheck every 30 seconds while visible. Before the scheduled release, missing or unavailable settings storage falls back to the countdown. November 29, 2026 at 00:00 UTC still opens access automatically and retires the early access panel.
