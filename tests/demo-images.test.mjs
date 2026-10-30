@@ -44,3 +44,17 @@ test('demo uses an initial for its player while frozen artist images remain demo
  for(const path of Object.values(manifest.artists||{}))assert.ok(path.includes('/images/demo/'));
  assert.equal(demoMarkup('<img src="https://a.ppy.sh/0"/>',false),'<img src="https://a.ppy.sh/0"/>');
 });
+
+
+test('saved demo skillset panels include every tagged difficulty using local thumbnails without live requests',async()=>{
+ const {skillsetMapsMarkup}=await import('../osu-wrapped/src/skillsets.js');
+ for(const mode of ['osu','taiko','fruits','mania']){
+  const data=demo(mode);assert.ok(data.skillsetsSnapshotAt);assert.ok(data.skillsets.rows.length);
+  for(const row of data.skillsets.rows){
+   assert.ok(row.maps.length,row.tag+' missing map details');assert.equal(row.maps.reduce((total,map)=>total+map.count,0),row.count);
+   const html=skillsetMapsMarkup(row,mode);assert.ok(!html.includes('not included'));
+   assert.ok(html.includes('#'+mode+'/'));
+   for(const image of html.matchAll(/<img[^>]+src="([^"]+)"/g))assert.ok(image[1].includes('/images/demo/'));
+  }
+ }
+});

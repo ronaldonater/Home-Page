@@ -2,6 +2,12 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.47 updates
+
+- Bundle all 14 demo slideshow song previews locally, keeping live Wrapped audio unchanged.
+- Populate frozen demo skillset panels with matching beatmaps, difficulty names, and local background images.
+- Document the self-contained demo assets and add regression checks for bundled previews and skillset maps.
+
 ## v1.1.46 updates
 
 - Replace circle enjoyer's demo profile picture with their initial on the stats page, slideshow, and portrait/landscape recap cards.

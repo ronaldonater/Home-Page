@@ -37,6 +37,13 @@
           "aim_difficult_strain_count": 114.55999755859375,
           "speed_difficult_strain_count": 63.42259979248047
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "osu",
+        "names": [
+          "skillset/jumps"
+        ]
       }
     },
     {
@@ -76,6 +83,13 @@
           "aim_difficult_strain_count": 82.3634033203125,
           "speed_difficult_strain_count": 44.03150177001953
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "osu",
+        "names": [
+          "skillset/jumps"
+        ]
       }
     },
     {
@@ -115,6 +129,13 @@
           "aim_difficult_strain_count": 90.84940338134766,
           "speed_difficult_strain_count": 56.19889831542969
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "osu",
+        "names": [
+          "skillset/jumps"
+        ]
       }
     },
     {
@@ -154,6 +175,13 @@
           "aim_difficult_strain_count": 102.41300201416016,
           "speed_difficult_strain_count": 37.9468994140625
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "osu",
+        "names": [
+          "skillset/jumps"
+        ]
       }
     },
     {
@@ -193,6 +221,13 @@
           "aim_difficult_strain_count": 83.38529968261719,
           "speed_difficult_strain_count": 65.0291976928711
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "osu",
+        "names": [
+          "skillset/jumps"
+        ]
       }
     },
     {
@@ -232,6 +267,16 @@
           "aim_difficult_strain_count": 154.7209930419922,
           "speed_difficult_strain_count": 252.74099731445312
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "osu",
+        "names": [
+          "skillset/jumps",
+          "skillset/reading",
+          "skillset/precision",
+          "skillset/alt"
+        ]
       }
     },
     {
@@ -271,6 +316,14 @@
           "aim_difficult_strain_count": 285.9289855957031,
           "speed_difficult_strain_count": 314.8349914550781
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "osu",
+        "names": [
+          "skillset/streams",
+          "skillset/jumps"
+        ]
       }
     },
     {
@@ -310,6 +363,14 @@
           "aim_difficult_strain_count": 65.56839752197266,
           "speed_difficult_strain_count": 80.1426010131836
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "osu",
+        "names": [
+          "skillset/alt",
+          "skillset/streams"
+        ]
       }
     },
     {
@@ -349,6 +410,18 @@
           "aim_difficult_strain_count": 59.70940017700195,
           "speed_difficult_strain_count": 76.63780212402344
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "osu",
+        "names": [
+          "skillset/jumps",
+          "skillset/precision",
+          "skillset/reading",
+          "skillset/streams",
+          "skillset/tech",
+          "skillset/alt"
+        ]
       }
     },
     {
@@ -388,6 +461,18 @@
           "aim_difficult_strain_count": 68.37870025634766,
           "speed_difficult_strain_count": 38.34080123901367
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "osu",
+        "names": [
+          "skillset/jumps",
+          "skillset/tech",
+          "skillset/streams",
+          "skillset/reading",
+          "skillset/precision",
+          "skillset/alt"
+        ]
       }
     }
   ],
@@ -423,6 +508,11 @@
           "max_combo": 155,
           "mono_stamina_factor": 7.917039801519365e-10
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "taiko",
+        "names": []
       }
     },
     {
@@ -454,8 +544,13 @@
         "HDDT": {
           "star_rating": 3.778140068054199,
           "max_combo": 140,
-          "mono_stamina_factor": 1.1571900104812016e-9
+          "mono_stamina_factor": 1.1571900104812016e-09
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "taiko",
+        "names": []
       }
     },
     {
@@ -487,8 +582,13 @@
         "HDDT": {
           "star_rating": 6.2609100341796875,
           "max_combo": 596,
-          "mono_stamina_factor": 8.493650227592298e-9
+          "mono_stamina_factor": 8.493650227592298e-09
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "taiko",
+        "names": []
       }
     },
     {
@@ -520,8 +620,13 @@
         "HDDT": {
           "star_rating": 3.2462100982666016,
           "max_combo": 109,
-          "mono_stamina_factor": 1.0660899940617696e-9
+          "mono_stamina_factor": 1.0660899940617696e-09
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "taiko",
+        "names": []
       }
     },
     {
@@ -553,8 +658,15 @@
         "HDDT": {
           "star_rating": 8.005599975585938,
           "max_combo": 1314,
-          "mono_stamina_factor": 7.372740196132099e-9
+          "mono_stamina_factor": 7.372740196132099e-09
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "taiko",
+        "names": [
+          "skillset/streams"
+        ]
       }
     },
     {
@@ -586,8 +698,13 @@
         "HDDT": {
           "star_rating": 6.051469802856445,
           "max_combo": 1229,
-          "mono_stamina_factor": 0.000008456850082438905
+          "mono_stamina_factor": 8.456850082438905e-06
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "taiko",
+        "names": []
       }
     },
     {
@@ -621,6 +738,11 @@
           "max_combo": 342,
           "mono_stamina_factor": 0.0006048980285413563
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "taiko",
+        "names": []
       }
     },
     {
@@ -652,8 +774,13 @@
         "HDDT": {
           "star_rating": 5.812180042266846,
           "max_combo": 517,
-          "mono_stamina_factor": 5.446980200218832e-9
+          "mono_stamina_factor": 5.446980200218832e-09
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "taiko",
+        "names": []
       }
     },
     {
@@ -687,6 +814,11 @@
           "max_combo": 732,
           "mono_stamina_factor": 0.00025016700965352356
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "taiko",
+        "names": []
       }
     },
     {
@@ -720,6 +852,11 @@
           "max_combo": 1284,
           "mono_stamina_factor": 0.016797799617052078
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "taiko",
+        "names": []
       }
     }
   ],
@@ -754,6 +891,11 @@
           "star_rating": 6.47307014465332,
           "max_combo": 262
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "fruits",
+        "names": []
       }
     },
     {
@@ -786,6 +928,11 @@
           "star_rating": 4.493319988250732,
           "max_combo": 186
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "fruits",
+        "names": []
       }
     },
     {
@@ -818,6 +965,13 @@
           "star_rating": 6.686319828033447,
           "max_combo": 1566
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "fruits",
+        "names": [
+          "skillset/streams"
+        ]
       }
     },
     {
@@ -850,6 +1004,11 @@
           "star_rating": 7.418879985809326,
           "max_combo": 983
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "fruits",
+        "names": []
       }
     },
     {
@@ -882,6 +1041,11 @@
           "star_rating": 5.038219928741455,
           "max_combo": 684
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "fruits",
+        "names": []
       }
     },
     {
@@ -914,6 +1078,11 @@
           "star_rating": 8.949040412902832,
           "max_combo": 805
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "fruits",
+        "names": []
       }
     },
     {
@@ -946,6 +1115,11 @@
           "star_rating": 5.531559944152832,
           "max_combo": 209
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "fruits",
+        "names": []
       }
     },
     {
@@ -978,6 +1152,11 @@
           "star_rating": 7.765130043029785,
           "max_combo": 944
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "fruits",
+        "names": []
       }
     },
     {
@@ -1010,6 +1189,11 @@
           "star_rating": 4.2926201820373535,
           "max_combo": 153
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "fruits",
+        "names": []
       }
     },
     {
@@ -1042,6 +1226,11 @@
           "star_rating": 6.5435099601745605,
           "max_combo": 704
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "fruits",
+        "names": []
       }
     }
   ],
@@ -1076,6 +1265,11 @@
           "star_rating": 6.443319797515869,
           "max_combo": 4800
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "mania",
+        "names": []
       }
     },
     {
@@ -1108,6 +1302,11 @@
           "star_rating": 5.29118013381958,
           "max_combo": 3908
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "mania",
+        "names": []
       }
     },
     {
@@ -1140,6 +1339,14 @@
           "star_rating": 6.105979919433594,
           "max_combo": 3327
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "mania",
+        "names": [
+          "skillset/speedjack",
+          "skillset/tech"
+        ]
       }
     },
     {
@@ -1172,6 +1379,11 @@
           "star_rating": 3.3811800479888916,
           "max_combo": 2621
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "mania",
+        "names": []
       }
     },
     {
@@ -1204,6 +1416,15 @@
           "star_rating": 5.786059856414795,
           "max_combo": 1257
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "mania",
+        "names": [
+          "skillset/streams",
+          "skillset/speedjack",
+          "skillset/tech"
+        ]
       }
     },
     {
@@ -1236,6 +1457,11 @@
           "star_rating": 4.1026201248168945,
           "max_combo": 1087
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "mania",
+        "names": []
       }
     },
     {
@@ -1268,6 +1494,11 @@
           "star_rating": 3.935149908065796,
           "max_combo": 1780
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "mania",
+        "names": []
       }
     },
     {
@@ -1300,6 +1531,13 @@
           "star_rating": 4.977389812469482,
           "max_combo": 851
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "mania",
+        "names": [
+          "skillset/reading"
+        ]
       }
     },
     {
@@ -1332,6 +1570,11 @@
           "star_rating": 3.9006199836730957,
           "max_combo": 1695
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "mania",
+        "names": []
       }
     },
     {
@@ -1364,6 +1607,13 @@
           "star_rating": 5.376309871673584,
           "max_combo": 3002
         }
+      },
+      "wrappedSkillsets": {
+        "status": "ready",
+        "mode": "mania",
+        "names": [
+          "skillset/wristjack"
+        ]
       }
     }
   ]

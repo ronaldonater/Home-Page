@@ -12,36 +12,298 @@
             "tag": "skillset/jumps",
             "name": "Jumps",
             "count": 68,
+            "maps": [
+              {
+                "id": 714001,
+                "setId": 320118,
+                "title": "No title",
+                "artist": "Reol",
+                "creator": "VINXIS",
+                "version": "jieusieu's Lemur",
+                "cover": "https://assets.ppy.sh/beatmaps/320118/covers/cover@2x.jpg?1650632079",
+                "count": 8
+              },
+              {
+                "id": 1627148,
+                "setId": 765778,
+                "title": "Make a Move (Speed Up Ver.)",
+                "artist": "Icon For Hire",
+                "creator": "Sotarks",
+                "version": "Endless Fear",
+                "cover": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123",
+                "count": 8
+              },
+              {
+                "id": 1262832,
+                "setId": 596704,
+                "title": "Hitorigoto -TV MIX-",
+                "artist": "ClariS",
+                "creator": "Doormat",
+                "version": "Soliloquy",
+                "cover": "https://assets.ppy.sh/beatmaps/596704/covers/cover@2x.jpg?1650648964",
+                "count": 8
+              },
+              {
+                "id": 869197,
+                "setId": 399358,
+                "title": "Silhouette",
+                "artist": "KANA-BOON",
+                "creator": "Kagetsu",
+                "version": "Kage",
+                "cover": "https://assets.ppy.sh/beatmaps/399358/covers/cover@2x.jpg?1650636640",
+                "count": 8
+              },
+              {
+                "id": 397535,
+                "setId": 163112,
+                "title": "My Love",
+                "artist": "Kuba Oms",
+                "creator": "W h i t e",
+                "version": "Insane",
+                "cover": "https://assets.ppy.sh/beatmaps/163112/covers/cover@2x.jpg?1631509131",
+                "count": 8
+              },
+              {
+                "id": 736215,
+                "setId": 332532,
+                "title": "Highscore",
+                "artist": "Panda Eyes & Teminite",
+                "creator": "Fort",
+                "version": "Game Over",
+                "cover": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844",
+                "count": 7
+              },
+              {
+                "id": 555797,
+                "setId": 158023,
+                "title": "Everything will freeze",
+                "artist": "UNDEAD CORPORATION",
+                "creator": "Ekoro",
+                "version": "Time Freeze",
+                "cover": "https://assets.ppy.sh/beatmaps/158023/covers/cover@2x.jpg?1645787427",
+                "count": 7
+              },
+              {
+                "id": 1988753,
+                "setId": 952409,
+                "title": "Ai no Sukima",
+                "artist": "MIMI feat. Hatsune Miku",
+                "creator": "Log Off Now",
+                "version": "Radiance",
+                "cover": "https://assets.ppy.sh/beatmaps/952409/covers/cover@2x.jpg?1645787548",
+                "count": 7
+              },
+              {
+                "id": 1119026,
+                "setId": 527431,
+                "title": "Gravity Falls Theme Song",
+                "artist": "Brad Breeck",
+                "creator": "Alphabet",
+                "version": "Mystery",
+                "cover": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302",
+                "count": 7
+              }
+            ],
             "percentage": 90.66666666666666
           },
           {
             "tag": "skillset/alt",
             "name": "Alt",
             "count": 28,
+            "maps": [
+              {
+                "id": 736215,
+                "setId": 332532,
+                "title": "Highscore",
+                "artist": "Panda Eyes & Teminite",
+                "creator": "Fort",
+                "version": "Game Over",
+                "cover": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844",
+                "count": 7
+              },
+              {
+                "id": 1255789,
+                "setId": 593620,
+                "title": "Shinzou o Sasageyo! [TV Size]",
+                "artist": "Linked Horizon",
+                "creator": "Monstrata",
+                "version": "Titan",
+                "cover": "https://assets.ppy.sh/beatmaps/593620/covers/cover@2x.jpg?1650648613",
+                "count": 7
+              },
+              {
+                "id": 1988753,
+                "setId": 952409,
+                "title": "Ai no Sukima",
+                "artist": "MIMI feat. Hatsune Miku",
+                "creator": "Log Off Now",
+                "version": "Radiance",
+                "cover": "https://assets.ppy.sh/beatmaps/952409/covers/cover@2x.jpg?1645787548",
+                "count": 7
+              },
+              {
+                "id": 1119026,
+                "setId": 527431,
+                "title": "Gravity Falls Theme Song",
+                "artist": "Brad Breeck",
+                "creator": "Alphabet",
+                "version": "Mystery",
+                "cover": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302",
+                "count": 7
+              }
+            ],
             "percentage": 37.333333333333336
           },
           {
             "tag": "skillset/streams",
             "name": "Streams",
             "count": 28,
+            "maps": [
+              {
+                "id": 555797,
+                "setId": 158023,
+                "title": "Everything will freeze",
+                "artist": "UNDEAD CORPORATION",
+                "creator": "Ekoro",
+                "version": "Time Freeze",
+                "cover": "https://assets.ppy.sh/beatmaps/158023/covers/cover@2x.jpg?1645787427",
+                "count": 7
+              },
+              {
+                "id": 1255789,
+                "setId": 593620,
+                "title": "Shinzou o Sasageyo! [TV Size]",
+                "artist": "Linked Horizon",
+                "creator": "Monstrata",
+                "version": "Titan",
+                "cover": "https://assets.ppy.sh/beatmaps/593620/covers/cover@2x.jpg?1650648613",
+                "count": 7
+              },
+              {
+                "id": 1988753,
+                "setId": 952409,
+                "title": "Ai no Sukima",
+                "artist": "MIMI feat. Hatsune Miku",
+                "creator": "Log Off Now",
+                "version": "Radiance",
+                "cover": "https://assets.ppy.sh/beatmaps/952409/covers/cover@2x.jpg?1645787548",
+                "count": 7
+              },
+              {
+                "id": 1119026,
+                "setId": 527431,
+                "title": "Gravity Falls Theme Song",
+                "artist": "Brad Breeck",
+                "creator": "Alphabet",
+                "version": "Mystery",
+                "cover": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302",
+                "count": 7
+              }
+            ],
             "percentage": 37.333333333333336
           },
           {
             "tag": "skillset/precision",
             "name": "Precision",
             "count": 21,
+            "maps": [
+              {
+                "id": 736215,
+                "setId": 332532,
+                "title": "Highscore",
+                "artist": "Panda Eyes & Teminite",
+                "creator": "Fort",
+                "version": "Game Over",
+                "cover": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844",
+                "count": 7
+              },
+              {
+                "id": 1988753,
+                "setId": 952409,
+                "title": "Ai no Sukima",
+                "artist": "MIMI feat. Hatsune Miku",
+                "creator": "Log Off Now",
+                "version": "Radiance",
+                "cover": "https://assets.ppy.sh/beatmaps/952409/covers/cover@2x.jpg?1645787548",
+                "count": 7
+              },
+              {
+                "id": 1119026,
+                "setId": 527431,
+                "title": "Gravity Falls Theme Song",
+                "artist": "Brad Breeck",
+                "creator": "Alphabet",
+                "version": "Mystery",
+                "cover": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302",
+                "count": 7
+              }
+            ],
             "percentage": 28.000000000000004
           },
           {
             "tag": "skillset/reading",
             "name": "Reading",
             "count": 21,
+            "maps": [
+              {
+                "id": 736215,
+                "setId": 332532,
+                "title": "Highscore",
+                "artist": "Panda Eyes & Teminite",
+                "creator": "Fort",
+                "version": "Game Over",
+                "cover": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844",
+                "count": 7
+              },
+              {
+                "id": 1988753,
+                "setId": 952409,
+                "title": "Ai no Sukima",
+                "artist": "MIMI feat. Hatsune Miku",
+                "creator": "Log Off Now",
+                "version": "Radiance",
+                "cover": "https://assets.ppy.sh/beatmaps/952409/covers/cover@2x.jpg?1645787548",
+                "count": 7
+              },
+              {
+                "id": 1119026,
+                "setId": 527431,
+                "title": "Gravity Falls Theme Song",
+                "artist": "Brad Breeck",
+                "creator": "Alphabet",
+                "version": "Mystery",
+                "cover": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302",
+                "count": 7
+              }
+            ],
             "percentage": 28.000000000000004
           },
           {
             "tag": "skillset/tech",
             "name": "Tech",
             "count": 14,
+            "maps": [
+              {
+                "id": 1988753,
+                "setId": 952409,
+                "title": "Ai no Sukima",
+                "artist": "MIMI feat. Hatsune Miku",
+                "creator": "Log Off Now",
+                "version": "Radiance",
+                "cover": "https://assets.ppy.sh/beatmaps/952409/covers/cover@2x.jpg?1645787548",
+                "count": 7
+              },
+              {
+                "id": 1119026,
+                "setId": 527431,
+                "title": "Gravity Falls Theme Song",
+                "artist": "Brad Breeck",
+                "creator": "Alphabet",
+                "version": "Mystery",
+                "cover": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302",
+                "count": 7
+              }
+            ],
             "percentage": 18.666666666666668
           }
         ]
@@ -1971,10 +2233,11 @@
         "source": "osu!",
         "sourceUrl": "https://osu.ppy.sh/rankings/top-plays/osu",
         "updatedAt": "2026-10-29T06:18:10.562Z",
-        "coverage": "2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only each player’s highest-PP play per difficulty is shown, regardless of mod combination.",
+        "coverage": "2026 plays within osu!\u2019s current top 1,000 PP rankings, not a complete annual archive. Only each player\u2019s highest-PP play per difficulty is shown, regardless of mod combination.",
         "demoSnapshot": true,
         "snapshotAt": "2026-10-29T06:18:09.510Z"
-      }
+      },
+      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z"
     },
     "taiko": {
       "skillsets": {
@@ -1987,6 +2250,18 @@
             "tag": "skillset/streams",
             "name": "Streams",
             "count": 8,
+            "maps": [
+              {
+                "id": 557818,
+                "setId": 241526,
+                "title": "Renatus",
+                "artist": "Soleily",
+                "creator": "Multiple Creators",
+                "version": "Oni",
+                "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332",
+                "count": 8
+              }
+            ],
             "percentage": 10.666666666666668
           }
         ]
@@ -3916,10 +4191,11 @@
         "source": "osu!",
         "sourceUrl": "https://osu.ppy.sh/rankings/top-plays/taiko",
         "updatedAt": "2026-10-29T06:18:22.766Z",
-        "coverage": "2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only each player’s highest-PP play per difficulty is shown, regardless of mod combination.",
+        "coverage": "2026 plays within osu!\u2019s current top 1,000 PP rankings, not a complete annual archive. Only each player\u2019s highest-PP play per difficulty is shown, regardless of mod combination.",
         "demoSnapshot": true,
         "snapshotAt": "2026-10-29T06:18:09.510Z"
-      }
+      },
+      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z"
     },
     "fruits": {
       "skillsets": {
@@ -3932,6 +4208,18 @@
             "tag": "skillset/streams",
             "name": "Streams",
             "count": 8,
+            "maps": [
+              {
+                "id": 557811,
+                "setId": 241526,
+                "title": "Renatus",
+                "artist": "Soleily",
+                "creator": "Multiple Creators",
+                "version": "Rain",
+                "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332",
+                "count": 8
+              }
+            ],
             "percentage": 10.666666666666668
           }
         ]
@@ -5852,10 +6140,11 @@
         "source": "osu!",
         "sourceUrl": "https://osu.ppy.sh/rankings/top-plays/fruits",
         "updatedAt": "2026-10-29T06:18:34.980Z",
-        "coverage": "2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only each player’s highest-PP play per difficulty is shown, regardless of mod combination.",
+        "coverage": "2026 plays within osu!\u2019s current top 1,000 PP rankings, not a complete annual archive. Only each player\u2019s highest-PP play per difficulty is shown, regardless of mod combination.",
         "demoSnapshot": true,
         "snapshotAt": "2026-10-29T06:18:09.510Z"
-      }
+      },
+      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z"
     },
     "mania": {
       "skillsets": {
@@ -5868,30 +6157,110 @@
             "tag": "skillset/speedjack",
             "name": "Speedjacks",
             "count": 16,
+            "maps": [
+              {
+                "id": 2039384,
+                "setId": 971561,
+                "title": "Runengon",
+                "artist": "antiPLUR",
+                "creator": "Raveille",
+                "version": "[4K] Lenfried's Insane",
+                "cover": "https://assets.ppy.sh/beatmaps/971561/covers/cover@2x.jpg?1650680268",
+                "count": 8
+              },
+              {
+                "id": 748488,
+                "setId": 332623,
+                "title": "Kakushinteki*Metamaruphose!",
+                "artist": "Doma Umaru [CV.Tanaka Aimi]",
+                "creator": "Crystal",
+                "version": "[4K] victorica's Lv.13",
+                "cover": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573",
+                "count": 8
+              }
+            ],
             "percentage": 21.333333333333336
           },
           {
             "tag": "skillset/tech",
             "name": "Tech",
             "count": 16,
+            "maps": [
+              {
+                "id": 2039384,
+                "setId": 971561,
+                "title": "Runengon",
+                "artist": "antiPLUR",
+                "creator": "Raveille",
+                "version": "[4K] Lenfried's Insane",
+                "cover": "https://assets.ppy.sh/beatmaps/971561/covers/cover@2x.jpg?1650680268",
+                "count": 8
+              },
+              {
+                "id": 748488,
+                "setId": 332623,
+                "title": "Kakushinteki*Metamaruphose!",
+                "artist": "Doma Umaru [CV.Tanaka Aimi]",
+                "creator": "Crystal",
+                "version": "[4K] victorica's Lv.13",
+                "cover": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573",
+                "count": 8
+              }
+            ],
             "percentage": 21.333333333333336
           },
           {
             "tag": "skillset/streams",
             "name": "Streams",
             "count": 8,
+            "maps": [
+              {
+                "id": 748488,
+                "setId": 332623,
+                "title": "Kakushinteki*Metamaruphose!",
+                "artist": "Doma Umaru [CV.Tanaka Aimi]",
+                "creator": "Crystal",
+                "version": "[4K] victorica's Lv.13",
+                "cover": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573",
+                "count": 8
+              }
+            ],
             "percentage": 10.666666666666668
           },
           {
             "tag": "skillset/reading",
             "name": "Reading",
             "count": 7,
+            "maps": [
+              {
+                "id": 494094,
+                "setId": 206887,
+                "title": "unravel (TV edit)",
+                "artist": "TK from Ling tosite sigure",
+                "creator": "Desperate-kun",
+                "version": "[4K] Marirose's Insane",
+                "cover": "https://assets.ppy.sh/beatmaps/206887/covers/cover@2x.jpg?1650626369",
+                "count": 7
+              }
+            ],
             "percentage": 9.333333333333334
           },
           {
             "tag": "skillset/wristjack",
             "name": "Wristjacks",
             "count": 7,
+            "maps": [
+              {
+                "id": 888023,
+                "setId": 409025,
+                "title": "If You Can't Hang",
+                "artist": "Sleeping With Sirens",
+                "creator": "pishifat",
+                "version": "[4K] puxtu's MX",
+                "cover": "https://assets.ppy.sh/beatmaps/409025/covers/cover@2x.jpg?1650636399",
+                "count": 7
+              }
+            ],
             "percentage": 9.333333333333334
           }
         ]
@@ -7812,10 +8181,11 @@
         "source": "osu!",
         "sourceUrl": "https://osu.ppy.sh/rankings/top-plays/mania",
         "updatedAt": "2026-10-29T06:18:42.714Z",
-        "coverage": "2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only each player’s highest-PP play per difficulty is shown, regardless of mod combination.",
+        "coverage": "2026 plays within osu!\u2019s current top 1,000 PP rankings, not a complete annual archive. Only each player\u2019s highest-PP play per difficulty is shown, regardless of mod combination.",
         "demoSnapshot": true,
         "snapshotAt": "2026-10-29T06:18:09.510Z"
-      }
+      },
+      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z"
     }
   }
 }

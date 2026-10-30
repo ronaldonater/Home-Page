@@ -41,7 +41,7 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.46** | [Changelog](CHANGELOG.md) | [Detailed guide](docs/FEATURE-GUIDE.md)
+**Version 1.1.47** | [Changelog](CHANGELOG.md) | [Detailed guide](docs/FEATURE-GUIDE.md)
 
 A four-mode annual review with personal and global statistics, skillsets, playstyle/mapping clubs, an animated slideshow, portrait/landscape recap cards, and embedded replay/beatmap viewers. The demo uses bundled data and artwork; music previews still stream.
 

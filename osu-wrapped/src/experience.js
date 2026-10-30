@@ -1,3 +1,4 @@
+import {demoAudio} from './demo-audio.js';
 import {savedBeatmapCover} from './beatmap-cover.js';
 import {demoAsset,demoMarkup} from './demo-images.js';
 import {skillsetsMarkup} from './skillsets.js';
@@ -86,7 +87,7 @@ export function experienceSlides(data){
   finale.body=finale.body.replace('Every new best starts<br>with one more try.','Every new pattern starts<br>with one idea.');
   return [slides[0],mappingSlide,...slides.slice(communityStart)].filter(Boolean);
  }
- return data.demo?slides.map(slide=>({...slide,body:demoMarkup(slide.body||''),artwork:demoAsset(slide.artwork)})):slides;
+ return data.demo?slides.map(slide=>({...slide,preview:demoAudio(slide.preview),body:demoMarkup(slide.body||''),artwork:demoAsset(slide.artwork)})):slides;
 }
 export function usesOpeningMusic(slides,index){
  return index<=Math.max(0,slides.findIndex(slide=>slide.layout==='personal-mods'))||slides[index]?.eyebrow==='A LITTLE RECOGNITION';
