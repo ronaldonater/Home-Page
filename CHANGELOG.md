@@ -2,6 +2,11 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.50 updates
+
+- Fix corrupted date separators, apostrophes, and admin panel characters caused by a text-encoding mismatch.
+- Use HTML entities for the countdown date separator and login apostrophe.
+
 ## v1.1.49 updates
 
 - Add owner-only admin controls to disable the countdown for public early access and restore admin-only access.
