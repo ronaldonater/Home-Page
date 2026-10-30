@@ -2,6 +2,11 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.51 updates
+
+- Restore the owner-only Admin navbar button in the website copy.
+- Add regression coverage for navbar rendering and owner controls during temporary public access, while retaining automatic hiding at the scheduled release.
+
 ## v1.1.50 updates
 
 - Fix corrupted date separators, apostrophes, and admin panel characters caused by a text-encoding mismatch.
