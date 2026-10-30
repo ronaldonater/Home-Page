@@ -2,6 +2,13 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.45 updates
+
+- Bundle demo-only artist portraits and a default player avatar alongside existing local mod icons, mapper/player avatars, and medal artwork. Missing artist portraits use local artwork fallbacks; frozen identity images never replace live profile images.
+- Coordinate daily catalogue refreshes and live player requests through one shared API budget, reserving roughly one snapshot request per nine player requests during contention and borrowing unused capacity when idle.
+- Pause snapshot requests when shared admission is unavailable, preserve the previous catalogue until refresh completion, install workflow dependencies, and increase the workflow timeout to 60 minutes.
+- Document the required api-budget.sql update and GitHub Actions DATABASE_URL secret.
+
 ## v1.1.44 updates
 
 - Open matching selected beatmaps by clicking a skillset row, while keeping skillset names linked to searches filtered by the selected game mode.

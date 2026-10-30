@@ -2,12 +2,13 @@ import {createSharedOsuFetch} from './shared-osu-cache.mjs';
 import {createHash} from 'node:crypto';
 import {imageBytes} from './hardening.mjs';
 const delay=(ms,signal)=>new Promise((resolve,reject)=>{if(signal?.aborted)return reject(signal.reason);const stop=()=>{clearTimeout(timer);reject(signal.reason);};const timer=setTimeout(()=>{signal?.removeEventListener('abort',stop);resolve();},ms);signal?.addEventListener('abort',stop,{once:true});});
-const admission=`INSERT INTO wrapped_api_budget (budget_key,next_at) VALUES ($1,clock_timestamp()+interval '1100 milliseconds') ON CONFLICT (budget_key) DO UPDATE SET next_at=clock_timestamp()+interval '1100 milliseconds' WHERE wrapped_api_budget.next_at<=clock_timestamp() RETURNING budget_key`;
+const admission='SELECT budget_key FROM wrapped_api_admit($1,$2)';
 async function databaseQuery(url,sql,params){const {neon}=await import('@neondatabase/serverless');return neon(url).query(sql,params,{fetchOptions:{signal:AbortSignal.timeout(2000)}});}
 export const apiBudget={query:databaseQuery};
-export function createOsuApi({fetchImpl=(...args)=>fetch(...args),now=Date.now,sleep=delay,query=(...args)=>apiBudget.query(...args),config=()=>({databaseUrl:process.env.WRAPPED_DATABASE_URL,clientId:process.env.WRAPPED_OSU_CLIENT_ID})}={}){
+export function createOsuApi({lane='player',requireSharedBudget=false,fetchImpl=(...args)=>fetch(...args),now=Date.now,sleep=delay,query=(...args)=>apiBudget.query(...args),config=()=>({databaseUrl:process.env.WRAPPED_DATABASE_URL,clientId:process.env.WRAPPED_OSU_CLIENT_ID})}={}){
  let tail=Promise.resolve(),next=0,cooldown=0,databaseRetryAt=0,cachedBytes=0;const cache=new Map(),pending=new Map();
  async function request(url,options){
+  if(!['player','snapshot'].includes(lane))throw Error('Invalid API lane');
   const signal=options.signal;signal?.throwIfAborted();
   const previous=tail;let release;tail=new Promise(resolve=>release=resolve);
   try{
@@ -17,9 +18,10 @@ export function createOsuApi({fetchImpl=(...args)=>fetch(...args),now=Date.now,s
    if(now()<next)await sleep(next-now(),signal);signal?.throwIfAborted();
    if(now()<cooldown)return new Response(null,{status:429});
    const cfg=config(),key=createHash('sha256').update('osu-api:'+String(cfg.clientId||'default')).digest('hex');
+   if(requireSharedBudget&&(!cfg.databaseUrl||now()<databaseRetryAt))throw Error('Shared API scheduling is unavailable; snapshot refresh paused.');
    if(cfg.databaseUrl&&now()>=databaseRetryAt){
-    try{while(!(await query(cfg.databaseUrl,admission,[key])).length){await sleep(1100,signal);signal?.throwIfAborted();}}
-    catch(error){if(signal?.aborted)throw error;databaseRetryAt=now()+60000;}
+    try{while(!(await query(cfg.databaseUrl,admission,[key,lane])).length){await sleep(1100,signal);signal?.throwIfAborted();}}
+    catch(error){if(signal?.aborted)throw error;databaseRetryAt=now()+60000;if(requireSharedBudget)throw Error('Shared API scheduling is unavailable; snapshot refresh paused.');}
    }
    signal?.throwIfAborted();next=now()+1100;
    const result=fetchImpl(url,options);release();release=null;

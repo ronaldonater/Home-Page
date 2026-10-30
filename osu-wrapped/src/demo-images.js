@@ -11,3 +11,11 @@ export function demoAsset(value){
  return value;
 }
 export function demoMarkup(markup,enabled=true){return enabled?markup.replace(/(?:https:\/\/(?:assets\.ppy\.sh|a\.ppy\.sh)\/[^\s"'<>()[\]]+|\/api(?:\/osu-wrapped)?\/(?:cover|avatar|medal-image)\?[^\s"'<>()[\]]+)/g,value=>demoAsset(value)):markup;}
+
+// Only callers holding an explicit demo record use frozen identity portraits.
+export function demoArtistAsset(artist){
+ const frozen=Object.hasOwn(manifest.artists||{},artist?.name)?manifest.artists[artist.name]:demoAsset(artist?.demoImage||artist?.cover||'');
+ if(typeof frozen!=='string')return '';
+ if(/^\/(?:osu-wrapped\/)?images\/demo\/[a-z0-9.-]+$/.test(frozen))return frozen;
+ try{const url=new URL(frozen);return url.protocol==='https:'&&['assets.ppy.sh','osu.ppy.sh'].includes(url.hostname)&&!url.username&&!url.password?url.href:'';}catch{return '';}
+}

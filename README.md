@@ -41,7 +41,7 @@ Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.44** | [Changelog](CHANGELOG.md) | [Detailed guide](docs/FEATURE-GUIDE.md)
+**Version 1.1.45** | [Changelog](CHANGELOG.md) | [Detailed guide](docs/FEATURE-GUIDE.md)
 
 A four-mode annual review with personal and global statistics, skillsets, playstyle/mapping clubs, an animated slideshow, portrait/landscape recap cards, and embedded replay/beatmap viewers. The demo uses bundled data and artwork; music previews still stream.
 
@@ -75,3 +75,5 @@ Required data finishes loading before a profile is shown. Community percentages 
 Run `node --test tests/*.test.mjs` from the website root. Detailed demo-refresh and maintenance instructions are in the [feature guide](docs/FEATURE-GUIDE.md); release history is in [CHANGELOG.md](CHANGELOG.md).
 
 Full attributions are available in the app's **Credits & Thanks** panel and [its source](osu-wrapped/src/credits.js), covering osu! / ppy, creators, Osekai, TheAudioDB, musicians, sound contributors, and embedded viewers. Independent fan project; not affiliated with ppy or osu!.
+
+For the daily catalogue workflow, set the GitHub Actions repository secret `DATABASE_URL` to the live app's existing Neon connection string, alongside its existing osu! OAuth secrets. Rerun [api-budget.sql](scripts/sql/api-budget.sql) before deploying the shared player/snapshot scheduler. See the [feature guide](docs/FEATURE-GUIDE.md#shared-budget-for-daily-catalogue-refreshes).

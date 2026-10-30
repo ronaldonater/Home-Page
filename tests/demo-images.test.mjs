@@ -29,3 +29,18 @@ test('portrait and landscape demo recap images use local artwork rather than API
  globalThis.Image=class{constructor(){this.naturalWidth=200;this.naturalHeight=100;}set src(value){if(value){requests.push(value);queueMicrotask(()=>this.onload?.());}}};
  try{for(const layout of ['portrait','landscape'])await createRecap(demo(),{layout});assert.ok(requests.length>20);for(const source of requests)assert.match(source,/^\/osu-wrapped\/images\/(?:demo|mods)\//);}finally{Object.assign(globalThis,original);}
 });
+
+
+test('frozen artist and default player images are demo-only while live identity sources remain dynamic',async()=>{
+ const {artistImageSource}=await import('../osu-wrapped/src/artist-preload.js');
+ const {demoArtistAsset}=await import('../osu-wrapped/src/demo-images.js');
+ for(const mode of ['osu','taiko','fruits','mania']){
+  const data=demo(mode);assert.ok(demoAsset(data.user.avatar).includes('/images/demo/'));
+  for(const artist of data.artists){
+   const frozen=demoArtistAsset(artist);assert.ok(frozen.includes('/images/demo/'));assert.equal(artistImageSource(artist),frozen);
+   const {demoImage,...live}=artist;assert.ok(!artistImageSource(live).includes('/images/demo/'));
+  }
+ }
+ for(const path of Object.values(manifest.artists||{}))assert.ok(path.includes('/images/demo/'));
+ assert.equal(demoMarkup('<img src="https://a.ppy.sh/0"/>',false),'<img src="https://a.ppy.sh/0"/>');
+});

@@ -1,8 +1,9 @@
+import {demoArtistAsset} from './demo-images.js';
 import {artistCover} from './artist-fallback.js';
 const cache=new Map();
 const key=(artist,base)=>base+':'+artist.name+':'+artistCover(artist.cover);
 export function artistImageSource(artist,base='/api/osu-wrapped'){
- if(Object.hasOwn(artist,'demoImage'))return artistCover(artist.demoImage);
+ if(Object.hasOwn(artist,'demoImage'))return demoArtistAsset(artist);
  const cached=cache.get(key(artist,base));
  if(cached?.expires>Date.now()&&cached.source!==undefined)return cached.source;
  return base+'/artist-image?name='+encodeURIComponent(artist.name);
@@ -19,7 +20,7 @@ export async function preloadArtistImages(artists=[],{base='/api/osu-wrapped',ti
  await Promise.all(Array.from({length:Math.min(4,rows.length)},async()=>{
   while(cursor<rows.length){const artist=rows[cursor++],id=key(artist,base),saved=cache.get(id);
    if(saved?.expires>Date.now()){if(saved.pending)await saved.pending;continue;}
-   if(Object.hasOwn(artist,'demoImage')){cache.set(id,{expires:Date.now()+600000,source:artistCover(artist.demoImage)});continue;}
+   if(Object.hasOwn(artist,'demoImage')){cache.set(id,{expires:Date.now()+600000,source:demoArtistAsset(artist)});continue;}
    const entry={expires:Date.now()+600000};cache.set(id,entry);
    entry.pending=(async()=>{
     const primary=base+'/artist-image?name='+encodeURIComponent(artist.name),fallback=artistCover(artist.cover);
