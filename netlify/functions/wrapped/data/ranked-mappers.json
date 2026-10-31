@@ -1,6 +1,6 @@
 {
   "year": 2026,
-  "totalSets": 5880,
+  "totalSets": 5898,
   "modes": {
     "osu": {
       "genres": [
@@ -18,11 +18,11 @@
         },
         {
           "id": 10,
-          "count": 739
+          "count": 741
         },
         {
           "id": 3,
-          "count": 211
+          "count": 212
         },
         {
           "id": 11,
@@ -53,13 +53,13 @@
           "count": 21
         }
       ],
-      "totalSets": 2865,
-      "totalMappers": 1036,
+      "totalSets": 2868,
+      "totalMappers": 1037,
       "top": [
         {
           "userId": 12693713,
           "username": "killian",
-          "count": 34,
+          "count": 35,
           "rank": 1
         },
         {
@@ -122,11 +122,11 @@
       "genres": [
         {
           "id": 10,
-          "count": 593
+          "count": 597
         },
         {
           "id": 5,
-          "count": 324
+          "count": 325
         },
         {
           "id": 11,
@@ -146,7 +146,7 @@
         },
         {
           "id": 2,
-          "count": 104
+          "count": 105
         },
         {
           "id": 6,
@@ -158,7 +158,7 @@
         },
         {
           "id": 13,
-          "count": 15
+          "count": 16
         },
         {
           "id": 12,
@@ -169,8 +169,8 @@
           "count": 8
         }
       ],
-      "totalSets": 1517,
-      "totalMappers": 309,
+      "totalSets": 1524,
+      "totalMappers": 310,
       "top": [
         {
           "userId": 35619347,
@@ -199,32 +199,32 @@
         {
           "userId": 10415491,
           "username": "Amasugi",
-          "count": 42,
+          "count": 43,
           "rank": 5
         },
         {
           "userId": 14947043,
           "username": "hz404",
-          "count": 40,
+          "count": 41,
           "rank": 6
+        },
+        {
+          "userId": 5938161,
+          "username": "gaston_2199",
+          "count": 33,
+          "rank": 7
         },
         {
           "userId": 22522738,
           "username": "Erowdi",
           "count": 32,
-          "rank": 7
-        },
-        {
-          "userId": 5938161,
-          "username": "gaston_2199",
-          "count": 32,
-          "rank": 7
+          "rank": 8
         },
         {
           "userId": 845733,
           "username": "Faputa",
-          "count": 31,
-          "rank": 9
+          "count": 32,
+          "rank": 8
         },
         {
           "userId": 2597417,
@@ -242,7 +242,7 @@
         },
         {
           "id": 4,
-          "count": 76
+          "count": 77
         },
         {
           "id": 3,
@@ -254,7 +254,7 @@
         },
         {
           "id": 10,
-          "count": 187
+          "count": 190
         },
         {
           "id": 13,
@@ -285,7 +285,7 @@
           "count": 2
         }
       ],
-      "totalSets": 537,
+      "totalSets": 541,
       "totalMappers": 145,
       "top": [
         {
@@ -313,28 +313,28 @@
           "rank": 4
         },
         {
+          "userId": 2306637,
+          "username": "Secre",
+          "count": 15,
+          "rank": 4
+        },
+        {
           "userId": 16352736,
           "username": "bighzonda",
           "count": 14,
-          "rank": 5
+          "rank": 6
         },
         {
           "userId": 19647032,
           "username": "kastracja",
           "count": 14,
-          "rank": 5
-        },
-        {
-          "userId": 2306637,
-          "username": "Secre",
-          "count": 14,
-          "rank": 5
+          "rank": 6
         },
         {
           "userId": 10674528,
           "username": "Verti",
           "count": 14,
-          "rank": 5
+          "rank": 6
         },
         {
           "userId": 8846762,
@@ -358,11 +358,11 @@
         },
         {
           "id": 10,
-          "count": 552
+          "count": 553
         },
         {
           "id": 5,
-          "count": 178
+          "count": 182
         },
         {
           "id": 11,
@@ -401,7 +401,7 @@
           "count": 7
         }
       ],
-      "totalSets": 1101,
+      "totalSets": 1106,
       "totalMappers": 402,
       "top": [
         {
@@ -423,34 +423,34 @@
           "rank": 3
         },
         {
+          "userId": 7418493,
+          "username": "Kibitz",
+          "count": 16,
+          "rank": 4
+        },
+        {
           "userId": 29645291,
           "username": "[TCD] Ena-suki",
           "count": 15,
-          "rank": 4
+          "rank": 5
         },
         {
           "userId": 23097320,
           "username": "keksikosu",
           "count": 15,
-          "rank": 4
-        },
-        {
-          "userId": 7418493,
-          "username": "Kibitz",
-          "count": 14,
-          "rank": 6
+          "rank": 5
         },
         {
           "userId": 6185083,
           "username": "menphiss",
           "count": 14,
-          "rank": 6
+          "rank": 7
         },
         {
           "userId": 11420336,
           "username": "Savageeeee",
           "count": 14,
-          "rank": 6
+          "rank": 7
         },
         {
           "userId": 34587251,
@@ -467,7 +467,7 @@
       ]
     }
   },
-  "updatedAt": "2026-10-30T15:09:20.442Z",
+  "updatedAt": "2026-10-31T14:38:42.561Z",
   "source": "osu!",
   "sourceUrl": "https://osu.ppy.sh/beatmapsets?q=ranked%3E%3D2026-01-01%20ranked%3C2027-01-01&s=ranked",
   "coverage": "Currently ranked mapsets with a 2026 ranked date (UTC). Each unique set counts once for its host in each native gamemode it contains. Guest difficulties are not separate set credits."
