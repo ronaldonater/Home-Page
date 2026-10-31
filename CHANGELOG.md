@@ -2,6 +2,11 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.59 updates
+
+- Restore the signed-in navbar state independently of displayed review data, so Sign out remains available across devices and demo browsing.
+- Confirm sign-out only for queued profiles, stop background polling, and release the matching queue entry without return priority. Cancel preserves the queue position.
+
 ## v1.1.58 updates
 
 - Keep mobile Wrapped action buttons within the screen using a two-column layout, wrapping labels, and a bounded share control. Desktop styling is unchanged.

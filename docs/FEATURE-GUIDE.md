@@ -288,3 +288,8 @@ Favorite Mappers and Favorite Artists show unique totals across the entire selec
 ### Refreshing a personal Wrapped
 
 Live user and mapping-only stats include a **Refresh Wrapped** action. A confirmation explains that cached results for the selected game mode will be replaced and the user must wait in the queue again. Refresh resets only that authenticated user/mode's completed job, clears resume priority, and rejoins normal admission. Already-active or queued jobs are protected. Profile and best-score data are fetched afresh for regeneration; reusable map metadata stays cached. Demo reviews have no refresh action. This uses the existing review queue schema; no SQL migration is required.
+
+
+### Signing out while queued
+
+Sign out asks for confirmation only while the server reports the current profile as queued, including when browsing the demo during generation. Canceling leaves the queue untouched. Confirming stops browser polling and releases matching user/browser jobs before clearing the session, without the normal departure return priority. In-flight requests retain their work lock until the batch safely finishes. Other browsers and completed reviews are unaffected.

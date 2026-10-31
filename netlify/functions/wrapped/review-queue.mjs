@@ -31,6 +31,14 @@ export function createReviewQueue({query=(...args)=>reviewStorage.query(...args)
    if(!rows.length){const existing=await query(cfg.databaseUrl,'SELECT state FROM wrapped_review_jobs WHERE budget_key=$1 AND job_key=$2',[budget,job]);if(existing.length)throw Object.assign(Error('Your Wrapped is already queued or generating. Please wait for it to finish.'),{status:409});}
    return {status:'queued'};
   }catch(error){if(error.status===409)throw error;throw Object.assign(Error('Unable to refresh your Wrapped right now. Your current results are still available. Please try again shortly.'),{status:503});}
+ },async signOut(userId,client){
+  const cfg=config();if(!cfg.databaseUrl)return {status:'disabled'};
+  if(!Number.isSafeInteger(userId)||userId<=0||typeof client!=='string'||!/^[a-f0-9-]{36}$/.test(client))throw Object.assign(Error('Invalid queue identity'),{status:400});
+  const budget=createHash('sha256').update('osu-api:'+String(cfg.clientId||'default')).digest('hex');
+  const jobs=['osu','taiko','fruits','mania'].map(mode=>createHmac('sha256',cfg.secret).update('review:'+userId+':'+mode+':v1').digest('hex'));
+  try{
+   await query(cfg.databaseUrl,"UPDATE wrapped_review_jobs SET state=CASE WHEN work_until>clock_timestamp() THEN state ELSE 'queued' END,departed_until=clock_timestamp(),resume_until=NULL,lease_until=clock_timestamp() WHERE budget_key=$1 AND job_key=ANY($2::text[]) AND client_id=$3 AND state<>'complete'",[budget,jobs,client]);return {status:'removed'};
+  }catch{return {status:'unavailable'};}
  },async depart(userId,client){
   const cfg=config();if(!cfg.databaseUrl||now()<retryAt)return {status:'disabled'};
   if(!Number.isSafeInteger(userId)||userId<=0||typeof client!=='string'||!/^[a-f0-9-]{36}$/.test(client))throw Object.assign(Error('Invalid queue identity'),{status:400});

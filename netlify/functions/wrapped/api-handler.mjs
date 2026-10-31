@@ -79,7 +79,7 @@ async function handleRequest(event,now){
   try{admin=await verifyAdmin();}catch(error){if(!released)throw error;}
   const owner=admin&&isReleaseAdmin({id:verifiedId});
   const extra=admin&&!releaseSession.userId?{'Set-Cookie':cookie('wrapped_session',seal({...releaseSession,userId:verifiedId}),Math.max(1,Math.floor((releaseSession.exp-Date.now())/1000)))}:{};
-  return json(200,{allowed:released||admin,admin,owner,...releaseStatus,releaseAt:RELEASE_AT,serverNow:now()},extra);
+  return json(200,{allowed:released||admin,authenticated:sessionValid(releaseSession),admin,owner,...releaseStatus,releaseAt:RELEASE_AT,serverNow:now()},extra);
  }
  if(!released&&!['/api/auth/login','/api/auth/callback','/api/auth/logout'].includes(path)){
   admin=await verifyAdmin();
@@ -165,6 +165,11 @@ async function handleRequest(event,now){
   if(event.httpMethod!=='POST')return json(405,{error:'Method not allowed'});
   const expected=callbackUrl(process.env.WRAPPED_OSU_REDIRECT_URI).origin;
   if(event.headers.origin!==expected)return json(403,{error:'Invalid origin'});
+  const client=event.queryStringParameters?.client;
+  if(client!==undefined&&(typeof client!=='string'||!/^[a-f0-9-]{36}$/.test(client)))return json(400,{error:'Invalid queue client'});
+  if(client&&sessionValid(releaseSession)){
+   const id=await identity();if(id)await reviewQueue.signOut(id,client);
+  }
   return json(200,{ok:true},{'Set-Cookie':cookie('wrapped_session','',0)});
  }
  if(path==='/api/wrapped/refresh'){
