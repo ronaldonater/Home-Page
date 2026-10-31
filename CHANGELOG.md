@@ -2,6 +2,13 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.57 updates
+
+- Apply difficulty-level mapper credits to The Wanderers and Mapper Loyalists, including guest mappers and collaborators with mapset-host fallback. Update community assignment rules to 2026-v29 without a SQL migration.
+- Add full-selected-sample unique mapper and artist totals, plus unique mapset totals for Top PP Plays, on stats and slideshow screens. Save offline demo totals and include counts in exported JSON.
+- Add a confirmed Refresh Wrapped action for live reviews that resets only the selected mode, rejoins normal queue admission, and fetches fresh profile and score data. Protect active jobs and retain reusable map metadata.
+- Remove redundant unique-difficulty labels from Top PP Plays and keep slideshow skillset coverage text compact on one responsive line.
+
 ## v1.1.56 updates
 
 - Rank personal Top Mappers using difficulty-level credits, including guest mappers and collaborators, with mapset-host fallback. Fetch credits in paced batches and reuse the ranking across stats, slides, and recap cards.

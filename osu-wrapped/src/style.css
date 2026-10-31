@@ -901,3 +901,7 @@ footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:7
 
 /* Keep rising finale lettering on a stable composited layer. */
 .story-finale-copy>span{will-change:transform,opacity;backface-visibility:hidden;transform:translate3d(0,0,0)}
+
+/* Keep skillset coverage compact inside the slideshow rather than inheriting body-copy size. */
+.story-slide-skillsets .skillsets-panel{container-type:inline-size}
+.story-slide-skillsets .story-body .skillset-coverage{font-size:min(14px,1.7cqi);line-height:1.5;white-space:nowrap}
