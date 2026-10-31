@@ -2233,11 +2233,17 @@
         "source": "osu!",
         "sourceUrl": "https://osu.ppy.sh/rankings/top-plays/osu",
         "updatedAt": "2026-10-29T06:18:10.562Z",
-        "coverage": "2026 plays within osu!\u2019s current top 1,000 PP rankings, not a complete annual archive. Only each player\u2019s highest-PP play per difficulty is shown, regardless of mod combination.",
+        "coverage": "2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only each player’s highest-PP play per difficulty is shown, regardless of mod combination.",
         "demoSnapshot": true,
         "snapshotAt": "2026-10-29T06:18:09.510Z"
       },
-      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z"
+      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z",
+      "uniqueCounts": {
+        "mappers": 10,
+        "artists": 10,
+        "beatmaps": 10,
+        "mapsets": 10
+      }
     },
     "taiko": {
       "skillsets": {
@@ -4191,11 +4197,17 @@
         "source": "osu!",
         "sourceUrl": "https://osu.ppy.sh/rankings/top-plays/taiko",
         "updatedAt": "2026-10-29T06:18:22.766Z",
-        "coverage": "2026 plays within osu!\u2019s current top 1,000 PP rankings, not a complete annual archive. Only each player\u2019s highest-PP play per difficulty is shown, regardless of mod combination.",
+        "coverage": "2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only each player’s highest-PP play per difficulty is shown, regardless of mod combination.",
         "demoSnapshot": true,
         "snapshotAt": "2026-10-29T06:18:09.510Z"
       },
-      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z"
+      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z",
+      "uniqueCounts": {
+        "mappers": 10,
+        "artists": 10,
+        "beatmaps": 10,
+        "mapsets": 10
+      }
     },
     "fruits": {
       "skillsets": {
@@ -6140,11 +6152,17 @@
         "source": "osu!",
         "sourceUrl": "https://osu.ppy.sh/rankings/top-plays/fruits",
         "updatedAt": "2026-10-29T06:18:34.980Z",
-        "coverage": "2026 plays within osu!\u2019s current top 1,000 PP rankings, not a complete annual archive. Only each player\u2019s highest-PP play per difficulty is shown, regardless of mod combination.",
+        "coverage": "2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only each player’s highest-PP play per difficulty is shown, regardless of mod combination.",
         "demoSnapshot": true,
         "snapshotAt": "2026-10-29T06:18:09.510Z"
       },
-      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z"
+      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z",
+      "uniqueCounts": {
+        "mappers": 10,
+        "artists": 10,
+        "beatmaps": 10,
+        "mapsets": 10
+      }
     },
     "mania": {
       "skillsets": {
@@ -8181,11 +8199,17 @@
         "source": "osu!",
         "sourceUrl": "https://osu.ppy.sh/rankings/top-plays/mania",
         "updatedAt": "2026-10-29T06:18:42.714Z",
-        "coverage": "2026 plays within osu!\u2019s current top 1,000 PP rankings, not a complete annual archive. Only each player\u2019s highest-PP play per difficulty is shown, regardless of mod combination.",
+        "coverage": "2026 plays within osu!’s current top 1,000 PP rankings, not a complete annual archive. Only each player’s highest-PP play per difficulty is shown, regardless of mod combination.",
         "demoSnapshot": true,
         "snapshotAt": "2026-10-29T06:18:09.510Z"
       },
-      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z"
+      "skillsetsSnapshotAt": "2026-10-30T19:26:27.069Z",
+      "uniqueCounts": {
+        "mappers": 10,
+        "artists": 10,
+        "beatmaps": 10,
+        "mapsets": 10
+      }
     }
   }
 }

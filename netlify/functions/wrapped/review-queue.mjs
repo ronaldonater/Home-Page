@@ -21,6 +21,16 @@ export function createReviewQueue({query=(...args)=>reviewStorage.query(...args)
    if(value?.status==='queued'||value?.status==='processing')return {status:value.status,position:Number(value.position)||0,retryAfter: value.status==='processing'?3:Math.min(30,10+Math.floor(Math.max(0,(Number(value.position)||1)-1)/5)*2)};
    throw Error('Invalid queue response');
   }catch{retryAt=now()+30000;return {status:'unavailable',retryAfter:30};}
+ },async refresh(userId,mode){
+  if(!Number.isSafeInteger(userId)||userId<=0||!['osu','taiko','fruits','mania'].includes(mode))throw Object.assign(Error('Invalid review identity.'),{status:400});
+  const cfg=config();if(!cfg.databaseUrl)return {status:'disabled'};
+  const budget=createHash('sha256').update('osu-api:'+String(cfg.clientId||'default')).digest('hex');
+  const job=createHmac('sha256',cfg.secret).update('review:'+userId+':'+mode+':v1').digest('hex');
+  try{
+   const rows=await query(cfg.databaseUrl,"UPDATE wrapped_review_jobs SET state='queued',result=NULL,expires_at=NULL,queued_at=clock_timestamp(),last_seen_at=clock_timestamp(),admitted_at=NULL,lease_until=NULL,work_until=NULL,worker_id=NULL,departed_until=NULL,resume_until=NULL,client_id=NULL WHERE budget_key=$1 AND job_key=$2 AND state='complete' RETURNING job_key",[budget,job]);
+   if(!rows.length){const existing=await query(cfg.databaseUrl,'SELECT state FROM wrapped_review_jobs WHERE budget_key=$1 AND job_key=$2',[budget,job]);if(existing.length)throw Object.assign(Error('Your Wrapped is already queued or generating. Please wait for it to finish.'),{status:409});}
+   return {status:'queued'};
+  }catch(error){if(error.status===409)throw error;throw Object.assign(Error('Unable to refresh your Wrapped right now. Your current results are still available. Please try again shortly.'),{status:503});}
  },async depart(userId,client){
   const cfg=config();if(!cfg.databaseUrl||now()<retryAt)return {status:'disabled'};
   if(!Number.isSafeInteger(userId)||userId<=0||typeof client!=='string'||!/^[a-f0-9-]{36}$/.test(client))throw Object.assign(Error('Invalid queue identity'),{status:400});

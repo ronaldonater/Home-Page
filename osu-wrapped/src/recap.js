@@ -213,7 +213,7 @@ export async function createRecap(data,{layout='portrait'}={}){
  line(64,1848,1072);
  text('SCORE COVERAGE',64,1883,14,pink,700);
  text(number(data.sampleCount)+' scores dated in 2026 from your current top 200; not a full annual archive.',64,1912,17,muted,400,1072);
- text('Mapper credits use mapset creators. Profile history may be incomplete. Year to date until 2027.',64,1940,16,muted,400,1072);
+ text('Mapper rankings use difficulty credits with host fallback. Profile history may be incomplete. Year to date until 2027.',64,1940,16,muted,400,1072);
  text('Independent fan project · Not affiliated with ppy / osu!',64,1980,15,muted,400,1072);
  ctx.restore();ctx.restore();
  return new Promise((resolve,reject)=>{try{canvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG export failed')),'image/png');}catch(error){reject(error);}});

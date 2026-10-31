@@ -1,3 +1,4 @@
+import {enrichMapperCredits} from './mapper-credits.mjs';
 import {releaseSettings} from './release-settings.mjs';
 import {reviewQueue} from './review-queue.mjs';
 import {reviewCore} from './review-core.mjs';
@@ -19,7 +20,7 @@ import {seal,unseal,cookie,cookies} from './security.mjs';
 import {summarize} from '../../../osu-wrapped/src/summary.js';
 const json=(statusCode,body,extra={})=>({statusCode,headers:{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',...extra},body:JSON.stringify(body)});
 const redirect=(to,setCookies=[])=>({statusCode:302,headers:{Location:to,'Cache-Control':'no-store','Referrer-Policy':'no-referrer','X-Content-Type-Options':'nosniff'},multiValueHeaders:{'Set-Cookie':setCookies},body:''});
-async function osu(path,token){const res=await osuFetch(`https://osu.ppy.sh/api/v2${path}`,{headers:{Authorization:`Bearer ${token}`,Accept:'application/json','x-api-version':'20220705'},signal:AbortSignal.timeout(12000)});if(!res.ok){const error=new Error((res.status===429||res.status===503)?'osu! is busy. Please wait a minute and try again.':'Unable to retrieve osu! data. Please try signing in again.');error.status=res.status===401?401:res.status===429?429:res.status===503?503:502;throw error;}return res.json();}
+async function osu(path,token,fresh=false){const res=await osuFetch(`https://osu.ppy.sh/api/v2${path}`,{...(fresh?{cache:'reload'}:{}),headers:{Authorization:`Bearer ${token}`,Accept:'application/json','x-api-version':'20220705'},signal:AbortSignal.timeout(12000)});if(!res.ok){const error=new Error((res.status===429||res.status===503)?'osu! is busy. Please wait a minute and try again.':'Unable to retrieve osu! data. Please try signing in again.');error.status=res.status===401?401:res.status===429?429:res.status===503?503:502;throw error;}return res.json();}
 export async function handler(event,{now=Date.now}={}){
  const result=await handleRequest(event,now);
  if(!releaseOpen(now()))result.headers={...result.headers,'Cache-Control':'no-store','Netlify-CDN-Cache-Control':'no-store'};
@@ -28,7 +29,7 @@ export async function handler(event,{now=Date.now}={}){
 async function handleRequest(event,now){
  try{
  const path=event.path.replace(/^\/.netlify\/functions\/wrapped-api(?=\/|$)/,'/api').replace(/^\/api\/osu-wrapped(?=\/|$)/,'/api');const jar=cookies(event);
- const allowedMethods=['/api/admin/users','/api/admin/release'].includes(path)?['GET','POST']:['/api/auth/logout','/api/wrapped/depart'].includes(path)?['POST']:['GET'];
+ const allowedMethods=['/api/admin/users','/api/admin/release'].includes(path)?['GET','POST']:['/api/auth/logout','/api/wrapped/depart','/api/wrapped/refresh'].includes(path)?['POST']:['GET'];
  if(!allowedMethods.includes(event.httpMethod))return json(405,{error:'Method not allowed'},{Allow:allowedMethods.join(', ')});
  if(path!=='/api/auth/callback' && event.headers['sec-fetch-site']==='cross-site' && event.headers['sec-fetch-mode']!=='navigate')return json(403,{error:'Cross-site request denied'});
  const releaseStatus=await releaseSettings.status(process.env.WRAPPED_DATABASE_URL,now());
@@ -166,6 +167,15 @@ async function handleRequest(event,now){
   if(event.headers.origin!==expected)return json(403,{error:'Invalid origin'});
   return json(200,{ok:true},{'Set-Cookie':cookie('wrapped_session','',0)});
  }
+ if(path==='/api/wrapped/refresh'){
+  const session=unseal(jar.wrapped_session||'');if(!sessionValid(session))return json(401,{error:'Sign in with osu! to refresh your Wrapped.'});
+  if(event.headers.origin!==callbackUrl(process.env.WRAPPED_OSU_REDIRECT_URI).origin)return json(403,{error:'Invalid origin'});
+  const mode=event.queryStringParameters?.mode;if(!['osu','taiko','fruits','mania'].includes(mode))return json(400,{error:'Invalid game mode'});
+  const userId=await identity();if(!userId)return json(401,{error:'Sign in again to refresh your Wrapped.'});
+  await reviewQueue.refresh(userId,mode);
+  const refreshToken=seal({kind:'review-refresh',userId,mode,nonce:randomBytes(16).toString('hex'),exp:Date.now()+86400000});
+  return json(200,{refreshToken});
+ }
  if(path==='/api/wrapped/depart'){
   const session=unseal(jar.wrapped_session||'');if(!sessionValid(session))return json(401,{error:'Sign in with osu! first.'});
   if(event.headers.origin!==callbackUrl(process.env.WRAPPED_OSU_REDIRECT_URI).origin)return json(403,{error:'Invalid origin'});
@@ -181,6 +191,12 @@ async function handleRequest(event,now){
   const stage=event.queryStringParameters?.stage;if(stage!==undefined&&!['core','tags','full'].includes(stage))return json(400,{error:'Invalid loading stage'});
   const queueClient=event.queryStringParameters?.client;
   if(queueClient!==undefined&&!/^[a-f0-9-]{36}$/.test(queueClient))return json(400,{error:'Invalid queue client'});
+  let freshKey='';
+  if(event.queryStringParameters?.refreshToken){
+   const refresh=unseal(event.queryStringParameters.refreshToken);
+   if(refresh?.kind!=='review-refresh'||refresh.userId!==await identity()||refresh.mode!==requestedMode||typeof refresh.nonce!=='string')return json(403,{error:'Invalid refresh request.'});
+   freshKey=refresh.nonce;
+  }
   let ticket={status:'disabled'};
   if(process.env.WRAPPED_DATABASE_URL){
    const identity=Number.isSafeInteger(session.userId)&&(requestedMode||session.playmode)?{id:session.userId,playmode:session.playmode}:await osu('/me',session.token);
@@ -190,20 +206,21 @@ async function handleRequest(event,now){
    if(ticket.status==='complete')return json(200,ticket.data);
   }
   const generate=async()=>{
-  const {user,mode,best}=await reviewCore(session.token,requestedMode,osu);
+  const {user,mode,best}=await reviewCore(session.token,requestedMode,(path,token)=>osu(path,token,Boolean(freshKey)),freshKey);
   if(stage==='core'||stage==='tags'){
    const selected=stage==='tags'?await enrichSkillsetTags(best,mode,session.token):best;
    const summary=summarize(user,selected,mode);
    const mapping=summary.sampleCount===0?await mappingStats(user.id,session.token):{status:'pending'};
    return json(200,{...summary,mapping,loadStage:stage});
   }
-  const [enriched,popularBeatmapsets,taggedScores]=await Promise.all([enrichMapDates(best,session.token),globalStats.popularBeatmapsets(mode,{clientId:process.env.WRAPPED_OSU_CLIENT_ID,clientSecret:process.env.WRAPPED_OSU_CLIENT_SECRET}),enrichSkillsetTags(best,mode,session.token)]);
-  const withAttributes=await enrichBeatmapAttributes(enriched.map((score,index)=>({...score,wrappedSkillsets:taggedScores[index]?.wrappedSkillsets})),mode,session.token);
+  const [enriched,popularBeatmapsets,taggedScores,creditedScores]=await Promise.all([enrichMapDates(best,session.token),globalStats.popularBeatmapsets(mode,{clientId:process.env.WRAPPED_OSU_CLIENT_ID,clientSecret:process.env.WRAPPED_OSU_CLIENT_SECRET}),enrichSkillsetTags(best,mode,session.token),enrichMapperCredits(best,session.token)]);
+  const withAttributes=await enrichBeatmapAttributes(enriched.map((score,index)=>({...score,beatmap:{...score.beatmap,...(Array.isArray(creditedScores[index]?.beatmap?.owners)?{owners:creditedScores[index].beatmap.owners}:{})},wrappedSkillsets:taggedScores[index]?.wrappedSkillsets})),mode,session.token);
   const summary=summarize(user,withAttributes,mode,{popularBeatmapsets});
   const [mapping,medal,clubCommunity]=await Promise.all([mappingStats(user.id,session.token),rarestMedal(user.user_achievements),recordClubCommunity(summary,{databaseUrl:process.env.WRAPPED_DATABASE_URL,trackingSecret:process.env.WRAPPED_CLUB_TRACKING_SECRET})]);
   const mappingCommunity=await recordMappingClubCommunity(summary,mapping,{databaseUrl:process.env.WRAPPED_DATABASE_URL,trackingSecret:process.env.WRAPPED_CLUB_TRACKING_SECRET});
   const medalComplete=!Array.isArray(user.user_achievements)||!user.user_achievements.some(row=>new Date(row.achieved_at).getUTCFullYear()===2026)||Boolean(medal.medalRarityUpdatedAt);
   const checks=[
+   {name:'Difficulty mapper credits',complete:creditedScores.complete!==false,...creditedScores.progress},
    {name:'Ranked dates',complete:enriched.complete!==false,...enriched.progress},
    {name:'Mod-adjusted attributes',complete:withAttributes.complete!==false,...withAttributes.progress},
    {name:'Mapping catalogue',complete:mapping.status==='ready',checked:mapping.checkedPages,unit:'pages',retryAfterMs:1100},

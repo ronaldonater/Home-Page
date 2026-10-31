@@ -898,3 +898,6 @@ footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:7
  .stats-grid .favorite-mod-value:has(.favorite-mod-icon ~ .favorite-mod-icon) .favorite-mod-icon{width:32px;height:23px;flex-shrink:1;min-width:20px}
  .stats-grid>.stat:last-child:has(.favorite-mod-icon ~ .favorite-mod-icon) small{font-size:8px;line-height:1.4}
 }
+
+/* Keep rising finale lettering on a stable composited layer. */
+.story-finale-copy>span{will-change:transform,opacity;backface-visibility:hidden;transform:translate3d(0,0,0)}

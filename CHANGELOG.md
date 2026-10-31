@@ -2,6 +2,12 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.56 updates
+
+- Rank personal Top Mappers using difficulty-level credits, including guest mappers and collaborators, with mapset-host fallback. Fetch credits in paced batches and reuse the ranking across stats, slides, and recap cards.
+- Update mapper attribution descriptions while preserving the existing mapset-host criteria for playstyle clubs.
+- Stabilize the rising ONE MORE TRY. finale text with consistent composited animation transforms.
+
 ## v1.1.55 updates
 
 - Increase spacing between the accuracy percentage and grade badge while retaining the responsive single-line layout.

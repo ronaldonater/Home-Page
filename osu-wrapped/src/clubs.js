@@ -1,3 +1,4 @@
+import {difficultyMappers} from './mapper-credits.js';
 import {scoreBeatmapValues} from './beatmap-averages.js';
 const escape=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const CLUBS={
@@ -50,13 +51,18 @@ export function isChokeScore(score,mode='osu'){
 }
 export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null,replayViews=null,replayMonths=0}={}){
  const total=scores.length;if(total<1)return null;
- const families={overdrive:0,slowtempo:0,hardmode:0,afterdark:0,nomod:0,easy:0,safetynet:0,oneshot:0},hosts=new Map(),hostSets=new Map(),artistCounts=new Map(),artistSets=new Map(),mapsetScores=new Map(),mapsetDiffs=new Map(),artists=new Set(),modPatterns=new Set();
+ const families={overdrive:0,slowtempo:0,hardmode:0,afterdark:0,nomod:0,easy:0,safetynet:0,oneshot:0},hosts=new Map(),hostSets=new Map(),creditedMappers=new Map(),mapperSets=new Map(),artistCounts=new Map(),artistSets=new Map(),mapsetScores=new Map(),mapsetDiffs=new Map(),artists=new Set(),modPatterns=new Set();
  for(const score of scores){const mods=new Set((score.mods||[]).map(mod=>typeof mod==='string'?mod:mod?.acronym).filter(mod=>typeof mod==='string'&&/^[A-Z0-9]{1,6}$/.test(mod)&&mod!=='CL'));
   modPatterns.add([...mods].sort().join(',')||'NM');
   if(mods.has('HT')||mods.has('DC'))families.slowtempo++;if(mods.has('DT')||mods.has('NC'))families.overdrive++;if(mode!=='mania'&&mods.has('HR'))families.hardmode++;if(mods.has('HD')||mods.has('FL')||(mode==='mania'&&(mods.has('FI')||mods.has('CO'))))families.afterdark++;if(!mods.size||(mods.size===1&&mods.has('NM')))families.nomod++;
   if(mods.has('SD')||mods.has('PF')||mods.has('AC'))families.oneshot++;if(mods.has('EZ'))families.easy++;if(mods.has('NF')||(mode==='osu'&&mods.has('SO')))families.safetynet++;
   const setId=score.beatmapset?.id??score.beatmap?.beatmapset_id,diffId=score.beatmap?.id??score.beatmap_id;
   if(Number.isSafeInteger(setId)&&setId>0){mapsetScores.set(setId,(mapsetScores.get(setId)||0)+1);if(Number.isSafeInteger(diffId)&&diffId>0){if(!mapsetDiffs.has(setId))mapsetDiffs.set(setId,new Set());mapsetDiffs.get(setId).add(diffId);}}
+  for(const mapper of difficultyMappers(score)){
+   const key=mapper.userId===null?'name:'+mapper.name:'id:'+mapper.userId;
+   creditedMappers.set(key,(creditedMappers.get(key)||0)+1);
+   if(Number.isSafeInteger(setId)&&setId>0){if(!mapperSets.has(key))mapperSets.set(key,new Set());mapperSets.get(key).add(setId);}
+  }
   const host=score.beatmapset?.user_id||score.beatmapset?.creator;if(host){const key=String(host);hosts.set(key,(hosts.get(key)||0)+1);const setId=score.beatmapset?.id??score.beatmap?.beatmapset_id;if(Number.isSafeInteger(setId)&&setId>0){if(!hostSets.has(key))hostSets.set(key,new Set());hostSets.get(key).add(setId);}}if(typeof score.beatmapset?.artist==='string'){
    const artist=score.beatmapset.artist.trim().replace(/\s+/g,' ').toLocaleLowerCase('en');
    if(artist){artists.add(artist);artistCounts.set(artist,(artistCounts.get(artist)||0)+1);const setId=score.beatmapset?.id??score.beatmap?.beatmapset_id;if(Number.isSafeInteger(setId)&&setId>0){if(!artistSets.has(artist))artistSets.set(artist,new Set());artistSets.get(artist).add(setId);}}
@@ -68,7 +74,7 @@ export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null,
  const accuracyThreshold=({osu:99,taiko:99,fruits:99.5,mania:98})[mode]??99;
  const lowAccuracyThreshold=mode==='fruits'?95:90;
  const lowAccuracy=passed.length>0&&passed.length/total>=.5&&accuracy<lowAccuracyThreshold;
- const precise=passed.length>0&&passed.length/total>=.5&&accuracy+1e-9>=accuracyThreshold,loyalCount=Math.max(0,...[...hosts].filter(([host,count])=>(hostSets.get(host)?.size||0)>=2).map(([,count])=>count)),loyal=loyalCount/total>=.25,diverse=hosts.size>=10&&artists.size>=10&&hosts.size/total>=.5&&artists.size/total>=.5;
+ const precise=passed.length>0&&passed.length/total>=.5&&accuracy+1e-9>=accuracyThreshold,loyalCount=Math.max(0,...[...creditedMappers].filter(([mapper,count])=>(mapperSets.get(mapper)?.size||0)>=2).map(([,count])=>count)),loyal=loyalCount/total>=.25,diverse=creditedMappers.size>=10&&artists.size>=10&&creditedMappers.size/total>=.5&&artists.size/total>=.5;
  const activity=months.filter(m=>m.available===true&&Number.isFinite(m.count)&&m.count>=0),plays=activity.reduce((sum,m)=>sum+m.count,0);
  const eligibleMaps=scores;
  const mapId=score=>score.beatmapset?.id??score.beatmap?.beatmapset_id;
@@ -95,12 +101,12 @@ export function assignClub(scores,mode='osu',months=[],{popularBeatmapsets=null,
  if(Number.isSafeInteger(replayViews)&&replayViews>=500&&Number.isInteger(replayMonths)&&replayMonths>=1&&replayMonths<=12)add('replay',55+25*clamp(Math.log10(replayViews/500)/2),replayViews.toLocaleString('en-US')+' views of your replays by others in available 2026 monthly profile history (all modes). This does not count replays you watched or unique viewers.',replayMonths/12);
  if(plays>=10000)add('repeat',55+25*clamp((plays-10000)/40000),plays.toLocaleString('en-US')+' recorded 2026 plays across available monthly profile history (all modes).',activity.length/12);
  if(activity.length&&plays>0&&plays<100)add('quality',55+25*clamp((99-plays)/98),plays.toLocaleString('en-US')+' recorded '+(plays===1?'play':'plays')+' in available 2026 monthly profile history (all modes).',activity.length/12);
- if(loyal)add('loyalist',shareStrength(loyalCount/total,.25,55,25),loyalCount+' of '+total+' selected scores ('+(loyalCount/total*100).toFixed(1)+'%) come from one mapset host.',loyalCount/total);
+ if(loyal)add('loyalist',shareStrength(loyalCount/total,.25,55,25),loyalCount+' of '+total+' selected scores ('+(loyalCount/total*100).toFixed(1)+'%) credit one difficulty mapper.',loyalCount/total);
  const artistLoyalCount=Math.max(0,...[...artistCounts].filter(([artist,count])=>(artistSets.get(artist)?.size||0)>=2).map(([,count])=>count));
  if(artistLoyalCount/total>=.25)add('artistloyalist',shareStrength(artistLoyalCount/total,.25,55,25),artistLoyalCount+' of '+total+' selected scores ('+(artistLoyalCount/total*100).toFixed(1)+'%) feature one song artist.',artistLoyalCount/total);
  const oneMapCount=Math.max(0,...[...mapsetScores].filter(([id])=>(mapsetDiffs.get(id)?.size||0)>=2).map(([,count])=>count));
  if(oneMapCount/total>=.25)add('onemap',shareStrength(oneMapCount/total,.25,55,25),oneMapCount+' of '+total+' selected scores ('+(oneMapCount/total*100).toFixed(1)+'%) come from one mapset, across at least two distinct difficulties.',oneMapCount/total);
- if(diverse)add('wanderer',60+25*clamp((Math.min(hosts.size,artists.size)/total-.5)/.5),total+' selected scores span '+hosts.size+' mapper hosts and '+artists.size+' artists.',Math.min(hosts.size,artists.size)/total);
+ if(diverse)add('wanderer',60+25*clamp((Math.min(creditedMappers.size,artists.size)/total-.5)/.5),total+' selected scores span '+creditedMappers.size+' difficulty mappers and '+artists.size+' artists.',Math.min(creditedMappers.size,artists.size)/total);
  if(exclusiveClient)add(exclusiveClient,62,'All '+total+' eligible 2026 '+(total===1?'score was':'scores were')+' set on osu!'+(exclusiveClient==='stable'?'stable':'lazer')+' (100% of your available current top-200 sample).');
  if(eligibleMaps.length){
   for(const [id,count,threshold,qualifies] of [['crowdfavorites',popularMatches.length,.4,popularUnique>=2],['timecapsule',oldCount,.6,true],['class2026',newCount,.6,true]]){
@@ -161,12 +167,12 @@ const clubSignals={
  precision:'Average accuracy of at least 99% in osu! or taiko, 99.5% in catch, or 98% in mania, with valid passed scores covering at least 50% of selected scores.',
  replay:'At least 500 recorded views of your replays by others in available 2026 monthly profile history (all modes).',
  repeat:'At least 10,000 recorded 2026 plays across available monthly profile counts (all modes).',
- loyalist:'At least 25% of selected scores belong to one mapset host, across at least two distinct mapsets. Guest difficulties count under the host.',
+ loyalist:'At least 25% of selected scores credit one difficulty mapper, across at least two distinct mapsets. Includes guest mappers and collaborators; falls back to the mapset host when credits are unavailable.',
  shortmaps:'At least 60% of selected scores are on maps 1:30 or shorter. Uses mod-adjusted total map length, including breaks.',
  longmaps:'At least 60% of selected scores are on maps 3:30 or longer. Uses mod-adjusted total map length, including breaks.',
  onemap:'At least 25% of selected scores come from one mapset, spanning at least two distinct beatmap difficulties.',
  artistloyalist:'At least 25% of selected scores feature one song artist, across at least two distinct mapsets. Artist credits are matched as listed on the mapsets.',
- wanderer:'At least 10 unique mapper hosts and 10 artists; each unique-name count must be at least half your selected score count.',
+ wanderer:'At least 10 unique difficulty mappers and 10 artists; each unique count must be at least half your selected score count. Includes guest mappers and collaborators, with mapset-host fallback.',
  allrounder:'Selected scores span at least three mod combinations, five mapper hosts, and five artists, with every mod family below 40%; also the fallback if no specialist signal qualifies.'
 };
 function legendCommunity(data,id){

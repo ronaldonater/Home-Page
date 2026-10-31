@@ -178,7 +178,7 @@ export async function createLandscapeRecap(data,assets){
  }
  const footer=canvas.height-48;line(64,footer-(onlyMapping?24:56),2272);if(!onlyMapping)text('SCORE COVERAGE',64,footer-22,14,pink,700,1450);
  text(onlyMapping?'Hosted mapsets first submitted in 2026 (UTC); ranked status and playcounts are current.':num(data.sampleCount)+' scores dated in 2026 from your current top 200; not a full annual archive.',64,footer,17,muted,400,1450);
- if(!onlyMapping)text('Mapper credits use mapset creators. Profile history may be incomplete. Year to date until 2027.',64,footer+25,15,muted,400,1450);
+ if(!onlyMapping)text('Mapper rankings use difficulty credits with host fallback. Profile history may be incomplete. Year to date until 2027.',64,footer+25,15,muted,400,1450);
  right('Independent fan project - Not affiliated with ppy / osu!',2336,footer+(onlyMapping?0:4),16,muted,400,736);
  return new Promise((resolve,reject)=>canvas.toBlob(blob=>blob?resolve(blob):reject(Error('PNG export failed')),'image/png'));
 }
