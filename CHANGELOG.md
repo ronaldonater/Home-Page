@@ -2,6 +2,10 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.58 updates
+
+- Keep mobile Wrapped action buttons within the screen using a two-column layout, wrapping labels, and a bounded share control. Desktop styling is unchanged.
+
 ## v1.1.57 updates
 
 - Apply difficulty-level mapper credits to The Wanderers and Mapper Loyalists, including guest mappers and collaborators with mapset-host fallback. Update community assignment rules to 2026-v29 without a SQL migration.
