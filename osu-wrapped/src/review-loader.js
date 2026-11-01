@@ -12,8 +12,8 @@ export async function loadReview({url,queueClient=null,signal=null,fetchImpl=fet
   if(response.status===202&&['queued','processing'].includes(body.queue?.status)){
    onQueue(body.queue.status);
    const phase=stage==='full'?'details':stage,seconds=Math.max(3,Math.min(30,Number(body.queue.retryAfter)||10));
-   const message=body.queue.status==='processing'?'Your profile is already being prepared.': 'You are number '+Math.max(1,Number(body.queue.position)||1)+' in the profile queue.';
-   onProgress('waiting',{phase,message,queue:true,until:now()+seconds*1000});await sleep(seconds*1000,signal);signal?.throwIfAborted();onProgress(phase);continue;
+   const message=body.queue.status==='processing'?'Your profile is already being prepared.': 'You are currently number '+Math.max(1,Number(body.queue.position)||1)+' in the profile queue.';
+   onProgress('waiting',{phase,message,queue:true,total:Number.isFinite(body.queue.total)?body.queue.total:null,position:body.queue.status==='queued'?Math.max(1,Number(body.queue.position)||1):null,until:now()+seconds*1000});await sleep(seconds*1000,signal);signal?.throwIfAborted();onProgress(phase);continue;
   }
   onQueue(null);
   if(!response.ok){const error=Error(body.error||'Unable to load your review.');error.status=response.status;const header=response.headers?.get('retry-after'),seconds=Number(header),date=Date.parse(header);error.retryAt=header?(Number.isFinite(seconds)?now()+Math.max(0,seconds)*1000:date):[429,503].includes(response.status)?now()+60000:0;throw error;}

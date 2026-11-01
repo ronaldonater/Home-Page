@@ -2,6 +2,11 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.60 updates
+
+- Show the current profile queue position and total queue size in bold, with updated waiting-message wording.
+- Extend completed Wrapped results caching from 15 minutes to one hour. Manual Refresh Wrapped still regenerates the selected mode; queue timeouts and upstream cache durations remain unchanged. No SQL migration is required.
+
 ## v1.1.59 updates
 
 - Restore the signed-in navbar state independently of displayed review data, so Sign out remains available across devices and demo browsing.

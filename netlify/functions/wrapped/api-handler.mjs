@@ -207,7 +207,7 @@ async function handleRequest(event,now){
    const identity=Number.isSafeInteger(session.userId)&&(requestedMode||session.playmode)?{id:session.userId,playmode:session.playmode}:await osu('/me',session.token);
    ticket=await reviewQueue.claim(identity.id,requestedMode||identity.playmode||'osu',queueClient||null);
    // An unavailable queue falls back to the existing paced, staged loader.
-   if(ticket.status==='queued'||ticket.status==='processing')return json(202,{queue:{status:ticket.status,position:ticket.position,retryAfter:ticket.retryAfter}},{'Retry-After':String(ticket.retryAfter)});
+   if(ticket.status==='queued'||ticket.status==='processing')return json(202,{queue:{status:ticket.status,position:ticket.position,total:ticket.total,retryAfter:ticket.retryAfter}},{'Retry-After':String(ticket.retryAfter)});
    if(ticket.status==='complete')return json(200,ticket.data);
   }
   const generate=async()=>{

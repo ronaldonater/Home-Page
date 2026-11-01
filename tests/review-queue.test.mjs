@@ -8,14 +8,14 @@ const secret='test-queue-encryption-secret-at-least-32-characters',cfg={database
 const full={user:{id:42,username:'Player'},mode:'osu',sampleCount:1,top:[],months:[],mappers:[],artists:[],skillsets:{total:1,checked:1,rows:[]},loadingStatus:{complete:true}};
 
 test('queue identifies a user/mode without storing their identity or credentials and preserves completed reviews',async()=>{
- let params,status='active';const writes=[];
- const query=async(url,sql,args)=>{if(sql.startsWith('SELECT')){params=args;return [{job:status==='complete'?{status,result:encryptReview(full,secret)}:{status,position:2}}];}writes.push(args);return [{job_key:'saved'}];};
+ let params,status='active';const writes=[],writeSql=[];
+ const query=async(url,sql,args)=>{if(sql.startsWith('SELECT')){params=args;return [{job:status==='complete'?{status,result:encryptReview(full,secret)}:{status,position:2}}];}writes.push(args);writeSql.push(sql);return [{job_key:'saved'}];};
  const queue=createReviewQueue({config:()=>cfg,query});
  const ticket=await queue.claim(42,'osu'),firstKey=params[1];assert.equal(ticket.status,'active');assert.match(firstKey,/^[a-f0-9]{64}$/);assert.ok(!JSON.stringify(params).includes('Player'));
- await queue.release(ticket,full);assert.equal(writes[0][3],true);assert.deepEqual(decryptReview(writes[0][4],secret),full);assert.ok(!writes[0][4].includes('Player'));
+ await queue.release(ticket,full);assert.match(writeSql[0],/expires_at=CASE WHEN \$4::boolean THEN now\(\)\+interval '1 hour' ELSE expires_at END/);assert.equal(writes[0][3],true);assert.deepEqual(decryptReview(writes[0][4],secret),full);assert.ok(!writes[0][4].includes('Player'));
  await queue.claim(42,'osu');assert.equal(params[1],firstKey);await queue.claim(42,'mania');assert.notEqual(params[1],firstKey);
  status='complete';assert.deepEqual((await queue.claim(42,'osu')).data,full);
- status='queued';assert.deepEqual(await queue.claim(42,'osu'),{status:'queued',position:2,retryAfter:10});
+ status='queued';assert.deepEqual(await queue.claim(42,'osu'),{status:'queued',position:2,total:null,retryAfter:10});
 });
 
 test('database outage reports unavailable for loader fallback; no database keeps local setup working',async()=>{
@@ -99,7 +99,7 @@ test('obsolete completed skillset caches are refreshed without changing queue ke
  const old={...full,skillsets:{...full.skillsets,rows:[{tag:'skillset/jumps',count:1}]}};const encrypted=encryptReview(old,secret),calls=[];let reads=0;
  const queue=createReviewQueue({config:()=>cfg,query:async(url,sql,args)=>{calls.push({sql,args});if(sql.startsWith('SELECT'))return [{job:++reads===1?{status:'complete',result:encrypted}:{status:'queued',position:3}}];return [{job_key:'refreshed'}];}});
  const result=await queue.claim(42,'osu');assert.equal(result.status,'queued');assert.equal(result.position,3);
- assert.equal(calls.length,3);assert.equal(calls[0].args[1],calls[2].args[1]);assert.match(calls[1].sql,/state='complete' AND result=\$3/);assert.equal(calls[1].args[2],encrypted);
+ assert.equal(calls.length,4);assert.match(calls[3].sql,/count\(\*\)/);assert.equal(calls[0].args[1],calls[2].args[1]);assert.match(calls[1].sql,/state='complete' AND result=\$3/);assert.equal(calls[1].args[2],encrypted);
 });
 test('completed reviews already containing skillset maps remain cached',async()=>{
  const saved={...full,skillsets:{...full.skillsets,rows:[{tag:'skillset/jumps',count:1,maps:[{id:9,setId:77,count:1}]}]}};let reads=0;
