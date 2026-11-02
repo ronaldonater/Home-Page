@@ -429,7 +429,21 @@ Regardless of the lip-syncing, I still had a really fun time, and I would absolu
         date: "August 12, 2026",
         stars: "★★★☆☆",
         videoUrl: "https://www.youtube.com/watch?v=q3ic_sVqZeY",
-        review: "", // Add your written review here.
+        review: `This will likely be my shortest review, as attending this concert was more my dad's idea than mine. My dad is super into Guns N' Roses, and in turn, I've grown to like them over the years. However, my expectations heading in weren't particularly high, considering the band's age and years of Axl Rose utilizing an improper vocal technique.
+
+**Public Enemy Brings the Heat**
+
+Before we get into the main event, Public Enemy opened the show, and they honestly sounded great. They even performed some unreleased music, which captured the exact flair of their trademark sound without feeling dated at all, an amazing feat! As you can probably tell, I thought they were a fantastic choice for an opener.
+
+**Slash Shines, Axl Struggles**
+
+The band itself was great instrumentally, and Slash especially hasn't lost a single step. However, my qualms about Axl's vocals turned out to be true. On about half of the songs, you could tell he had lost a lot of power, and unfortunately, he sounded a bit like Herbert the Pervert from Family Guy. I don't know if it's because his voice is damaged from years of improper technique or if he's just singing in a new, safer style, it's probably a combination of both.
+
+That being said, this didn't apply to every single track. He actually sounded great during his cover of "Knockin' on Heaven's Door," which easily ended up being one of my favorite performances of the entire night!
+
+The Verdict
+
+Was the concert entirely bad? Not quite. It was definitely enjoyable at times, and I could see you having an absolute blast if you are a die-hard Guns N' Roses fan. The setlist itself offered really good value, as it was probably the longest concert setlist I've ever experienced in person. Would I go again, though? Honestly, probably not. I think seeing Guns N' Roses from 2026 onward is just a one-and-done sort of thing, something you do just to say you've seen them.`, // Add your written review here.
         score: "3/5"
     }
 ];
