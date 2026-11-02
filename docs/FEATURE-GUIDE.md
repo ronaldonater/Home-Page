@@ -295,3 +295,7 @@ Live user and mapping-only stats include a **Refresh Wrapped** action. A confirm
 Sign out asks for confirmation only while the server reports the current profile as queued, including when browsing the demo during generation. Canceling leaves the queue untouched. Confirming stops browser polling and releases matching user/browser jobs before clearing the session, without the normal departure return priority. In-flight requests retain their work lock until the batch safely finishes. Other browsers and completed reviews are unaffected.
 
 Completed-review refresh: Refresh Wrapped explicitly replaces the selected mode's saved result and rejoins the queue before generating fresh data. The one-hour expiry applies only to completed reviews; queue leases, inactivity timeouts, return grace periods, and upstream response-cache durations are unchanged. Existing saved results retain their original expiry until regenerated. No SQL migration is required for this TTL change.
+
+### About the data and FAQ
+
+The public About the data section contains three coverage summaries and expandable FAQs covering selected-score scope, UTC year and modes, average beatmap and mod stats, difficulty-level mapper credits, clubs and community shares, skillset coverage, mapping eligibility, queue and demo browsing, one-hour completed-result caching and manual refresh, mapping-only access, global snapshots, privacy, and the fictional bundled demo. Native disclosure controls support keyboard and touch use; FAQs appear in two columns on desktop and one on mobile.

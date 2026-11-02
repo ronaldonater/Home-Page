@@ -2,6 +2,13 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.61 updates
+
+- Defer recap preview generation until the outro animation finishes on all devices, and preload the closing music earlier.
+- Preload and decode nearby slideshow images with bounded concurrency; load active slide images eagerly.
+- Show a format-specific loading indicator when switching recap previews, then fade in the selected card.
+- Replace About the data with coverage summaries and 14 expandable FAQs covering the finished app. Improve FAQ spacing and match adjacent open card heights while allowing independent collapse.
+
 ## v1.1.60 updates
 
 - Show the current profile queue position and total queue size in bold, with updated waiting-message wording.

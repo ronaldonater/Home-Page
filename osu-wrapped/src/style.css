@@ -915,3 +915,20 @@ footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:7
  .review-meta #social-share{grid-column:1 / -1;justify-self:center;width:40px;min-height:40px;padding:8px}
  .review-meta>div:not(:has(#refresh-wrapped)) #social-share{grid-column:auto;justify-self:center}
 }
+
+.story-recap-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;color:var(--story-ink);font-size:13px}.story-recap-loading .spinner{width:24px;height:24px;margin:0}
+
+/* About the data: compact coverage summaries and accessible native FAQs. */
+.data-notes-intro{max-width:760px;color:var(--muted);font-size:14px;line-height:1.8;margin:16px 0 28px}
+.data-coverage-cards{gap:18px}
+.data-coverage-cards article{padding:22px;border:1px solid #ffffff12;border-radius:12px;background:#201b27}
+.data-coverage-cards h3{margin:12px 0;font-size:18px}.data-coverage-cards p{margin:0}
+.data-faq-heading{margin:36px 0 18px}.data-faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch}
+.data-faq details:not([open]){align-self:start}
+.data-faq details{min-width:0;border:1px solid #3a3242;border-radius:10px;background:#201b27;overflow:hidden}
+.data-faq summary{position:relative;list-style:none;padding:19px 44px 19px 20px;font-size:14px;font-weight:650;line-height:1.5;cursor:pointer}.data-faq summary::-webkit-details-marker{display:none}
+.data-faq summary::after{content:'+';position:absolute;right:20px;top:17px;color:var(--pink);font-size:20px;font-weight:400}.data-faq details[open]>summary::after{content:'−'}
+.data-faq summary:hover{background:#fa82b509}.data-faq summary:focus-visible{outline:2px solid var(--pink);outline-offset:-4px;border-radius:10px}
+.data-faq details>div{padding:12px 20px 18px}.data-faq p{color:var(--muted);font-size:13px;line-height:1.8;margin:0 0 12px}.data-faq p:last-child{margin-bottom:0}
+.data-api-link{display:inline-flex;align-items:center;gap:6px;margin-top:24px;font-size:13px;color:var(--pink)}
+@media(max-width:720px){.data-faq{grid-template-columns:minmax(0,1fr)}.data-coverage-cards article{padding:18px}.data-faq summary{font-size:13px}.data-notes-intro{font-size:13px}}
