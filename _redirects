@@ -16,3 +16,6 @@
 # osu! Wrapped subpage and isolated OAuth/API routes.
 /osu-wrapped       /osu-wrapped/   301
 /api/osu-wrapped/* /.netlify/functions/wrapped-api/:splat 200
+
+/kpop.html /kpop 301!
+/kpop /pages/kpop.html 200

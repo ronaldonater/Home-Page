@@ -602,6 +602,26 @@ body.concert-dialog-open { overflow: hidden; }
     box-shadow: 0 4px 15px rgba(128, 78, 77, 1);
 }
 
+.hobby-tag-kpop {
+    color: white;
+    text-decoration: none;
+    animation: kpop-glow 2.5s ease-in-out infinite;
+}
+
+@keyframes kpop-glow {
+    0%, 100% { box-shadow: 0 0 4px rgba(246, 189, 149, 0.2); }
+    50% { box-shadow: 0 0 16px rgba(246, 189, 149, 0.65), 0 0 26px rgba(210, 138, 114, 0.3); }
+}
+
+.hobby-tag-kpop:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hobby-tag-kpop { animation: none; box-shadow: 0 0 8px rgba(246, 189, 149, 0.4); }
+}
+
 /* View more buttons */
 .view-more-btn {
     width: 100%;

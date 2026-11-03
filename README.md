@@ -5,10 +5,11 @@ Static personal site hosted on Netlify.
 ## Layout
 
 - `index.html` - landing page
-- `pages/` - Dev, Social, and osu!AHR pages
+- `pages/` - Dev, Social, K-Pop, and osu!AHR pages
 - `assets/css/` - stylesheets
 - `assets/js/` - browser scripts, concert reviews, and cover data
 - `assets/images/` - profile pictures, project images, and NextUp logo
+- `assets/images/kpop/` - group photos, logos, and member portraits, organized by artist
 - `assets/icons/` - favicon and social/platform icons
 - `assets/downloads/` - résumé
 - `docs/` - setup instructions and third-party notices
@@ -17,7 +18,7 @@ Static personal site hosted on Netlify.
 - `tests/` - automated checks
 
 `netlify.toml`, `_redirects`, and `index.html` stay at the root for deployment.
-The public page URLs are `/`, `/dev`, `/social`, `/osu-ahr`, and `/osu-wrapped/`.
+The public page URLs are `/`, `/dev`, `/social`, `/kpop`, `/osu-ahr`, and `/osu-wrapped/`.
 HTML asset paths are site-root-relative, so assets work at both the clean URLs
 and the physical `/pages/*.html` paths. CSS image paths are relative to the CSS.
 
@@ -33,11 +34,35 @@ See [osu! playtime setup](docs/OSU-PLAYTIME-SETUP.md) for osu!standard hours.
 
 Run `npx netlify-cli dev` from this directory to preview clean URLs and functions.
 With VS Code Live Server, serve this directory as the root and open
-`/pages/social.html`, `/pages/dev.html`, or `/pages/osu-ahr.html` directly;
+`/pages/social.html`, `/pages/dev.html`, `/pages/kpop.html`, or `/pages/osu-ahr.html` directly;
 Live Server does not process Netlify's clean-URL rules or functions.
 
 Run `node --test tests/youtube-views.test.mjs` from this directory.
 Run `node --test tests/steam-playtime.test.mjs` to check Steam playtime.
+
+## K-Pop collection
+
+The Social page links to `/kpop`, a personal group and soloist collection with
+heart ratings, favorite songs, photos, and K-Profiles links. Groups open member
+bias rankings; soloist cards stay in the collection. Group rankings have direct
+links such as `/kpop#kiss-of-life`.
+
+- `pages/kpop.html` - page layout and temporary construction notices
+- `assets/js/kpop-data.js` - artist ratings, songs, images, logos, links, and ordered member lists
+- `assets/js/kpop-script.js` - filters, ranking views, flags, and automatic ages
+- `assets/css/kpop-styles.css` - responsive layout and artist color palettes
+- `assets/images/kpop/<artist-id>/` - locally hosted photos and logos
+
+Edit the data file to maintain the collection. Member order determines rank;
+positions, country flags, and birthdays are optional. Birthdays use `YYYY-MM-DD`;
+ages update using the visitor's local date, including at midnight and when
+returning to the tab. Group photos (`image`) and ranking-header logos (`logo`)
+are separate fields. See the [K-Pop editing guide](docs/KPOP-LIST-EDITING.md)
+for examples and image instructions.
+
+Preview at `http://localhost:8888/kpop` with Netlify Dev. The K-Pop page itself
+does not require API credentials; flag images load from FlagCDN and fonts from
+Google Fonts. Push and deploy to publish data or image changes.
 
 ## osu! Wrapped 2026
 
