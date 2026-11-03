@@ -42,3 +42,18 @@ html{scroll-behavior:smooth}#groups-view{scroll-margin-top:24px}
 .member-row-with-age{display:grid;grid-template-columns:40px 64px minmax(110px,1fr) 92px minmax(0,1.3fr)}.member-age{border-inline:1px solid #ffffff25;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;padding:8px 16px;align-self:stretch}.member-age-label{font-size:.5rem;letter-spacing:.16em;color:#ad9faa}.member-age-value{font-family:'Space Grotesk',sans-serif;font-size:1.35rem;font-weight:500;color:var(--accent)}.member-row-with-age .member-positions{max-width:100%;margin-left:0}
 @media(max-width:850px){.member-row-with-age{grid-template-columns:32px 56px minmax(0,1fr) 72px}.member-row-with-age .portrait{width:56px;height:56px}.member-row-with-age .member-positions{grid-column:3 / -1}.member-age{padding:6px 12px;grid-column:4;grid-row:1}}
 @media(max-width:460px){.member-row-with-age{grid-template-columns:24px 44px minmax(0,1fr) 54px;gap:12px}.member-row-with-age .portrait{width:44px;height:44px}.member-row-with-age .rank{font-size:1.4rem}.member-row-with-age .member-name{font-size:.9rem}.member-row-with-age .member-positions{grid-column:1 / -1}.member-age{padding:6px}.member-age-value{font-size:1.15rem}}
+
+/* Keep the ticket below the vinyl label on phones and small tablets. */
+@media(max-width:700px){
+ .hero-art{height:auto;min-width:0;display:flex;flex-direction:column;align-items:center;transform:none;margin:36px 0 0;padding:18px 8px 36px;isolation:isolate}
+ .hero-art .record{width:min(100%,330px);height:auto;aspect-ratio:1;flex-shrink:0}
+ .hero-art .ticket{position:relative;right:auto;bottom:auto;align-self:flex-end;width:180px;max-width:75%;margin-top:-35px;margin-right:12px;transform:rotate(7deg)}
+ .hero-art .orbit{width:min(100%,370px);height:auto;aspect-ratio:1;top:0;left:50%;transform:translateX(-50%);z-index:-1}
+ .hero-art .orbit-two{width:min(100%,410px);top:-18px}
+ .hero-art .art-star{font-size:56px;top:12px;right:0}
+ .hero-art .art-caption{bottom:0;left:8px;font-size:.45rem}
+}
+
+@media(max-width:600px){.member-positions{justify-content:flex-start}.member-row-with-age .member-positions{grid-column:1 / -1;justify-content:flex-start}}
+
+@media(max-width:1000px){.section-heading{flex-wrap:wrap}#group-count{display:block;flex-basis:100%;white-space:normal;margin:0 0 8px;line-height:1.6}}
