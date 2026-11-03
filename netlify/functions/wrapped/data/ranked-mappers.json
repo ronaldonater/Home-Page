@@ -1,24 +1,24 @@
 {
   "year": 2026,
-  "totalSets": 5948,
+  "totalSets": 5967,
   "modes": {
     "osu": {
       "genres": [
         {
           "id": 4,
-          "count": 578
+          "count": 581
         },
         {
           "id": 2,
-          "count": 234
+          "count": 235
         },
         {
           "id": 5,
-          "count": 762
+          "count": 763
         },
         {
           "id": 10,
-          "count": 745
+          "count": 748
         },
         {
           "id": 3,
@@ -26,7 +26,7 @@
         },
         {
           "id": 11,
-          "count": 199
+          "count": 200
         },
         {
           "id": 14,
@@ -53,8 +53,8 @@
           "count": 21
         }
       ],
-      "totalSets": 2886,
-      "totalMappers": 1040,
+      "totalSets": 2895,
+      "totalMappers": 1041,
       "top": [
         {
           "userId": 12693713,
@@ -122,11 +122,11 @@
       "genres": [
         {
           "id": 10,
-          "count": 601
+          "count": 602
         },
         {
           "id": 5,
-          "count": 328
+          "count": 330
         },
         {
           "id": 11,
@@ -138,7 +138,7 @@
         },
         {
           "id": 3,
-          "count": 80
+          "count": 81
         },
         {
           "id": 7,
@@ -146,7 +146,7 @@
         },
         {
           "id": 2,
-          "count": 107
+          "count": 108
         },
         {
           "id": 6,
@@ -169,13 +169,13 @@
           "count": 8
         }
       ],
-      "totalSets": 1534,
-      "totalMappers": 311,
+      "totalSets": 1539,
+      "totalMappers": 312,
       "top": [
         {
           "userId": 35619347,
           "username": "yakisode",
-          "count": 64,
+          "count": 65,
           "rank": 1
         },
         {
@@ -209,6 +209,12 @@
           "rank": 6
         },
         {
+          "userId": 845733,
+          "username": "Faputa",
+          "count": 33,
+          "rank": 7
+        },
+        {
           "userId": 5938161,
           "username": "gaston_2199",
           "count": 33,
@@ -218,13 +224,7 @@
           "userId": 22522738,
           "username": "Erowdi",
           "count": 32,
-          "rank": 8
-        },
-        {
-          "userId": 845733,
-          "username": "Faputa",
-          "count": 32,
-          "rank": 8
+          "rank": 9
         },
         {
           "userId": 2597417,
@@ -262,7 +262,7 @@
         },
         {
           "id": 2,
-          "count": 54
+          "count": 55
         },
         {
           "id": 12,
@@ -285,8 +285,8 @@
           "count": 3
         }
       ],
-      "totalSets": 555,
-      "totalMappers": 147,
+      "totalSets": 556,
+      "totalMappers": 148,
       "top": [
         {
           "userId": 7811952,
@@ -354,15 +354,15 @@
       "genres": [
         {
           "id": 2,
-          "count": 104
+          "count": 106
         },
         {
           "id": 10,
-          "count": 560
+          "count": 562
         },
         {
           "id": 5,
-          "count": 184
+          "count": 186
         },
         {
           "id": 11,
@@ -370,7 +370,7 @@
         },
         {
           "id": 3,
-          "count": 73
+          "count": 74
         },
         {
           "id": 4,
@@ -401,8 +401,8 @@
           "count": 7
         }
       ],
-      "totalSets": 1116,
-      "totalMappers": 405,
+      "totalSets": 1123,
+      "totalMappers": 408,
       "top": [
         {
           "userId": 27834381,
@@ -419,7 +419,7 @@
         {
           "userId": 8647138,
           "username": "eZmmR",
-          "count": 17,
+          "count": 18,
           "rank": 3
         },
         {
@@ -467,7 +467,7 @@
       ]
     }
   },
-  "updatedAt": "2026-11-02T18:33:30.094Z",
+  "updatedAt": "2026-11-03T16:23:06.390Z",
   "source": "osu!",
   "sourceUrl": "https://osu.ppy.sh/beatmapsets?q=ranked%3E%3D2026-01-01%20ranked%3C2027-01-01&s=ranked",
   "coverage": "Currently ranked mapsets with a 2026 ranked date (UTC). Each unique set counts once for its host in each native gamemode it contains. Guest difficulties are not separate set credits."
