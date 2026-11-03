@@ -43,17 +43,32 @@ html{scroll-behavior:smooth}#groups-view{scroll-margin-top:24px}
 @media(max-width:850px){.member-row-with-age{grid-template-columns:32px 56px minmax(0,1fr) 72px}.member-row-with-age .portrait{width:56px;height:56px}.member-row-with-age .member-positions{grid-column:3 / -1}.member-age{padding:6px 12px;grid-column:4;grid-row:1}}
 @media(max-width:460px){.member-row-with-age{grid-template-columns:24px 44px minmax(0,1fr) 54px;gap:12px}.member-row-with-age .portrait{width:44px;height:44px}.member-row-with-age .rank{font-size:1.4rem}.member-row-with-age .member-name{font-size:.9rem}.member-row-with-age .member-positions{grid-column:1 / -1}.member-age{padding:6px}.member-age-value{font-size:1.15rem}}
 
-/* Keep the ticket below the vinyl label on phones and small tablets. */
+/* Scale the mobile artwork as one composition, keeping the record label clear. */
 @media(max-width:700px){
- .hero-art{height:auto;min-width:0;display:flex;flex-direction:column;align-items:center;transform:none;margin:36px 0 0;padding:18px 8px 36px;isolation:isolate}
- .hero-art .record{width:min(100%,330px);height:auto;aspect-ratio:1;flex-shrink:0}
- .hero-art .ticket{position:relative;right:auto;bottom:auto;align-self:flex-end;width:180px;max-width:75%;margin-top:-35px;margin-right:12px;transform:rotate(7deg)}
- .hero-art .orbit{width:min(100%,370px);height:auto;aspect-ratio:1;top:0;left:50%;transform:translateX(-50%);z-index:-1}
- .hero-art .orbit-two{width:min(100%,410px);top:-18px}
- .hero-art .art-star{font-size:56px;top:12px;right:0}
- .hero-art .art-caption{bottom:0;left:8px;font-size:.45rem}
+ .hero-art{display:block;width:100%;max-width:400px;height:auto;aspect-ratio:1 / 1.18;min-width:0;transform:none;margin:36px auto 0;padding:0;isolation:isolate;container-type:inline-size}
+ .hero-art .record{position:absolute;width:80%;height:auto;aspect-ratio:1;top:6%;left:6%;transform:rotate(-15deg)}
+ .hero-art .record-label{width:44%;height:auto;aspect-ratio:1;padding:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:clamp(.85rem,5cqw,1.25rem);position:relative}
+ .hero-art .record-label i{font-size:clamp(1.2rem,7cqw,1.8rem)}
+ .hero-art .record-label small{font-size:clamp(.22rem,1.2cqw,.32rem);margin-top:8%}
+ .hero-art .ticket{position:absolute;top:62%;bottom:auto;left:48%;right:auto;width:46%;max-width:none;margin:0;padding:5%;transform:rotate(7deg)}
+ .hero-art .ticket strong{font-size:clamp(.75rem,4cqw,1rem);margin:8px 0 12px}
+ .hero-art .ticket span{font-size:clamp(.38rem,1.8cqw,.5rem)}
+ .hero-art .ticket small{font-size:clamp(.3rem,1.25cqw,.4rem);letter-spacing:.08em}
+ .hero-art .barcode{height:20px;margin:12px 0 4px}
+ .hero-art .orbit{width:90%;height:auto;aspect-ratio:1;top:2%;left:1%;transform:none;z-index:-1}
+ .hero-art .orbit-two{width:98%;top:-1%;left:-3%}
+ .hero-art .art-star{font-size:clamp(36px,14cqw,56px);top:9%;right:4%}
+ .hero-art .art-caption{bottom:0;left:2%;font-size:.4rem}
 }
 
 @media(max-width:600px){.member-positions{justify-content:flex-start}.member-row-with-age .member-positions{grid-column:1 / -1;justify-content:flex-start}}
 
 @media(max-width:1000px){.section-heading{flex-wrap:wrap}#group-count{display:block;flex-basis:100%;white-space:normal;margin:0 0 8px;line-height:1.6}}
+
+/* SVG symbols render identically without platform emoji substitution. */
+.kpop-icon{display:inline-block;width:1em;height:1em;vertical-align:-.15em;flex-shrink:0}.hearts{display:inline-flex;align-items:center;gap:3px}.hearts .kpop-icon{width:13px;height:13px}.art-star .kpop-icon{display:block;width:1em;height:1em}.ticket .kpop-icon{width:.65em;height:.65em;margin-right:.4em}.card-arrow .kpop-icon{width:14px;height:14px}.kprofiles-link .kpop-icon{margin-left:5px}.empty-state>span .kpop-icon{width:1em;height:1em;fill:none}
+
+/* Keep original font symbols everywhere except iOS/iPadOS. */
+.platform-symbol>.kpop-icon{display:none}.ios-icons .platform-symbol>.text-symbol{display:none}.ios-icons .platform-symbol>.kpop-icon{display:inline-block}.platform-symbol{display:inline-block}.art-star .platform-symbol{display:block}.ticket .platform-symbol{margin-right:.4em}html:not(.ios-icons) .hearts{display:inline;letter-spacing:.12em}.ios-icons .ticket .platform-symbol{margin-right:0}
+
+#members-view[data-palette=nmixx-lavender] .group-profile-photo{border-color:#fff}

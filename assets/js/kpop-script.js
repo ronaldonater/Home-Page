@@ -11,8 +11,47 @@ function kpopMemberAge(birthday, today = new Date()) {
 (() => {
     const groups = [...window.kpopGroups].sort((a, b) => (b.hearts ?? -1) - (a.hearts ?? -1));
     const find = id => document.getElementById(id);
-    const rating = group => Number.isInteger(group.hearts) && group.hearts >= 1 && group.hearts <= 5
-        ? `${'♥'.repeat(group.hearts)}${'♡'.repeat(5 - group.hearts)}` : 'Not rated yet';
+    const useSvgIcons = document.documentElement.classList.contains('ios-icons');
+    function icon(kind) {
+        if (!useSvgIcons) {
+            const symbol = element('span', kind === 'heart' ? '♥' : '↗', 'text-symbol');
+            symbol.setAttribute('aria-hidden', 'true');
+            return symbol;
+        }
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.setAttribute('class', 'kpop-icon');
+        svg.setAttribute('aria-hidden', 'true');
+        svg.setAttribute('focusable', 'false');
+        svg.setAttribute('fill', kind === 'heart' ? 'currentColor' : 'none');
+        svg.setAttribute('stroke', 'currentColor');
+        svg.setAttribute('stroke-width', '1.8');
+        svg.setAttribute('stroke-linecap', 'round');
+        svg.setAttribute('stroke-linejoin', 'round');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', kind === 'heart' ? 'M12 21s-9-5.5-9-12a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 6.5-9 12-9 12Z' : 'M6 18 18 6M6 6h12v12');
+        svg.append(path);
+        return svg;
+    }
+    function rating(group) {
+        const container = element('span', '', 'hearts');
+        if (!Number.isInteger(group.hearts) || group.hearts < 1 || group.hearts > 5) {
+            container.textContent = 'Not rated yet';
+            return container;
+        }
+        container.setAttribute('role', 'img');
+        container.setAttribute('aria-label', `${group.hearts} out of 5 hearts`);
+        if (!useSvgIcons) {
+            container.textContent = '♥'.repeat(group.hearts) + '♡'.repeat(5 - group.hearts);
+            return container;
+        }
+        for (let i = 0; i < 5; i++) {
+            const heart = icon('heart');
+            if (i >= group.hearts) heart.setAttribute('fill', 'none');
+            container.append(heart);
+        }
+        return container;
+    }
     function element(tag, text, className) {
         const node = document.createElement(tag);
         if (text) node.textContent = text;
@@ -60,9 +99,13 @@ function kpopMemberAge(birthday, today = new Date()) {
         const body = element('div', '', 'card-body');
         const heading = element('div', '', 'card-heading');
         heading.append(element('h3', group.name));
-        if (!soloist) heading.append(element('span', '↗', 'card-arrow'));
+        if (!soloist) {
+            const arrow = element('span', '', 'card-arrow');
+            arrow.append(icon('external'));
+            heading.append(arrow);
+        }
         const score = element('div', '', 'card-score');
-        score.append(element('span', rating(group), 'hearts'), element('span', group.hearts ? `${group.hearts} / 5` : 'TO BE RATED', 'score-number'));
+        score.append(rating(group), element('span', group.hearts ? `${group.hearts} / 5` : 'TO BE RATED', 'score-number'));
         body.append(heading, score);
         if (!soloist) {
             const rankedMembers = group.members.filter(member => !member.placeholder);
@@ -73,7 +116,8 @@ function kpopMemberAge(birthday, today = new Date()) {
             try {
                 const url = new URL(group.kprofiles);
                 if (url.protocol === 'https:' && url.hostname === 'kprofiles.com') {
-                    const link = element('a', url.searchParams.has('s') ? 'Find on K-Profiles ↗' : 'View K-Profiles page ↗', 'kprofiles-link');
+                    const link = element('a', url.searchParams.has('s') ? 'Find on K-Profiles' : 'View K-Profiles page', 'kprofiles-link');
+                    link.append(icon('external'));
                     link.href = url.href;
                     link.target = '_blank';
                     link.rel = 'noopener noreferrer';
@@ -109,7 +153,7 @@ function kpopMemberAge(birthday, today = new Date()) {
         }
         find('members-view').dataset.palette = group.palette || palettes[groups.indexOf(group) % palettes.length];
         find('member-title').textContent = group.name;
-        find('group-rating').textContent = rating(group);
+        find('group-rating').replaceChildren(rating(group));
         find('ranking-song-title').textContent = group.favoriteSong || 'Still choosing my favorite';
         find('group-note').textContent = group.note || '';
         const profileLink = find('group-kprofiles');
@@ -120,7 +164,8 @@ function kpopMemberAge(birthday, today = new Date()) {
                 const url = new URL(group.kprofiles);
                 if (url.protocol === 'https:' && url.hostname === 'kprofiles.com') {
                     profileLink.href = url.href;
-                    profileLink.textContent = url.searchParams.has('s') ? 'Find on K-Profiles ↗' : 'View K-Profiles page ↗';
+                    profileLink.textContent = url.searchParams.has('s') ? 'Find on K-Profiles' : 'View K-Profiles page';
+                    profileLink.append(icon('external'));
                     profileLink.hidden = false;
                 }
             } catch { /* Leave invalid or unassigned links hidden. */ }
