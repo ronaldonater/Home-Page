@@ -85,7 +85,7 @@ function kpopMemberAge(birthday, today = new Date()) {
             const image = document.createElement('img');
             image.src = group.image; image.alt = `${group.name} ${soloist ? 'portrait' : 'group photo'}`;
             image.loading = 'lazy';
-            image.style.objectPosition = group.imagePosition || 'center';
+            image.style.objectPosition = group.imagePosition || 'center top';
             image.addEventListener('error', () => image.remove());
             photo.append(image);
         } else {
@@ -190,7 +190,7 @@ function kpopMemberAge(birthday, today = new Date()) {
             const row = element('li', '', member.placeholder ? 'member-row member-placeholder' : 'member-row');
             const copy = element('div', '', 'member-copy');
             const name = element('h3', member.name, 'member-name');
-            const countries = { TH: 'Thailand', KR: 'South Korea', US: 'United States', AU: 'Australia', JP: 'Japan' };
+            const countries = { TH: 'Thailand', KR: 'South Korea', US: 'United States', AU: 'Australia', JP: 'Japan', TW: 'Taiwan' };
             if (countries[member.country]) {
                 const flag = document.createElement('img');
                 flag.className = 'member-flag';
