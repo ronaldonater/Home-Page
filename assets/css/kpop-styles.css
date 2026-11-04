@@ -84,3 +84,10 @@ html{scroll-behavior:smooth}#groups-view{scroll-margin-top:24px}
 [data-palette=illit-cream]{--accent:#ead49f;--ink:#4b3b29;--paper:#e3cda3}
 [data-palette=h1key-slate]{--accent:#b2c8dc;--ink:#243343;--paper:#9cb1c8}
 .group-card:is([data-palette=twice-apricot],[data-palette=qwer-blush],[data-palette=cignature-sky],[data-palette=illit-cream],[data-palette=h1key-slate]) .card-art{background:var(--paper)}
+
+[data-palette=duo-peach]{--accent:#f0ba9f;--ink:#553a34;--paper:#e9b397}
+[data-palette=saymyname-electric]{--accent:#c1a4f5;--ink:#352546;--paper:#b298d9}
+[data-palette=mamamoo-green]{--accent:#a0d59c;--ink:#122f23;--paper:#4f936b}
+[data-palette=pristin-sky]{--accent:#b3dce7;--ink:#23434b;--paper:#add3dd}
+[data-palette=idle-violet]{--accent:#c09be0;--ink:#f6e9ff;--paper:#65467d}
+.group-card:is([data-palette=duo-peach],[data-palette=saymyname-electric],[data-palette=mamamoo-green],[data-palette=pristin-sky],[data-palette=idle-violet]) .card-art{background:var(--paper)}

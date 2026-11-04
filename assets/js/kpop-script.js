@@ -11,6 +11,27 @@ function kpopMemberAge(birthday, today = new Date()) {
 (() => {
     const groups = [...window.kpopGroups].sort((a, b) => (b.hearts ?? -1) - (a.hearts ?? -1));
     const find = id => document.getElementById(id);
+    let collectionScroll = null;
+    let collectionCard = null;
+    let showingGroup = false;
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    function restoreCollection() {
+        requestAnimationFrame(() => {
+            if (showingGroup) return;
+            collectionCard?.focus({ preventScroll: true });
+            if (collectionScroll !== null) window.scrollTo({ top: collectionScroll, behavior: 'instant' });
+            else find('groups-view').scrollIntoView({ block: 'start' });
+        });
+    }
+    document.querySelectorAll('#members-view a[href="#"]').forEach(link => {
+        link.addEventListener('click', event => {
+            event.preventDefault();
+            history.pushState(null, '', location.pathname + location.search + '#groups-view');
+            render(false);
+            restoreCollection();
+        });
+    });
+
     const useSvgIcons = document.documentElement.classList.contains('ios-icons');
     function icon(kind) {
         if (!useSvgIcons) {
@@ -74,6 +95,12 @@ function kpopMemberAge(birthday, today = new Date()) {
         const soloist = group.type === 'soloist';
         const card = element(soloist ? 'article' : 'a', '', 'group-card');
         if (!soloist) card.href = `#${group.id}`;
+        if (!soloist) card.addEventListener('click', event => {
+            if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+            collectionScroll = window.scrollY;
+            collectionCard = card;
+        });
+
         card.dataset.hearts = String(group.hearts ?? '');
         card.dataset.type = group.type || 'group';
         card.hidden = card.dataset.type === 'soloist';
@@ -144,11 +171,14 @@ function kpopMemberAge(birthday, today = new Date()) {
     });
     function render(focus = false) {
         const group = groups.find(item => item.type !== 'soloist' && `#${item.id}` === location.hash);
+        const returningToCollection = showingGroup && !group;
+        showingGroup = Boolean(group);
         find('groups-view').hidden = Boolean(group);
         find('members-view').hidden = !group;
         document.title = group ? `${group.name} biases - ronaldonater` : 'K-Pop - ronaldonater';
         if (!group) {
-            if (focus) find('groups-view').scrollIntoView({ block: 'start' });
+            if (returningToCollection) restoreCollection();
+            else if (focus) find('groups-view').scrollIntoView({ block: 'start' });
             return;
         }
         find('members-view').dataset.palette = group.palette || palettes[groups.indexOf(group) % palettes.length];
@@ -190,7 +220,7 @@ function kpopMemberAge(birthday, today = new Date()) {
             const row = element('li', '', member.placeholder ? 'member-row member-placeholder' : 'member-row');
             const copy = element('div', '', 'member-copy');
             const name = element('h3', member.name, 'member-name');
-            const countries = { TH: 'Thailand', KR: 'South Korea', US: 'United States', AU: 'Australia', JP: 'Japan', TW: 'Taiwan' };
+            const countries = { TH: 'Thailand', KR: 'South Korea', US: 'United States', AU: 'Australia', JP: 'Japan', TW: 'Taiwan', CN: 'China' };
             if (countries[member.country]) {
                 const flag = document.createElement('img');
                 flag.className = 'member-flag';
