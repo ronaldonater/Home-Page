@@ -66,9 +66,11 @@ Google Fonts. Push and deploy to publish data or image changes.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.61** | [Changelog](CHANGELOG.md) | [Detailed guide](docs/FEATURE-GUIDE.md)
+**Version 1.1.62** | [Changelog](CHANGELOG.md) | [Detailed guide](docs/FEATURE-GUIDE.md)
 
-A four-mode annual review with personal and global statistics, skillsets, playstyle/mapping clubs, an animated slideshow, portrait/landscape recap cards, and embedded replay/beatmap viewers. The demo uses bundled data and artwork; music previews still stream.
+A four-mode annual review with personal and global statistics, skillsets, playstyle/mapping clubs, an animated slideshow, portrait/landscape recap cards, and embedded replay/beatmap viewers. The demo uses bundled data, artwork, and slideshow audio previews without live generation or queue requests. External links and viewers still open their respective websites.
+
+Favorite mapper and artist score counts open matching selected-beatmap panels with artwork and difficulty names. Tied counts rank by the highest associated PP play. The personal Top PP Plays list expands to use its panel's available height while retaining scrolling.
 
 ### Setup and deployment
 
@@ -87,7 +89,11 @@ For Neon features, reuse `WRAPPED_DATABASE_URL` and `WRAPPED_CLUB_TRACKING_SECRE
 | Persistent profile queue and shared cache | [review-queue.sql](scripts/sql/review-queue.sql) |
 | Early-access admin management | [admin-allowlist.sql](scripts/sql/admin-allowlist.sql) |
 
+Completed results are cached for one hour; Refresh Wrapped regenerates the selected mode through the queue. Database fallback produces one browser console warning per page load, with sanitized details in server logs.
+
 The demo does not require Neon or a queue. During Neon outages, personal profiles fall back to the previous loader: local pacing and cooldowns continue, but shared coordination is unavailable. See the [queue/cache guide](docs/FEATURE-GUIDE.md#persistent-profile-queue-and-shared-cache).
+
+Artist portraits use TheAudioDB where available, with beatmap artwork as a fallback. TheAudioDB images may not match the intended artist; the stats page, artist slide, recap cards, FAQ, and credits explain this limitation. Recap credit text scales down as needed to fit on one line.
 
 ### Data scope and privacy
 

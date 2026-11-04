@@ -12,7 +12,7 @@ export function rankDifficultyMappers(scores){
  const rows=new Map();
  for(const score of scores)for(const mapper of difficultyMappers(score)){
   const key=mapper.userId===null?'name:'+mapper.name:'id:'+mapper.userId;
-  const row=rows.get(key)||{...mapper,count:0};row.count++;rows.set(key,row);
+  const row=rows.get(key)||{...mapper,count:0,highestPp:-Infinity};row.count++;if(Number.isFinite(score.pp))row.highestPp=Math.max(row.highestPp,score.pp);rows.set(key,row);
  }
- return [...rows.values()].sort((a,b)=>b.count-a.count||a.name.localeCompare(b.name)).slice(0,10);
+ return [...rows.values()].sort((a,b)=>b.count-a.count||(b.highestPp>a.highestPp?1:b.highestPp<a.highestPp?-1:0)||a.name.localeCompare(b.name)).slice(0,10).map(({highestPp,...row})=>row);
 }

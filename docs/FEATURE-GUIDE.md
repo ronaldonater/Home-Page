@@ -299,3 +299,15 @@ Completed-review refresh: Refresh Wrapped explicitly replaces the selected mode'
 ### About the data and FAQ
 
 The public About the data section contains three coverage summaries and expandable FAQs covering selected-score scope, UTC year and modes, average beatmap and mod stats, difficulty-level mapper credits, clubs and community shares, skillset coverage, mapping eligibility, queue and demo browsing, one-hour completed-result caching and manual refresh, mapping-only access, global snapshots, privacy, and the fictional bundled demo. Native disclosure controls support keyboard and touch use; FAQs appear in two columns on desktop and one on mobile.
+
+### Database fallback diagnostics
+
+Browser developer tools show one `[osu! Wrapped] Neon/database feature unavailable` warning per page load when a review response explicitly reports unavailable queue/results storage or club community percentages. Queue/results fallback is also marked with the `X-Wrapped-Database-Status: unavailable` response header. Community panels retain their existing unavailable message. Netlify function logs identify affected queue/cache, shared API scheduling, and club tracking features with a safe PostgreSQL error code where available. Server warnings are limited to once per feature per minute; the browser warning appears only once per page load. Both omit raw errors, connection strings, SQL parameters, tokens, and profile data. Missing optional database configuration does not itself trigger an outage warning. These signals indicate a database feature failure, which may be connectivity, configuration, or schema-related rather than a confirmed Neon-wide outage.
+
+### Favorite mapper and artist score panels
+
+Select the score-count text on a Favorite Mappers or Favorite Artists entry to open its matching selected beatmap difficulties. The panel reuses the skillset map-list layout with artwork, artist, credited difficulty mappers, and difficulty names; links open the exact difficulty in the selected mode. Lists cover the full selected-score sample and use the same mapper credits as the rankings, including collaborators. Repeated difficulties show the highest-PP entry. Opening the panel needs no extra metadata API requests. The offline demo includes saved lists. Older completed server caches without these details are regenerated through normal queue admission; no SQL migration is needed.
+
+Favorite mapper and artist rankings break equal score counts by the highest associated finite PP play across the full selected sample. Entries with no PP rank below tied entries with PP. Exact count-and-PP ties use names for deterministic ordering. All display surfaces reuse this ordering; existing live cached reviews update when refreshed or regenerated.
+
+Artist-image attribution now explicitly notes that TheAudioDB matches may show a different artist. The notice appears on stats, the artist slide, both recap formats, the FAQ, and credits. Recap attribution text is measured and reduced to fit the available single-line width. Personal Top PP Plays uses remaining panel height for its scroll list, including when the neighboring favorites panel is taller.

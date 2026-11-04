@@ -932,3 +932,10 @@ footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:7
 .data-faq details>div{padding:12px 20px 18px}.data-faq p{color:var(--muted);font-size:13px;line-height:1.8;margin:0 0 12px}.data-faq p:last-child{margin-bottom:0}
 .data-api-link{display:inline-flex;align-items:center;gap:6px;margin-top:24px;font-size:13px;color:var(--pink)}
 @media(max-width:720px){.data-faq{grid-template-columns:minmax(0,1fr)}.data-coverage-cards article{padding:18px}.data-faq summary{font-size:13px}.data-notes-intro{font-size:13px}}
+
+.favorite-score-count{border:0;background:transparent;color:inherit;font:inherit;font-size:12px;padding:8px 0 8px 8px;white-space:nowrap;border-radius:5px;text-align:right}.favorite-score-count b{color:var(--pink)}.favorite-score-count:hover{text-decoration:underline;text-underline-offset:3px}.favorite-score-count:focus-visible{outline:2px solid var(--pink);outline-offset:3px}
+
+/* Fill the Top PP Plays panel when its neighboring ranking panel is taller. */
+.top-plays{display:flex;flex-direction:column;min-height:0}
+.top-plays>.score-list{flex:1 1 630px;height:630px;min-height:0;max-height:none}
+.top-plays>.panel-heading,.top-plays>p{flex:none}

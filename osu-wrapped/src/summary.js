@@ -1,3 +1,4 @@
+import {favoriteScoreMaps} from './favorite-score-maps.js';
 import {selectedUniqueCounts} from './unique-counts.js';
 import {rankDifficultyMappers} from './mapper-credits.js';
 import {skillsetSummary} from './skillsets.js';
@@ -21,9 +22,11 @@ export function summarize(user, best, mode, clubContext={}) {
   const passed = scores.filter(s=>s.passed !== false);
   const comboScore = passed.reduce((best,score)=>!best || (score.max_combo||0)>(best.max_combo||0)?score:best,null);
   const top = passed.filter(s=>Number.isFinite(s.pp)).sort((a,b)=>b.pp-a.pp).slice(0,25);
-  const group = key => Object.entries(scores.reduce((all,s)=>{
-    const name = s.beatmapset?.[key]; if(name) all[name]=(all[name]||0)+1; return all;
-  },Object.create(null))).sort((a,b)=>b[1]-a[1] || a[0].localeCompare(b[0])).slice(0,10).map(([name,count])=>({name,count}));
+  const group = key => {
+    const rows=new Map();for(const score of scores){const name=score.beatmapset?.[key];if(!name)continue;const row=rows.get(name)||{name,count:0,highestPp:-Infinity};row.count++;if(Number.isFinite(score.pp))row.highestPp=Math.max(row.highestPp,score.pp);rows.set(name,row);}
+    return [...rows.values()].sort((a,b)=>b.count-a.count||(b.highestPp>a.highestPp?1:b.highestPp<a.highestPp?-1:0)||a.name.localeCompare(b.name)).slice(0,10).map(({highestPp,...row})=>row);
+  };
+  const mappers=rankDifficultyMappers(scores),artists=group('artist').map(artist=>{const song=scores.find(s=>s.beatmapset?.artist===artist.name && (s.beatmapset?.preview_url||s.beatmapset?.covers?.['cover@2x']));return {...artist,previewUrl:song?.beatmapset?.preview_url,cover:song?.beatmapset?.covers?.['cover@2x']};});
   return {uniqueCounts:selectedUniqueCounts(scores),skillsets:skillsetSummary(scores,mode),beatmapAverages:beatmapAverages(scores,mode),year:YEAR,mode,generatedAt:new Date().toISOString(),user:{id:user.id,username:user.username,avatar:user.avatar_url,country:user.country_code,pp:user.statistics?.pp,rank:user.statistics?.global_rank},months,
     playcount:months.some(m=>m.available)?months.reduce((s,m)=>s+m.count,0):null,
     replayViews,
@@ -36,7 +39,7 @@ export function summarize(user, best, mode, clubContext={}) {
     modUsage:modRankings(scores),
     club:assignClub(scores,mode,months,{...clubContext,replayViews,replayMonths}),
     top:top.map(s=>({id:s.id,bpm:Number.isFinite(s.beatmap?.bpm)?s.beatmap.bpm:Number.isFinite(s.beatmapset?.bpm)?s.beatmapset.bpm:null,replayAvailable:s.has_replay!==false,beatmapId:s.beatmap?.id,previewUrl:s.beatmapset?.preview_url,title:s.beatmapset?.title||'Unknown beatmap',artist:s.beatmapset?.artist||'Unknown artist',creator:s.beatmapset?.creator||'Unknown mapper',version:s.beatmap?.version||'',pp:s.pp,accuracy:s.accuracy*100,...comboInfo(s),rank:s.rank,date:s.ended_at||s.created_at,mods:formatMods(s.mods),cover:s.beatmapset?.covers?.['cover@2x']})),
-    mappers:rankDifficultyMappers(scores),artists:group('artist').map(artist=>{const song=scores.find(s=>s.beatmapset?.artist===artist.name && (s.beatmapset?.preview_url||s.beatmapset?.covers?.['cover@2x']));return {...artist,previewUrl:song?.beatmapset?.preview_url,cover:song?.beatmapset?.covers?.['cover@2x']};}),sampleCount:scores.length,passedCount:passed.length,
+    mappers,artists,favoriteScoreMaps:favoriteScoreMaps(scores,mappers,artists),sampleCount:scores.length,passedCount:passed.length,
     coverage:'All score statistics and mapper/artist rankings use only deduplicated 2026 scores found in your current top 200 best plays. This is a partial sample, not your complete year. Mapper rankings use difficulty-level credits, falling back to the mapset creator. Collaborators each receive one count per selected score. Counts are observed scores, not all map attempts.'};
 }
 

@@ -1,3 +1,4 @@
+import {databaseWarning} from './database-diagnostics.mjs';
 import {createHash} from 'node:crypto';
 import {imageBytes} from './hardening.mjs';
 import {reviewStorage,encryptReview,decryptReview} from './review-storage.mjs';
@@ -14,10 +15,10 @@ export function createSharedOsuFetch(fetchImpl,{query=(...args)=>reviewStorage.q
   const auth=personal?new Headers(options.headers).get('authorization')||'':'';
   const cacheKey=createHash('sha256').update(JSON.stringify([url.href,method,options.body||'',auth,publicMap?'20220705':new Headers(options.headers).get('x-api-version')||''])).digest('hex');
   options.signal?.throwIfAborted();
-  try{const rows=options.cache==='reload'?[]:await query(cfg.databaseUrl,'SELECT payload FROM wrapped_review_cache WHERE cache_key=$1 AND expires_at>now()',[cacheKey]);const saved=rows[0]?.payload&&decryptReview(rows[0].payload,cfg.secret);if(typeof saved?.body==='string'){options.signal?.throwIfAborted();return new Response(saved.body,{headers:{'Content-Type':'application/json'}});}}catch(error){if(options.signal?.aborted)throw error;retryAt=now()+60000;}
+  try{const rows=options.cache==='reload'?[]:await query(cfg.databaseUrl,'SELECT payload FROM wrapped_review_cache WHERE cache_key=$1 AND expires_at>now()',[cacheKey]);const saved=rows[0]?.payload&&decryptReview(rows[0].payload,cfg.secret);if(typeof saved?.body==='string'){options.signal?.throwIfAborted();return new Response(saved.body,{headers:{'Content-Type':'application/json'}});}}catch(error){if(options.signal?.aborted)throw error;databaseWarning('shared osu! response cache',error);retryAt=now()+60000;}
   const response=await fetchImpl(input,options);
   if(now()>=retryAt&&response.ok&&response.headers.get('content-type')?.includes('application/json')){
-   try{const body=(await imageBytes(response.clone(),3*1024*1024)).toString('utf8'),payload=encryptReview({body},cfg.secret);await query(cfg.databaseUrl,`INSERT INTO wrapped_review_cache(cache_key,payload,expires_at) VALUES($1,$2,now()+$3::int*interval '1 second') ON CONFLICT(cache_key) DO UPDATE SET payload=EXCLUDED.payload,expires_at=EXCLUDED.expires_at`,[cacheKey,payload,ttl]);}catch{retryAt=now()+60000;}
+   try{const body=(await imageBytes(response.clone(),3*1024*1024)).toString('utf8'),payload=encryptReview({body},cfg.secret);await query(cfg.databaseUrl,`INSERT INTO wrapped_review_cache(cache_key,payload,expires_at) VALUES($1,$2,now()+$3::int*interval '1 second') ON CONFLICT(cache_key) DO UPDATE SET payload=EXCLUDED.payload,expires_at=EXCLUDED.expires_at`,[cacheKey,payload,ttl]);}catch(error){databaseWarning('shared osu! response cache',error);retryAt=now()+60000;}
   }
   return response;
  };

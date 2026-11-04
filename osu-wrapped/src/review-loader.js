@@ -1,3 +1,4 @@
+import {reportDatabaseStatus} from './database-status.js';
 const modes=['osu','taiko','fruits','mania'];
 export function validReview(value){return value&&Number.isSafeInteger(value.user?.id)&&value.user.id>0&&typeof value.user.username==='string'&&modes.includes(value.mode)&&Number.isInteger(value.sampleCount)&&value.sampleCount>=0&&value.sampleCount<=200&&['top','months','mappers','artists'].every(key=>Array.isArray(value[key]));}
 const pause=(ms,signal)=>new Promise((resolve,reject)=>{if(signal?.aborted){reject(signal.reason);return;}const stop=()=>{clearTimeout(timer);reject(signal.reason);};const timer=setTimeout(()=>{signal?.removeEventListener('abort',stop);resolve();},ms);signal?.addEventListener('abort',stop,{once:true});});
@@ -9,6 +10,7 @@ export async function loadReview({url,queueClient=null,signal=null,fetchImpl=fet
  async function get(stage,selectedMode){const endpoint=new URL(url,'https://wrapped.invalid');endpoint.searchParams.set('stage',stage);if(queueClient)endpoint.searchParams.set('client',queueClient);if(selectedMode)endpoint.searchParams.set('mode',selectedMode);
   for(;;){
   const response=await fetchImpl(endpoint.pathname+endpoint.search,{cache:'no-store',signal:signal?AbortSignal.any([signal,AbortSignal.timeout(30000)]):AbortSignal.timeout(30000)});let body;try{body=await response.json();}catch{throw Error('Incomplete server response.');}
+  reportDatabaseStatus(response,body);
   if(response.status===202&&['queued','processing'].includes(body.queue?.status)){
    onQueue(body.queue.status);
    const phase=stage==='full'?'details':stage,seconds=Math.max(3,Math.min(30,Number(body.queue.retryAfter)||10));

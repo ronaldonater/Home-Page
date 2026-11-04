@@ -1,3 +1,4 @@
+import {databaseWarning} from './database-diagnostics.mjs';
 import {createSharedOsuFetch} from './shared-osu-cache.mjs';
 import {createHash} from 'node:crypto';
 import {imageBytes} from './hardening.mjs';
@@ -21,7 +22,7 @@ export function createOsuApi({lane='player',requireSharedBudget=false,fetchImpl=
    if(requireSharedBudget&&(!cfg.databaseUrl||now()<databaseRetryAt))throw Error('Shared API scheduling is unavailable; snapshot refresh paused.');
    if(cfg.databaseUrl&&now()>=databaseRetryAt){
     try{while(!(await query(cfg.databaseUrl,admission,[key,lane])).length){await sleep(1100,signal);signal?.throwIfAborted();}}
-    catch(error){if(signal?.aborted)throw error;databaseRetryAt=now()+60000;if(requireSharedBudget)throw Error('Shared API scheduling is unavailable; snapshot refresh paused.');}
+    catch(error){if(signal?.aborted)throw error;databaseWarning('shared API scheduling',error);databaseRetryAt=now()+60000;if(requireSharedBudget)throw Error('Shared API scheduling is unavailable; snapshot refresh paused.');}
    }
    signal?.throwIfAborted();next=now()+1100;
    const result=fetchImpl(url,options);release();release=null;

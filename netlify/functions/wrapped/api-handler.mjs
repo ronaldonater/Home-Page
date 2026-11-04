@@ -240,7 +240,7 @@ async function handleRequest(event,now){
   };
   let response;
   try{response=await generate();return response;}
-  finally{await reviewQueue.release(ticket,response?.statusCode===200?JSON.parse(response.body):null);}
+  finally{const saved=await reviewQueue.release(ticket,response?.statusCode===200?JSON.parse(response.body):null);if(response&&(ticket.status==='unavailable'||saved?.status==='unavailable'))response.headers={...response.headers,'X-Wrapped-Database-Status':'unavailable'};}
 
  }
  return json(404,{error:'Not found'});

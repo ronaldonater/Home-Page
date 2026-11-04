@@ -135,7 +135,9 @@ export async function createRecap(data,{layout='portrait'}={}){
   });
  };
  rankings('TOP 5 MAPPERS',data.mappers,64,mapperAvatars);rankings('TOP 5 ARTISTS',data.artists,612,artistAvatars);
- text('Ranked by selected score count, not yearly attempts. Artist images: TheAudioDB, with beatmap artwork as a fallback.',64,1820,17,muted,400,1072);
+ const artistCredit='Ranked by selected score count, not yearly attempts. Artist images: TheAudioDB, with beatmap artwork as a fallback. TheAudioDB images may not match the intended artist.';
+ let artistCreditSize=17;ctx.font=artistCreditSize+'px "Segoe UI", sans-serif';while(artistCreditSize>10&&ctx.measureText(artistCredit).width>1072){artistCreditSize-=.25;ctx.font=artistCreditSize+'px "Segoe UI", sans-serif';}
+ text(artistCredit,64,1820,artistCreditSize,muted,400,1072);
  box(64,1845,1072,128,'#282231');
  const medal=data.rarestMedal;if(medalArt){const scale=Math.min(96/medalArt.naturalWidth,96/medalArt.naturalHeight),width=medalArt.naturalWidth*scale,height=medalArt.naturalHeight*scale;ctx.drawImage(medalArt,84+(96-width)/2,1860+(96-height)/2,width,height);}
  const medalX=medalArt?200:88;

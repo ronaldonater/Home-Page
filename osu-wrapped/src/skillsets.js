@@ -31,7 +31,7 @@ export function skillsetMapCover(map){
 }
 export function skillsetMapsMarkup(row,mode='osu'){
  const maps=Array.isArray(row?.maps)?row.maps.filter(map=>Number.isSafeInteger(map.id)&&map.id>0):[];
- if(!maps.length)return '<p class="muted">Beatmap details are not included in this saved review. Newly generated reviews include their matching selected beatmaps.</p>';
+ if(!maps.length)return '<p class="muted">Beatmap details are not included in this saved review. Refresh your Wrapped to include the matching selected beatmaps.</p>';
  const ruleset=['osu','taiko','fruits','mania'].includes(mode)?mode:'osu';
  return '<ol class="skillset-map-list">'+maps.map(map=>{
   const href=Number.isSafeInteger(map.setId)&&map.setId>0?'https://osu.ppy.sh/beatmapsets/'+map.setId+'#'+ruleset+'/'+map.id:'https://osu.ppy.sh/beatmaps/'+map.id;
@@ -42,9 +42,13 @@ export function skillsetMapsMarkup(row,mode='osu'){
 export function openSkillsetMaps(data,tag){
  const row=data?.skillsets?.rows?.find(row=>row.tag===tag);if(!row||document.querySelector('.skillset-maps-dialog'))return;
  const panelTitle=({'skillset/jumps':'Jump','skillset/streams':'Stream'}[tag]||row.name)+' beatmaps';
+ return openSelectedMaps(data,row,panelTitle,'Your selected beatmap difficulties tagged '+tag+'.');
+}
+export function openSelectedMaps(data,row,panelTitle,description){
+ if(document.querySelector('.skillset-maps-dialog'))return;
  const focusBefore=document.activeElement,dialog=document.createElement('dialog');dialog.className='replay-dialog skillset-maps-dialog';dialog.setAttribute('aria-label',panelTitle);
  const header=document.createElement('div');header.className='replay-header';const title=document.createElement('h2');title.textContent=panelTitle;const close=document.createElement('button');close.type='button';close.textContent='Close ×';close.onclick=()=>dialog.close();header.append(title,close);
- const note=document.createElement('p');note.className='replay-note';note.textContent='Your selected beatmap difficulties tagged '+tag+'.';
+ const note=document.createElement('p');note.className='replay-note';note.textContent=description;
  const list=document.createElement('div');list.innerHTML=skillsetMapsMarkup(row,data.mode);
  list.querySelectorAll('.skillset-map-cover').forEach(img=>img.addEventListener('error',()=>img.remove(),{once:true}));
  dialog.append(header,note,list);document.body.append(dialog);dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});dialog.addEventListener('close',()=>{dialog.remove();if(focusBefore?.isConnected)focusBefore.focus();},{once:true});dialog.showModal();close.focus();

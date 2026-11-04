@@ -128,7 +128,9 @@ export async function createLandscapeRecap(data,assets){
    list.forEach((row,i)=>{const y=333+i*85;text(String(i+1).padStart(2,'0'),x+20,y+4,14,muted,600,27);profile(avatars[i],row.name,x+53,y-24,42);text(row.name,x+107,y+4,20,white,600,188);right(num(row.count),x+334,y+4,21,pink,700,30);if(i<4)line(x+20,y+39,314);});
   };
   rankings('TOP 5 MAPPERS',mappers,1600,mapperAvatars);rankings('TOP 5 ARTISTS',artists,1982,artistAvatars);
-  text('Ranked by selected score count, not yearly attempts.',1600,740,14,muted,400,736);text('Artist images: TheAudioDB, with beatmap artwork as a fallback.',1600,764,14,muted,400,736);
+  text('Ranked by selected score count, not yearly attempts.',1600,740,14,muted,400,736);const artistCredit='Artist images: TheAudioDB, with beatmap artwork as a fallback. TheAudioDB images may not match the intended artist.';
+  let artistCreditSize=14;ctx.font=artistCreditSize+'px "Segoe UI", sans-serif';while(artistCreditSize>10&&ctx.measureText(artistCredit).width>736){artistCreditSize-=.25;ctx.font=artistCreditSize+'px "Segoe UI", sans-serif';}
+  text(artistCredit,1600,764,artistCreditSize,muted,400,736);
   box(1600,808,736,178,'#282231');
   const medalData=data.rarestMedal;
   const medalLines=[

@@ -5,7 +5,7 @@ import {createSharedOsuFetch} from '../netlify/functions/wrapped/shared-osu-cach
 import {encryptReview,decryptReview} from '../netlify/functions/wrapped/review-storage.mjs';
 import {loadReview} from '../osu-wrapped/src/review-loader.js';
 const secret='test-queue-encryption-secret-at-least-32-characters',cfg={databaseUrl:'private',secret,clientId:123};
-const full={user:{id:42,username:'Player'},mode:'osu',sampleCount:1,top:[],months:[],mappers:[],artists:[],skillsets:{total:1,checked:1,rows:[]},loadingStatus:{complete:true}};
+const full={favoriteScoreMaps:{mappers:[],artists:[]},user:{id:42,username:'Player'},mode:'osu',sampleCount:1,top:[],months:[],mappers:[],artists:[],skillsets:{total:1,checked:1,rows:[]},loadingStatus:{complete:true}};
 
 test('queue identifies a user/mode without storing their identity or credentials and preserves completed reviews',async()=>{
  let params,status='active';const writes=[],writeSql=[];
@@ -72,7 +72,7 @@ test('authenticated API reports queue position or cached completion before doing
   try{
    apiBudget.query=async()=>[{}];reviewStorage.query=async()=>[];
    globalThis.fetch=async url=>Response.json(String(url).includes('/scores/best?')?(String(url).includes('offset=0')?[{id:88,pp:100,passed:true,accuracy:.99,ended_at:'2026-06-01',mods:[],beatmap:{id:9,mode:'osu'},beatmapset:{id:77}}]:[]):{id:42,username:'Player',playmode:'osu'});
-   reviewQueue.claim=async()=>({status:'unavailable'});const offline=await run();assert.equal(offline.statusCode,200);assert.equal(JSON.parse(offline.body).user.id,42);assert.equal(JSON.parse(offline.body).sampleCount,1);
+   reviewQueue.claim=async()=>({status:'unavailable'});const offline=await run();assert.equal(offline.statusCode,200);assert.equal(offline.headers['X-Wrapped-Database-Status'],'unavailable');assert.equal(JSON.parse(offline.body).user.id,42);assert.equal(JSON.parse(offline.body).sampleCount,1);
   }finally{apiBudget.query=oldBudget;reviewStorage.query=oldStorage;}
 
  }finally{reviewQueue.claim=oldClaim;globalThis.fetch=oldFetch;if(oldSecret===undefined)delete process.env.WRAPPED_SESSION_SECRET;else process.env.WRAPPED_SESSION_SECRET=oldSecret;if(oldDatabase===undefined)delete process.env.WRAPPED_DATABASE_URL;else process.env.WRAPPED_DATABASE_URL=oldDatabase;}

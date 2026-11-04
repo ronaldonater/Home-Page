@@ -2,6 +2,14 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.62 updates
+
+- Add TheAudioDB artist-image matching disclaimers to the stats attribution, FAQ, credits, artist slide, and portrait/landscape recap cards. Scale recap attribution text to fit a single line.
+- Expand the personal Top PP Plays scroll list to fill available panel height.
+- Add a once-per-page browser warning for unavailable Neon-backed features, plus sanitized server diagnostics for database fallback failures.
+- Make Favorite Mappers and Favorite Artists score counts open matching selected-beatmap panels with artwork, difficulty names, and difficulty-level mapper credits. Include full-sample map lists in saved reviews and offline demos.
+- Break tied mapper and artist counts by the highest associated PP play across selected scores, with the same ordering on stats, slides, recap cards, and demos.
+
 ## v1.1.61 updates
 
 - Defer recap preview generation until the outro animation finishes on all devices, and preload the closing music earlier.

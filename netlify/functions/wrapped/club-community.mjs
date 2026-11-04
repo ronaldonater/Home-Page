@@ -1,3 +1,4 @@
+import {databaseWarning} from './database-diagnostics.mjs';
 import {createHmac} from 'node:crypto';
 import {CLUBS} from '../../../osu-wrapped/src/clubs.js';
 export const CLUB_RULES_VERSION='2026-v29';
@@ -31,7 +32,7 @@ export function createClubCommunity({query=neonQuery,now=()=>Date.now()}={}){
    const total=valid.reduce((sum,row)=>sum+Number(row.count),0);
    const data=total<COMMUNITY_MINIMUM?{status:'collecting',minimum:COMMUNITY_MINIMUM}:{status:'ready',total,year:summary.year,mode:summary.mode,rulesVersion:CLUB_RULES_VERSION,updatedAt:new Date(now()).toISOString(),clubs:Object.keys(CLUBS).map(id=>{const count=Number(valid.find(row=>row.club_id===id)?.count||0);return {id,count,percentage:count/total*100};})};
    cache.set(key,{expires:now()+60000,data});return data;
-  }catch{retryAfter=now()+60000;return {status:'unavailable'};}
+  }catch(error){databaseWarning('playstyle club community',error);retryAfter=now()+60000;return {status:'unavailable'};}
  };
 }
 export const recordClubCommunity=createClubCommunity();

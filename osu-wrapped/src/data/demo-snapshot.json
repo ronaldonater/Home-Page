@@ -1049,6 +1049,16 @@
       ],
       "mappers": [
         {
+          "name": "VINXIS",
+          "count": 8,
+          "userId": 4323406
+        },
+        {
+          "name": "Sotarks",
+          "count": 8,
+          "userId": 4452992
+        },
+        {
           "name": "Doormat",
           "count": 8,
           "userId": 3230571
@@ -1059,29 +1069,9 @@
           "userId": 6203841
         },
         {
-          "name": "Sotarks",
-          "count": 8,
-          "userId": 4452992
-        },
-        {
-          "name": "VINXIS",
-          "count": 8,
-          "userId": 4323406
-        },
-        {
           "name": "W h i t e",
           "count": 8,
           "userId": 685229
-        },
-        {
-          "name": "Alphabet",
-          "count": 7,
-          "userId": 4879380
-        },
-        {
-          "name": "Ekoro",
-          "count": 7,
-          "userId": 284905
         },
         {
           "name": "Fort",
@@ -1089,23 +1079,33 @@
           "userId": 2805457
         },
         {
-          "name": "Log Off Now",
+          "name": "Ekoro",
           "count": 7,
-          "userId": 4378277
+          "userId": 284905
         },
         {
           "name": "Monstrata",
           "count": 7,
           "userId": 2706438
+        },
+        {
+          "name": "Log Off Now",
+          "count": 7,
+          "userId": 4378277
+        },
+        {
+          "name": "Alphabet",
+          "count": 7,
+          "userId": 4879380
         }
       ],
       "artists": [
         {
-          "name": "ClariS",
+          "name": "Reol",
           "count": 8,
-          "previewUrl": "https://b.ppy.sh/preview/596704.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/596704/covers/cover@2x.jpg?1650648964",
-          "demoImage": "https://assets.ppy.sh/beatmaps/596704/covers/cover@2x.jpg?1650648964"
+          "previewUrl": "https://b.ppy.sh/preview/320118.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/320118/covers/cover@2x.jpg?1650632079",
+          "demoImage": "https://assets.ppy.sh/beatmaps/320118/covers/cover@2x.jpg?1650632079"
         },
         {
           "name": "Icon For Hire",
@@ -1113,6 +1113,13 @@
           "previewUrl": "https://b.ppy.sh/preview/765778.mp3",
           "cover": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123",
           "demoImage": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123"
+        },
+        {
+          "name": "ClariS",
+          "count": 8,
+          "previewUrl": "https://b.ppy.sh/preview/596704.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/596704/covers/cover@2x.jpg?1650648964",
+          "demoImage": "https://assets.ppy.sh/beatmaps/596704/covers/cover@2x.jpg?1650648964"
         },
         {
           "name": "KANA-BOON",
@@ -1129,18 +1136,18 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/163112/covers/cover@2x.jpg?1631509131"
         },
         {
-          "name": "Reol",
-          "count": 8,
-          "previewUrl": "https://b.ppy.sh/preview/320118.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/320118/covers/cover@2x.jpg?1650632079",
-          "demoImage": "https://assets.ppy.sh/beatmaps/320118/covers/cover@2x.jpg?1650632079"
+          "name": "Panda Eyes & Teminite",
+          "count": 7,
+          "previewUrl": "https://b.ppy.sh/preview/332532.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844",
+          "demoImage": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844"
         },
         {
-          "name": "Brad Breeck",
+          "name": "UNDEAD CORPORATION",
           "count": 7,
-          "previewUrl": "https://b.ppy.sh/preview/527431.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302",
-          "demoImage": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302"
+          "previewUrl": "https://b.ppy.sh/preview/158023.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/158023/covers/cover@2x.jpg?1645787427",
+          "demoImage": "https://assets.ppy.sh/beatmaps/158023/covers/cover@2x.jpg?1645787427"
         },
         {
           "name": "Linked Horizon",
@@ -1157,18 +1164,11 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/952409/covers/cover@2x.jpg?1645787548"
         },
         {
-          "name": "Panda Eyes & Teminite",
+          "name": "Brad Breeck",
           "count": 7,
-          "previewUrl": "https://b.ppy.sh/preview/332532.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844",
-          "demoImage": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844"
-        },
-        {
-          "name": "UNDEAD CORPORATION",
-          "count": 7,
-          "previewUrl": "https://b.ppy.sh/preview/158023.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/158023/covers/cover@2x.jpg?1645787427",
-          "demoImage": "https://assets.ppy.sh/beatmaps/158023/covers/cover@2x.jpg?1645787427"
+          "previewUrl": "https://b.ppy.sh/preview/527431.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302",
+          "demoImage": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302"
         }
       ],
       "sampleCount": 75,
@@ -2243,6 +2243,232 @@
         "artists": 10,
         "beatmaps": 10,
         "mapsets": 10
+      },
+      "favoriteScoreMaps": {
+        "mappers": [
+          [
+            {
+              "id": 714001,
+              "setId": 320118,
+              "title": "No title",
+              "artist": "Reol",
+              "creator": "VINXIS",
+              "version": "jieusieu's Lemur",
+              "cover": "https://assets.ppy.sh/beatmaps/320118/covers/cover@2x.jpg?1650632079"
+            }
+          ],
+          [
+            {
+              "id": 1627148,
+              "setId": 765778,
+              "title": "Make a Move (Speed Up Ver.)",
+              "artist": "Icon For Hire",
+              "creator": "Sotarks",
+              "version": "Endless Fear",
+              "cover": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123"
+            }
+          ],
+          [
+            {
+              "id": 1262832,
+              "setId": 596704,
+              "title": "Hitorigoto -TV MIX-",
+              "artist": "ClariS",
+              "creator": "Doormat",
+              "version": "Soliloquy",
+              "cover": "https://assets.ppy.sh/beatmaps/596704/covers/cover@2x.jpg?1650648964"
+            }
+          ],
+          [
+            {
+              "id": 869197,
+              "setId": 399358,
+              "title": "Silhouette",
+              "artist": "KANA-BOON",
+              "creator": "Kagetsu",
+              "version": "Kage",
+              "cover": "https://assets.ppy.sh/beatmaps/399358/covers/cover@2x.jpg?1650636640"
+            }
+          ],
+          [
+            {
+              "id": 397535,
+              "setId": 163112,
+              "title": "My Love",
+              "artist": "Kuba Oms",
+              "creator": "W h i t e",
+              "version": "Insane",
+              "cover": "https://assets.ppy.sh/beatmaps/163112/covers/cover@2x.jpg?1631509131"
+            }
+          ],
+          [
+            {
+              "id": 736215,
+              "setId": 332532,
+              "title": "Highscore",
+              "artist": "Panda Eyes & Teminite",
+              "creator": "Fort",
+              "version": "Game Over",
+              "cover": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844"
+            }
+          ],
+          [
+            {
+              "id": 555797,
+              "setId": 158023,
+              "title": "Everything will freeze",
+              "artist": "UNDEAD CORPORATION",
+              "creator": "Ekoro",
+              "version": "Time Freeze",
+              "cover": "https://assets.ppy.sh/beatmaps/158023/covers/cover@2x.jpg?1645787427"
+            }
+          ],
+          [
+            {
+              "id": 1255789,
+              "setId": 593620,
+              "title": "Shinzou o Sasageyo! [TV Size]",
+              "artist": "Linked Horizon",
+              "creator": "Monstrata",
+              "version": "Titan",
+              "cover": "https://assets.ppy.sh/beatmaps/593620/covers/cover@2x.jpg?1650648613"
+            }
+          ],
+          [
+            {
+              "id": 1988753,
+              "setId": 952409,
+              "title": "Ai no Sukima",
+              "artist": "MIMI feat. Hatsune Miku",
+              "creator": "Log Off Now",
+              "version": "Radiance",
+              "cover": "https://assets.ppy.sh/beatmaps/952409/covers/cover@2x.jpg?1645787548"
+            }
+          ],
+          [
+            {
+              "id": 1119026,
+              "setId": 527431,
+              "title": "Gravity Falls Theme Song",
+              "artist": "Brad Breeck",
+              "creator": "Alphabet",
+              "version": "Mystery",
+              "cover": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302"
+            }
+          ]
+        ],
+        "artists": [
+          [
+            {
+              "id": 714001,
+              "setId": 320118,
+              "title": "No title",
+              "artist": "Reol",
+              "creator": "VINXIS",
+              "version": "jieusieu's Lemur",
+              "cover": "https://assets.ppy.sh/beatmaps/320118/covers/cover@2x.jpg?1650632079"
+            }
+          ],
+          [
+            {
+              "id": 1627148,
+              "setId": 765778,
+              "title": "Make a Move (Speed Up Ver.)",
+              "artist": "Icon For Hire",
+              "creator": "Sotarks",
+              "version": "Endless Fear",
+              "cover": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123"
+            }
+          ],
+          [
+            {
+              "id": 1262832,
+              "setId": 596704,
+              "title": "Hitorigoto -TV MIX-",
+              "artist": "ClariS",
+              "creator": "Doormat",
+              "version": "Soliloquy",
+              "cover": "https://assets.ppy.sh/beatmaps/596704/covers/cover@2x.jpg?1650648964"
+            }
+          ],
+          [
+            {
+              "id": 869197,
+              "setId": 399358,
+              "title": "Silhouette",
+              "artist": "KANA-BOON",
+              "creator": "Kagetsu",
+              "version": "Kage",
+              "cover": "https://assets.ppy.sh/beatmaps/399358/covers/cover@2x.jpg?1650636640"
+            }
+          ],
+          [
+            {
+              "id": 397535,
+              "setId": 163112,
+              "title": "My Love",
+              "artist": "Kuba Oms",
+              "creator": "W h i t e",
+              "version": "Insane",
+              "cover": "https://assets.ppy.sh/beatmaps/163112/covers/cover@2x.jpg?1631509131"
+            }
+          ],
+          [
+            {
+              "id": 736215,
+              "setId": 332532,
+              "title": "Highscore",
+              "artist": "Panda Eyes & Teminite",
+              "creator": "Fort",
+              "version": "Game Over",
+              "cover": "https://assets.ppy.sh/beatmaps/332532/covers/cover@2x.jpg?1650631844"
+            }
+          ],
+          [
+            {
+              "id": 555797,
+              "setId": 158023,
+              "title": "Everything will freeze",
+              "artist": "UNDEAD CORPORATION",
+              "creator": "Ekoro",
+              "version": "Time Freeze",
+              "cover": "https://assets.ppy.sh/beatmaps/158023/covers/cover@2x.jpg?1645787427"
+            }
+          ],
+          [
+            {
+              "id": 1255789,
+              "setId": 593620,
+              "title": "Shinzou o Sasageyo! [TV Size]",
+              "artist": "Linked Horizon",
+              "creator": "Monstrata",
+              "version": "Titan",
+              "cover": "https://assets.ppy.sh/beatmaps/593620/covers/cover@2x.jpg?1650648613"
+            }
+          ],
+          [
+            {
+              "id": 1988753,
+              "setId": 952409,
+              "title": "Ai no Sukima",
+              "artist": "MIMI feat. Hatsune Miku",
+              "creator": "Log Off Now",
+              "version": "Radiance",
+              "cover": "https://assets.ppy.sh/beatmaps/952409/covers/cover@2x.jpg?1645787548"
+            }
+          ],
+          [
+            {
+              "id": 1119026,
+              "setId": 527431,
+              "title": "Gravity Falls Theme Song",
+              "artist": "Brad Breeck",
+              "creator": "Alphabet",
+              "version": "Mystery",
+              "cover": "https://assets.ppy.sh/beatmaps/527431/covers/cover@2x.jpg?1645788302"
+            }
+          ]
+        ]
       }
     },
     "taiko": {
@@ -3013,14 +3239,9 @@
       ],
       "mappers": [
         {
-          "name": "Chromoxx",
+          "name": "Sotarks",
           "count": 8,
-          "userId": 1881639
-        },
-        {
-          "name": "Kuria",
-          "count": 8,
-          "userId": 870067
+          "userId": 4452992
         },
         {
           "name": "Monstrata",
@@ -3028,14 +3249,24 @@
           "userId": 2706438
         },
         {
+          "name": "Kuria",
+          "count": 8,
+          "userId": 870067
+        },
+        {
+          "name": "Chromoxx",
+          "count": 8,
+          "userId": 1881639
+        },
+        {
           "name": "Multiple Creators",
           "count": 8,
           "userId": 3
         },
         {
-          "name": "Sotarks",
-          "count": 8,
-          "userId": 4452992
+          "name": "Natsu",
+          "count": 7,
+          "userId": 1953876
         },
         {
           "name": "arien666",
@@ -3053,17 +3284,19 @@
           "userId": 244216
         },
         {
-          "name": "Natsu",
-          "count": 7,
-          "userId": 1953876
-        },
-        {
           "name": "ouranhshc",
           "count": 7,
           "userId": 139493
         }
       ],
       "artists": [
+        {
+          "name": "Will Stetson",
+          "count": 8,
+          "previewUrl": "https://b.ppy.sh/preview/842412.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/842412/covers/cover@2x.jpg?1650668705",
+          "demoImage": "https://assets.ppy.sh/beatmaps/842412/covers/cover@2x.jpg?1650668705"
+        },
         {
           "name": "Elmo and Cookie Monster",
           "count": 8,
@@ -3079,13 +3312,6 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/87630/covers/cover@2x.jpg?1650616252"
         },
         {
-          "name": "Soleily",
-          "count": 8,
-          "previewUrl": "https://b.ppy.sh/preview/241526.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332",
-          "demoImage": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
-        },
-        {
           "name": "Unknown Artist",
           "count": 8,
           "previewUrl": "https://b.ppy.sh/preview/705423.mp3",
@@ -3093,11 +3319,11 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/705423/covers/cover@2x.jpg?1645788448"
         },
         {
-          "name": "Will Stetson",
+          "name": "Soleily",
           "count": 8,
-          "previewUrl": "https://b.ppy.sh/preview/842412.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/842412/covers/cover@2x.jpg?1650668705",
-          "demoImage": "https://assets.ppy.sh/beatmaps/842412/covers/cover@2x.jpg?1650668705"
+          "previewUrl": "https://b.ppy.sh/preview/241526.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332",
+          "demoImage": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
         },
         {
           "name": "Hanatan",
@@ -3114,13 +3340,6 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/12431/covers/cover@2x.jpg?1650603408"
         },
         {
-          "name": "Masayoshi Minoshima feat. nomico",
-          "count": 7,
-          "previewUrl": "https://b.ppy.sh/preview/18260.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/18260/covers/cover@2x.jpg?1622037998",
-          "demoImage": "https://assets.ppy.sh/beatmaps/18260/covers/cover@2x.jpg?1622037998"
-        },
-        {
           "name": "Ni-Sokkususu",
           "count": 7,
           "previewUrl": "https://b.ppy.sh/preview/372851.mp3",
@@ -3133,6 +3352,13 @@
           "previewUrl": "https://b.ppy.sh/preview/53857.mp3",
           "cover": "https://assets.ppy.sh/beatmaps/53857/covers/cover@2x.jpg?1650613297",
           "demoImage": "https://assets.ppy.sh/beatmaps/53857/covers/cover@2x.jpg?1650613297"
+        },
+        {
+          "name": "Masayoshi Minoshima feat. nomico",
+          "count": 7,
+          "previewUrl": "https://b.ppy.sh/preview/18260.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/18260/covers/cover@2x.jpg?1622037998",
+          "demoImage": "https://assets.ppy.sh/beatmaps/18260/covers/cover@2x.jpg?1622037998"
         }
       ],
       "sampleCount": 75,
@@ -4207,6 +4433,232 @@
         "artists": 10,
         "beatmaps": 10,
         "mapsets": 10
+      },
+      "favoriteScoreMaps": {
+        "mappers": [
+          [
+            {
+              "id": 1763479,
+              "setId": 842412,
+              "title": "Harumachi Clover (Swing Arrangement) [Dictate Edit]",
+              "artist": "Will Stetson",
+              "creator": "Sotarks",
+              "version": "Ayyri's Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/842412/covers/cover@2x.jpg?1650668705"
+            }
+          ],
+          [
+            {
+              "id": 1205930,
+              "setId": 542081,
+              "title": "Cookie-Butter-Choco-Cookie",
+              "artist": "Elmo and Cookie Monster",
+              "creator": "Monstrata",
+              "version": "Ozzy's Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/542081/covers/cover@2x.jpg?1650647147"
+            }
+          ],
+          [
+            {
+              "id": 240260,
+              "setId": 87630,
+              "title": "Guren no Yumiya (TV Size)",
+              "artist": "Linked Horizon",
+              "creator": "Kuria",
+              "version": "qoot8123's Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/87630/covers/cover@2x.jpg?1650616252"
+            }
+          ],
+          [
+            {
+              "id": 1492016,
+              "setId": 705423,
+              "title": "Miniministop Hitoyasumi no Uta[Mokuyoubi]Gakusei no Uta",
+              "artist": "Unknown Artist",
+              "creator": "Chromoxx",
+              "version": "Chromstrata's Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/705423/covers/cover@2x.jpg?1645788448"
+            }
+          ],
+          [
+            {
+              "id": 557818,
+              "setId": 241526,
+              "title": "Renatus",
+              "artist": "Soleily",
+              "creator": "Multiple Creators",
+              "version": "Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+            }
+          ],
+          [
+            {
+              "id": 365129,
+              "setId": 134151,
+              "title": "Airman ga Taosenai (SOUND HOLIC Ver.)",
+              "artist": "Hanatan",
+              "creator": "Natsu",
+              "version": "aabc's Taiko Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
+            }
+          ],
+          [
+            {
+              "id": 46805,
+              "setId": 12431,
+              "title": "Blue Bird (TV Size)",
+              "artist": "Ikimono Gakari",
+              "creator": "arien666",
+              "version": "lepido's Taiko Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/12431/covers/cover@2x.jpg?1650603408"
+            }
+          ],
+          [
+            {
+              "id": 819316,
+              "setId": 372851,
+              "title": "Blade Dance",
+              "artist": "Ni-Sokkususu",
+              "creator": "Bearizm",
+              "version": "Nardo's Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/372851/covers/cover@2x.jpg?1650634157"
+            }
+          ],
+          [
+            {
+              "id": 173361,
+              "setId": 53857,
+              "title": "Remote Control",
+              "artist": "Saiya",
+              "creator": "Garven",
+              "version": "inaba's Taiko Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/53857/covers/cover@2x.jpg?1650613297"
+            }
+          ],
+          [
+            {
+              "id": 65313,
+              "setId": 18260,
+              "title": "Bad Apple!!",
+              "artist": "Masayoshi Minoshima feat. nomico",
+              "creator": "ouranhshc",
+              "version": "lepidon! - Taiko Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/18260/covers/cover@2x.jpg?1622037998"
+            }
+          ]
+        ],
+        "artists": [
+          [
+            {
+              "id": 1763479,
+              "setId": 842412,
+              "title": "Harumachi Clover (Swing Arrangement) [Dictate Edit]",
+              "artist": "Will Stetson",
+              "creator": "Sotarks",
+              "version": "Ayyri's Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/842412/covers/cover@2x.jpg?1650668705"
+            }
+          ],
+          [
+            {
+              "id": 1205930,
+              "setId": 542081,
+              "title": "Cookie-Butter-Choco-Cookie",
+              "artist": "Elmo and Cookie Monster",
+              "creator": "Monstrata",
+              "version": "Ozzy's Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/542081/covers/cover@2x.jpg?1650647147"
+            }
+          ],
+          [
+            {
+              "id": 240260,
+              "setId": 87630,
+              "title": "Guren no Yumiya (TV Size)",
+              "artist": "Linked Horizon",
+              "creator": "Kuria",
+              "version": "qoot8123's Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/87630/covers/cover@2x.jpg?1650616252"
+            }
+          ],
+          [
+            {
+              "id": 1492016,
+              "setId": 705423,
+              "title": "Miniministop Hitoyasumi no Uta[Mokuyoubi]Gakusei no Uta",
+              "artist": "Unknown Artist",
+              "creator": "Chromoxx",
+              "version": "Chromstrata's Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/705423/covers/cover@2x.jpg?1645788448"
+            }
+          ],
+          [
+            {
+              "id": 557818,
+              "setId": 241526,
+              "title": "Renatus",
+              "artist": "Soleily",
+              "creator": "Multiple Creators",
+              "version": "Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+            }
+          ],
+          [
+            {
+              "id": 365129,
+              "setId": 134151,
+              "title": "Airman ga Taosenai (SOUND HOLIC Ver.)",
+              "artist": "Hanatan",
+              "creator": "Natsu",
+              "version": "aabc's Taiko Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
+            }
+          ],
+          [
+            {
+              "id": 46805,
+              "setId": 12431,
+              "title": "Blue Bird (TV Size)",
+              "artist": "Ikimono Gakari",
+              "creator": "arien666",
+              "version": "lepido's Taiko Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/12431/covers/cover@2x.jpg?1650603408"
+            }
+          ],
+          [
+            {
+              "id": 819316,
+              "setId": 372851,
+              "title": "Blade Dance",
+              "artist": "Ni-Sokkususu",
+              "creator": "Bearizm",
+              "version": "Nardo's Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/372851/covers/cover@2x.jpg?1650634157"
+            }
+          ],
+          [
+            {
+              "id": 173361,
+              "setId": 53857,
+              "title": "Remote Control",
+              "artist": "Saiya",
+              "creator": "Garven",
+              "version": "inaba's Taiko Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/53857/covers/cover@2x.jpg?1650613297"
+            }
+          ],
+          [
+            {
+              "id": 65313,
+              "setId": 18260,
+              "title": "Bad Apple!!",
+              "artist": "Masayoshi Minoshima feat. nomico",
+              "creator": "ouranhshc",
+              "version": "lepidon! - Taiko Oni",
+              "cover": "https://assets.ppy.sh/beatmaps/18260/covers/cover@2x.jpg?1622037998"
+            }
+          ]
+        ]
       }
     },
     "fruits": {
@@ -4968,9 +5420,9 @@
       ],
       "mappers": [
         {
-          "name": "Hobbes2",
+          "name": "Sotarks",
           "count": 8,
-          "userId": 8157492
+          "userId": 4452992
         },
         {
           "name": "Monstrata",
@@ -4988,9 +5440,9 @@
           "userId": 1953876
         },
         {
-          "name": "Sotarks",
+          "name": "Hobbes2",
           "count": 8,
-          "userId": 4452992
+          "userId": 8157492
         },
         {
           "name": "Crystal",
@@ -4998,9 +5450,9 @@
           "userId": 1646397
         },
         {
-          "name": "eiri-",
+          "name": "Nhawak",
           "count": 7,
-          "userId": 3388410
+          "userId": 1572385
         },
         {
           "name": "Fatfan Kolek",
@@ -5008,9 +5460,9 @@
           "userId": 2308676
         },
         {
-          "name": "Nhawak",
+          "name": "eiri-",
           "count": 7,
-          "userId": 1572385
+          "userId": 3388410
         },
         {
           "name": "nold_1702",
@@ -5020,11 +5472,11 @@
       ],
       "artists": [
         {
-          "name": "dark cat",
+          "name": "Icon For Hire",
           "count": 8,
-          "previewUrl": "https://b.ppy.sh/preview/769917.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/769917/covers/cover@2x.jpg?1650663270",
-          "demoImage": "https://assets.ppy.sh/beatmaps/769917/covers/cover@2x.jpg?1650663270"
+          "previewUrl": "https://b.ppy.sh/preview/765778.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123",
+          "demoImage": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123"
         },
         {
           "name": "Elmo and Cookie Monster",
@@ -5034,6 +5486,13 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/542081/covers/cover@2x.jpg?1650647147"
         },
         {
+          "name": "Soleily",
+          "count": 8,
+          "previewUrl": "https://b.ppy.sh/preview/241526.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332",
+          "demoImage": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+        },
+        {
           "name": "Hanatan",
           "count": 8,
           "previewUrl": "https://b.ppy.sh/preview/134151.mp3",
@@ -5041,18 +5500,11 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
         },
         {
-          "name": "Icon For Hire",
+          "name": "dark cat",
           "count": 8,
-          "previewUrl": "https://b.ppy.sh/preview/765778.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123",
-          "demoImage": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123"
-        },
-        {
-          "name": "Soleily",
-          "count": 8,
-          "previewUrl": "https://b.ppy.sh/preview/241526.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332",
-          "demoImage": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+          "previewUrl": "https://b.ppy.sh/preview/769917.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/769917/covers/cover@2x.jpg?1650663270",
+          "demoImage": "https://assets.ppy.sh/beatmaps/769917/covers/cover@2x.jpg?1650663270"
         },
         {
           "name": "Doma Umaru [CV.Tanaka Aimi]",
@@ -5062,18 +5514,18 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573"
         },
         {
+          "name": "yes we cant",
+          "count": 7,
+          "previewUrl": "https://b.ppy.sh/preview/295480.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/295480/covers/cover@2x.jpg?1650630064",
+          "demoImage": "https://assets.ppy.sh/beatmaps/295480/covers/cover@2x.jpg?1650630064"
+        },
+        {
           "name": "Lite Show Magic (t+pazolite vs C-Show)",
           "count": 7,
           "previewUrl": "https://b.ppy.sh/preview/139525.mp3",
           "cover": "https://assets.ppy.sh/beatmaps/139525/covers/cover@2x.jpg?1650630208",
           "demoImage": "https://assets.ppy.sh/beatmaps/139525/covers/cover@2x.jpg?1650630208"
-        },
-        {
-          "name": "Meg & Dia",
-          "count": 7,
-          "previewUrl": "https://b.ppy.sh/preview/157896.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904",
-          "demoImage": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904"
         },
         {
           "name": "Sporty-O",
@@ -5083,11 +5535,11 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/788905/covers/cover@2x.jpg?1650664492"
         },
         {
-          "name": "yes we cant",
+          "name": "Meg & Dia",
           "count": 7,
-          "previewUrl": "https://b.ppy.sh/preview/295480.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/295480/covers/cover@2x.jpg?1650630064",
-          "demoImage": "https://assets.ppy.sh/beatmaps/295480/covers/cover@2x.jpg?1650630064"
+          "previewUrl": "https://b.ppy.sh/preview/157896.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904",
+          "demoImage": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904"
         }
       ],
       "sampleCount": 75,
@@ -6162,6 +6614,232 @@
         "artists": 10,
         "beatmaps": 10,
         "mapsets": 10
+      },
+      "favoriteScoreMaps": {
+        "mappers": [
+          [
+            {
+              "id": 1612604,
+              "setId": 765778,
+              "title": "Make a Move (Speed Up Ver.)",
+              "artist": "Icon For Hire",
+              "creator": "Sotarks",
+              "version": "Ascendance's Overdose",
+              "cover": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123"
+            }
+          ],
+          [
+            {
+              "id": 1207082,
+              "setId": 542081,
+              "title": "Cookie-Butter-Choco-Cookie",
+              "artist": "Elmo and Cookie Monster",
+              "creator": "Monstrata",
+              "version": "Ascendance's Rain",
+              "cover": "https://assets.ppy.sh/beatmaps/542081/covers/cover@2x.jpg?1650647147"
+            }
+          ],
+          [
+            {
+              "id": 557811,
+              "setId": 241526,
+              "title": "Renatus",
+              "artist": "Soleily",
+              "creator": "Multiple Creators",
+              "version": "Rain",
+              "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+            }
+          ],
+          [
+            {
+              "id": 341072,
+              "setId": 134151,
+              "title": "Airman ga Taosenai (SOUND HOLIC Ver.)",
+              "artist": "Hanatan",
+              "creator": "Natsu",
+              "version": "Zero's Overdose",
+              "cover": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
+            }
+          ],
+          [
+            {
+              "id": 1628559,
+              "setId": 769917,
+              "title": "BUBBLE TEA (feat. juu & cinders)",
+              "artist": "dark cat",
+              "creator": "Hobbes2",
+              "version": "Ascendance's Rain",
+              "cover": "https://assets.ppy.sh/beatmaps/769917/covers/cover@2x.jpg?1650663270"
+            }
+          ],
+          [
+            {
+              "id": 773257,
+              "setId": 332623,
+              "title": "Kakushinteki*Metamaruphose!",
+              "artist": "Doma Umaru [CV.Tanaka Aimi]",
+              "creator": "Crystal",
+              "version": "CrystalSeed's UmaruDosE!!",
+              "cover": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573"
+            }
+          ],
+          [
+            {
+              "id": 710863,
+              "setId": 295480,
+              "title": "wh",
+              "artist": "yes we cant",
+              "creator": "Nhawak",
+              "version": "Spec's Overdose",
+              "cover": "https://assets.ppy.sh/beatmaps/295480/covers/cover@2x.jpg?1650630064"
+            }
+          ],
+          [
+            {
+              "id": 481938,
+              "setId": 139525,
+              "title": "Crack Traxxxx",
+              "artist": "Lite Show Magic (t+pazolite vs C-Show)",
+              "creator": "Fatfan Kolek",
+              "version": "Spec's Hi-Speed Overdose",
+              "cover": "https://assets.ppy.sh/beatmaps/139525/covers/cover@2x.jpg?1650630208"
+            }
+          ],
+          [
+            {
+              "id": 1656676,
+              "setId": 788905,
+              "title": "Let Me Hit It (Audiostalkers Original Mix)",
+              "artist": "Sporty-O",
+              "creator": "eiri-",
+              "version": "Benny's Rain",
+              "cover": "https://assets.ppy.sh/beatmaps/788905/covers/cover@2x.jpg?1650664492"
+            }
+          ],
+          [
+            {
+              "id": 393174,
+              "setId": 157896,
+              "title": "Monster (DotEXE Remix)",
+              "artist": "Meg & Dia",
+              "creator": "nold_1702",
+              "version": "ursa's OverdoZe",
+              "cover": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904"
+            }
+          ]
+        ],
+        "artists": [
+          [
+            {
+              "id": 1612604,
+              "setId": 765778,
+              "title": "Make a Move (Speed Up Ver.)",
+              "artist": "Icon For Hire",
+              "creator": "Sotarks",
+              "version": "Ascendance's Overdose",
+              "cover": "https://assets.ppy.sh/beatmaps/765778/covers/cover@2x.jpg?1650663123"
+            }
+          ],
+          [
+            {
+              "id": 1207082,
+              "setId": 542081,
+              "title": "Cookie-Butter-Choco-Cookie",
+              "artist": "Elmo and Cookie Monster",
+              "creator": "Monstrata",
+              "version": "Ascendance's Rain",
+              "cover": "https://assets.ppy.sh/beatmaps/542081/covers/cover@2x.jpg?1650647147"
+            }
+          ],
+          [
+            {
+              "id": 557811,
+              "setId": 241526,
+              "title": "Renatus",
+              "artist": "Soleily",
+              "creator": "Multiple Creators",
+              "version": "Rain",
+              "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+            }
+          ],
+          [
+            {
+              "id": 341072,
+              "setId": 134151,
+              "title": "Airman ga Taosenai (SOUND HOLIC Ver.)",
+              "artist": "Hanatan",
+              "creator": "Natsu",
+              "version": "Zero's Overdose",
+              "cover": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
+            }
+          ],
+          [
+            {
+              "id": 1628559,
+              "setId": 769917,
+              "title": "BUBBLE TEA (feat. juu & cinders)",
+              "artist": "dark cat",
+              "creator": "Hobbes2",
+              "version": "Ascendance's Rain",
+              "cover": "https://assets.ppy.sh/beatmaps/769917/covers/cover@2x.jpg?1650663270"
+            }
+          ],
+          [
+            {
+              "id": 773257,
+              "setId": 332623,
+              "title": "Kakushinteki*Metamaruphose!",
+              "artist": "Doma Umaru [CV.Tanaka Aimi]",
+              "creator": "Crystal",
+              "version": "CrystalSeed's UmaruDosE!!",
+              "cover": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573"
+            }
+          ],
+          [
+            {
+              "id": 710863,
+              "setId": 295480,
+              "title": "wh",
+              "artist": "yes we cant",
+              "creator": "Nhawak",
+              "version": "Spec's Overdose",
+              "cover": "https://assets.ppy.sh/beatmaps/295480/covers/cover@2x.jpg?1650630064"
+            }
+          ],
+          [
+            {
+              "id": 481938,
+              "setId": 139525,
+              "title": "Crack Traxxxx",
+              "artist": "Lite Show Magic (t+pazolite vs C-Show)",
+              "creator": "Fatfan Kolek",
+              "version": "Spec's Hi-Speed Overdose",
+              "cover": "https://assets.ppy.sh/beatmaps/139525/covers/cover@2x.jpg?1650630208"
+            }
+          ],
+          [
+            {
+              "id": 1656676,
+              "setId": 788905,
+              "title": "Let Me Hit It (Audiostalkers Original Mix)",
+              "artist": "Sporty-O",
+              "creator": "eiri-",
+              "version": "Benny's Rain",
+              "cover": "https://assets.ppy.sh/beatmaps/788905/covers/cover@2x.jpg?1650664492"
+            }
+          ],
+          [
+            {
+              "id": 393174,
+              "setId": 157896,
+              "title": "Monster (DotEXE Remix)",
+              "artist": "Meg & Dia",
+              "creator": "nold_1702",
+              "version": "ursa's OverdoZe",
+              "cover": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904"
+            }
+          ]
+        ]
       }
     },
     "mania": {
@@ -7015,19 +7693,9 @@
       ],
       "mappers": [
         {
-          "name": "Crystal",
-          "count": 8,
-          "userId": 1646397
-        },
-        {
           "name": "Multiple Creators",
           "count": 8,
           "userId": 3
-        },
-        {
-          "name": "Narcissu",
-          "count": 8,
-          "userId": 1826598
         },
         {
           "name": "Natsu",
@@ -7040,6 +7708,26 @@
           "userId": 1388767
         },
         {
+          "name": "Narcissu",
+          "count": 8,
+          "userId": 1826598
+        },
+        {
+          "name": "Crystal",
+          "count": 8,
+          "userId": 1646397
+        },
+        {
+          "name": "Tsukuyomi",
+          "count": 7,
+          "userId": 1867171
+        },
+        {
+          "name": "nold_1702",
+          "count": 7,
+          "userId": 515967
+        },
+        {
           "name": "Desperate-kun",
           "count": 7,
           "userId": 2202645
@@ -7050,22 +7738,26 @@
           "userId": 5572371
         },
         {
-          "name": "nold_1702",
-          "count": 7,
-          "userId": 515967
-        },
-        {
           "name": "pishifat",
           "count": 7,
           "userId": 3178418
-        },
-        {
-          "name": "Tsukuyomi",
-          "count": 7,
-          "userId": 1867171
         }
       ],
       "artists": [
+        {
+          "name": "Soleily",
+          "count": 8,
+          "previewUrl": "https://b.ppy.sh/preview/241526.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332",
+          "demoImage": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+        },
+        {
+          "name": "Hanatan",
+          "count": 8,
+          "previewUrl": "https://b.ppy.sh/preview/134151.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307",
+          "demoImage": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
+        },
         {
           "name": "antiPLUR",
           "count": 8,
@@ -7088,18 +7780,11 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573"
         },
         {
-          "name": "Hanatan",
-          "count": 8,
-          "previewUrl": "https://b.ppy.sh/preview/134151.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307",
-          "demoImage": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
-        },
-        {
-          "name": "Soleily",
-          "count": 8,
-          "previewUrl": "https://b.ppy.sh/preview/241526.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332",
-          "demoImage": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+          "name": "MYTH & ROID",
+          "count": 7,
+          "previewUrl": "https://b.ppy.sh/preview/444632.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/444632/covers/cover@2x.jpg?1650639095",
+          "demoImage": "https://assets.ppy.sh/beatmaps/444632/covers/cover@2x.jpg?1650639095"
         },
         {
           "name": "Meg & Dia",
@@ -7109,11 +7794,11 @@
           "demoImage": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904"
         },
         {
-          "name": "MYTH & ROID",
+          "name": "TK from Ling tosite sigure",
           "count": 7,
-          "previewUrl": "https://b.ppy.sh/preview/444632.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/444632/covers/cover@2x.jpg?1650639095",
-          "demoImage": "https://assets.ppy.sh/beatmaps/444632/covers/cover@2x.jpg?1650639095"
+          "previewUrl": "https://b.ppy.sh/preview/206887.mp3",
+          "cover": "https://assets.ppy.sh/beatmaps/206887/covers/cover@2x.jpg?1650626369",
+          "demoImage": "https://assets.ppy.sh/beatmaps/206887/covers/cover@2x.jpg?1650626369"
         },
         {
           "name": "Shawn Wasabi",
@@ -7128,13 +7813,6 @@
           "previewUrl": "https://b.ppy.sh/preview/409025.mp3",
           "cover": "https://assets.ppy.sh/beatmaps/409025/covers/cover@2x.jpg?1650636399",
           "demoImage": "https://assets.ppy.sh/beatmaps/409025/covers/cover@2x.jpg?1650636399"
-        },
-        {
-          "name": "TK from Ling tosite sigure",
-          "count": 7,
-          "previewUrl": "https://b.ppy.sh/preview/206887.mp3",
-          "cover": "https://assets.ppy.sh/beatmaps/206887/covers/cover@2x.jpg?1650626369",
-          "demoImage": "https://assets.ppy.sh/beatmaps/206887/covers/cover@2x.jpg?1650626369"
         }
       ],
       "sampleCount": 75,
@@ -8209,6 +8887,232 @@
         "artists": 10,
         "beatmaps": 10,
         "mapsets": 10
+      },
+      "favoriteScoreMaps": {
+        "mappers": [
+          [
+            {
+              "id": 557819,
+              "setId": 241526,
+              "title": "Renatus",
+              "artist": "Soleily",
+              "creator": "Multiple Creators",
+              "version": "[7K] Another",
+              "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+            }
+          ],
+          [
+            {
+              "id": 350863,
+              "setId": 134151,
+              "title": "Airman ga Taosenai (SOUND HOLIC Ver.)",
+              "artist": "Hanatan",
+              "creator": "Natsu",
+              "version": "[7K] Rumi's Insane",
+              "cover": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
+            }
+          ],
+          [
+            {
+              "id": 2039384,
+              "setId": 971561,
+              "title": "Runengon",
+              "artist": "antiPLUR",
+              "creator": "Raveille",
+              "version": "[4K] Lenfried's Insane",
+              "cover": "https://assets.ppy.sh/beatmaps/971561/covers/cover@2x.jpg?1650680268"
+            }
+          ],
+          [
+            {
+              "id": 1024701,
+              "setId": 476691,
+              "title": "Flower Dance",
+              "artist": "DJ OKAWARI",
+              "creator": "Narcissu",
+              "version": "[4K] CS' Hard",
+              "cover": "https://assets.ppy.sh/beatmaps/476691/covers/cover@2x.jpg?1650642192"
+            }
+          ],
+          [
+            {
+              "id": 748488,
+              "setId": 332623,
+              "title": "Kakushinteki*Metamaruphose!",
+              "artist": "Doma Umaru [CV.Tanaka Aimi]",
+              "creator": "Crystal",
+              "version": "[4K] victorica's Lv.13",
+              "cover": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573"
+            }
+          ],
+          [
+            {
+              "id": 957836,
+              "setId": 444632,
+              "title": "STYX HELIX",
+              "artist": "MYTH & ROID",
+              "creator": "Tsukuyomi",
+              "version": "[4K] victorica's Hard",
+              "cover": "https://assets.ppy.sh/beatmaps/444632/covers/cover@2x.jpg?1650639095"
+            }
+          ],
+          [
+            {
+              "id": 392004,
+              "setId": 157896,
+              "title": "Monster (DotEXE Remix)",
+              "artist": "Meg & Dia",
+              "creator": "nold_1702",
+              "version": "Zillah's 7K Insane",
+              "cover": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904"
+            }
+          ],
+          [
+            {
+              "id": 494094,
+              "setId": 206887,
+              "title": "unravel (TV edit)",
+              "artist": "TK from Ling tosite sigure",
+              "creator": "Desperate-kun",
+              "version": "[4K] Marirose's Insane",
+              "cover": "https://assets.ppy.sh/beatmaps/206887/covers/cover@2x.jpg?1650626369"
+            }
+          ],
+          [
+            {
+              "id": 703759,
+              "setId": 313718,
+              "title": "Marble Soda",
+              "artist": "Shawn Wasabi",
+              "creator": "Exa",
+              "version": "[5K] Frim's HD",
+              "cover": "https://assets.ppy.sh/beatmaps/313718/covers/cover@2x.jpg?1650630607"
+            }
+          ],
+          [
+            {
+              "id": 888023,
+              "setId": 409025,
+              "title": "If You Can't Hang",
+              "artist": "Sleeping With Sirens",
+              "creator": "pishifat",
+              "version": "[4K] puxtu's MX",
+              "cover": "https://assets.ppy.sh/beatmaps/409025/covers/cover@2x.jpg?1650636399"
+            }
+          ]
+        ],
+        "artists": [
+          [
+            {
+              "id": 557819,
+              "setId": 241526,
+              "title": "Renatus",
+              "artist": "Soleily",
+              "creator": "Multiple Creators",
+              "version": "[7K] Another",
+              "cover": "https://assets.ppy.sh/beatmaps/241526/covers/cover@2x.jpg?1622080332"
+            }
+          ],
+          [
+            {
+              "id": 350863,
+              "setId": 134151,
+              "title": "Airman ga Taosenai (SOUND HOLIC Ver.)",
+              "artist": "Hanatan",
+              "creator": "Natsu",
+              "version": "[7K] Rumi's Insane",
+              "cover": "https://assets.ppy.sh/beatmaps/134151/covers/cover@2x.jpg?1650621307"
+            }
+          ],
+          [
+            {
+              "id": 2039384,
+              "setId": 971561,
+              "title": "Runengon",
+              "artist": "antiPLUR",
+              "creator": "Raveille",
+              "version": "[4K] Lenfried's Insane",
+              "cover": "https://assets.ppy.sh/beatmaps/971561/covers/cover@2x.jpg?1650680268"
+            }
+          ],
+          [
+            {
+              "id": 1024701,
+              "setId": 476691,
+              "title": "Flower Dance",
+              "artist": "DJ OKAWARI",
+              "creator": "Narcissu",
+              "version": "[4K] CS' Hard",
+              "cover": "https://assets.ppy.sh/beatmaps/476691/covers/cover@2x.jpg?1650642192"
+            }
+          ],
+          [
+            {
+              "id": 748488,
+              "setId": 332623,
+              "title": "Kakushinteki*Metamaruphose!",
+              "artist": "Doma Umaru [CV.Tanaka Aimi]",
+              "creator": "Crystal",
+              "version": "[4K] victorica's Lv.13",
+              "cover": "https://assets.ppy.sh/beatmaps/332623/covers/cover@2x.jpg?1650632573"
+            }
+          ],
+          [
+            {
+              "id": 957836,
+              "setId": 444632,
+              "title": "STYX HELIX",
+              "artist": "MYTH & ROID",
+              "creator": "Tsukuyomi",
+              "version": "[4K] victorica's Hard",
+              "cover": "https://assets.ppy.sh/beatmaps/444632/covers/cover@2x.jpg?1650639095"
+            }
+          ],
+          [
+            {
+              "id": 392004,
+              "setId": 157896,
+              "title": "Monster (DotEXE Remix)",
+              "artist": "Meg & Dia",
+              "creator": "nold_1702",
+              "version": "Zillah's 7K Insane",
+              "cover": "https://assets.ppy.sh/beatmaps/157896/covers/cover@2x.jpg?1650621904"
+            }
+          ],
+          [
+            {
+              "id": 494094,
+              "setId": 206887,
+              "title": "unravel (TV edit)",
+              "artist": "TK from Ling tosite sigure",
+              "creator": "Desperate-kun",
+              "version": "[4K] Marirose's Insane",
+              "cover": "https://assets.ppy.sh/beatmaps/206887/covers/cover@2x.jpg?1650626369"
+            }
+          ],
+          [
+            {
+              "id": 703759,
+              "setId": 313718,
+              "title": "Marble Soda",
+              "artist": "Shawn Wasabi",
+              "creator": "Exa",
+              "version": "[5K] Frim's HD",
+              "cover": "https://assets.ppy.sh/beatmaps/313718/covers/cover@2x.jpg?1650630607"
+            }
+          ],
+          [
+            {
+              "id": 888023,
+              "setId": 409025,
+              "title": "If You Can't Hang",
+              "artist": "Sleeping With Sirens",
+              "creator": "pishifat",
+              "version": "[4K] puxtu's MX",
+              "cover": "https://assets.ppy.sh/beatmaps/409025/covers/cover@2x.jpg?1650636399"
+            }
+          ]
+        ]
       }
     }
   }
