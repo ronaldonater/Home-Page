@@ -54,7 +54,7 @@ const concertData = [
         venue: "Queens Theatre, New York",
         date: "November 5, 2026",
         stars: "★★★★★",
-        videoUrl: "",
+        videoUrl: "https://www.youtube.com/watch?v=vTbvMq4vpKs",
         review: `This was my first time seeing Dreamcatcher in any capacity. Much like my curse with BLACKPINK, they always seem to tour at the most inconvenient times for me, so I’m incredibly grateful I finally got to catch the, even if it was just their subunit, UAU. I’m also so thankful that my bias, Yoohyeon, is a part of this specific trio; she is just super cool!
 
 **Unbeatable Ticketing and "Everything" VIP Perks**
