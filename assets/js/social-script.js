@@ -50,6 +50,45 @@ async function refreshCoverViews(coversList) {
 // Concert data
 const concertData = [
     {
+        title: "UAU - UAU 2026 FANCON [Playlist #Your Youth]",
+        venue: "Queens Theatre, New York",
+        date: "November 5, 2026",
+        stars: "★★★★★",
+        videoUrl: "",
+        review: `This was my first time seeing Dreamcatcher in any capacity. Much like my curse with BLACKPINK, they always seem to tour at the most inconvenient times for me, so I’m incredibly grateful I finally got to catch the, even if it was just their subunit, UAU. I’m also so thankful that my bias, Yoohyeon, is a part of this specific trio; she is just super cool!
+
+**Unbeatable Ticketing and "Everything" VIP Perks**
+
+This fancon was run by Leo Presents, the exact same company that handled PURPLE KISS's farewell tour. Because of that, the ticket pricing and perks were incredibly reasonable! Even crazier, they actually ran a $1 flash sale for a limited number of tickets for this tour, which is absolutely unheard of in this industry.
+
+For this show, I grabbed the Everything Ticket, which included:
+
+• Fansign
+
+• Group Photos
+
+• Soundcheck + Early Merch Access
+
+• Send-Off
+
+• You+ Photo
+
+• Snapshot photo with each member
+
+I'd honestly say these perks were even better than the PURPLE KISS package. Because of the Send-Off event, you actually got time to interact and talk with the members for a bit, which is a massive upgrade over a quick hi-touch or hi-bye. They were super friendly and open to doing whatever poses you wanted for the snapshots. Yoohyeon, in particular, actively loved hearing what fans had to say!
+
+**Infectious Energy and Fan Interaction**
+
+The show itself was great! Although UAU currently has a limited discography with only two EPs out right now, they made up for it by incorporating a bunch of fun segments into the set, including bringing fans up on stage!
+
+Their energy and vibes were so infectious, completely unmatched by other acts I've seen. JiU and SuA especially loved interacting with the crowd, keeping the momentum going the entire night.
+
+**The Verdict**
+
+All in all, I am so glad I finally got to see at least some of the Dreamcatcher girlies. It was a wildly fun experience, and I am 100% going to try and catch a full group show next time they tour, it was so worth it. Honestly, this might have been my favorite concert of all time!`, // Add your written review here.
+        score: "5/5"
+    },
+    {
         title: "NMIXX - EPISODE 1: ZERO FRONTIER",
         venue: "Brooklyn Paramount, New York",
         date: "March 31st, 2026",
