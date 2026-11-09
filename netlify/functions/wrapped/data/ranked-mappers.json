@@ -1,20 +1,20 @@
 {
   "year": 2026,
-  "totalSets": 6050,
+  "totalSets": 6065,
   "modes": {
     "osu": {
       "genres": [
         {
           "id": 4,
-          "count": 588
+          "count": 589
         },
         {
           "id": 2,
-          "count": 237
+          "count": 239
         },
         {
           "id": 5,
-          "count": 771
+          "count": 773
         },
         {
           "id": 10,
@@ -26,7 +26,7 @@
         },
         {
           "id": 11,
-          "count": 203
+          "count": 204
         },
         {
           "id": 14,
@@ -53,7 +53,7 @@
           "count": 22
         }
       ],
-      "totalSets": 2927,
+      "totalSets": 2933,
       "totalMappers": 1047,
       "top": [
         {
@@ -122,7 +122,7 @@
       "genres": [
         {
           "id": 10,
-          "count": 606
+          "count": 608
         },
         {
           "id": 5,
@@ -130,11 +130,11 @@
         },
         {
           "id": 11,
-          "count": 104
+          "count": 105
         },
         {
           "id": 4,
-          "count": 241
+          "count": 242
         },
         {
           "id": 3,
@@ -169,8 +169,8 @@
           "count": 8
         }
       ],
-      "totalSets": 1553,
-      "totalMappers": 315,
+      "totalSets": 1557,
+      "totalMappers": 316,
       "top": [
         {
           "userId": 35619347,
@@ -181,13 +181,13 @@
         {
           "userId": 5159715,
           "username": "[-E S I A-]",
-          "count": 60,
+          "count": 61,
           "rank": 2
         },
         {
           "userId": 13069714,
           "username": "Tachibana_",
-          "count": 50,
+          "count": 51,
           "rank": 3
         },
         {
@@ -211,7 +211,7 @@
         {
           "userId": 845733,
           "username": "Faputa",
-          "count": 34,
+          "count": 35,
           "rank": 7
         },
         {
@@ -238,7 +238,7 @@
       "genres": [
         {
           "id": 5,
-          "count": 108
+          "count": 109
         },
         {
           "id": 4,
@@ -246,7 +246,7 @@
         },
         {
           "id": 3,
-          "count": 47
+          "count": 48
         },
         {
           "id": 11,
@@ -254,7 +254,7 @@
         },
         {
           "id": 10,
-          "count": 195
+          "count": 196
         },
         {
           "id": 13,
@@ -285,7 +285,7 @@
           "count": 3
         }
       ],
-      "totalSets": 572,
+      "totalSets": 575,
       "totalMappers": 149,
       "top": [
         {
@@ -301,22 +301,22 @@
           "rank": 2
         },
         {
-          "userId": 8846762,
-          "username": "4rcheR-",
-          "count": 17,
+          "userId": 4138746,
+          "username": "Cielbami",
+          "count": 18,
           "rank": 3
         },
         {
-          "userId": 4138746,
-          "username": "Cielbami",
+          "userId": 8846762,
+          "username": "4rcheR-",
           "count": 17,
-          "rank": 3
+          "rank": 4
         },
         {
           "userId": 12498861,
           "username": "fayew",
           "count": 17,
-          "rank": 3
+          "rank": 4
         },
         {
           "userId": 2306637,
@@ -358,7 +358,7 @@
         },
         {
           "id": 10,
-          "count": 576
+          "count": 579
         },
         {
           "id": 5,
@@ -401,8 +401,8 @@
           "count": 7
         }
       ],
-      "totalSets": 1145,
-      "totalMappers": 412,
+      "totalSets": 1148,
+      "totalMappers": 413,
       "top": [
         {
           "userId": 31126430,
@@ -467,7 +467,7 @@
       ]
     }
   },
-  "updatedAt": "2026-11-08T15:25:50.473Z",
+  "updatedAt": "2026-11-09T18:57:38.059Z",
   "source": "osu!",
   "sourceUrl": "https://osu.ppy.sh/beatmapsets?q=ranked%3E%3D2026-01-01%20ranked%3C2027-01-01&s=ranked",
   "coverage": "Currently ranked mapsets with a 2026 ranked date (UTC). Each unique set counts once for its host in each native gamemode it contains. Guest difficulties are not separate set credits."
