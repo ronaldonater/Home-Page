@@ -1,12 +1,12 @@
 {
   "year": 2026,
-  "totalSets": 6065,
+  "totalSets": 6080,
   "modes": {
     "osu": {
       "genres": [
         {
           "id": 4,
-          "count": 589
+          "count": 590
         },
         {
           "id": 2,
@@ -14,11 +14,11 @@
         },
         {
           "id": 5,
-          "count": 773
+          "count": 776
         },
         {
           "id": 10,
-          "count": 759
+          "count": 761
         },
         {
           "id": 3,
@@ -26,7 +26,7 @@
         },
         {
           "id": 11,
-          "count": 204
+          "count": 205
         },
         {
           "id": 14,
@@ -53,8 +53,8 @@
           "count": 22
         }
       ],
-      "totalSets": 2933,
-      "totalMappers": 1047,
+      "totalSets": 2940,
+      "totalMappers": 1049,
       "top": [
         {
           "userId": 12693713,
@@ -107,8 +107,8 @@
         {
           "userId": 3807986,
           "username": "Shurelia",
-          "count": 17,
-          "rank": 9
+          "count": 18,
+          "rank": 8
         },
         {
           "userId": 10589721,
@@ -122,11 +122,11 @@
       "genres": [
         {
           "id": 10,
-          "count": 608
+          "count": 610
         },
         {
           "id": 5,
-          "count": 334
+          "count": 335
         },
         {
           "id": 11,
@@ -138,7 +138,7 @@
         },
         {
           "id": 3,
-          "count": 84
+          "count": 85
         },
         {
           "id": 7,
@@ -146,7 +146,7 @@
         },
         {
           "id": 2,
-          "count": 110
+          "count": 111
         },
         {
           "id": 6,
@@ -169,7 +169,7 @@
           "count": 8
         }
       ],
-      "totalSets": 1557,
+      "totalSets": 1562,
       "totalMappers": 316,
       "top": [
         {
@@ -238,7 +238,7 @@
       "genres": [
         {
           "id": 5,
-          "count": 109
+          "count": 110
         },
         {
           "id": 4,
@@ -246,7 +246,7 @@
         },
         {
           "id": 3,
-          "count": 48
+          "count": 49
         },
         {
           "id": 11,
@@ -285,8 +285,8 @@
           "count": 3
         }
       ],
-      "totalSets": 575,
-      "totalMappers": 149,
+      "totalSets": 577,
+      "totalMappers": 150,
       "top": [
         {
           "userId": 16352736,
@@ -354,11 +354,11 @@
       "genres": [
         {
           "id": 2,
-          "count": 108
+          "count": 109
         },
         {
           "id": 10,
-          "count": 579
+          "count": 580
         },
         {
           "id": 5,
@@ -370,7 +370,7 @@
         },
         {
           "id": 3,
-          "count": 77
+          "count": 78
         },
         {
           "id": 4,
@@ -401,7 +401,7 @@
           "count": 7
         }
       ],
-      "totalSets": 1148,
+      "totalSets": 1151,
       "totalMappers": 413,
       "top": [
         {
@@ -429,45 +429,45 @@
           "rank": 4
         },
         {
+          "userId": 37783133,
+          "username": "nai_",
+          "count": 16,
+          "rank": 4
+        },
+        {
           "userId": 29645291,
           "username": "[TCD] Ena-suki",
           "count": 15,
-          "rank": 5
+          "rank": 6
         },
         {
           "userId": 23097320,
           "username": "keksikosu",
           "count": 15,
-          "rank": 5
+          "rank": 6
         },
         {
           "userId": 34587251,
           "username": "-Enma-",
           "count": 14,
-          "rank": 7
+          "rank": 8
         },
         {
           "userId": 6185083,
           "username": "menphiss",
           "count": 14,
-          "rank": 7
-        },
-        {
-          "userId": 37783133,
-          "username": "nai_",
-          "count": 14,
-          "rank": 7
+          "rank": 8
         },
         {
           "userId": 11420336,
           "username": "Savageeeee",
           "count": 14,
-          "rank": 7
+          "rank": 8
         }
       ]
     }
   },
-  "updatedAt": "2026-11-09T18:57:38.059Z",
+  "updatedAt": "2026-11-10T16:30:51.861Z",
   "source": "osu!",
   "sourceUrl": "https://osu.ppy.sh/beatmapsets?q=ranked%3E%3D2026-01-01%20ranked%3C2027-01-01&s=ranked",
   "coverage": "Currently ranked mapsets with a 2026 ranked date (UTC). Each unique set counts once for its host in each native gamemode it contains. Guest difficulties are not separate set credits."
