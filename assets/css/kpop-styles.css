@@ -91,3 +91,18 @@ html{scroll-behavior:smooth}#groups-view{scroll-margin-top:24px}
 [data-palette=pristin-sky]{--accent:#b3dce7;--ink:#23434b;--paper:#add3dd}
 [data-palette=idle-violet]{--accent:#c09be0;--ink:#f6e9ff;--paper:#65467d}
 .group-card:is([data-palette=duo-peach],[data-palette=saymyname-electric],[data-palette=mamamoo-green],[data-palette=pristin-sky],[data-palette=idle-violet]) .card-art{background:var(--paper)}
+
+[data-palette=izone-pink]{--accent:#ef539d;--ink:#29101d;--paper:#ef539d}
+.group-card[data-palette=izone-pink] .card-art{background:var(--paper)}
+
+[data-palette=lightsum-blue]{--accent:#a9c4ff;--ink:#ffffff;--paper:#324f92}
+.group-card[data-palette=lightsum-blue] .card-art{background:var(--paper)}
+
+[data-palette=blackpink-black]{--accent:#f3b2cd;--ink:#ffe6f1;--paper:#151419}
+.group-card[data-palette=blackpink-black] .card-art{background:var(--paper)}
+
+[data-palette=snsd-pink]{--accent:#ff4980;--ink:#310e1b;--paper:#ff4980}
+.group-card[data-palette=snsd-pink] .card-art{background:var(--paper)}
+
+[data-palette=orange-caramel-yellow]{--accent:#ffd55d;--ink:#443115;--paper:#f7d35e}
+.group-card[data-palette=orange-caramel-yellow] .card-art{background:var(--paper)}
