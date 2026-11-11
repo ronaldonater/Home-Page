@@ -235,7 +235,7 @@ function kpopMemberAge(birthday, today = new Date()) {
             copy.append(name);
             if (member.note) copy.append(element('p', member.note));
             row.append(element('span', member.placeholder ? '—' : String(index + 1).padStart(2, '0'), 'rank'), portrait(member), copy);
-            if (kpopMemberAge(member.birthday) !== null) {
+            if (!member.memorial && kpopMemberAge(member.birthday) !== null) {
                 row.classList.add('member-row-with-age');
                 const age = element('div', '', 'member-age');
                 const value = element('strong', '', 'member-age-value');
@@ -249,6 +249,23 @@ function kpopMemberAge(birthday, today = new Date()) {
                 if (member.former) positions.append(element('span', 'Former member', 'position-tag former-tag'));
                 member.positions?.forEach(position => positions.append(element('span', position, 'position-tag')));
                 row.append(positions);
+            }
+            if (member.memorial) {
+                row.classList.add('member-row-memorial');
+                const tribute = element('aside', '', 'member-tribute');
+                tribute.setAttribute('aria-label', `In loving memory of ${member.name}`);
+                const tributeCopy = element('div', '', 'member-tribute-copy');
+                tributeCopy.append(element('strong', `In loving memory of ${member.name} · ${member.memorial.years}`),
+                    element('p', member.memorial.message));
+                const candle = document.createElement('img');
+                candle.className = 'memorial-candle';
+                candle.src = '/assets/images/kpop/memorial-candle.svg';
+                candle.alt = '';
+                candle.setAttribute('aria-hidden', 'true');
+                candle.width = 88;
+                candle.height = 112;
+                tribute.append(tributeCopy, candle);
+                row.append(tribute);
             }
             find('member-list').append(row);
         });

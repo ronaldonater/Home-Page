@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 88 112" fill="none">
+<style>
+  .candle-flame {
+    transform-origin: 44px 48px;
+    animation: flame-flicker 3.2s ease-in-out infinite;
+  }
+  .candle-glow {
+    animation: glow-breathe 3.2s ease-in-out infinite;
+  }
+  @keyframes flame-flicker {
+    0%, 100% { transform: rotate(-2deg) scale(1, 1); }
+    23% { transform: rotate(2deg) scale(.96, 1.04); }
+    47% { transform: rotate(-1deg) scale(1.02, .97); }
+    71% { transform: rotate(3deg) scale(.97, 1.02); }
+  }
+  @keyframes glow-breathe {
+    0%, 100% { opacity: .85; }
+    47% { opacity: .65; }
+    71% { opacity: 1; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .candle-flame, .candle-glow { animation: none; }
+  }
+</style>
+<defs>
+<radialGradient id="glow"><stop stop-color="#f8d69c" stop-opacity=".32"/><stop offset="1" stop-color="#f8d69c" stop-opacity="0"/></radialGradient>
+<linearGradient id="wax" x1="30" y1="50" x2="58" y2="93" gradientUnits="userSpaceOnUse"><stop stop-color="#f4e9d9"/><stop offset="1" stop-color="#cbbad5"/></linearGradient>
+<linearGradient id="flame" x1="44" y1="20" x2="44" y2="48" gradientUnits="userSpaceOnUse"><stop stop-color="#ffe9b4"/><stop offset="1" stop-color="#dba974"/></linearGradient>
+</defs>
+<ellipse class="candle-glow" cx="44" cy="34" rx="34" ry="33" fill="url(#glow)"/>
+<ellipse cx="44" cy="99" rx="27" ry="6" fill="#ccccff" fill-opacity=".09" stroke="#ccccff" stroke-opacity=".35"/>
+<path d="M23 96c3 7 39 7 42 0" stroke="#ccc4dd" stroke-opacity=".55" stroke-linecap="round"/>
+<path d="M31 56h26v36c0 6-26 6-26 0V56Z" fill="url(#wax)"/>
+<ellipse cx="44" cy="56" rx="13" ry="4" fill="#f8eee3"/>
+<path d="M33 58v8c0 4 5 4 5 0v-4c0-3 4-3 4 0v13c0 4 5 4 5 0V61" stroke="#f5eadd" stroke-width="3" stroke-linecap="round"/>
+<path d="M44 56v-8" stroke="#5a4350" stroke-width="1.6" stroke-linecap="round"/>
+<g class="candle-flame">
+<path d="M44 47c-13-6-4-18 1-27-1 9 12 18-1 27Z" fill="url(#flame)"/>
+<path d="M44 46c-6-3-2-9 0-13 0 5 5 9 0 13Z" fill="#fff4d6"/>
+</g>
+</svg>
