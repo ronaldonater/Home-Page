@@ -250,7 +250,7 @@ window.kpopGroups = [
         logo: "/assets/images/kpop/fx/logo.jpg",
         favoriteSong: "Electric Shock",
         members: [
-            {"name": "Krystal", "positions": ["Lead Vocalist", "Visual", "Face of the Group", "Maknae"], "image": "/assets/images/kpop/fx/krystal.jpg", "note": "", "country": "KR", "birthday": "1994-10-24"},
+            {"name": "Krystal", "positions": ["Lead Vocalist", "Visual", "Maknae"], "image": "/assets/images/kpop/fx/krystal.jpg", "note": "", "country": "KR", "birthday": "1994-10-24"},
             {"name": "Victoria", "positions": ["Leader", "Main Dancer", "Lead Rapper", "Vocalist", "Visual"], "image": "/assets/images/kpop/fx/victoria.jpg", "note": "", "country": "CN", "birthday": "1987-02-02"},
             {"name": "Sulli", "positions": ["Lead Rapper", "Vocalist", "Visual"], "image": "/assets/images/kpop/fx/sulli.jpg", "note": "", "former": true, "country": "KR", "birthday": "1994-03-29", "memorial": {"years": "1994–2019", "message": "Remembering Sulli with love. Her voice, creativity, and individuality hold a lasting place in f(x)'s story and in the hearts of those who cherish her. Forever remembered."}},
             {"name": "Luna", "positions": ["Main Vocalist", "Lead Dancer"], "image": "/assets/images/kpop/fx/luna.jpg", "note": "", "country": "KR", "birthday": "1993-08-12"},
