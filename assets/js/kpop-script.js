@@ -220,7 +220,7 @@ function kpopMemberAge(birthday, today = new Date()) {
             const row = element('li', '', member.placeholder ? 'member-row member-placeholder' : 'member-row');
             const copy = element('div', '', 'member-copy');
             const name = element('h3', member.name, 'member-name');
-            const countries = { TH: 'Thailand', KR: 'South Korea', US: 'United States', AU: 'Australia', JP: 'Japan', TW: 'Taiwan', CN: 'China' };
+            const countries = { TH: 'Thailand', KR: 'South Korea', US: 'United States', AU: 'Australia', JP: 'Japan', TW: 'Taiwan', CN: 'China', HK: 'Hong Kong' };
             if (countries[member.country]) {
                 const flag = document.createElement('img');
                 flag.className = 'member-flag';

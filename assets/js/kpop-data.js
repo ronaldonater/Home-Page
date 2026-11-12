@@ -241,6 +241,84 @@ window.kpopGroups = [
         ],
     },
     {
+        id: "fromis-9",
+        palette: "fromis-purple",
+        kprofiles: "https://kprofiles.com/fromis_9-members-profile/",
+        name: "fromis_9",
+        hearts: 2,
+        image: "/assets/images/kpop/fromis-9/group.jpg",
+        logo: "/assets/images/kpop/fromis-9/logo.jpg",
+        favoriteSong: "Supersonic",
+        members: [
+            {"name": "Saerom", "positions": ["Captain", "Lead Dancer", "Vocalist", "Rapper", "Visual"], "image": "/assets/images/kpop/fromis-9/saerom.jpg", "note": "", "former": true, "birthday": "1997-01-07", "country": "KR"},
+            {"name": "Jiheon", "positions": ["Sub Vocalist", "Maknae"], "image": "/assets/images/kpop/fromis-9/jiheon.jpg", "note": "", "birthday": "2003-04-17", "country": "KR"},
+            {"name": "Hayoung", "positions": ["Co-Captain", "Main Dancer", "Main Vocalist"], "image": "/assets/images/kpop/fromis-9/hayoung.jpg", "note": "", "birthday": "1997-09-29", "country": "KR"},
+            {"name": "Nagyung", "positions": ["Lead Dancer", "Sub Vocalist", "Visual"], "image": "/assets/images/kpop/fromis-9/nagyung.jpg", "note": "", "birthday": "2000-06-01", "country": "KR"},
+            {"name": "Jiwon", "positions": ["Main Vocalist"], "image": "/assets/images/kpop/fromis-9/jiwon.jpg", "note": "", "birthday": "1998-03-20", "country": "KR"},
+            {"name": "Chaeyoung", "positions": ["Main Dancer", "Lead Rapper", "Lead Vocalist"], "image": "/assets/images/kpop/fromis-9/chaeyoung.jpg", "note": "", "birthday": "2000-05-14", "country": "KR"},
+            {"name": "Jisun", "positions": ["Center", "Vocalist"], "image": "/assets/images/kpop/fromis-9/jisun.jpg", "note": "", "former": true, "birthday": "1998-11-23", "country": "KR"},
+            {"name": "Gyuri", "positions": ["Lead Vocalist"], "image": "/assets/images/kpop/fromis-9/gyuri.jpg", "note": "", "former": true, "birthday": "1997-12-27", "country": "KR"},
+            {"name": "Seoyeon", "positions": ["Main Rapper", "Main Dancer"], "image": "/assets/images/kpop/fromis-9/seoyeon.jpg", "note": "", "former": true, "birthday": "2000-01-22", "country": "KR"},
+        ],
+    },
+    {
+        id: "lightsum",
+        palette: "lightsum-blue",
+        kprofiles: "https://kprofiles.com/lightsum-members-profile/",
+        name: "LIGHTSUM",
+        hearts: 2,
+        image: "/assets/images/kpop/lightsum/group.jpg",
+        logo: "/assets/images/kpop/lightsum/logo.jpg",
+        favoriteSong: "Honey or Spice",
+        members: [
+            {"name": "Chowon", "positions": ["Main Vocalist"], "image": "/assets/images/kpop/lightsum/chowon.jpg", "note": "", "country": "KR", "birthday": "2002-09-16"},
+            {"name": "Nayoung", "positions": ["Main Vocalist", "Lead Dancer", "Center"], "image": "/assets/images/kpop/lightsum/nayoung.jpeg", "note": "", "country": "KR", "birthday": "2002-11-30"},
+            {"name": "Hina", "positions": ["Sub Vocalist"], "image": "/assets/images/kpop/lightsum/hina.jpg", "note": "", "country": "JP", "birthday": "2003-04-07"},
+            {"name": "Juhyeon", "positions": ["Main Dancer", "Lead Vocalist"], "image": "/assets/images/kpop/lightsum/juhyeon.jpg", "note": "", "country": "KR", "birthday": "2004-04-08"},
+            {"name": "Yujeong", "positions": ["Sub Vocalist", "Maknae"], "image": "/assets/images/kpop/lightsum/yujeong.jpg", "note": "", "country": "KR", "birthday": "2004-06-14"},
+            {"name": "Sangah", "positions": ["Leader", "Main Rapper", "Lead Dancer"], "image": "/assets/images/kpop/lightsum/sangah.jpg", "note": "", "country": "KR", "birthday": "2002-09-04"},
+            {"name": "Jian", "positions": ["Sub Rapper", "Sub Vocalist", "Former Maknae"], "image": "/assets/images/kpop/lightsum/jian.jpg", "note": "", "former": true, "country": "KR", "birthday": "2006-11-04"},
+            {"name": "Huiyeon", "positions": ["Sub Vocalist"], "image": "/assets/images/kpop/lightsum/huiyeon.jpg", "note": "", "former": true, "country": "KR", "birthday": "2005-08-01"},
+        ],
+    },
+    {
+        id: "oh-my-girl",
+        palette: "omg-blue",
+        kprofiles: "https://kprofiles.com/oh-my-girl-members-profile/",
+        name: "OH MY GIRL",
+        hearts: 2,
+        image: "/assets/images/kpop/oh-my-girl/group.jpg",
+        logo: "/assets/images/kpop/oh-my-girl/logo.jpg",
+        favoriteSong: "Dun Dun Dance",
+        members: [
+            {"name": "Arin", "positions": ["Lead Dancer", "Sub-Vocalist", "Maknae"], "image": "/assets/images/kpop/oh-my-girl/arin.jpg", "note": "", "birthday": "1999-06-18", "country": "KR"},
+            {"name": "YooA", "positions": ["Main Dancer", "Lead Vocalist"], "image": "/assets/images/kpop/oh-my-girl/yooa.jpg", "note": "", "birthday": "1995-09-17", "country": "KR"},
+            {"name": "Seunghee", "positions": ["Main Vocalist"], "image": "/assets/images/kpop/oh-my-girl/seunghee.jpg", "note": "", "birthday": "1996-01-25", "country": "KR"},
+            {"name": "Mimi", "positions": ["Main Rapper", "Main Dancer", "Sub-Vocalist"], "image": "/assets/images/kpop/oh-my-girl/mimi.jpg", "note": "", "birthday": "1995-05-01", "country": "KR"},
+            {"name": "Yubin", "positions": ["Sub-Vocalist"], "image": "/assets/images/kpop/oh-my-girl/yubin.jpg", "note": "", "birthday": "1997-09-09", "country": "KR"},
+            {"name": "Hyojung", "positions": ["Leader", "Main Vocalist"], "image": "/assets/images/kpop/oh-my-girl/hyojung.jpg", "note": "", "birthday": "1994-07-28", "country": "KR"},
+        ],
+    },
+    {
+        id: "weeekly",
+        palette: "weeekly-banana",
+        kprofiles: "https://kprofiles.com/weeekly-members-profile/",
+        name: "WEEEKLY",
+        hearts: 2,
+        image: "/assets/images/kpop/weeekly/group.jpg",
+        logo: "/assets/images/kpop/weeekly/logo.jpg",
+        favoriteSong: "After School",
+        members: [
+            {"name": "Monday", "positions": ["Main Vocalist", "Main Dancer", "Lead Rapper"], "image": "/assets/images/kpop/weeekly/monday.jpg", "note": "", "birthday": "2002-05-10", "country": "KR"},
+            {"name": "Zoa", "positions": ["Main Rapper", "Sub Vocalist", "Visual", "Maknae"], "image": "/assets/images/kpop/weeekly/zoa.jpg", "note": "", "birthday": "2005-05-31", "country": "KR"},
+            {"name": "Jiyoon", "positions": ["Lead Vocalist", "Lead Dancer", "Sub Rapper"], "image": "/assets/images/kpop/weeekly/jiyoon.jpg", "note": "", "birthday": "2002-03-02", "country": "KR"},
+            {"name": "Jihan", "positions": ["Lead Vocalist", "Lead Dancer", "Visual"], "image": "/assets/images/kpop/weeekly/jihan.jpg", "note": "", "birthday": "2004-07-12", "country": "KR"},
+            {"name": "Jaehee", "positions": ["Sub Rapper", "Sub Vocalist"], "image": "/assets/images/kpop/weeekly/jaehee.jpg", "note": "", "birthday": "2004-03-18", "country": "KR"},
+            {"name": "Soeun", "positions": ["Main Dancer", "Lead Vocalist"], "image": "/assets/images/kpop/weeekly/soeun.jpg", "note": "", "birthday": "2002-10-26", "country": "KR"},
+            {"name": "Soojin", "positions": ["Leader", "Main Dancer", "Sub Vocalist", "Sub Rapper", "Visual", "Center"], "image": "/assets/images/kpop/weeekly/soojin.jpg", "note": "", "birthday": "2001-12-12", "country": "KR"},
+        ],
+    },
+    {
         id: "fx",
         palette: "fx-periwinkle",
         kprofiles: "https://kprofiles.com/fx-members-profile-updated/",
@@ -357,26 +435,6 @@ window.kpopGroups = [
         ],
     },
     {
-        id: "lightsum",
-        palette: "lightsum-blue",
-        kprofiles: "https://kprofiles.com/lightsum-members-profile/",
-        name: "LIGHTSUM",
-        hearts: 2,
-        image: "/assets/images/kpop/lightsum/group.jpg",
-        logo: "/assets/images/kpop/lightsum/logo.jpg",
-        favoriteSong: "Honey or Spice",
-        members: [
-            {"name": "Chowon", "positions": ["Main Vocalist"], "image": "/assets/images/kpop/lightsum/chowon.jpg", "note": "", "country": "KR", "birthday": "2002-09-16"},
-            {"name": "Nayoung", "positions": ["Main Vocalist", "Lead Dancer", "Center"], "image": "/assets/images/kpop/lightsum/nayoung.jpeg", "note": "", "country": "KR", "birthday": "2002-11-30"},
-            {"name": "Hina", "positions": ["Sub Vocalist"], "image": "/assets/images/kpop/lightsum/hina.jpg", "note": "", "country": "JP", "birthday": "2003-04-07"},
-            {"name": "Juhyeon", "positions": ["Main Dancer", "Lead Vocalist"], "image": "/assets/images/kpop/lightsum/juhyeon.jpg", "note": "", "country": "KR", "birthday": "2004-04-08"},
-            {"name": "Yujeong", "positions": ["Sub Vocalist", "Maknae"], "image": "/assets/images/kpop/lightsum/yujeong.jpg", "note": "", "country": "KR", "birthday": "2004-06-14"},
-            {"name": "Sangah", "positions": ["Leader", "Main Rapper", "Lead Dancer"], "image": "/assets/images/kpop/lightsum/sangah.jpg", "note": "", "country": "KR", "birthday": "2002-09-04"},
-            {"name": "Jian", "positions": ["Sub Rapper", "Sub Vocalist", "Former Maknae"], "image": "/assets/images/kpop/lightsum/jian.jpg", "note": "", "former": true, "country": "KR", "birthday": "2006-11-04"},
-            {"name": "Huiyeon", "positions": ["Sub Vocalist"], "image": "/assets/images/kpop/lightsum/huiyeon.jpg", "note": "", "former": true, "country": "KR", "birthday": "2005-08-01"},
-        ],
-    },
-    {
         id: "iz-one",
         palette: "izone-pink",
         kprofiles: "https://kprofiles.com/izone-members-profile/",
@@ -460,6 +518,24 @@ window.kpopGroups = [
         ],
     },
     {
+        id: "apink",
+        palette: "apink-strawberry",
+        kprofiles: "https://kprofiles.com/apink-members-profile/",
+        name: "Apink",
+        hearts: 1,
+        image: "/assets/images/kpop/apink/group.jpg",
+        logo: "/assets/images/kpop/apink/logo.jpg",
+        favoriteSong: "Dumhdurum",
+        members: [
+            {"name": "Bomi", "positions": ["Lead Vocalist", "Main Rapper", "Main Dancer", "Center"], "image": "/assets/images/kpop/apink/bomi.jpg", "note": "", "birthday": "1993-08-13", "country": "KR"},
+            {"name": "Chorong", "positions": ["Leader", "Lead Dancer", "Vocalist", "Rapper"], "image": "/assets/images/kpop/apink/chorong.jpg", "note": "", "birthday": "1991-03-03", "country": "KR"},
+            {"name": "Eunji", "positions": ["Main Vocalist", "Face of the Group"], "image": "/assets/images/kpop/apink/eunji.jpg", "note": "", "birthday": "1993-08-18", "country": "KR"},
+            {"name": "Naeun", "positions": ["Lead Dancer", "Vocalist", "Rapper", "Center", "Visual"], "image": "/assets/images/kpop/apink/naeun.jpg", "note": "", "former": true, "birthday": "1994-02-10", "country": "KR"},
+            {"name": "Hayoung", "positions": ["Vocalist", "Rapper", "Maknae"], "image": "/assets/images/kpop/apink/hayoung.jpg", "note": "", "birthday": "1996-07-19", "country": "KR"},
+            {"name": "Namjoo", "positions": ["Lead Vocalist", "Lead Dancer", "Rapper"], "image": "/assets/images/kpop/apink/namjoo.jpg", "note": "", "birthday": "1995-04-15", "country": "KR"},
+        ],
+    },
+    {
         id: "orange-caramel",
         palette: "orange-caramel-yellow",
         kprofiles: "https://kprofiles.com/orange-caramel-members-profile/",
@@ -475,101 +551,27 @@ window.kpopGroups = [
         ],
     },
     {
-        id: "oh-my-girl",
-        kprofiles: "https://kprofiles.com/oh-my-girl-members-profile/",
-        name: "OH MY GIRL",
-        hearts: null,
-        image: "",
-        logo: "",
-        favoriteSong: "Dun Dun Dance",
-        members: [
-            {"name": "Hyojung", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Mimi", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "YooA", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Seunghee", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Yubin", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Arin", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "JinE", "positions": ["Position"], "image": "", "note": "", "former": true},
-            {"name": "Jiho", "positions": ["Position"], "image": "", "note": "", "former": true},
-        ],
-    },
-    {
-        id: "weeekly",
-        kprofiles: "https://kprofiles.com/weeekly-members-profile/",
-        name: "WEEEKLY",
-        hearts: null,
-        image: "",
-        logo: "",
-        favoriteSong: "After School",
-        members: [
-            {"name": "Lee Soojin", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Monday", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Park Soeun", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Lee Jaehee", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Jihan", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Zoa", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Shin Jiyoon", "positions": ["Position"], "image": "", "note": "", "former": true},
-        ],
-    },
-    {
-        id: "fromis-9",
-        kprofiles: "https://kprofiles.com/fromis_9-members-profile/",
-        name: "fromis_9",
-        hearts: null,
-        image: "",
-        logo: "",
-        favoriteSong: "Supersonic",
-        members: [
-            {"name": "Song Hayoung", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Park Jiwon", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Lee Chaeyoung", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Lee Nagyung", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Baek Jiheon", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Jang Gyuri", "positions": ["Position"], "image": "", "note": "", "former": true},
-            {"name": "Lee Saerom", "positions": ["Position"], "image": "", "note": "", "former": true},
-            {"name": "Roh Jisun", "positions": ["Position"], "image": "", "note": "", "former": true},
-            {"name": "Lee Seoyeon", "positions": ["Position"], "image": "", "note": "", "former": true},
-        ],
-    },
-    {
-        id: "apink",
-        kprofiles: "https://kprofiles.com/apink-members-profile/",
-        name: "Apink",
-        hearts: null,
-        image: "",
-        logo: "",
-        favoriteSong: "Dumhdurum",
-        members: [
-            {"name": "Park Chorong", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Yoon Bomi", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Jeong Eunji", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Kim Namjoo", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Oh Hayoung", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Hong Yookyung", "positions": ["Position"], "image": "", "note": "", "former": true},
-            {"name": "Son Naeun", "positions": ["Position"], "image": "", "note": "", "former": true},
-        ],
-    },
-    {
         id: "loona",
+        palette: "loona-ice",
         kprofiles: "https://kprofiles.com/loona-members-profile/",
         name: "LOONA",
-        hearts: null,
-        image: "",
-        logo: "",
+        hearts: 3,
+        image: "/assets/images/kpop/loona/group.jpg",
+        logo: "/assets/images/kpop/loona/logo.jpg",
         favoriteSong: "Flip That",
         members: [
-            {"name": "Haseul", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Vivi", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Yves", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Jinsoul", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Kim Lip", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Chuu", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Heejin", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Hyunjin", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Gowon", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Choerry", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Olivia Hye", "positions": ["Position"], "image": "", "note": ""},
-            {"name": "Yeojin", "positions": ["Position"], "image": "", "note": ""},
+            {"name": "Chuu", "positions": ["Position"], "image": "/assets/images/kpop/loona/chuu.jpg", "note": "", "birthday": "1999-10-20", "country": "KR"},
+            {"name": "Yeojin", "positions": ["Position"], "image": "/assets/images/kpop/loona/yeojin.jpg", "note": "", "birthday": "2002-11-11", "country": "KR"},
+            {"name": "Olivia Hye", "positions": ["Position"], "image": "/assets/images/kpop/loona/olivia-hye.jpg", "note": "", "birthday": "2001-11-13", "country": "KR"},
+            {"name": "Haseul", "positions": ["Position"], "image": "/assets/images/kpop/loona/haseul.jpg", "note": "", "birthday": "1997-08-18", "country": "KR"},
+            {"name": "Heejin", "positions": ["Position"], "image": "/assets/images/kpop/loona/heejin.jpg", "note": "", "birthday": "2000-10-19", "country": "KR"},
+            {"name": "Yves", "positions": ["Position"], "image": "/assets/images/kpop/loona/yves.jpg", "note": "", "birthday": "1997-05-24", "country": "KR"},
+            {"name": "JinSoul", "positions": ["Position"], "image": "/assets/images/kpop/loona/jinsoul.jpg", "note": "", "birthday": "1997-06-13", "country": "KR"},
+            {"name": "Kim Lip", "positions": ["Position"], "image": "/assets/images/kpop/loona/kim-lip.jpg", "note": "", "birthday": "1999-02-10", "country": "KR"},
+            {"name": "Hyunjin", "positions": ["Position"], "image": "/assets/images/kpop/loona/hyunjin.jpg", "note": "", "birthday": "2000-11-15", "country": "KR"},
+            {"name": "Choerry", "positions": ["Position"], "image": "/assets/images/kpop/loona/choerry.jpg", "note": "", "birthday": "2001-06-04", "country": "KR"},
+            {"name": "Gowon", "positions": ["Position"], "image": "/assets/images/kpop/loona/gowon.jpg", "note": "", "birthday": "2000-11-19", "country": "KR"},
+            {"name": "Vivi", "positions": ["Position"], "image": "/assets/images/kpop/loona/vivi.jpg", "note": "", "birthday": "1996-12-09", "country": "HK"},
         ],
     },
     {
@@ -1319,66 +1321,6 @@ window.kpopGroups = [
         members: [],
     },
     {
-        "id": "fiestar",
-        "name": "FIESTAR",
-        "kprofiles": "https://kprofiles.com/?s=FIESTAR",
-        "hearts": null,
-        "image": "",
-        "logo": "",
-        "favoriteSong": "You're Pitiful",
-        "members": [
-            {
-                "name": "Member name",
-                "positions": [
-                    "Position"
-                ],
-                "image": "",
-                "note": "",
-                "placeholder": true
-            }
-        ]
-    },
-    {
-        "id": "red-velvet",
-        "name": "Red Velvet",
-        "kprofiles": "https://kprofiles.com/?s=Red%20Velvet",
-        "hearts": null,
-        "image": "",
-        "logo": "",
-        "favoriteSong": "Psycho",
-        "members": [
-            {
-                "name": "Member name",
-                "positions": [
-                    "Position"
-                ],
-                "image": "",
-                "note": "",
-                "placeholder": true
-            }
-        ]
-    },
-    {
-        "id": "kara",
-        "name": "KARA",
-        "kprofiles": "https://kprofiles.com/?s=KARA",
-        "hearts": null,
-        "image": "",
-        "logo": "",
-        "favoriteSong": "Pretty Girl",
-        "members": [
-            {
-                "name": "Member name",
-                "positions": [
-                    "Position"
-                ],
-                "image": "",
-                "note": "",
-                "placeholder": true
-            }
-        ]
-    },
-    {
         id: "soojin",
         name: "Soojin",
         type: "soloist",
@@ -1399,5 +1341,188 @@ window.kpopGroups = [
         logo: "",
         favoriteSong: "body",
         members: [],
+    },
+    {
+        "id": "fiestar",
+        "name": "FIESTAR",
+        "kprofiles": "https://kprofiles.com/fiestar-members-profile/",
+        "hearts": null,
+        "image": "",
+        "logo": "",
+        "favoriteSong": "You're Pitiful",
+        "members": [
+            {
+                "name": "Jei",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Cao Lu",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Linzy",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Hyemi",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Yezi",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Cheska",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": "",
+                "former": true
+            }
+        ]
+    },
+    {
+        "id": "red-velvet",
+        "name": "Red Velvet",
+        "kprofiles": "https://kprofiles.com/red-velvet-members-profile/",
+        "hearts": null,
+        "image": "",
+        "logo": "",
+        "favoriteSong": "Psycho",
+        "members": [
+            {
+                "name": "Irene",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Seulgi",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Wendy",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Joy",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Yeri",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            }
+        ]
+    },
+    {
+        "id": "kara",
+        "name": "KARA",
+        "kprofiles": "https://kprofiles.com/kara-members-profile/",
+        "hearts": null,
+        "image": "",
+        "logo": "",
+        "favoriteSong": "Pretty Girl",
+        "members": [
+            {
+                "name": "Gyuri",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Seungyeon",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Nicole",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Jiyoung",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Youngji",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": ""
+            },
+            {
+                "name": "Hara",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": "",
+                "memorial": {
+                    "years": "1991–2019",
+                    "message": "Remembering Hara with love. Her voice, creativity, and individuality hold a lasting place in KARA's story and in the hearts of those who cherish her. Forever remembered."
+                }
+            },
+            {
+                "name": "Sunghee",
+                "positions": [
+                    "Position"
+                ],
+                "image": "",
+                "note": "",
+                "former": true
+            }
+        ]
     },
 ];
