@@ -66,7 +66,7 @@ Google Fonts. Push and deploy to publish data or image changes.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.62** | [Changelog](CHANGELOG.md) | [Detailed guide](docs/FEATURE-GUIDE.md)
+**Version 1.1.63** | [Changelog](CHANGELOG.md) | [Detailed guide](docs/FEATURE-GUIDE.md)
 
 A four-mode annual review with personal and global statistics, skillsets, playstyle/mapping clubs, an animated slideshow, portrait/landscape recap cards, and embedded replay/beatmap viewers. The demo uses bundled data, artwork, and slideshow audio previews without live generation or queue requests. External links and viewers still open their respective websites.
 
