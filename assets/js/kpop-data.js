@@ -464,7 +464,7 @@ window.kpopGroups = [
         kprofiles: "https://kprofiles.com/girls-generation-snsd-members-profile/",
         name: "Girls' Generation (SNSD)",
         hearts: 2,
-        image: "/assets/images/kpop/girls-generation/group.jpg",
+        image: "/assets/images/kpop/girls-generation/group-repaired.png",
         logo: "/assets/images/kpop/girls-generation/logo.jpg",
         favoriteSong: "Gee",
         members: [
