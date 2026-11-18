@@ -79,3 +79,59 @@ AU (Australia), JP (Japan). Flags load from FlagCDN with accessible country labe
 Set `birthday: "2002-05-30"` on a member (YYYY-MM-DD). Ages use the visitor's
 local date, refresh at midnight and on returning to the tab, and do not require
 yearly edits. Members without birthdays do not display an age column.
+
+## Spotify song players
+
+Spotify embeds need no API key or subscription for this website integration.
+Add a song's Share > Copy Song Link URL alongside its favoriteSong field:
+
+```js
+favoriteSong: "Nothing",
+spotifyUrl: "https://open.spotify.com/track/3ym9bzwGG4uxVaJ0pLoQbM",
+```
+
+Use a full open.spotify.com/track/... link (query strings are fine), not a
+spotify.link short URL, album, playlist, or artist link. Update both fields
+when changing your favorite song. Blank or invalid URLs show Find on Spotify
+instead of an embedded player. Spotify decides preview/full playback availability
+for the visitor; a fixed preview duration is not guaranteed.
+
+Listen opens a compact player on both cards and ranking headers. Only one player
+stays open; closing it, navigating, or changing filters stops playback by removing
+the iframe. Players never load before a visitor clicks Listen and do not autoplay.
+
+## Collection filters
+
+Group entries can set `generation: 4,` and `status: "active",` alongside their
+existing heart rating. Status values are `active`, `inactive` (including hiatus
+and uncertain disbandment), or `disbanded`. Missing fields appear under Not assigned.
+Soloists use the heart-rating filter; generation and group status are disabled
+for them. Selections combine, and Reset filters clears the dropdowns while keeping
+the current Groups/Soloists tab. Returning from a ranking preserves the filters.
+
+Generation is an editable classification, not an official industry standard.
+Initial labels use debut eras: 2nd through 2011, 3rd 2012–2017, 4th 2018–2022,
+5th 2023 onward; 1st is available for future additions. Groups retain their original
+identity's debut era after reunions. ARTMS uses its full-group debut (2024), and
+LIMELIGHT uses its official debut (2023), rather than pre-debut activities.
+
+Status is a manually maintained snapshot checked on November 18, 2026 against
+each group's existing K-Profiles link. Suspected disbandments are kept under
+Inactive / hiatus rather than treated as confirmed. Weeekly follows your
+classification as disbanded. Reunited acts such as I.O.I, BESTie, FIESTAR and KARA
+are included as active. MAMAMOO is active based on its official 2026 tour notice:
+https://mamamoo.co.kr/contents/6a0afc90b3f81c194a2bf4fd
+NewJeans remains under Inactive / hiatus pending its return to group activities:
+https://www.koreaherald.com/article/10910209
+These fields do not automatically change with news; edit them when needed.
+
+### Collection sorting
+
+Sort by supports Hearts: highest first (the default), Hearts: lowest first,
+Name: A–Z, and Name: Z–A. Highest first places unrated artists last and keeps
+equal ratings in the order in kpop-data.js. Lowest first is the exact reverse
+of that list, reversing tied ratings too and placing unrated artists first.
+Name sorting ignores case and punctuation and compares numbers naturally.
+Sorting combines with all filters, applies to Groups and Soloists, and remains
+selected when returning from member rankings. Reset filters leaves sorting as-is.
+Sorting moves existing cards, preserving their photos, colors, and listeners.

@@ -148,3 +148,86 @@ html{scroll-behavior:smooth}#groups-view{scroll-margin-top:24px}
 
 [data-palette=loona-ice]{--accent:#B4D4E7;--ink:#263e50;--paper:#B4D4E7}
 .group-card[data-palette=loona-ice] .card-art{background:var(--paper)}
+
+[data-palette=kep1er-lavender]{--accent:#C8BEDF;--ink:#382f4d;--paper:#C8BEDF}
+.group-card[data-palette=kep1er-lavender] .card-art{background:var(--paper)}
+
+[data-palette=ive-rose]{--accent:#F2B6D8;--ink:#49243b;--paper:#F2B6D8}
+.group-card[data-palette=ive-rose] .card-art{background:var(--paper)}
+
+[data-palette=loossemble-beige]{--accent:#E5D5BB;--ink:#4b3b2c;--paper:#E5D5BB}
+.group-card[data-palette=loossemble-beige] .card-art{background:var(--paper)}
+
+[data-palette=ioi-aqua]{--accent:#B5DFDF;--ink:#294747;--paper:#B5DFDF}
+.group-card[data-palette=ioi-aqua] .card-art{background:var(--paper)}
+
+[data-palette=aoa-silver]{--accent:#D1D1D6;--ink:#303035;--paper:#D1D1D6}
+.group-card[data-palette=aoa-silver] .card-art{background:var(--paper)}
+
+/* Spotify players are created only after an explicit Listen click. */
+.group-card{position:relative}
+.group-card-link{text-decoration:none}
+.group-card-link::after{content:"";position:absolute;inset:0;z-index:2;border-radius:inherit}
+.group-card:focus-within{outline:2px solid var(--accent);outline-offset:4px}
+.song-listen{position:relative;z-index:3;margin-top:8px;min-width:0}
+.song-listen-button{display:inline-flex;align-items:center;justify-content:center;min-height:36px;border:1px solid currentColor;border-radius:999px;padding:8px 13px;background:transparent;color:inherit;font:600 .7rem 'DM Sans',sans-serif;text-decoration:none;cursor:pointer;letter-spacing:.02em}
+.song-listen-button:hover{background:#ffffff25}
+.song-player{margin-top:12px;min-width:0}
+.song-player iframe{display:block;width:100%;height:152px;border:0;border-radius:12px;background:#181818}
+.song-player-link{display:inline-block;margin-top:8px;font-size:.65rem;text-underline-offset:3px}
+.ranking-song-listen{max-width:420px;color:var(--accent);margin:12px 0 18px}
+.group-card:has(.song-player:not([hidden])){transform:none}
+@media(max-width:360px){.group-card .card-art{padding:12px}.song-player iframe{min-width:0}}
+
+/* Keep each card's Listen button beside its song, with a full-width player below. */
+.group-card .favorite-song {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 12px;
+    row-gap: 7px;
+    width: 100%;
+}
+.group-card .favorite-song > .song-label { grid-column: 1; grid-row: 1; }
+.group-card .favorite-song > .song-title { grid-column: 1; grid-row: 2; }
+.group-card .favorite-song > .song-listen { display: contents; }
+.group-card .favorite-song .song-listen-button {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    position: relative;
+    z-index: 3;
+    white-space: nowrap;
+}
+.group-card .favorite-song .song-player {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    position: relative;
+    z-index: 3;
+    margin-top: 5px;
+}
+@media (max-width: 360px) {
+    .group-card .favorite-song { column-gap: 8px; }
+    .group-card .favorite-song .song-listen-button { padding-inline: 10px; font-size: .65rem; }
+}
+
+/* Collection refinements share the existing restrained pink-and-charcoal palette. */
+.collection-refinements{display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:18px;align-items:end;padding:22px;border:1px solid #ffffff18;border-radius:14px;background:#ffffff03;margin-bottom:14px}
+.collection-select{display:flex;flex-direction:column;gap:10px;min-width:0;color:#bfaeb8;font-size:.65rem;font-weight:500;letter-spacing:.05em}
+.collection-select select{width:100%;min-width:0;min-height:44px;padding:10px 34px 10px 13px;border:1px solid #ffffff25;border-radius:8px;background:#252127;color:#f7f1ef;font:400 .8rem 'DM Sans',sans-serif;cursor:pointer;color-scheme:dark}
+.collection-select select:hover{border-color:#efb2c575}.collection-select select:focus-visible{outline:2px solid #efb2c5;outline-offset:3px}
+.collection-select:has(select:disabled){opacity:.45}.collection-select select:disabled{cursor:default}
+.clear-collection-filters{min-height:44px;padding:10px 16px;border:1px solid #efb2c550;border-radius:8px;background:transparent;color:#efb2c5;font:500 .75rem 'DM Sans',sans-serif;cursor:pointer;white-space:nowrap}
+.clear-collection-filters:hover:not(:disabled){background:#efb2c512}.clear-collection-filters:disabled{opacity:.4;cursor:default}
+.collection-result-row{display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;margin-bottom:22px;color:#bfaeb8;font-size:.7rem}
+.collection-result-row p{margin:0;line-height:1.6}.collection-empty{text-align:center;padding:54px 22px;border:1px dashed #efb2c540;border-radius:14px;color:#bfaeb8}.collection-empty h3{color:#f7f1ef}.collection-empty p{line-height:1.7}
+@media(max-width:800px){.collection-refinements{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;padding:18px}.clear-collection-filters{align-self:end}}
+@media(max-width:420px){.collection-refinements{gap:14px 10px;padding:14px}.collection-select select{font-size:.72rem;padding-left:9px}.collection-select{font-size:.6rem}.clear-collection-filters{font-size:.7rem;padding-inline:8px}}
+
+.collection-sort-label{display:flex;align-items:center;gap:12px;color:#bfaeb8;font-size:.65rem;letter-spacing:.05em}
+.collection-sort-label select{min-height:42px;max-width:100%;padding:9px 30px 9px 12px;background:#252127;border:1px solid #ffffff25;border-radius:8px;color:#f7f1ef;font:400 .75rem 'DM Sans',sans-serif;cursor:pointer;color-scheme:dark}
+.collection-sort-label select:hover{border-color:#efb2c575}.collection-sort-label select:focus-visible{outline:2px solid #efb2c5;outline-offset:3px}
+.collection-toolbar{flex-wrap:wrap;gap:18px}
+@media(max-width:520px){.collection-sort-label{width:100%;justify-content:space-between}.collection-sort-label select{flex:1;max-width:220px;min-width:0}}
+
+/* Empty results replace the list and retain its spacing above the footer. */
+.collection-empty{width:100%;margin:0 auto 60px;}

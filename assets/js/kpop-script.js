@@ -1,3 +1,37 @@
+function kpopSortArtists(artists, order = 'hearts-desc') {
+    const names = new Intl.Collator('en', { sensitivity: 'base', numeric: true, ignorePunctuation: true });
+    const sorted = [...artists].sort((a, b) => {
+        if (order === 'name-asc' || order === 'name-desc') {
+            return names.compare(a.name, b.name) * (order === 'name-desc' ? -1 : 1);
+        }
+        const ratedA = Number.isInteger(a.hearts) && a.hearts >= 1 && a.hearts <= 5;
+        const ratedB = Number.isInteger(b.hearts) && b.hearts >= 1 && b.hearts <= 5;
+        if (ratedA !== ratedB) return ratedA ? -1 : 1;
+        if (!ratedA) return 0;
+        return b.hearts - a.hearts;
+    });
+    // Lowest first reverses the entire highest-first list, including ties and unrated artists.
+    return order === 'hearts-asc' ? sorted.reverse() : sorted;
+}
+
+// Each selected criterion must match. Group-only filters do not exclude soloists.
+function kpopMatchesFilters(group, filters) {
+    const soloist = group.type === 'soloist';
+    if (soloist !== (filters.type === 'soloists')) return false;
+    if (!soloist && filters.generation !== 'all') {
+        const generation = Number.isInteger(group.generation) && group.generation >= 1 && group.generation <= 5
+            ? String(group.generation) : 'unassigned';
+        if (generation !== filters.generation) return false;
+    }
+    if (!soloist && filters.status !== 'all') {
+        const status = ['active', 'inactive', 'disbanded'].includes(group.status) ? group.status : 'unassigned';
+        if (status !== filters.status) return false;
+    }
+    const hearts = Number.isInteger(group.hearts) && group.hearts >= 1 && group.hearts <= 5
+        ? String(group.hearts) : 'unrated';
+    return filters.hearts === 'all' || hearts === filters.hearts;
+}
+
 function kpopMemberAge(birthday, today = new Date()) {
     if (!/^\d{4}-\d{2}-\d{2}$/.test(birthday || '')) return null;
     const [year, month, day] = birthday.split('-').map(Number);
@@ -90,17 +124,76 @@ function kpopMemberAge(birthday, today = new Date()) {
         }
         return fallback;
     }
+    let activeSong = null;
+    function closeSong() {
+        if (!activeSong) return;
+        activeSong.panel.replaceChildren();
+        activeSong.panel.hidden = true;
+        activeSong.button.setAttribute('aria-expanded', 'false');
+        activeSong.button.textContent = 'Listen on Spotify';
+        activeSong = null;
+    }
+    function songControl(group, placement) {
+        const wrapper = element('div', '', 'song-listen');
+        if (!group.favoriteSong) return wrapper;
+        let trackId = null;
+        try {
+            const url = new URL(group.spotifyUrl);
+            if (url.protocol === 'https:' && url.hostname === 'open.spotify.com') {
+                trackId = url.pathname.match(/^\/(?:intl-[a-z-]+\/)?(?:embed\/)?track\/([a-zA-Z0-9]{22})\/?$/)?.[1];
+            }
+        } catch { /* An unassigned track gets a Spotify search link. */ }
+        if (!trackId) {
+            const search = element('a', 'Find on Spotify', 'song-listen-button');
+            search.href = 'https://open.spotify.com/search/' + encodeURIComponent(group.name + ' ' + group.favoriteSong);
+            search.target = '_blank'; search.rel = 'noopener noreferrer';
+            search.setAttribute('aria-label', `Find ${group.favoriteSong} by ${group.name} on Spotify`);
+            wrapper.append(search);
+            return wrapper;
+        }
+        const button = element('button', 'Listen on Spotify', 'song-listen-button');
+        button.type = 'button';
+        const panel = element('div', '', 'song-player');
+        panel.id = `spotify-${placement}-${group.id}`;
+        panel.hidden = true;
+        button.setAttribute('aria-controls', panel.id);
+        button.setAttribute('aria-expanded', 'false');
+        button.setAttribute('aria-label', `Listen to ${group.favoriteSong} by ${group.name} on Spotify`);
+        button.addEventListener('click', () => {
+            const wasOpen = activeSong?.button === button;
+            closeSong();
+            if (wasOpen) return;
+            const iframe = document.createElement('iframe');
+            iframe.src = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`;
+            iframe.title = `${group.favoriteSong} by ${group.name} — Spotify player`;
+            iframe.width = '100%'; iframe.height = '152';
+            iframe.allow = 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture';
+            iframe.allowFullscreen = true;
+            const fallback = element('a', 'Open song on Spotify', 'song-player-link');
+            fallback.href = `https://open.spotify.com/track/${trackId}`;
+            fallback.target = '_blank'; fallback.rel = 'noopener noreferrer';
+            panel.append(iframe, fallback);
+            panel.hidden = false;
+            button.setAttribute('aria-expanded', 'true');
+            button.textContent = 'Close player';
+            activeSong = { panel, button };
+        });
+        wrapper.append(button, panel);
+        return wrapper;
+    }
     const palettes = ['rose', 'aqua', 'silver', 'lime', 'violet', 'peach'];
     groups.forEach((group, index) => {
         const soloist = group.type === 'soloist';
-        const card = element(soloist ? 'article' : 'a', '', 'group-card');
-        if (!soloist) card.href = `#${group.id}`;
+        const card = element('article', '', 'group-card');
+        card.tabIndex = -1;
         if (!soloist) card.addEventListener('click', event => {
+            if (event.target.closest('.song-listen')) return;
             if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
             collectionScroll = window.scrollY;
             collectionCard = card;
         });
 
+        card.dataset.artistId = group.id;
         card.dataset.hearts = String(group.hearts ?? '');
         card.dataset.type = group.type || 'group';
         card.hidden = card.dataset.type === 'soloist';
@@ -122,10 +215,18 @@ function kpopMemberAge(birthday, today = new Date()) {
         const song = element('div', '', 'favorite-song');
         song.append(element('span', 'ON REPEAT / FAVORITE SONG', 'song-label'),
             element('strong', group.favoriteSong || 'Still choosing my favorite', 'song-title'));
+        song.append(songControl(group, 'card'));
         artwork.append(song);
         const body = element('div', '', 'card-body');
         const heading = element('div', '', 'card-heading');
-        heading.append(element('h3', group.name));
+        const title = element('h3', group.name);
+        if (soloist) heading.append(title);
+        else {
+            const link = element('a', '', 'group-card-link');
+            link.href = `#${group.id}`;
+            link.append(title);
+            heading.append(link);
+        }
         if (!soloist) {
             const arrow = element('span', '', 'card-arrow');
             arrow.append(icon('external'));
@@ -157,19 +258,64 @@ function kpopMemberAge(birthday, today = new Date()) {
         find('group-list').append(card);
     });
     find('group-count').textContent = `${String(groups.length).padStart(2, '0')} ARTISTS / ONE COLLECTION`;
+    let collectionSort = 'hearts-desc';
+    const collectionFilters = { type: 'groups', generation: 'all', status: 'all', hearts: 'all' };
+    function applyCollectionFilters() {
+        closeSong();
+        let visible = 0;
+        let total = 0;
+        const groupLookup = new Map(groups.map(group => [group.id, group]));
+        document.querySelectorAll('.group-card').forEach(card => {
+            const group = groupLookup.get(card.dataset.artistId);
+            if ((group.type === 'soloist') === (collectionFilters.type === 'soloists')) total++;
+            card.hidden = !kpopMatchesFilters(group, collectionFilters);
+            if (!card.hidden) visible++;
+        });
+        const cardsById = new Map(Array.from(document.querySelectorAll('.group-card'), card => [card.dataset.artistId, card]));
+        for (const group of kpopSortArtists(groups, collectionSort)) {
+            find('group-list').append(cardsById.get(group.id));
+        }
+        const soloists = collectionFilters.type === 'soloists';
+        find('filter-generation').disabled = soloists;
+        find('filter-status').disabled = soloists;
+        find('group-filter-hint').hidden = !soloists;
+        find('filter-results').textContent = `${visible} of ${total} ${soloists ? 'soloists' : 'groups'}`;
+        find('group-list').hidden = visible === 0;
+        find('filter-empty').hidden = visible !== 0;
+        find('clear-collection-filters').disabled = collectionFilters.hearts === 'all' &&
+            (soloists || (collectionFilters.generation === 'all' && collectionFilters.status === 'all'));
+    }
     document.querySelectorAll('[data-filter]').forEach(button => {
         button.addEventListener('click', () => {
+            collectionFilters.type = button.dataset.filter;
             document.querySelectorAll('[data-filter]').forEach(item => {
                 const active = item === button;
                 item.classList.toggle('active', active);
                 item.setAttribute('aria-pressed', String(active));
             });
-            document.querySelectorAll('.group-card').forEach(card => {
-                card.hidden = button.dataset.filter === 'soloists' ? card.dataset.type !== 'soloist' : card.dataset.type === 'soloist';
-            });
+            applyCollectionFilters();
         });
     });
+    for (const key of ['generation', 'status', 'hearts']) {
+        find(`filter-${key}`).addEventListener('change', event => {
+            collectionFilters[key] = event.target.value;
+            applyCollectionFilters();
+        });
+    }
+    find('collection-sort').addEventListener('change', event => {
+        collectionSort = event.target.value;
+        applyCollectionFilters();
+    });
+    find('clear-collection-filters').addEventListener('click', () => {
+        for (const key of ['generation', 'status', 'hearts']) {
+            collectionFilters[key] = 'all';
+            find(`filter-${key}`).value = 'all';
+        }
+        applyCollectionFilters();
+    });
+    applyCollectionFilters();
     function render(focus = false) {
+        closeSong();
         const group = groups.find(item => item.type !== 'soloist' && `#${item.id}` === location.hash);
         const returningToCollection = showingGroup && !group;
         showingGroup = Boolean(group);
@@ -185,6 +331,10 @@ function kpopMemberAge(birthday, today = new Date()) {
         find('member-title').textContent = group.name;
         find('group-rating').replaceChildren(rating(group));
         find('ranking-song-title').textContent = group.favoriteSong || 'Still choosing my favorite';
+        find('members-view').querySelector('.ranking-song-listen')?.remove();
+        const rankingListen = songControl(group, 'ranking');
+        rankingListen.classList.add('ranking-song-listen');
+        find('ranking-song-title').parentElement.after(rankingListen);
         find('group-note').textContent = group.note || '';
         const profileLink = find('group-kprofiles');
         profileLink.hidden = true;
