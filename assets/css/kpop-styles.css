@@ -231,3 +231,18 @@ html{scroll-behavior:smooth}#groups-view{scroll-margin-top:24px}
 
 /* Empty results replace the list and retain its spacing above the footer. */
 .collection-empty{width:100%;margin:0 auto 60px;}
+
+[data-palette=bestie-champagne]{--accent:#D0C4B4;--ink:#393027;--paper:#D0C4B4}
+.group-card[data-palette=bestie-champagne] .card-art{background:var(--paper)}
+
+[data-palette=exid-7432]{--accent:#E9A5C2;--ink:#210d17;--paper:#B55C80}
+.group-card[data-palette=exid-7432] .card-art{background:var(--paper)}
+
+[data-palette=meovv-steel]{--accent:#A9C4D5;--ink:#101e28;--paper:#7895AA}
+.group-card[data-palette=meovv-steel] .card-art{background:var(--paper)}
+
+[data-palette=weki-yellow]{--accent:#F8D54B;--ink:#423616;--paper:#F8D54B}
+.group-card[data-palette=weki-yellow] .card-art{background:var(--paper)}
+
+[data-palette=viviz-blush]{--accent:#E7B3C6;--ink:#492736;--paper:#E7B3C6}
+.group-card[data-palette=viviz-blush] .card-art{background:var(--paper)}
