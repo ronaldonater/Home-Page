@@ -1,12 +1,12 @@
 {
   "year": 2026,
-  "totalSets": 6255,
+  "totalSets": 6267,
   "modes": {
     "osu": {
       "genres": [
         {
           "id": 4,
-          "count": 611
+          "count": 612
         },
         {
           "id": 2,
@@ -14,11 +14,11 @@
         },
         {
           "id": 5,
-          "count": 792
+          "count": 794
         },
         {
           "id": 10,
-          "count": 779
+          "count": 781
         },
         {
           "id": 3,
@@ -26,7 +26,7 @@
         },
         {
           "id": 11,
-          "count": 209
+          "count": 210
         },
         {
           "id": 14,
@@ -53,7 +53,7 @@
           "count": 22
         }
       ],
-      "totalSets": 3016,
+      "totalSets": 3022,
       "totalMappers": 1066,
       "top": [
         {
@@ -126,11 +126,11 @@
         },
         {
           "id": 5,
-          "count": 347
+          "count": 350
         },
         {
           "id": 11,
-          "count": 108
+          "count": 109
         },
         {
           "id": 4,
@@ -169,7 +169,7 @@
           "count": 9
         }
       ],
-      "totalSets": 1609,
+      "totalSets": 1613,
       "totalMappers": 322,
       "top": [
         {
@@ -181,7 +181,7 @@
         {
           "userId": 5159715,
           "username": "[-E S I A-]",
-          "count": 61,
+          "count": 62,
           "rank": 2
         },
         {
@@ -211,7 +211,7 @@
         {
           "userId": 845733,
           "username": "Faputa",
-          "count": 36,
+          "count": 37,
           "rank": 7
         },
         {
@@ -358,11 +358,11 @@
         },
         {
           "id": 10,
-          "count": 594
+          "count": 595
         },
         {
           "id": 5,
-          "count": 202
+          "count": 203
         },
         {
           "id": 11,
@@ -401,8 +401,8 @@
           "count": 7
         }
       ],
-      "totalSets": 1194,
-      "totalMappers": 420,
+      "totalSets": 1196,
+      "totalMappers": 421,
       "top": [
         {
           "userId": 27834381,
@@ -467,7 +467,7 @@
       ]
     }
   },
-  "updatedAt": "2026-11-19T17:29:11.813Z",
+  "updatedAt": "2026-11-20T17:04:00.795Z",
   "source": "osu!",
   "sourceUrl": "https://osu.ppy.sh/beatmapsets?q=ranked%3E%3D2026-01-01%20ranked%3C2027-01-01&s=ranked",
   "coverage": "Currently ranked mapsets with a 2026 ranked date (UTC). Each unique set counts once for its host in each native gamemode it contains. Guest difficulties are not separate set credits."
