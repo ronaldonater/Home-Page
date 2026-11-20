@@ -119,6 +119,7 @@ function kpopMemberAge(birthday, today = new Date()) {
         if (item.image) {
             const image = document.createElement('img');
             image.src = item.image; image.alt = ''; image.loading = 'lazy';
+            image.width = 400; image.height = 400;
             image.addEventListener('error', () => image.remove());
             fallback.append(image);
         }
@@ -204,6 +205,7 @@ function kpopMemberAge(birthday, today = new Date()) {
         if (group.image) {
             const image = document.createElement('img');
             image.src = group.image; image.alt = `${group.name} ${soloist ? 'portrait' : 'group photo'}`;
+            if (soloist) { image.width = 400; image.height = 400; }
             image.loading = 'lazy';
             image.style.objectPosition = group.imagePosition || 'center top';
             image.addEventListener('error', () => image.remove());
@@ -360,6 +362,7 @@ function kpopMemberAge(birthday, today = new Date()) {
             const image = document.createElement('img');
             image.src = group.logo;
             image.alt = `${group.name} logo`;
+            image.width = 500; image.height = 500;
             image.style.objectPosition = group.logoPosition || 'center';
             image.addEventListener('error', () => image.remove());
             headerPhoto.append(image);
@@ -370,7 +373,7 @@ function kpopMemberAge(birthday, today = new Date()) {
             const row = element('li', '', member.placeholder ? 'member-row member-placeholder' : 'member-row');
             const copy = element('div', '', 'member-copy');
             const name = element('h3', member.name, 'member-name');
-            const countries = { TH: 'Thailand', KR: 'South Korea', US: 'United States', AU: 'Australia', JP: 'Japan', TW: 'Taiwan', CN: 'China', HK: 'Hong Kong' };
+            const countries = { TH: 'Thailand', KR: 'South Korea', US: 'United States', AU: 'Australia', JP: 'Japan', TW: 'Taiwan', CN: 'China', HK: 'Hong Kong', ID: 'Indonesia', SE: 'Sweden' };
             if (countries[member.country]) {
                 const flag = document.createElement('img');
                 flag.className = 'member-flag';

@@ -135,3 +135,13 @@ Name sorting ignores case and punctuation and compares numbers naturally.
 Sorting combines with all filters, applies to Groups and Soloists, and remains
 selected when returning from member rankings. Reset filters leaves sorting as-is.
 Sorting moves existing cards, preserving their photos, colors, and listeners.
+
+### Image canvas proportions
+
+Group photos use a 1200 × 800 (3:2) frame. Ranking-header logos use a
+500 × 500 square frame; member portraits and soloist card photos use a
+400 × 400 square frame. These are proportions/intrinsic image dimensions,
+not fixed on-screen sizes or rewritten image-file resolutions. CSS scales them
+for desktop and mobile. Images fill their frames with `object-fit: cover`, so
+non-square sources are cropped instead of stretched. The existing circular
+logo/member masks and responsive avatar widths are retained.

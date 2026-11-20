@@ -246,3 +246,37 @@ html{scroll-behavior:smooth}#groups-view{scroll-margin-top:24px}
 
 [data-palette=viviz-blush]{--accent:#E7B3C6;--ink:#492736;--paper:#E7B3C6}
 .group-card[data-palette=viviz-blush] .card-art{background:var(--paper)}
+
+[data-palette=h2h-sky]{--accent:#87CEEB;--ink:#173947;--paper:#87CEEB}
+.group-card[data-palette=h2h-sky] .card-art{background:var(--paper)}
+
+[data-palette=artms-blue]{--accent:#A4DCF2;--ink:#123241;--paper:#6ABADB}
+.group-card[data-palette=artms-blue] .card-art{background:var(--paper)}
+
+[data-palette=latency-charcoal]{--accent:#CDD0DA;--ink:#F7F6F9;--paper:#373942}
+.group-card[data-palette=latency-charcoal] .card-art{background:var(--paper)}
+
+[data-palette=fifty-white]{--accent:#F4F2F3;--ink:#3E3140;--paper:#F4F2F3}
+.group-card[data-palette=fifty-white] .card-art{background:var(--paper)}
+
+[data-palette=triples-silver]{--accent:#D4D6D9;--ink:#30343D;--paper:#D4D6D9}
+.group-card[data-palette=triples-silver] .card-art{background:var(--paper)}
+
+/* Square image canvases scale to the existing responsive display sizes. */
+.group-profile-photo { aspect-ratio: 500 / 500; }
+.member-row .portrait,
+.member-row.member-row-with-age .portrait {
+    height: auto;
+    aspect-ratio: 400 / 400;
+}
+.group-card[data-type="soloist"] .artist-photo {
+    height: auto;
+    aspect-ratio: 400 / 400;
+}
+.group-profile-photo img,
+.member-row .portrait img,
+.group-card[data-type="soloist"] .artist-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
