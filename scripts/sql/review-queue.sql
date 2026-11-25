@@ -1,4 +1,4 @@
--- Run once in Neon SQL Editor BEFORE deploying persistent profile queues.
+-- Run or rerun in Neon SQL Editor before deploying persistent profile queues and the generation counter.
 -- Adds separate tables only; existing community/admin records are unchanged.
 BEGIN;
 CREATE TABLE IF NOT EXISTS wrapped_review_queue_locks(budget_key text PRIMARY KEY);
@@ -14,6 +14,20 @@ ALTER TABLE wrapped_review_jobs ADD COLUMN IF NOT EXISTS resume_until timestampt
 CREATE INDEX IF NOT EXISTS wrapped_review_jobs_order ON wrapped_review_jobs(budget_key,state,queued_at,job_key);
 CREATE TABLE IF NOT EXISTS wrapped_review_cache(cache_key text PRIMARY KEY,payload text NOT NULL,expires_at timestamptz NOT NULL);
 CREATE INDEX IF NOT EXISTS wrapped_review_cache_expiry ON wrapped_review_cache(expires_at);
+-- Keep a durable, privacy-preserving total keyed by the existing HMAC user/mode job key.
+-- Seed from completed jobs so current users are represented when this migration is first applied.
+CREATE TABLE IF NOT EXISTS wrapped_review_generation_events(
+ job_key text PRIMARY KEY,counted_at timestamptz NOT NULL DEFAULT clock_timestamp()
+);
+CREATE TABLE IF NOT EXISTS wrapped_review_generation_stats(
+ id smallint PRIMARY KEY CHECK(id=1),total bigint NOT NULL DEFAULT 0 CHECK(total>=0)
+);
+INSERT INTO wrapped_review_generation_events(job_key)
+ SELECT DISTINCT job_key FROM wrapped_review_jobs WHERE state='complete' ON CONFLICT DO NOTHING;
+INSERT INTO wrapped_review_generation_stats(id,total)
+ SELECT 1,count(*) FROM wrapped_review_generation_events ON CONFLICT(id) DO NOTHING;
+ALTER TABLE wrapped_review_generation_events ENABLE ROW LEVEL SECURITY;
+ALTER TABLE wrapped_review_generation_stats ENABLE ROW LEVEL SECURITY;
 ALTER TABLE wrapped_review_queue_locks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE wrapped_review_jobs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE wrapped_review_cache ENABLE ROW LEVEL SECURITY;
@@ -81,6 +95,6 @@ BEGIN
 END;
 $$;
 REVOKE ALL ON FUNCTION wrapped_review_claim_v2(text,text,text,text),wrapped_review_depart(text,text[],text) FROM PUBLIC;
-REVOKE ALL ON wrapped_review_queue_locks,wrapped_review_jobs,wrapped_review_cache FROM PUBLIC;
+REVOKE ALL ON wrapped_review_queue_locks,wrapped_review_jobs,wrapped_review_cache,wrapped_review_generation_events,wrapped_review_generation_stats FROM PUBLIC;
 REVOKE ALL ON FUNCTION wrapped_review_claim(text,text,text) FROM PUBLIC;
 COMMIT;

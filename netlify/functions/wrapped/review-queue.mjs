@@ -48,11 +48,23 @@ export function createReviewQueue({query=(...args)=>reviewStorage.query(...args)
   const jobs=['osu','taiko','fruits','mania'].map(mode=>createHmac('sha256',cfg.secret).update('review:'+userId+':'+mode+':v1').digest('hex'));
   try{await query(cfg.databaseUrl,'SELECT wrapped_review_depart($1,$2::text[],$3)',[budget,jobs,client]);return {status:'departed'};}
   catch{retryAt=now()+30000;return {status:'unavailable'};}
+ },async generatedCount(){
+  const cfg=config();if(!cfg.databaseUrl)return null;
+  try{const rows=await query(cfg.databaseUrl,'SELECT total FROM wrapped_review_generation_stats WHERE id=1');const total=Number(rows[0]?.total);return Number.isSafeInteger(total)&&total>=0?total:null;}
+  catch(error){databaseWarning('generated Wrapped counter',error);return null;}
  },async release(ticket,data){
   if(ticket.status!=='active')return;
   const cfg=config(),complete=data?.loadingStatus?.complete===true;
   const result=complete?encryptReview(data,cfg.secret):null;
-  let rows;try{rows=await query(cfg.databaseUrl,`UPDATE wrapped_review_jobs SET state=CASE WHEN $4::boolean THEN 'complete' WHEN departed_until IS NOT NULL THEN 'queued' ELSE state END, result=CASE WHEN $4::boolean THEN $5 ELSE result END, expires_at=CASE WHEN $4::boolean THEN now()+interval '1 hour' ELSE expires_at END, work_until=NULL, worker_id=NULL, last_seen_at=now() WHERE budget_key=$1 AND job_key=$2 AND worker_id=$3 AND work_until>now() RETURNING job_key`,[ticket.budget,ticket.job,ticket.worker,complete,result]);}catch(error){databaseWarning('profile queue / completed-results cache',error);retryAt=now()+30000;return {status:'unavailable'};}
+  let rows;try{rows=await query(cfg.databaseUrl,`WITH finished AS (
+ UPDATE wrapped_review_jobs SET state=CASE WHEN $4::boolean THEN 'complete' WHEN departed_until IS NOT NULL THEN 'queued' ELSE state END, result=CASE WHEN $4::boolean THEN $5 ELSE result END, expires_at=CASE WHEN $4::boolean THEN now()+interval '1 hour' ELSE expires_at END, work_until=NULL, worker_id=NULL, last_seen_at=now() WHERE budget_key=$1 AND job_key=$2 AND worker_id=$3 AND work_until>now() RETURNING job_key
+), counted AS (
+ INSERT INTO wrapped_review_generation_events(job_key) SELECT job_key FROM finished WHERE $4::boolean ON CONFLICT DO NOTHING RETURNING job_key
+), bump AS (
+ INSERT INTO wrapped_review_generation_stats(id,total) SELECT 1,count(*) FROM counted HAVING count(*)>0
+ ON CONFLICT(id) DO UPDATE SET total=wrapped_review_generation_stats.total+EXCLUDED.total RETURNING total
+)
+SELECT job_key FROM finished`,[ticket.budget,ticket.job,ticket.worker,complete,result]);}catch(error){databaseWarning('profile queue / completed-results cache',error);retryAt=now()+30000;return {status:'unavailable'};}
   if(!rows.length)throw Object.assign(Error('Your profile job is being resumed. Please wait.'),{status:503});
  }};
 }

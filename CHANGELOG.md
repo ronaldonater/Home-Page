@@ -2,6 +2,12 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.64 updates
+
+- Add a worldwide Wrapped-generation counter. Each account/game mode counts once, and profile regenerations do not add to it. Existing completed queue records seed the total.
+- Keep the counter visible when its total is unavailable, then style it as a badge below the fan-made note and align it with that note.
+
+
 ## v1.1.63 updates
 
 - Add TheAudioDB artist-image matching disclaimers to the stats attribution, FAQ, credits, artist slide, and portrait/landscape recap cards. Scale recap attribution text to fit a single line.

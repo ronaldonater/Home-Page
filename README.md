@@ -66,7 +66,7 @@ Google Fonts. Push and deploy to publish data or image changes.
 
 ## osu! Wrapped 2026
 
-**Version 1.1.63** | [Changelog](CHANGELOG.md) | [Detailed guide](docs/FEATURE-GUIDE.md)
+**Version 1.1.64** | [Changelog](CHANGELOG.md) | [Detailed guide](docs/FEATURE-GUIDE.md)
 
 A four-mode annual review with personal and global statistics, skillsets, playstyle/mapping clubs, an animated slideshow, portrait/landscape recap cards, and embedded replay/beatmap viewers. The demo uses bundled data, artwork, and slideshow audio previews without live generation or queue requests. External links and viewers still open their respective websites.
 
@@ -89,7 +89,7 @@ For Neon features, reuse `WRAPPED_DATABASE_URL` and `WRAPPED_CLUB_TRACKING_SECRE
 | Persistent profile queue and shared cache | [review-queue.sql](scripts/sql/review-queue.sql) |
 | Early-access admin management | [admin-allowlist.sql](scripts/sql/admin-allowlist.sql) |
 
-Completed results are cached for one hour; Refresh Wrapped regenerates the selected mode through the queue. Database fallback produces one browser console warning per page load, with sanitized details in server logs.
+Completed results are cached for one hour; Refresh Wrapped regenerates the selected mode through the queue. The public Wraps generated counter counts each account/game-mode once; refreshes do not increase it and the value updates about once a minute. Rerun `scripts/sql/review-queue.sql` to add it. Database fallback produces one browser console warning per page load, with sanitized details in server logs.
 
 The demo does not require Neon or a queue. During Neon outages, personal profiles fall back to the previous loader: local pacing and cooldowns continue, but shared coordination is unavailable. See the [queue/cache guide](docs/FEATURE-GUIDE.md#persistent-profile-queue-and-shared-cache).
 

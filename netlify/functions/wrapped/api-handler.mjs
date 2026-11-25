@@ -43,6 +43,7 @@ async function handleRequest(event,now){
   verifiedId=Number.isSafeInteger(user?.id)&&user.id>0?user.id:null;return verifiedId;
  }
  async function verifyAdmin(){return adminAllowlist.has(await identity(),process.env.WRAPPED_DATABASE_URL);}
+ if(path==='/api/wrapped/count')return json(200,{count:await reviewQueue.generatedCount()},{'Cache-Control':'public, max-age=30, stale-while-revalidate=30'});
  if(path==='/api/admin/release'){
   if(!sessionValid(releaseSession))return json(401,{error:'Sign in as ronaldonater to manage release access.'});
   if(!isReleaseAdmin({id:await identity()}))return json(403,{error:'Only ronaldonater can change release access.'});
