@@ -2,6 +2,10 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.65 updates
+
+- Use the natural plural "Wraps" in the worldwide generated counter.
+
 ## v1.1.64 updates
 
 - Add a worldwide Wrapped-generation counter. Each account/game mode counts once, and profile regenerations do not add to it. Existing completed queue records seed the total.
