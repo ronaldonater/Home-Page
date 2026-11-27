@@ -2,6 +2,11 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.2.0 updates
+
+- Refresh mapping and playstyle club counts when a cached Wrapped is reloaded.
+- Use more of the available screen width on six mobile slideshow layouts.
+
 ## v1.1.68 updates
 
 - Show the landscape recap card first in the slideshow.

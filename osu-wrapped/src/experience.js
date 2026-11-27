@@ -117,7 +117,8 @@ export function openExperience(data,{onSave,onReview}={}){
  function fitCurrentSlide(){
   const frame=stage.querySelector('.story-fit-frame'),content=stage.querySelector('.story-fit-content');
   if(!frame||!content||!stage.clientWidth||!stage.clientHeight)return;
-  const naturalWidth=Math.max(1,stage.clientWidth-16);content.style.width=naturalWidth+'px';
+  let naturalWidth=Math.max(1,stage.clientWidth-16);
+  content.style.width=naturalWidth+'px';
   const compact=matchMedia('(max-width:720px)').matches;
   for(const label of content.querySelectorAll('.story-quiz-options button>b')){
    if(!compact){label.style.removeProperty('font-size');continue;}
@@ -128,6 +129,21 @@ export function openExperience(data,{onSave,onReview}={}){
    }
   }
   positionRecapNavigation();
+  const wideMobileSlide=['beatmap-averages','skillsets','mapping','global-plays','global-popular','global-genres'].includes(slides[index]?.layout);
+  if(compact && wideMobileSlide && stage.clientHeight>16 && content.offsetHeight>stage.clientHeight-16){
+   // Reflow tall content before scaling so the fitted slide uses the phone's width.
+   const availableWidth=naturalWidth;
+   const availableHeight=stage.clientHeight-16;
+   let low=availableWidth, high=Math.max(low,900);
+   for(let step=0;step<8;step++){
+    const width=(low+high)/2;
+    content.style.width=width+'px';
+    if(content.offsetHeight*availableWidth/width>availableHeight)low=width;
+    else high=width;
+   }
+   naturalWidth=high;
+   content.style.width=naturalWidth+'px';
+  }
   const naturalHeight=content.offsetHeight;
   const scale=slideFitScale(naturalWidth,naturalHeight,stage.clientWidth,stage.clientHeight);
   frame.style.width=(naturalWidth*scale)+'px';frame.style.height=(naturalHeight*scale)+'px';

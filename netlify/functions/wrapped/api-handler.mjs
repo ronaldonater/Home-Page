@@ -7,10 +7,10 @@ import {enrichSkillsetTags} from './skillset-tags.mjs';
 import {adminAllowlist} from './admin-allowlist.mjs';
 import {RELEASE_AT,releaseOpen,isReleaseAdmin} from './release-gate.mjs';
 import {enrichBeatmapAttributes} from './beatmap-attributes.mjs';
-import {recordMappingClubCommunity} from './mapping-community.mjs';
+import {recordMappingClubCommunity,readMappingCounts} from './mapping-community.mjs';
 import {mappingStats} from './mapping-stats.mjs';
 import {enrichMapDates} from './map-clubs.mjs';
-import {recordClubCommunity} from './club-community.mjs';
+import {recordClubCommunity,readPlaystyleCounts} from './club-community.mjs';
 import {globalStats} from './global-stats.mjs';
 import {rarestMedal} from './medals.mjs';
 import {artistImage} from './artist-images.mjs';
@@ -209,7 +209,19 @@ async function handleRequest(event,now){
    ticket=await reviewQueue.claim(identity.id,requestedMode||identity.playmode||'osu',queueClient||null);
    // An unavailable queue falls back to the existing paced, staged loader.
    if(ticket.status==='queued'||ticket.status==='processing')return json(202,{queue:{status:ticket.status,position:ticket.position,total:ticket.total,retryAfter:ticket.retryAfter}},{'Retry-After':String(ticket.retryAfter)});
-   if(ticket.status==='complete')return json(200,ticket.data);
+   if(ticket.status==='complete'){
+    const review=ticket.data;
+    if(stage!=='core' && stage!=='tags'){
+     const databaseUrl=process.env.WRAPPED_DATABASE_URL;
+     const [playstyle,mapping]=await Promise.all([
+      review.clubCommunity && readPlaystyleCounts(databaseUrl,review.year,review.mode),
+      review.mapping?.community && readMappingCounts(databaseUrl,review.year,'all')
+     ]);
+     if(playstyle && playstyle.status!=='unavailable')review.clubCommunity=playstyle;
+     if(mapping && mapping.status!=='unavailable')review.mapping.community=mapping;
+    }
+    return json(200,review);
+   }
   }
   const generate=async()=>{
   const {user,mode,best}=await reviewCore(session.token,requestedMode,(path,token)=>osu(path,token,Boolean(freshKey)),freshKey);

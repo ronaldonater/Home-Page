@@ -135,7 +135,7 @@ export function clubCommunityMarkup(data){
  if(community.status==='collecting')return '<p class="club-community">Community club percentages unlock after '+escape(community.minimum)+' participants for this mode.</p>';
  if(community.status!=='ready')return '<p class="club-community">Community club percentages are temporarily unavailable.</p>';
  const row=community.clubs?.find(row=>row.id===data.club?.id);if(!row)return '';
- return '<p class="club-community">You’re among <strong>'+row.percentage.toFixed(1)+'%</strong> of Wrapped participants with this primary club.<small>Based on '+community.total.toLocaleString('en-US')+' participants · '+escape(community.mode)+' · '+community.year+' · updates may take a minute</small></p>';
+ return '<p class="club-community">You’re among <strong>'+row.percentage.toFixed(1)+'%</strong> of Wrapped participants with this primary club.<small>Based on '+community.total.toLocaleString('en-US')+' participants · '+escape(community.mode)+' · '+community.year+' · Refresh the page for updated counts. Figures may be up to a minute old.</small></p>';
 }
 export function secondaryClubMarkup(result){
  const secondary=result?.secondary,club=CLUBS[secondary?.id];if(!club)return '';

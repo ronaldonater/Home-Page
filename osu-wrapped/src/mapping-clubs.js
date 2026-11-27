@@ -32,7 +32,7 @@ export function mappingCommunityMarkup(mapping,clubId){
  if(community.status!=='ready')return '<p class="mapping-community">Mapping community percentages are temporarily unavailable.</p>';
  const row=community.clubs?.find(row=>row.id===clubId);
  if(!row||!Number.isFinite(row.percentage)||!Number.isSafeInteger(community.total)||community.total<1)return '';
- return '<div class="mapping-community"><span class="mapping-community-label">COMMUNITY SHARE</span><strong>'+row.percentage.toFixed(1)+'<span>%</span></strong><span class="mapping-community-description">of participating mappers share this club</span><small>'+community.total.toLocaleString('en-US')+' mapper'+(community.total===1?'':'s')+' · all modes · 2026</small><span class="mapping-community-refresh">Updates may take a minute</span></div>';
+ return '<div class="mapping-community"><span class="mapping-community-label">COMMUNITY SHARE</span><strong>'+row.percentage.toFixed(1)+'<span>%</span></strong><span class="mapping-community-description">of participating mappers share this club</span><small>'+community.total.toLocaleString('en-US')+' mapper'+(community.total===1?'':'s')+' · all modes · 2026</small><span class="mapping-community-refresh">Refresh the page for updated counts. Figures may be up to a minute old.</span></div>';
 }
 export function mappingClubMarkup(mapping,{legend=false}={}){
  if(mapping?.status!=='ready'||!mapping.created)return '';
@@ -63,7 +63,7 @@ export function openMappingLegend(mapping){
  if(primary&&stats?.status==='ready'&&row&&Number.isFinite(row.percentage)&&Number.isSafeInteger(stats.total)&&stats.total>0){
   community.classList.add('mapping-club-'+primary.id);
   const message=document.createElement('p');message.append('You’re among ');const percentage=document.createElement('strong');percentage.textContent=row.percentage.toFixed(1)+'%';message.append(percentage,' of participating mappers with this primary club.');
-  const detail=document.createElement('small');detail.textContent='Based on '+stats.total.toLocaleString('en-US')+' mapper'+(stats.total===1?'':'s')+' - all modes - 2026 - updates may take a minute';community.append(message,detail);
+  const detail=document.createElement('small');detail.textContent='Based on '+stats.total.toLocaleString('en-US')+' mapper'+(stats.total===1?'':'s')+' - all modes - 2026 - Refresh the page for updated counts. Figures may be up to a minute old.';community.append(message,detail);
  }else{community.innerHTML=mappingCommunityMarkup(mapping,primary?.id);}
  content.append(scope,community,legend,rules);dialog.append(header,content);document.body.append(dialog);
  dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});

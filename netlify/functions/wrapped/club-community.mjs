@@ -18,21 +18,30 @@ async function neonQuery(url,text,params){
 }
 export function createClubCommunity({query=neonQuery,now=()=>Date.now()}={}){
  const cache=new Map();let retryAfter=0;
- return async function recordClub(summary,{databaseUrl,trackingSecret}={}){
+ async function readCounts(databaseUrl,year,mode){
+  if(!databaseUrl||now()<retryAfter)return {status:'unavailable'};
+  try{
+   const key=year+':'+mode+':'+CLUB_RULES_VERSION,stored=cache.get(key);
+   if(stored&&stored.expires>now())return stored.data;
+   const rows=await query(databaseUrl,counts,[year,mode,CLUB_RULES_VERSION]);
+   const valid=rows.filter(row=>Object.hasOwn(CLUBS,row.club_id)&&Number.isSafeInteger(Number(row.count))&&Number(row.count)>=0);
+   const total=valid.reduce((sum,row)=>sum+Number(row.count),0);
+   const data=total<COMMUNITY_MINIMUM?{status:'collecting',minimum:COMMUNITY_MINIMUM}:{status:'ready',total,year:year,mode:mode,rulesVersion:CLUB_RULES_VERSION,updatedAt:new Date(now()).toISOString(),clubs:Object.keys(CLUBS).map(id=>{const count=Number(valid.find(row=>row.club_id===id)?.count||0);return {id,count,percentage:count/total*100};})};
+   cache.set(key,{expires:now()+60000,data});return data;
+  }catch(error){databaseWarning('playstyle club community',error);retryAfter=now()+60000;return {status:'unavailable'};}
+ }
+ async function recordClub(summary,{databaseUrl,trackingSecret}={}){
   if(!databaseUrl||typeof trackingSecret!=='string'||trackingSecret.length<32)return null;
   if(!Number.isSafeInteger(summary?.user?.id)||summary.user.id<=0||summary.demo||!modes.includes(summary.mode)||summary.year!==2026||!Object.hasOwn(CLUBS,summary.club?.id||''))return null;
   if(now()<retryAfter)return {status:'unavailable'};
   try{
    const participantKey=createHmac('sha256',trackingSecret).update('osu-wrapped:'+summary.user.id).digest('hex');
    await query(databaseUrl,upsert,[participantKey,summary.year,summary.mode,summary.club.id,CLUB_RULES_VERSION]);
-   const key=summary.year+':'+summary.mode+':'+CLUB_RULES_VERSION,stored=cache.get(key);
-   if(stored&&stored.expires>now())return stored.data;
-   const rows=await query(databaseUrl,counts,[summary.year,summary.mode,CLUB_RULES_VERSION]);
-   const valid=rows.filter(row=>Object.hasOwn(CLUBS,row.club_id)&&Number.isSafeInteger(Number(row.count))&&Number(row.count)>=0);
-   const total=valid.reduce((sum,row)=>sum+Number(row.count),0);
-   const data=total<COMMUNITY_MINIMUM?{status:'collecting',minimum:COMMUNITY_MINIMUM}:{status:'ready',total,year:summary.year,mode:summary.mode,rulesVersion:CLUB_RULES_VERSION,updatedAt:new Date(now()).toISOString(),clubs:Object.keys(CLUBS).map(id=>{const count=Number(valid.find(row=>row.club_id===id)?.count||0);return {id,count,percentage:count/total*100};})};
-   cache.set(key,{expires:now()+60000,data});return data;
+   return await readCounts(databaseUrl,summary.year,summary.mode);
   }catch(error){databaseWarning('playstyle club community',error);retryAfter=now()+60000;return {status:'unavailable'};}
- };
+ }
+ return Object.assign(recordClub,{readCounts});
 }
 export const recordClubCommunity=createClubCommunity();
+
+export const readPlaystyleCounts=recordClubCommunity.readCounts;
