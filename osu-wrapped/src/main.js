@@ -158,10 +158,10 @@ function shareCard(layout){
 
 if(new URLSearchParams(location.search).has('error'))error='osu! sign-in was cancelled or expired. Please connect again.';
 render();
+let generatedCountRequest=null;
 startGeneratedCount();
 if(connected)load();
 
-let generatedCountRequest=null;
 async function refreshGeneratedCount(){
  if(document.visibilityState==='hidden'||generatedCountRequest||data?.demo)return;
  generatedCountRequest=(async()=>{try{const response=await fetch('/api/osu-wrapped/wrapped/count');if(!response.ok)return;const result=await response.json();if(!Number.isSafeInteger(result.count)||result.count<0)return;generatedCount=result.count;const counter=document.querySelector('#wrap-counter'),separator=document.querySelector('.wrap-counter-separator');if(counter)counter.textContent=`${num(result.count)} Wraps generated worldwide!`;if(separator)separator.hidden=false;}catch{}finally{generatedCountRequest=null;}})();

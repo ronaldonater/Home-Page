@@ -2,6 +2,10 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.66 updates
+
+- Fix counter startup initialization so the worldwide total loads immediately instead of waiting for the next polling interval.
+
 ## v1.1.65 updates
 
 - Use the natural plural "Wraps" in the worldwide generated counter.
