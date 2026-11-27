@@ -2,6 +2,14 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.1.68 updates
+
+- Show the landscape recap card first in the slideshow.
+
+## v1.1.67 updates
+
+- Update the landing page introduction to highlight best plays and playstyle clubs.
+
 ## v1.1.66 updates
 
 - Fix counter startup initialization so the worldwide total loads immediately instead of waiting for the next polling interval.

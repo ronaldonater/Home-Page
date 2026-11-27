@@ -184,7 +184,7 @@ export function openExperience(data,{onSave,onReview}={}){
  function stopTally(){counterSounds.stop();}
  const stampAudio=new Audio("/osu-wrapped/sounds/hit.mp3");stampAudio.preload="auto";stampAudio.volume=.65;let stampPlayed=false;
  function playQuizSound(correct){quizSounds.play(correct,muted);}
- const recapPreviews=new Map();let recapLayout='portrait';
+ const recapPreviews=new Map();let recapLayout='landscape';
  const answers=new Map();
  const progress=[...dialog.querySelectorAll('progress')];let counters=[],ppGrade=null,gradeBeatTime=null,clubRevealed=false;
  function lockClubSelection(slide){
