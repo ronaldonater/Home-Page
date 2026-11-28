@@ -2,6 +2,10 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.2.2 updates
+
+- Enlarge the note beside HP drain on the mobile average beatmap slide and balance its line breaks.
+
 ## v1.2.1 updates
 
 - Place HP drain on the left of the mobile average beatmap slide, with the explanatory text beside it.

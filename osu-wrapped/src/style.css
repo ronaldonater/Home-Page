@@ -963,6 +963,9 @@ footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:7
  .story-slide-beatmap-averages:has(article:nth-child(7):last-child) :is(.story-body,.beatmap-averages,.beatmap-average-grid){display:contents}
  .story-slide-beatmap-averages:has(article:nth-child(7):last-child) .beatmap-average-grid > article:nth-child(n+4){margin-top:8px}
  .story-slide-beatmap-averages:has(.beatmap-average-grid > article:nth-child(7):last-child) > p.story-footnote{
+  font-size:clamp(18px,5vw,24px);
+  line-height:1.35;
+  text-wrap:balance;
   grid-column:2/-1;
   align-self:center;
   width:auto;
