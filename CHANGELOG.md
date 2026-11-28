@@ -2,6 +2,10 @@
 
 Release history moved from the README. See [README.md](README.md) for current setup and deployment instructions.
 
+## v1.2.1 updates
+
+- Place HP drain on the left of the mobile average beatmap slide, with the explanatory text beside it.
+
 ## v1.2.0 updates
 
 - Refresh mapping and playstyle club counts when a cached Wrapped is reloaded.

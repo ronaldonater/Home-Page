@@ -952,3 +952,21 @@ footer .brand .footer-osu-logo{font-family:'Aller Logo',sans-serif;font-weight:7
  .story-slide-beatmap-averages:has(.beatmap-average-grid) p.story-footnote{width:100%}
  .story-slide-skillsets .story-body .skillset-coverage{font-size:12px;white-space:normal}
 }
+
+@media (max-width:720px){
+ .story-slide-beatmap-averages:has(.beatmap-average-grid > article:nth-child(7):last-child){
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  column-gap:8px;
+ }
+ .story-slide-beatmap-averages:has(article:nth-child(7):last-child) > :is(.story-eyebrow,h2){grid-column:1/-1}
+ .story-slide-beatmap-averages:has(article:nth-child(7):last-child) :is(.story-body,.beatmap-averages,.beatmap-average-grid){display:contents}
+ .story-slide-beatmap-averages:has(article:nth-child(7):last-child) .beatmap-average-grid > article:nth-child(n+4){margin-top:8px}
+ .story-slide-beatmap-averages:has(.beatmap-average-grid > article:nth-child(7):last-child) > p.story-footnote{
+  grid-column:2/-1;
+  align-self:center;
+  width:auto;
+  margin:8px 0 0;
+  text-align:center;
+ }
+}
